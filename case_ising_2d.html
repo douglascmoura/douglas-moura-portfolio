@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Estudo de Caso Analítico — Modelo de Ising 2D e Algoritmo de Metropolis." />
+  <title>Simulação: Modelo de Ising 2D | DOCHMO</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/animations.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+
+  <!-- GSAP & Tailwind -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- MathJax para as equações matemáticas -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        tags: 'ams',
+        macros: {
+          E: '{\mathbb{E}}',
+          V: '{\mathbb{V}}',
+          Cov: '{\text{Cov}}'
+        }
+      },
+      options: {
+        ignoreHtmlClass: 'tex2jax_ignore',
+        processHtmlClass: 'tex2jax_process'
+      },
+      chtml: {
+        displayAlign: 'center'
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    /* Institucional DOCHMO Overrides */
+    .article-header {
+      padding: 180px 20px 100px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px 100px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content p {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 1.8rem;
+      font-size: 1.15rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .article-content h2 {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      color: #D7B56D;
+      margin-top: 5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .article-content h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: #F8F9FA;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content ul {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      padding-left: 20px;
+      font-size: 1.1rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.8rem;
+      list-style-type: none;
+      position: relative;
+    }
+
+    .article-content li::before {
+      content: '✤';
+      position: absolute;
+      left: -25px;
+      color: #D7B56D;
+      font-size: 0.9rem;
+    }
+
+    .article-img-wrap {
+      margin: 4rem 0;
+      position: relative;
+      padding: 10px;
+      background: rgba(215, 181, 109, 0.03);
+      border: 1px solid rgba(215, 181, 109, 0.15);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .article-img-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(215, 181, 109, 0.05), transparent);
+      transform: skewX(-20deg);
+      animation: scan 6s infinite;
+      pointer-events: none;
+    }
+
+    .streamlit-iframe {
+      width: 100%;
+      height: 750px;
+      border: none;
+      border-radius: 8px;
+      display: block;
+      background: #0E1117;
+      /* Cor base do dark theme do Streamlit */
+    }
+
+    .glass-quote {
+      padding: 2rem;
+      margin: 3rem 0;
+      border-left: 4px solid #D7B56D;
+      background: rgba(215, 181, 109, 0.05);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+    }
+
+    .nav-floating {
+      position: fixed;
+      top: 30px;
+      left: 40px;
+      z-index: 100;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #D7B56D;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      text-decoration: none;
+      padding: 10px 20px;
+      border: 1px solid rgba(215, 181, 109, 0.3);
+      border-radius: 30px;
+      background: rgba(7, 16, 32, 0.6);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .btn-back:hover {
+      background: rgba(215, 181, 109, 0.1);
+      border-color: #D7B56D;
+    }
+
+    .cta-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px 35px;
+      border-radius: 5px;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .cta-btn--primary {
+      background: linear-gradient(135deg, #D7B56D, #C6A052);
+      color: #071020;
+      box-shadow: 0 0 20px rgba(215, 181, 109, 0.2);
+    }
+
+    .cta-btn--primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 25px rgba(215, 181, 109, 0.4);
+    }
+
+    .cta-btn--secondary {
+      background: rgba(7, 16, 32, 0.6);
+      color: #D7B56D;
+      border: 1px solid rgba(215, 181, 109, 0.4);
+      backdrop-filter: blur(5px);
+    }
+
+    .cta-btn--secondary:hover {
+      background: rgba(215, 181, 109, 0.1);
+      border-color: #D7B56D;
+      transform: translateY(-3px);
+    }
+
+    /* MathJax Overrides para o Dark Mode DOCHMO */
+    .MathJax {
+      color: #D7B56D !important;
+      font-size: 1.2rem !important;
+      margin: 1.5rem 0 !important;
+    }
+  
+    /* Cursor Dourado Exclusivo para as Páginas de Case */
+    .cursor-ring {
+      border-color: rgba(215, 181, 109, 0.85) !important;
+      box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
+    }
+  </style>
+</head>
+
+<body style="background: #0A1428;">
+
+  <!-- Ambient background -->
+  <div class="noise" aria-hidden="true"
+    style="position: fixed; inset: 0; opacity: 0.04; background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E'); z-index:9000; pointer-events:none;">
+  </div>
+
+  <div class="hero-bg"
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100vh; background: radial-gradient(circle at 50% 30%, rgba(215, 181, 109, 0.08) 0%, rgba(10, 20, 40, 0) 70%); pointer-events: none; z-index: 0;">
+  </div>
+
+  <!-- Cursor -->
+  <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
+  <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
+
+  <!-- NAVIGATION -->
+  <nav class="nav" role="navigation" aria-label="Navegação principal"
+    style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px);">
+    <a href="index.html" class="nav-logo"
+      style="font-family: var(--font-display); font-size: 1.5rem; color: #F8F9FA; text-decoration: none; font-weight: 700; letter-spacing: 2px;">DOCH<span
+        style="color:#D7B56D">MO</span></a>
+    <a href="index.html#projetos"
+      style="color: rgba(248,249,250,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease;">←
+      VOLTAR PARA PROJETOS</a>
+  </nav>
+
+  <main>
+    <article class="article-header">
+      <div class="gsap-fade-up">
+        <span class="badge"
+          style="background: rgba(215, 181, 109, 0.1); color: #D7B56D; border: 1px solid rgba(215, 181, 109, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 1.5rem; display: inline-block;">ESTUDO
+          DE CASO ANALÍTICO</span>
+        <h1
+          style="font-family: var(--font-display); font-size: 4rem; color: #F8F9FA; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);">
+          Modelo de Ising 2D<br><span
+            style="font-size: 2.5rem; color: #D7B56D; font-weight: 400; font-style: italic;">Simulação Estocástica e
+            Transições de Fase</span></h1>
+        <p style="color:rgba(248,249,250,0.75); max-width:700px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
+          Abordagem computacional do paradigma do ferromagnetismo utilizando algoritmos de Monte Carlo
+          (Metropolis-Hastings), renderizado interativamente com Streamlit e hiper-otimizado via compilação Just-In-Time
+          (Numba).
+          <br><br><span style="font-size: 0.95rem; opacity: 0.6; font-style: italic;">Desenvolvido por: Douglas Chaves
+            Moura</span>
+        </p>
+      </div>
+    </article>
+
+    <div class="article-content">
+
+      <!-- 01. Fundamentação Teórica -->
+      <section class="gsap-fade-up">
+        <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Fundamentação Teórica</h2>
+        <p>
+          O <strong>Modelo de Ising Bidimensional</strong> é um dos paradigmas mais vitais da Mecânica Estatística
+          moderna. Ele foi formulado para descrever a natureza de materiais ferromagnéticos em função da temperatura. Em
+          sua essência, o sistema consiste em uma rede quadrada bidimensional de dimensão $n \times n$.
+        </p>
+        <p>
+          Cada sítio da malha abriga uma variável aleatória chamada <em>spin</em> ($\sigma_i \in \{-1, +1\}$), que pode
+          estar orientada "para cima" ou "para baixo". A energia total de uma configuração do sistema é ditada pela sua
+          função Hamiltoniana:
+        </p>
+
+        <div class="text-center">
+          $$H(\sigma) = -J \sum_{\langle i,j \rangle} \sigma_i \sigma_j - h \sum_i \sigma_i$$
+        </div>
+
+        <p>
+          Onde $J$ dita a constante de acoplamento (se positiva, os spins vizinhos tendem a se alinhar, caracterizando
+          ferromagnetismo) e $h$ é o campo magnético externo. Ao cruzar o Ponto de Curie (a temperatura crítica do
+          sistema), a simulação revela o desabrochar espontâneo da magnetização — a clássica <strong>transição de
+            fase</strong> de segunda ordem.
+        </p>
+      </section>
+
+      <!-- 02. Dinâmica e Performance -->
+      <section class="gsap-fade-up">
+        <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Dinâmica de Metropolis e Performance JIT</h2>
+        <p>
+          Dado o crescimento exponencial dos microestados $2^N$, calcular a Função de Partição de forma analítica exata
+          é
+          inviável para redes amplas. Adotamos o rigor estocástico dos <strong>Métodos de Monte Carlo</strong>. O
+          coração
+          da atualização computacional baseia-se no Algoritmo de <em>Metropolis-Hastings</em>, que assegura o alcance da
+          distribuição de equilíbrio de Gibbs por meio de cadeias de Markov regulares.
+        </p>
+
+        <div class="glass-quote">
+          "O gargalo da interpretação nativa do Python foi desintegrado através do compilador JIT (Just-In-Time).
+          Decorando as funções matemáticas de atualização de rede com <code>@njit</code> da biblioteca Numba, atingimos
+          velocidades de linguagem compilada (C/C++), calculando milhões de interações de spin termodinâmico em frações
+          de
+          segundo."
+        </div>
+
+        <p>
+          <strong>Diferenciais Técnicos Alcançados:</strong>
+        </p>
+        <ul>
+          <li><strong>Aceleração JIT extrema:</strong> Uso cirúrgico do framework `numba` para desviar a lentidão do
+            Global Interpreter Lock (GIL).</li>
+          <li><strong>Multilinguagem:</strong> Estudo arquitetado e testado usando Python para a interatividade e a
+            linguagem R como pilar de validação analítica da amostragem base.</li>
+          <li><strong>UX Científico Moderno:</strong> Criação de front-end em <code>Streamlit</code> puramente via
+            código,
+            fornecendo a estudantes e curiosos um lab-deck em tempo real (painel lateral de interatividade).</li>
+        </ul>
+      </section>
+
+      <!-- 03. O Aplicativo Streamlit -->
+      <section class="gsap-fade-up">
+        <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Simulação Interativa (Live App)</h2>
+        <p>
+          Sinta a termodinâmica rodando na nuvem. Altere os valores de <em>Temperatura</em> e veja a rede de spins
+          ferromagnéticos quebrar sua simetria visualmente (em baixas temperaturas formam-se domínios magnéticos densos;
+          em altas temperaturas prevalece o caos e a desordem térmica).
+        </p>
+
+        <!-- IMAGEM DE DEMONSTRAÇÃO -->
+        <div class="article-img-wrap" style="text-align: center; margin: 3rem 0;">
+          <img src="assets/img/app_ising_demo.png" alt="Interface da Simulação do Modelo de Ising"
+            style="width: 100%; border-radius: 12px; border: 1px solid rgba(215, 181, 109, 0.2); box-shadow: 0 15px 40px rgba(0,0,0,0.4);">
+        </div>
+      </section>
+
+      <!-- Call to Actions -->
+      <div class="gsap-fade-up"
+        style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
+        <h3 style="font-family: var(--font-display); font-size: 2rem; color: #F8F9FA; margin-bottom: 1rem;">Explore o
+          Modelo</h3>
+        <p
+          style="color: rgba(248,249,250,0.6); max-width: 600px; margin: 0 auto 3rem; font-size: 1.1rem; font-family: 'Inter', sans-serif;">
+          Acesse a aplicação em tempo real ou consulte a fundamentação matemática no relatório técnico oficial.
+        </p>
+
+        <div
+          style="display:flex; gap:1.5rem; justify-content:center; flex-wrap: wrap; font-family: 'Inter', sans-serif;">
+          <a href="https://douglasmoura-ising-2d.streamlit.app/" target="_blank" rel="noopener noreferrer"
+            style="display:inline-flex; align-items:center; gap:10px; background: rgba(215,181,109,0.1); border: 1px solid #D7B56D; color: #D7B56D; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(215,181,109,0.15);"
+            onmouseover="this.style.background='#D7B56D'; this.style.color='#0A1428';"
+            onmouseout="this.style.background='rgba(215,181,109,0.1)'; this.style.color='#D7B56D';">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            Acessar Live App
+          </a>
+
+          <a href="projetos_arquivos/modelo_ising_2d_metropolis/Modelo_Ising.pdf" target="_blank" rel="noopener noreferrer"
+            style="display:inline-flex; align-items:center; gap:10px; background: transparent; border: 1px solid rgba(248,249,250,0.3); color: #F8F9FA; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease;"
+            onmouseover="this.style.borderColor='#D7B56D'; this.style.color='#D7B56D';"
+            onmouseout="this.style.borderColor='rgba(248,249,250,0.3)'; this.style.color='#F8F9FA';">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Relatório Técnico
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer style="border-top: 1px solid rgba(248,249,250,0.05); margin-top: 4rem; padding: 3rem 0; text-align: center;">
+    <a href="index.html"
+      style="font-family: var(--font-display); font-size: 1.2rem; color: rgba(248,249,250,0.4); text-decoration: none; letter-spacing: 2px;">DOCH<span
+        style="color: rgba(215,181,109,0.4)">MO</span></a>
+    <p style="color: rgba(248,249,250,0.3); font-size: 0.85rem; margin-top: 1rem;">&copy; 2026 DOCHMO. Todos os direitos
+      reservados.</p>
+  </footer>
+
+  <script>
+    // GSAP Scroll Animations
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Fade-up elements
+    gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
+      gsap.fromTo(elem,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: elem,
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+    });
+
+    // Custom Cursor tracking
+    const ring = document.getElementById('cursor-ring');
+    const dot = document.getElementById('cursor-dot');
+
+    if (ring && dot) {
+      document.addEventListener('mousemove', (e) => {
+        gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.3, ease: 'power2.out' });
+        gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
+      });
+
+      const links = document.querySelectorAll('a, .article-img-wrap, .cta-btn');
+      links.forEach(link => {
+        link.addEventListener('mouseenter', () => {
+          gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
+        });
+        link.addEventListener('mouseleave', () => {
+          gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+        });
+      });
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Estudo de Caso Analítico — Produção de Petróleo no Brasil (Séries Temporais)." />
+  <title>Séries Temporais | DOCHMO</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/animations.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+
+  <!-- GSAP & Tailwind -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Institucional DOCHMO Overrides */
+    .article-header {
+      padding: 180px 20px 100px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px 100px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content p {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 1.8rem;
+      font-size: 1.15rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .article-content h2 {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      color: #D7B56D;
+      margin-top: 5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .article-content h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: #F8F9FA;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content ul {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      padding-left: 20px;
+      font-size: 1.1rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.8rem;
+      list-style-type: none;
+      position: relative;
+    }
+
+    .article-content li::before {
+      content: '✤';
+      position: absolute;
+      left: -25px;
+      color: #D7B56D;
+      font-size: 0.9rem;
+    }
+
+    .article-img-wrap {
+      margin: 4rem 0;
+      position: relative;
+      padding: 10px;
+      background: rgba(215, 181, 109, 0.03);
+      border: 1px solid rgba(215, 181, 109, 0.15);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .article-img-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(215, 181, 109, 0.05), transparent);
+      transform: skewX(-20deg);
+      animation: scan 6s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes scan {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 200%;
+      }
+    }
+
+    .article-img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .plotly-iframe {
+      width: 100%;
+      height: 520px;
+      border: none;
+      border-radius: 8px;
+      display: block;
+      background: transparent;
+    }
+
+    .glass-quote {
+      padding: 2rem;
+      margin: 3rem 0;
+      border-left: 4px solid #D7B56D;
+      background: rgba(215, 181, 109, 0.05);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: rgba(248, 249, 250, 0.95);
+    }
+
+    .terminal-window {
+      background: #050A15;
+      border: 1px solid rgba(215, 181, 109, 0.2);
+      border-radius: 8px;
+      margin: 2rem 0;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .terminal-header {
+      background: rgba(215, 181, 109, 0.08);
+      padding: 8px 15px;
+      font-size: 0.85rem;
+      color: #D7B56D;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(215, 181, 109, 0.2);
+    }
+
+    .terminal-body {
+      padding: 1.5rem;
+      color: rgba(248, 249, 250, 0.7);
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+    }
+
+    .terminal-body .output-highlight {
+      color: #D7B56D;
+      font-weight: bold;
+    }
+
+    .terminal-body .output-success {
+      color: #4CAF50;
+      font-weight: bold;
+    }
+
+    /* Verde para indicadores positivos */
+    .terminal-body .output-warning {
+      color: #E74C3C;
+      font-weight: bold;
+    }
+
+    /* Parallax background for hero */
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: radial-gradient(circle at 50% 30%, rgba(215, 181, 109, 0.08) 0%, rgba(10, 20, 40, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Cursor Dourado Exclusivo para as Páginas de Case */
+    .cursor-ring {
+      border-color: rgba(215, 181, 109, 0.85) !important;
+      box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
+    }
+  </style>
+</head>
+
+<body style="background: #0A1428;">
+
+  <!-- Ambient background -->
+  <div class="noise" aria-hidden="true"
+    style="position: fixed; inset: 0; opacity: 0.04; background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E'); z-index:9000; pointer-events:none;">
+  </div>
+
+  <div class="hero-bg"></div>
+
+  <!-- Cursor -->
+  <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
+  <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
+
+  <!-- NAVIGATION -->
+  <nav class="nav" role="navigation" aria-label="Navegação principal"
+    style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px);">
+    <a href="index.html" class="nav-logo"
+      style="font-family: var(--font-display); font-size: 1.5rem; color: #F8F9FA; text-decoration: none; font-weight: 700; letter-spacing: 2px;">DOCH<span
+        style="color:#D7B56D">MO</span></a>
+    <a href="index.html#projetos"
+      style="color: rgba(248,249,250,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease;">←
+      VOLTAR PARA PROJETOS</a>
+  </nav>
+
+  <main>
+    <article class="article-header">
+      <div class="gsap-fade-up">
+        <span class="badge"
+          style="background: rgba(215, 181, 109, 0.1); color: #D7B56D; border: 1px solid rgba(215, 181, 109, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 1.5rem; display: inline-block;">ESTUDO
+          DE CASO ANALÍTICO</span>
+        <h1
+          style="font-family: var(--font-display); font-size: 4rem; color: #F8F9FA; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);">
+          Produção de Petróleo<br>no Brasil</h1>
+        <p style="color:rgba(248,249,250,0.75); max-width:700px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
+          Uma investigação estatística rigorosa (2001-2025) aplicando modelagem Box-Jenkins (SARIMA) e Suavização
+          Exponencial.
+          <br><br><span style="font-size: 0.95rem; opacity: 0.6; font-style: italic;">Orientação: Prof. Drª Jeniffer
+            Johana Duarte Sanchez (UFC)</span>
+        </p>
+      </div>
+    </article>
+
+    <div class="article-content">
+
+      <!-- INTRODUÇÃO -->
+      <section class="gsap-fade-up">
+        <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Introdução</h2>
+        <p>O estudo de séries temporais constitui um pilar fundamental da análise de dados, sendo aplicado para
+          investigar qualquer variável de interesse observada em múltiplos instantes ao longo do tempo. Sua força reside
+          na capacidade de decodificar o comportamento de uma variável no passado, e, sobretudo, desenvolver modelos de
+          previsão para subsidiar decisões mais estratégicas e informadas.</p>
+        <div class="glass-quote">
+          O presente trabalho analisa a dinâmica da produção mensal de petróleo (em m³) no Brasil (Jan/2001 a Mai/2025),
+          buscando identificar padrões, tendências e sazonalidades num dos setores mais estratégicos da economia
+          nacional.
+        </div>
+      </section>
+
+      <!-- METODOLOGIA -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Metodologia (Box-Jenkins)</h2>
+        <p>Para a modelagem preditiva, adotou-se a clássica metodologia de Box-Jenkins, focando em modelos
+          <strong>ARIMA</strong> (AutoRegressive Integrated Moving Average) e <strong>SARIMA</strong>. O método segue
+          uma abordagem iterativa:
+        </p>
+        <ul>
+          <li><strong>Identificação:</strong> Verificação de estacionariedade e análise das funções de Autocorrelação
+            (ACF e PACF).</li>
+          <li><strong>Estimação:</strong> Ajuste dos parâmetros (p, d, q, P, D, Q) através de máxima verossimilhança.
+          </li>
+          <li><strong>Diagnóstico (Verificação):</strong> Teste rigoroso nos resíduos do modelo para garantir
+            comportamento de "ruído branco" (Ljung-Box e Shapiro-Wilk).</li>
+          <li><strong>Previsão (Forecast):</strong> Projeções Out-of-Sample contrastando o SARIMA contra métodos de
+            Suavização Exponencial (Holt-Winters).</li>
+        </ul>
+      </section>
+
+      <!-- EXPLORATÓRIA -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Análise Exploratória</h2>
+        <p>A pergunta central deste estudo explora: <em>"Existe um Ciclo Anual estável na Produção de Petróleo no
+            Brasil?"</em> A inspeção visual primária nos dá pistas valiosas da não-estacionariedade da série, marcada
+          por uma clara tendência de crescimento e flutuações sazonais repetitivas.</p>
+
+        <div class="article-img-wrap">
+          <iframe src="projetos_arquivos/relatorio_final_series_temporais/graphics/grafico_serie_original.html" class="plotly-iframe"
+            title="Série Histórica Original" scrolling="no"></iframe>
+        </div>
+
+        <p>Observamos um crescimento acentuado entre 2019 e 2020, seguido de oscilações (reflexo da pandemia global) e
+          outro avanço expressivo advindo da expansão em campos do pré-sal. A fim de validar essas impressões com rigor
+          estatístico, executamos baterias de testes formais (ADF e KPSS) para comprovar a presença de raiz unitária.
+        </p>
+
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <span>>_ R Console // Testes de Estacionariedade na Série Bruta</span>
+            <span style="color:rgba(215,181,109,0.5)">[ ADF & KPSS ]</span>
+          </div>
+          <div class="terminal-body">
+            > adf.test(serie_petroleo)
+            Augmented Dickey-Fuller Test
+            data: serie_petroleo
+            Dickey-Fuller = -3.0453, Lag order = 6, <span class="output-warning">p-value = 0.1357</span>
+            <span style="color:rgba(248,249,250,0.4)"># Falha em rejeitar H0: A série possui raiz unitária (Não
+              Estacionária).</span>
+
+            > kpss.test(serie_petroleo)
+            KPSS Test for Level Stationarity
+            data: serie_petroleo
+            KPSS Level = 4.7847, Truncation lag parameter = 5, <span class="output-warning">p-value = 0.01</span>
+            <span style="color:rgba(248,249,250,0.4)"># Rejeita H0: A série não é estacionária em torno da média.</span>
+          </div>
+        </div>
+
+        <p>A sazonalidade também foi confirmada formalmente usando o Teste QS (Quadratic Spectral), cujo valor-p atingiu
+          0, atestando uma ciclicidade determinística intransponível no estado bruto da série.</p>
+      </section>
+
+      <!-- DECOMPOSIÇÃO E TRANSFORMAÇÃO -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">04.</span> Decomposição & Pré-Processamento</h2>
+        <p>A magnitude das flutuações sazonais aparenta crescer conforme o patamar de produção se eleva, o que dita a
+          escolha de um <strong>modelo multiplicativo</strong> para a decomposição clássica. Isso nos permite isolar de
+          forma clara a Tendência de longo prazo do Sinal Sazonal.</p>
+
+        <div class="article-img-wrap" style="height: 820px; padding: 0;">
+          <iframe src="projetos_arquivos/relatorio_final_series_temporais/graphics/grafico_decomposicao.html" class="plotly-iframe"
+            style="height: 100%;" title="Decomposição da Série" scrolling="no"></iframe>
+        </div>
+
+        <p>Para satisfazer a premissa fundamental de Box-Jenkins (estacionariedade na variância e na média), combinamos
+          duas técnicas poderosas: aplicamos a transformação logarítmica (estabilizando a variância heteroscedástica)
+          sucedida de uma diferenciação. Como resultado, os testes pós-transformação rejeitaram fortemente a presença de
+          raiz unitária, garantindo a estabilidade necessária.</p>
+
+        <div class="terminal-window" style="margin-top: 1rem;">
+          <div class="terminal-header">
+            <span>>_ R Console // Testes de Estacionariedade Pós-Transformação</span>
+            <span style="color:rgba(215,181,109,0.5)">[ Sucesso ]</span>
+          </div>
+          <div class="terminal-body">
+            > adf.test(diff(log(treino)))
+            Dickey-Fuller = -7.2502, Lag order = 6, <span class="output-success">p-value = 0.01</span>
+            <span style="color:rgba(248,249,250,0.4)"># Sucesso: Rejeita H0. A série transformada é estacionária!</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- FORECAST COMPETITIVO -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">05.</span> Forecast Competitivo (Out-of-Sample)</h2>
+        <p>Tendo a série transformada, diagnosticamos as funções de autocorrelação para construir o modelo campeão.
+          Dividimos os dados: <strong>Treino</strong> (Jan/2001 - Abr/2021) e <strong>Teste</strong> (Mai/2021 -
+          Mai/2025). Essa separação testou o algoritmo no período mais desafiador e volátil.</p>
+
+        <p>Após avaliação das funções ACF e PACF e o rigoroso teste de resíduos Ljung-Box, o modelo
+          <strong>SARIMA(2,1,3)(0,1,1)₁₂</strong> se destacou capturando a complexidade dos dados. Colocamos o SARIMA
+          contra o método de Suavização Exponencial (Holt-Winters Aditivo) para comparação.
+        </p>
+
+        <div class="article-img-wrap">
+          <iframe src="projetos_arquivos/relatorio_final_series_temporais/graphics/previsao_modelo_final.html" class="plotly-iframe"
+            title="Previsão Out of Sample" scrolling="no"></iframe>
+        </div>
+
+        <div class="glass-quote" style="border-left-color: #4CAF50; background: rgba(76, 175, 80, 0.05);">
+          O modelo SARIMA superou as expectativas mantendo o menor Root Mean Square Error (RMSE) durante a janela de
+          previsão. Conclui-se que o comportamento histórico não é um ruído aleatório, mas uma orquestra predizível de
+          flutuações macroeconômicas.
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="gsap-fade-up"
+        style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
+        <h3 style="font-family: var(--font-display); font-size: 2rem; color: #F8F9FA; margin-bottom: 1rem;">Mergulhe na
+          Pesquisa Completa</h3>
+        <p style="color: rgba(248,249,250,0.6); max-width: 600px; margin: 0 auto 3rem; font-size: 1.1rem;">
+          Tenha acesso aos resultados, scripts e à formatação acadêmica oficial nas versões
+          abaixo.
+        </p>
+
+        <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap: wrap;">
+          <a href="projetos_arquivos/relatorio_final_series_temporais/Apresentação_Petróleo_Séries_Temporais.pdf" target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-flex; align-items:center; gap:10px; background: rgba(215,181,109,0.1); border: 1px solid #D7B56D; color: #D7B56D; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(215,181,109,0.15);"
+            onmouseover="this.style.background='#D7B56D'; this.style.color='#0A1428';"
+            onmouseout="this.style.background='rgba(215,181,109,0.1)'; this.style.color='#D7B56D';">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+            </svg>
+            Slides de Apresentação
+          </a>
+
+          <a href="projetos_arquivos/relatorio_final_series_temporais/Séries_Temporais_RELATÓRIO_FINAL.pdf" target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-flex; align-items:center; gap:10px; background: transparent; border: 1px solid rgba(248,249,250,0.3); color: #F8F9FA; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease;"
+            onmouseover="this.style.borderColor='#D7B56D'; this.style.color='#D7B56D';"
+            onmouseout="this.style.borderColor='rgba(248,249,250,0.3)'; this.style.color='#F8F9FA';">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Relatório Técnico
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer style="border-top: 1px solid rgba(248,249,250,0.05); margin-top: 4rem; padding: 3rem 0; text-align: center;">
+    <a href="index.html"
+      style="font-family: var(--font-display); font-size: 1.2rem; color: rgba(248,249,250,0.4); text-decoration: none; letter-spacing: 2px;">DOCH<span
+        style="color: rgba(215,181,109,0.4)">MO</span></a>
+    <p style="color: rgba(248,249,250,0.3); font-size: 0.85rem; margin-top: 1rem;">&copy; 2026 DOCHMO. Todos os direitos
+      reservados.</p>
+  </footer>
+
+  <script>
+    // GSAP Scroll Animations
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Fade-up elements
+    gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
+      gsap.fromTo(elem,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: elem,
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+    });
+
+    // Custom Cursor tracking (if used in design_system)
+    const ring = document.getElementById('cursor-ring');
+    const dot = document.getElementById('cursor-dot');
+
+    if (ring && dot) {
+      document.addEventListener('mousemove', (e) => {
+        gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.3, ease: 'power2.out' });
+        gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
+      });
+
+      const links = document.querySelectorAll('a, .article-img-wrap');
+      links.forEach(link => {
+        link.addEventListener('mouseenter', () => {
+          gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
+        });
+        link.addEventListener('mouseleave', () => {
+          gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+        });
+      });
+    }
+  </script>
+</body>
+
+</html>

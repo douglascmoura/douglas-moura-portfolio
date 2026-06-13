@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Estudo de Caso Analítico — Índice de Progresso Social (IPS) no Brasil." />
+  <title>Análise Espacial IPS | DOCHMO</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/animations.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+
+  <!-- GSAP & Tailwind -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Institucional DOCHMO Overrides */
+    .article-header {
+      padding: 180px 20px 100px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px 100px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content p {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 1.8rem;
+      font-size: 1.15rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .article-content h2 {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      color: #D7B56D;
+      margin-top: 5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .article-content h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: #F8F9FA;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content ul {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      padding-left: 20px;
+      font-size: 1.1rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.8rem;
+      list-style-type: none;
+      position: relative;
+    }
+
+    .article-content li::before {
+      content: '✤';
+      position: absolute;
+      left: -25px;
+      color: #D7B56D;
+      font-size: 0.9rem;
+    }
+
+    .article-img-wrap {
+      margin: 4rem 0;
+      position: relative;
+      padding: 10px;
+      background: rgba(215, 181, 109, 0.03);
+      border: 1px solid rgba(215, 181, 109, 0.15);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .article-img-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(215, 181, 109, 0.05), transparent);
+      transform: skewX(-20deg);
+      animation: scan 6s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes scan {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 200%;
+      }
+    }
+
+    .article-img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .plotly-iframe {
+      width: 100%;
+      height: 520px;
+      border: none;
+      border-radius: 8px;
+      display: block;
+      background: transparent;
+    }
+
+    .glass-quote {
+      padding: 2rem;
+      margin: 3rem 0;
+      border-left: 4px solid #D7B56D;
+      background: rgba(215, 181, 109, 0.05);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: rgba(248, 249, 250, 0.95);
+    }
+
+    .terminal-window {
+      background: #050A15;
+      border: 1px solid rgba(215, 181, 109, 0.2);
+      border-radius: 8px;
+      margin: 2rem 0;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .terminal-header {
+      background: rgba(215, 181, 109, 0.08);
+      padding: 8px 15px;
+      font-size: 0.85rem;
+      color: #D7B56D;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(215, 181, 109, 0.2);
+    }
+
+    .terminal-body {
+      padding: 1.5rem;
+      color: rgba(248, 249, 250, 0.7);
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+    }
+
+    .terminal-body .output-highlight {
+      color: #D7B56D;
+      font-weight: bold;
+    }
+
+    .terminal-body .output-success {
+      color: #4CAF50;
+      font-weight: bold;
+    }
+
+    /* Verde para indicadores positivos */
+    .terminal-body .output-warning {
+      color: #E74C3C;
+      font-weight: bold;
+    }
+
+    /* Parallax background for hero */
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: radial-gradient(circle at 50% 30%, rgba(215, 181, 109, 0.08) 0%, rgba(10, 20, 40, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Cursor Dourado Exclusivo para as Páginas de Case */
+    .cursor-ring {
+      border-color: rgba(215, 181, 109, 0.85) !important;
+      box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
+    }
+  </style>
+</head>
+
+<body style="background: #0A1428;">
+
+  <!-- Ambient background -->
+  <div class="noise" aria-hidden="true"
+    style="position: fixed; inset: 0; opacity: 0.04; background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E'); z-index:9000; pointer-events:none;">
+  </div>
+
+  <div class="hero-bg"></div>
+
+  <!-- Cursor -->
+  <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
+  <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
+
+  <!-- NAVIGATION -->
+  <nav class="nav" role="navigation" aria-label="Navegação principal"
+    style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px);">
+    <a href="index.html" class="nav-logo"
+      style="font-family: var(--font-display); font-size: 1.5rem; color: #F8F9FA; text-decoration: none; font-weight: 700; letter-spacing: 2px;">DOCH<span
+        style="color:#D7B56D">MO</span></a>
+    <a href="index.html#projetos"
+      style="color: rgba(248,249,250,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease;">←
+      VOLTAR PARA PROJETOS</a>
+  </nav>
+
+  <main>
+    <article class="article-header">
+      <div class="gsap-fade-up">
+        <span class="badge"
+          style="background: rgba(215, 181, 109, 0.1); color: #D7B56D; border: 1px solid rgba(215, 181, 109, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 1.5rem; display: inline-block;">ESTUDO
+          DE CASO ANALÍTICO</span>
+        <h1
+          style="font-family: var(--font-display); font-size: 4rem; color: #F8F9FA; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);">
+          Machine Learning<br>Titanic</h1>
+        <p style="color:rgba(248,249,250,0.75); max-width:700px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
+          Análise Exploratória de Dados, Feature Engineering, Modelagem em Ensembles (Bagging e Boosting) para a
+          clássica competição do Kaggle.
+          <br><br><span style="font-size: 0.95rem; opacity: 0.6; font-style: italic;">Por Douglas Chaves Moura</span>
+        </p>
+      </div>
+    </article>
+
+    <div class="article-content">
+
+      <!-- INTRODUÇÃO -->
+      <section class="gsap-fade-up">
+        <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Introdução</h2>
+        <p>Este case apresenta uma solução analítica para a clássica competição de <em>Machine Learning</em> do Kaggle.
+          O projeto vai muito além da aplicação cega de algoritmos: o objetivo é analisar os dados usando técnicas de
+          <b>Exploração</b>, <b>Tratamento Estatístico (Missing Values, Scaling)</b> e <b>Otimização de
+            Hiperparâmetros</b>.
+        </p>
+        <div class="glass-quote">
+          Avaliaremos três abordagens metodológicas distintas de modelagem: Regressão Logística (Baseline), Random
+          Forest (Bagging) e XGBoost (Boosting).
+        </div>
+      </section>
+
+      <!-- EDA -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Análise Exploratória de Dados (EDA)</h2>
+        <p>Abaixo exploramos visualmente o perfil demográfico dos passageiros e como cada característica se relaciona
+          estatisticamente com a taxa de sobrevivência.</p>
+
+        <!-- Sobreviventes -->
+        <h3 style="margin-top: 3rem;">Distribuição da Variável Target</h3>
+        <div class="glass-quote" style="margin-top: 1rem; margin-bottom: 2rem;">
+          <strong>Insight:</strong> Observamos um claro desbalanceamento na variável alvo (<code>Survived</code>). Cerca
+          de 60% dos passageiros não sobreviveram ao naufrágio. O desbalanceamento exigirá cautela ao analisarmos
+          métricas como Precision, Recall e F1-Score em vez de focar apenas na Acurácia.
+        </div>
+        <div class="article-img-wrap" style="height: 520px; padding: 0;">
+          <iframe src="projetos_arquivos/Titanic/graphics/titanic_fig_surv.html" class="plotly-iframe" style="height: 100%;"
+            title="Sobreviventes" scrolling="no"></iframe>
+        </div>
+
+        <!-- Gênero -->
+        <h3 style="margin-top: 4rem;">Sobrevivência por Gênero</h3>
+        <div class="glass-quote" style="margin-top: 1rem; margin-bottom: 2rem;">
+          <strong>Insight:</strong> A visualização reforça de maneira contundente que a diretriz histórica do "mulheres
+          e crianças primeiro" foi de fato aplicada. A probabilidade condicional de sobrevivência de uma mulher a bordo
+          era significativamente superior à de um homem.
+        </div>
+        <div class="article-img-wrap" style="height: 520px; padding: 0;">
+          <iframe src="projetos_arquivos/Titanic/graphics/titanic_fig_sex.html" class="plotly-iframe" style="height: 100%;"
+            title="Sobrevivência por Sexo" scrolling="no"></iframe>
+        </div>
+
+        <!-- Classe -->
+        <h3 style="margin-top: 4rem;">Status Socioeconômico (Classe do Bilhete)</h3>
+        <div class="glass-quote" style="margin-top: 1rem; margin-bottom: 2rem;">
+          <strong>Insight:</strong> Existe uma clara desigualdade nas taxas de sobrevivência relacionada ao status
+          socioeconômico. Passageiros da 1ª classe apresentaram as maiores taxas de resgate, indicando que a proximidade
+          física aos botes e o favorecimento explícito ditaram as chances de sucesso.
+        </div>
+        <div class="article-img-wrap" style="height: 520px; padding: 0;">
+          <iframe src="projetos_arquivos/Titanic/graphics/titanic_fig_pclass.html" class="plotly-iframe" style="height: 100%;"
+            title="Sobrevivência por Classe" scrolling="no"></iframe>
+        </div>
+
+        <!-- Idade -->
+        <h3 style="margin-top: 4rem;">Sobrevivência por Faixa Etária</h3>
+        <div class="glass-quote" style="margin-top: 1rem; margin-bottom: 2rem;">
+          <strong>Insight:</strong> Observando as faixas etárias, o grupo das crianças (0-12 anos) é o único onde a
+          barra de "Sobreviveu" supera visivelmente a de "Não Sobreviveu". Adultos e jovens tiveram as maiores baixas
+          absolutas.
+        </div>
+        <div class="article-img-wrap" style="height: 520px; padding: 0;">
+          <iframe src="projetos_arquivos/Titanic/graphics/titanic_fig_age.html" class="plotly-iframe" style="height: 100%;"
+            title="Sobrevivência por Faixa Etária" scrolling="no"></iframe>
+        </div>
+
+        <!-- Sobrenomes -->
+        <h3 style="margin-top: 4rem;">Nuvem de Palavras: Sobrenomes dos Passageiros</h3>
+        <p>A <em>Word Cloud</em> abaixo destaca a frequência dos sobrenomes das famílias que embarcaram. Em tragédias
+          históricas, grandes grupos familiares frequentemente enfrentaram maiores dificuldades de coordenação na
+          evacuação.</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
+          <div class="article-img-wrap"
+            style="display:flex; align-items:center; justify-content:center; background:#0B1320; padding:1rem; height: 500px;">
+            <img src="projetos_arquivos/Titanic/graphics/titanic_wordcloud.png" alt="Wordcloud" class="article-img"
+              style="max-height: 100%; width: auto;">
+          </div>
+          <div class="article-img-wrap" style="padding: 0; height: 500px;">
+            <iframe src="projetos_arquivos/Titanic/graphics/titanic_wordcloud_plotly.html" class="plotly-iframe" style="height: 100%;"
+              scrolling="no"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURE ENGINEERING -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Pré-Processamento e Feature Engineering</h2>
+        <p>Abaixo detalhamos a metodologia estatística de tratamento dos dados:</p>
+        <div class="glass-quote">
+          <strong>Concatenação Estratégica:</strong> Unimos temporariamente os datasets de treino e de teste (cuidando
+          para não gerar Data Leakage). Isso garante consistência absoluta no tamanho das matrizes esparsas resultantes
+          do <em>One-Hot Encoding</em>.
+        </div>
+        <ul>
+          <li><strong>Variáveis Categóricas:</strong> Conversão em valores numéricos utilizando técnicas de
+            distanciamento (One-Hot Encoding).</li>
+          <li><strong>Escalonamento:</strong> A Padronização (StandardScaler) deixou as distribuições contínuas (Tarifa,
+            Idade) com média 0 e desvio padrão 1, essencial para a convergência de modelos lineares.</li>
+        </ul>
+      </section>
+
+      <!-- LOGISTIC REGRESSION -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">04.</span> Baseline: Regressão Logística</h2>
+        <p>A <strong>Regressão Logística</strong> é um excelente modelo como baseline. É um modelo de classificação que
+          utiliza a função Sigmoide para transformar a saída de uma combinação linear das variáveis preditoras em uma
+          probabilidade de ocorrência do evento.</p>
+
+        <div class="article-img-wrap"
+          style="height: 500px; padding: 0; width: 100vw; max-width: 1200px; position: relative; left: 50%; transform: translateX(-50%);">
+          <iframe src="projetos_arquivos/Titanic/graphics/titanic_fig_lr.html" class="plotly-iframe" style="height: 100%;"
+            title="Performance Logistic Regression" scrolling="no"></iframe>
+        </div>
+      </section>
+
+      <!-- RANDOM FOREST -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">05.</span> Random Forest (Ensemble/Bagging)</h2>
+        <p>Em vez de construir apenas uma árvore de decisão, o modelo treina múltiplas árvores (uma "floresta") usando
+          diferentes subamostras dos dados (<em>Bootstrapping</em>) e sorteando subconjuntos de variáveis. A previsão
+          final é dada por votação majoritária (<em>Bagging</em>), o que o torna resistente a overfitting.</p>
+
+        <div class="article-img-wrap"
+          style="height: 500px; padding: 0; width: 100vw; max-width: 1200px; position: relative; left: 50%; transform: translateX(-50%);">
+          <iframe src="projetos_arquivos/Titanic/graphics/titanic_fig_rf.html" class="plotly-iframe" style="height: 100%;"
+            title="Performance Random Forest" scrolling="no"></iframe>
+        </div>
+      </section>
+
+      <!-- XGBOOST -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">06.</span> XGBoost (Ensemble/Boosting)</h2>
+        <p>O <strong>XGBoost</strong> (Extreme Gradient Boosting) é uma implementação otimizada e avançada do método
+          <em>Gradient Boosting</em>. Diferente da Random Forest que constrói árvores independentes, o XGBoost constrói
+          árvores sequencialmente, onde cada nova árvore é focada em corrigir os erros residuais da árvore anterior
+          (<em>Boosting</em>).
+        </p>
+
+        <div class="article-img-wrap"
+          style="height: 500px; padding: 0; width: 100vw; max-width: 1200px; position: relative; left: 50%; transform: translateX(-50%);">
+          <iframe src="projetos_arquivos/Titanic/graphics/titanic_fig_xgb.html" class="plotly-iframe" style="height: 100%;"
+            title="Performance XGBoost" scrolling="no"></iframe>
+        </div>
+      </section>
+
+      <!-- MODEL COMPARISON SECTION -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">07.</span> Comparação Global de Modelos</h2>
+        <p>Existem três visualizações que representam o "padrão ouro" para avaliação de modelos de classificação: Matriz
+          de Confusão, Curva ROC e Curva Precision-Recall (essencial para datasets com classes desbalanceadas).</p>
+
+        <div class="article-img-wrap"
+          style="height: 1050px; padding: 0; width: 100vw; max-width: 1200px; position: relative; left: 50%; transform: translateX(-50%);">
+          <iframe src="projetos_arquivos/Titanic/graphics/titanic_fig_comparative.html" class="plotly-iframe" style="height: 100%;"
+            title="Dashboard Comparativo de Modelos" scrolling="no"></iframe>
+        </div>
+
+        <style>
+          .dochmo-table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 3rem 0;
+            border-radius: 8px;
+            background: rgba(11, 19, 32, 0.6);
+            border: 1px solid rgba(215, 181, 109, 0.2);
+            backdrop-filter: blur(10px);
+          }
+
+          .dochmo-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            color: #E2E8F0;
+            font-family: "Inter", sans-serif;
+          }
+
+          .dochmo-table th {
+            padding: 1.2rem;
+            background: rgba(11, 19, 32, 0.9);
+            color: #D7B56D;
+            font-family: "Playfair Display", serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid rgba(215, 181, 109, 0.3);
+          }
+
+          .dochmo-table td {
+            padding: 1.2rem;
+            border-bottom: 1px solid rgba(215, 181, 109, 0.1);
+            font-size: 1rem;
+          }
+
+          .dochmo-table tbody tr:hover {
+            background: rgba(215, 181, 109, 0.05);
+          }
+
+          .dochmo-table tr.winner-row td {
+            color: #0A1118;
+            background: linear-gradient(90deg, rgba(215, 181, 109, 0.8), rgba(212, 175, 55, 0.9));
+            font-weight: 600;
+          }
+
+          .dochmo-table tr.winner-row:hover td {
+            background: linear-gradient(90deg, rgba(215, 181, 109, 0.9), rgba(212, 175, 55, 1));
+          }
+
+          .dochmo-table tr:last-child td {
+            border-bottom: none;
+          }
+
+          /* Cursor Dourado Exclusivo para as Páginas de Case */
+          .cursor-ring {
+            border-color: rgba(215, 181, 109, 0.85) !important;
+            box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
+          }
+        </style>
+
+        <div class="dochmo-table-container">
+          <table class="dochmo-table">
+            <thead>
+              <tr>
+                <th>Modelo</th>
+                <th>Acurácia</th>
+                <th>Precisão</th>
+                <th>Recall</th>
+                <th>F1-Score</th>
+                <th>ROC-AUC</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="winner-row">
+                <td>Random Forest</td>
+                <td>82.68%</td>
+                <td>81.16%</td>
+                <td>75.68%</td>
+                <td>78.32%</td>
+                <td>89.31%</td>
+              </tr>
+              <tr>
+                <td>Logistic Regression</td>
+                <td>82.12%</td>
+                <td>78.38%</td>
+                <td>78.38%</td>
+                <td>78.38%</td>
+                <td>89.29%</td>
+              </tr>
+              <tr>
+                <td>XGBoost</td>
+                <td>82.12%</td>
+                <td>83.87%</td>
+                <td>70.27%</td>
+                <td>76.47%</td>
+                <td>91.02%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="glass-quote">
+          <strong>Insight Analítico:</strong> Ao avaliarmos diferentes algoritmos de Machine Learning, não devemos olhar
+          apenas para a Acurácia. O algoritmo em formato de Ensemble (Random Forest ou XGBoost) geralmente apresenta
+          métricas superiores (ROC-AUC e F1-Score) devido à capacidade natural dessas árvores de capturar relações
+          não-lineares.
+        </div>
+      </section>
+
+      <!-- FEATURE IMPORTANCE SECTION -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">08.</span> Árvore de Decisão: Importância das Variáveis</h2>
+        <div class="glass-quote">
+          <strong>Insight:</strong> A análise de Feature Importances revela quais características tiveram mais peso na
+          decisão do modelo. O título dos passageiros (extraído do nome) e a variável "Sex" dominam a predição. O alto
+          peso atribuído a categorias associadas ao gênero reforça estatisticamente a regra social de resgate
+          priorizando mulheres e crianças.
+        </div>
+
+        <div class="article-img-wrap" style="height: 700px; padding: 0;">
+          <iframe src="projetos_arquivos/Titanic/graphics/titanic_fig_imp.html" class="plotly-iframe" style="height: 100%;"
+            title="Feature Importances" scrolling="no"></iframe>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="gsap-fade-up"
+        style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
+        <h3 style="font-family: var(--font-display); font-size: 2rem; color: #F8F9FA; margin-bottom: 1rem;">Explore o
+          Projeto no GitHub</h3>
+        <p style="color: rgba(248,249,250,0.6); max-width: 600px; margin: 0 auto 3rem; font-size: 1.1rem;">
+          Acesse o repositório completo para explorar o código-fonte, analisar e verificar todos os scripts que
+          fundamentam este estudo de Machine Learning.
+        </p>
+
+        <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap: wrap;">
+          <a href="https://github.com/douglascmoura/python_projects/tree/main/titanic_machine_learning" target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-flex; align-items:center; gap:10px; background: transparent; border: 1px solid rgba(248,249,250,0.3); color: #F8F9FA; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease;"
+            onmouseover="this.style.borderColor='#D7B56D'; this.style.color='#D7B56D';"
+            onmouseout="this.style.borderColor='rgba(248,249,250,0.3)'; this.style.color='#F8F9FA';">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+              </path>
+            </svg>
+            Acessar Repositório
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer style="border-top: 1px solid rgba(248,249,250,0.05); margin-top: 4rem; padding: 3rem 0; text-align: center;">
+    <a href="index.html"
+      style="font-family: var(--font-display); font-size: 1.2rem; color: rgba(248,249,250,0.4); text-decoration: none; letter-spacing: 2px;">DOCH<span
+        style="color: rgba(215,181,109,0.4)">MO</span></a>
+    <p style="color: rgba(248,249,250,0.3); font-size: 0.85rem; margin-top: 1rem;">&copy; 2026 DOCHMO. Todos os direitos
+      reservados.</p>
+  </footer>
+
+  <script>
+    // GSAP Scroll Animations
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Fade-up elements
+    gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
+      gsap.fromTo(elem,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: elem,
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+    });
+
+    // Custom Cursor tracking (if used in design_system)
+    const ring = document.getElementById('cursor-ring');
+    const dot = document.getElementById('cursor-dot');
+
+    if (ring && dot) {
+      document.addEventListener('mousemove', (e) => {
+        gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.3, ease: 'power2.out' });
+        gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
+      });
+
+      const links = document.querySelectorAll('a, .article-img-wrap');
+      links.forEach(link => {
+        link.addEventListener('mouseenter', () => {
+          gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
+        });
+        link.addEventListener('mouseleave', () => {
+          gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+        });
+      });
+    }
+  </script>
+</body>
+
+</html>

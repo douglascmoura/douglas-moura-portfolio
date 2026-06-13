@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Estudo de Caso Teórico — EEGs em Modelos de Regressão Beta para Dados Longitudinais." />
+  <title>Regressão Beta Longitudinal | DOCHMO</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/animations.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+
+  <!-- GSAP & Tailwind -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        tags: 'ams',
+        macros: {
+          E: '{\mathbb{E}}',
+          V: '{\mathbb{V}}',
+          Cov: '{\text{Cov}}'
+        }
+      },
+      options: {
+        ignoreHtmlClass: 'tex2jax_ignore',
+        processHtmlClass: 'tex2jax_process'
+      },
+      chtml: {
+        displayAlign: 'center'
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    /* MathJax Overrides para o Dark Mode DOCHMO */
+    .MathJax {
+      color: #D7B56D !important;
+      font-size: 1.2rem !important;
+      margin: 1.5rem 0 !important;
+    }
+
+    /* Institucional DOCHMO Overrides */
+    .article-header {
+      padding: 180px 20px 100px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px 100px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content p {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 1.8rem;
+      font-size: 1.15rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .article-content h2 {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      color: #D7B56D;
+      margin-top: 5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .article-content h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: #F8F9FA;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content ul {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      padding-left: 20px;
+      font-size: 1.1rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.8rem;
+      list-style-type: none;
+      position: relative;
+    }
+
+    .article-content li::before {
+      content: '✤';
+      position: absolute;
+      left: -25px;
+      color: #D7B56D;
+      font-size: 0.9rem;
+    }
+
+    .article-img-wrap {
+      margin: 4rem 0;
+      position: relative;
+      padding: 10px;
+      background: rgba(215, 181, 109, 0.03);
+      border: 1px solid rgba(215, 181, 109, 0.15);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .article-img-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(215, 181, 109, 0.05), transparent);
+      transform: skewX(-20deg);
+      animation: scan 6s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes scan {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 200%;
+      }
+    }
+
+    .article-img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .glass-quote {
+      padding: 2rem;
+      margin: 3rem 0;
+      border-left: 4px solid #D7B56D;
+      background: rgba(215, 181, 109, 0.05);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: rgba(248, 249, 250, 0.95);
+    }
+
+    /* Parallax background for hero */
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: radial-gradient(circle at 50% 30%, rgba(215, 181, 109, 0.08) 0%, rgba(10, 20, 40, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+  
+    /* Cursor Dourado Exclusivo para as Páginas de Case */
+    .cursor-ring {
+      border-color: rgba(215, 181, 109, 0.85) !important;
+      box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
+    }
+  </style>
+</head>
+
+<body style="background: #0A1428;">
+
+  <!-- Ambient background -->
+  <div class="noise" aria-hidden="true"
+    style="position: fixed; inset: 0; opacity: 0.04; background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E'); z-index:9000; pointer-events:none;">
+  </div>
+
+  <div class="hero-bg"></div>
+
+  <!-- Cursor -->
+  <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
+  <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
+
+  <!-- NAVIGATION -->
+  <nav class="nav" role="navigation" aria-label="Navegação principal"
+    style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px);">
+    <a href="index.html" class="nav-logo"
+      style="font-family: var(--font-display); font-size: 1.5rem; color: #F8F9FA; text-decoration: none; font-weight: 700; letter-spacing: 2px;">DOCH<span
+        style="color:#D7B56D">MO</span></a>
+    <a href="index.html#projetos"
+      style="color: rgba(248,249,250,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease;">←
+      VOLTAR PARA PROJETOS</a>
+  </nav>
+
+  <main>
+    <article class="article-header">
+      <div class="gsap-fade-up">
+        <span class="badge"
+          style="background: rgba(215, 181, 109, 0.1); color: #D7B56D; border: 1px solid rgba(215, 181, 109, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 1.5rem; display: inline-block;">PESQUISA
+          TEÓRICA</span>
+        <h1
+          style="font-family: var(--font-display); font-size: 4rem; color: #F8F9FA; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);">
+          EEGs em Modelos de Regressão Beta<br>para Dados Longitudinais</h1>
+        <p style="color:rgba(248,249,250,0.75); max-width:700px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
+          Uma investigação profunda sobre Equações de Estimação Generalizadas aplicadas à modelagem conjunta da média e
+          da dispersão.
+          <br><br><span style="font-size: 0.95rem; opacity: 0.6; font-style: italic;">Orientação: Prof. Dr. Juvêncio
+            Santos Nobre (UFC)</span>
+        </p>
+      </div>
+    </article>
+
+    <div class="article-content">
+
+      <!-- 01. FORMULAÇÃO DO MODELO BETA -->
+      <section class="gsap-fade-up">
+        <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Formulação do Modelo Beta</h2>
+        <p>
+          Estudos longitudinais (medidas repetidas) impõem o desafio analítico de lidar com a correlação intrínseca
+          entre observações de um mesmo indivíduo ao longo do tempo. Quando a variável resposta assume valores contínuos
+          e restritos ao intervalo $(0,1)$ — como proporções, taxas e índices —, a regressão linear clássica falha. Para
+          isso, utilizamos a <strong>Distribuição Beta</strong>.
+        </p>
+        <p>
+          A fim de conectar as covariáveis diretamente à resposta esperada, a formulação da distribuição foi
+          reparametrizada em termos da média $\mu$ e de um parâmetro de precisão $\phi$ (Ferrari e Cribari-Neto, 2004).
+          A densidade de probabilidade é dada por:
+        </p>
+
+        <div class="text-center">
+          $$f(y; \mu, \phi) = \frac{\Gamma(\phi)}{\Gamma(\mu\phi)\Gamma((1-\mu)\phi)} y^{\mu\phi-1}
+          (1-y)^{(1-\mu)\phi-1}$$
+        </div>
+
+        <p>
+          A grande vantagem dessa abordagem é a capacidade de modelar simultaneamente a média e a dispersão
+          (heterocedasticidade) utilizando funções de ligação rigorosas aplicadas a um vetor de covariáveis:
+        </p>
+
+        <div class="text-center">
+          $$g_1(\mu_{it}) = x_{it}^T \beta \quad \text{e} \quad g_2(\phi_{it}) = z_{it}^T \gamma$$
+        </div>
+
+        <div class="article-img-wrap" style="margin-top: 3rem; margin-bottom: 1.5rem;">
+          <img src="projetos_arquivos/eegs_reg_beta_medidas_repetidas/graphics/dist.beta.png"
+            alt="Densidade da Distribuição Beta Clássica" class="article-img"
+            style="box-shadow: 0 10px 30px rgba(0,0,0,0.5);" />
+        </div>
+
+        <div class="article-img-wrap" style="margin-bottom: 3rem;">
+          <img src="projetos_arquivos/eegs_reg_beta_medidas_repetidas/graphics/dist.beta.reparametrizada.png"
+            alt="Densidade da Distribuição Beta Reparametrizada" class="article-img"
+            style="box-shadow: 0 10px 30px rgba(0,0,0,0.5);" />
+        </div>
+      </section>
+
+      <!-- 02. EQUAÇÕES DE ESTIMAÇÃO GENERALIZADAS (EEGS) -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Equações de Estimação Generalizadas (EEGs)</h2>
+        <p>
+          Para incorporar a dependência longitudinal intra-sujeito, estendemos a Regressão Beta via <strong>Equações de
+            Estimação Generalizadas (EEGs)</strong>. A grande força das EEGs é não exigir a especificação completa da
+          distribuição conjunta multivariada temporal; é necessário o conhecimento apenas dos dois primeiros momentos da
+          resposta.
+        </p>
+
+        <div class="glass-quote">
+          O cerne da estimação iterativa repousa sobre a maximização do Escore de Quase-Verossimilhança. O sistema
+          resolve os parâmetros da média resolvendo algebricamente a função:
+        </div>
+
+        <div class="text-center">
+          $$U(\beta) = \sum_{i=1}^n D_i^T V_i^{-1} (Y_i - \mu_i) = 0$$
+        </div>
+
+        <p>
+          Onde $D_i$ é a matriz de derivadas e $V_i$ engloba a estrutura da variância. A correlação ao longo do tempo é
+          parametrizada através da <em>Matriz de Correlação de Trabalho</em> $R(\alpha)$. Neste estudo, investigamos
+          detalhadamente estruturas fundamentais como <strong>Autoregressiva de Ordem 1 (AR-1)</strong>,
+          <strong>Simetria Composta (Exchangeable)</strong> e <strong>Não Estruturada (Unstructured)</strong>. Para
+          inferências sólidas, o modelo incorpora a robustez do estimador "Sanduíche", blindando os erros padrão do
+          $\beta$ contra especificações errôneas da matriz $R(\alpha)$.
+        </p>
+      </section>
+
+      <!-- 03. DIAGNÓSTICOS -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Resultados e Diagnósticos</h2>
+        <p>
+          O processo de modelagem é complementado por uma rigorosa análise de diagnóstico, essencial na presença de
+          dados restritos unitários. O trabalho apresenta os desenvolvimentos matemáticos de:
+        </p>
+        <ul>
+          <li><strong>Diagnóstico Clássico:</strong> Extração da <em>Matriz de Projeção</em> e identificação de
+            alavancas usando <em>Resíduos Padronizados</em> e <em>Distância de Cook Generalizada</em>.</li>
+          <li><strong>Influência Local:</strong> Técnicas para testar a robustez dos estimadores perante perturbações
+            minúsculas (seja na ponderação de sujeitos específicos, nas variáveis respostas ou regressores).</li>
+          <li><strong>Critérios de Seleção:</strong> Formulação das métricas informacionais $QIC$ e $QIC_s$ (a
+            generalização apropriada do Akaike <em>AIC</em> para métodos regidos por quase-verossimilhança).</li>
+        </ul>
+        <p>
+          Toda essa documentação matemática (com o detalhamento das derivadas, escores e matrizes em formato
+          multivariado) foi digitalizada em tipografia nativa <strong>LaTeX</strong>, tendo como referência o trabalho
+          original de <strong>Venezuela (2008).</strong>
+        </p>
+      </section>
+
+      <!-- CTA -->
+      <div class="gsap-fade-up"
+        style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
+        <h3 style="font-family: var(--font-display); font-size: 2rem; color: #F8F9FA; margin-bottom: 1rem;">Acesse o
+          Trabalho Completo</h3>
+        <p style="color: rgba(248,249,250,0.6); max-width: 600px; margin: 0 auto 3rem; font-size: 1.1rem;">
+          Tenha acesso ao aprofundamento teórico, matrizes, derivadas e à formatação acadêmica oficial
+          nas versões abaixo.
+        </p>
+
+        <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap: wrap;">
+          <a href="projetos_arquivos/eegs_reg_beta_medidas_repetidas/Slides_de_Apresentação.pdf" target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-flex; align-items:center; gap:10px; background: rgba(215,181,109,0.1); border: 1px solid #D7B56D; color: #D7B56D; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(215,181,109,0.15);"
+            onmouseover="this.style.background='#D7B56D'; this.style.color='#0A1428';"
+            onmouseout="this.style.background='rgba(215,181,109,0.1)'; this.style.color='#D7B56D';">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+            </svg>
+            Apresentação Beamer
+          </a>
+
+          <a href="projetos_arquivos/eegs_reg_beta_medidas_repetidas/EEGs_Regressão_Beta_com_Medidas_Repetidas.pdf" target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-flex; align-items:center; gap:10px; background: transparent; border: 1px solid rgba(248,249,250,0.3); color: #F8F9FA; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease;"
+            onmouseover="this.style.borderColor='#D7B56D'; this.style.color='#D7B56D';"
+            onmouseout="this.style.borderColor='rgba(248,249,250,0.3)'; this.style.color='#F8F9FA';">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Relatório Técnico
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer style="border-top: 1px solid rgba(248,249,250,0.05); margin-top: 4rem; padding: 3rem 0; text-align: center;">
+    <a href="index.html"
+      style="font-family: var(--font-display); font-size: 1.2rem; color: rgba(248,249,250,0.4); text-decoration: none; letter-spacing: 2px;">DOCH<span
+        style="color: rgba(215,181,109,0.4)">MO</span></a>
+    <p style="color: rgba(248,249,250,0.3); font-size: 0.85rem; margin-top: 1rem;">&copy; 2026 DOCHMO. Todos os direitos
+      reservados.</p>
+  </footer>
+
+  <script>
+    // GSAP Scroll Animations
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Fade-up elements
+    gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
+      gsap.fromTo(elem,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: elem,
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+    });
+
+    // Custom Cursor tracking (if used in design_system)
+    const ring = document.getElementById('cursor-ring');
+    const dot = document.getElementById('cursor-dot');
+
+    if (ring && dot) {
+      document.addEventListener('mousemove', (e) => {
+        gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.3, ease: 'power2.out' });
+        gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
+      });
+
+      const links = document.querySelectorAll('a, .article-img-wrap');
+      links.forEach(link => {
+        link.addEventListener('mouseenter', () => {
+          gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
+        });
+        link.addEventListener('mouseleave', () => {
+          gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+        });
+      });
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Estudo de Caso Analítico — Índice de Progresso Social (IPS) no Brasil." />
+  <title>Análise Espacial IPS | DOCHMO</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/animations.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+
+  <!-- GSAP & Tailwind -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Institucional DOCHMO Overrides */
+    .article-header {
+      padding: 180px 20px 100px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px 100px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content p {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 1.8rem;
+      font-size: 1.15rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .article-content h2 {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      color: #D7B56D;
+      margin-top: 5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .article-content h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: #F8F9FA;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content ul {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      padding-left: 20px;
+      font-size: 1.1rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.8rem;
+      list-style-type: none;
+      position: relative;
+    }
+
+    .article-content li::before {
+      content: '✤';
+      position: absolute;
+      left: -25px;
+      color: #D7B56D;
+      font-size: 0.9rem;
+    }
+
+    .article-img-wrap {
+      margin: 4rem 0;
+      position: relative;
+      padding: 10px;
+      background: rgba(215, 181, 109, 0.03);
+      border: 1px solid rgba(215, 181, 109, 0.15);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .article-img-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(215, 181, 109, 0.05), transparent);
+      transform: skewX(-20deg);
+      animation: scan 6s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes scan {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 200%;
+      }
+    }
+
+    .article-img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .plotly-iframe {
+      width: 100%;
+      height: 520px;
+      border: none;
+      border-radius: 8px;
+      display: block;
+      background: transparent;
+    }
+
+    .glass-quote {
+      padding: 2rem;
+      margin: 3rem 0;
+      border-left: 4px solid #D7B56D;
+      background: rgba(215, 181, 109, 0.05);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: rgba(248, 249, 250, 0.95);
+    }
+
+    .terminal-window {
+      background: #050A15;
+      border: 1px solid rgba(215, 181, 109, 0.2);
+      border-radius: 8px;
+      margin: 2rem 0;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .terminal-header {
+      background: rgba(215, 181, 109, 0.08);
+      padding: 8px 15px;
+      font-size: 0.85rem;
+      color: #D7B56D;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(215, 181, 109, 0.2);
+    }
+
+    .terminal-body {
+      padding: 1.5rem;
+      color: rgba(248, 249, 250, 0.7);
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+    }
+
+    .terminal-body .output-highlight {
+      color: #D7B56D;
+      font-weight: bold;
+    }
+
+    .terminal-body .output-success {
+      color: #4CAF50;
+      font-weight: bold;
+    }
+
+    /* Verde para indicadores positivos */
+    .terminal-body .output-warning {
+      color: #E74C3C;
+      font-weight: bold;
+    }
+
+    /* Parallax background for hero */
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: radial-gradient(circle at 50% 30%, rgba(215, 181, 109, 0.08) 0%, rgba(10, 20, 40, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+  
+    /* Cursor Dourado Exclusivo para as Páginas de Case */
+    .cursor-ring {
+      border-color: rgba(215, 181, 109, 0.85) !important;
+      box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
+    }
+  </style>
+</head>
+
+<body style="background: #0A1428;">
+
+  <!-- Ambient background -->
+  <div class="noise" aria-hidden="true"
+    style="position: fixed; inset: 0; opacity: 0.04; background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E'); z-index:9000; pointer-events:none;">
+  </div>
+
+  <div class="hero-bg"></div>
+
+  <!-- Cursor -->
+  <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
+  <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
+
+  <!-- NAVIGATION -->
+  <nav class="nav" role="navigation" aria-label="Navegação principal"
+    style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px);">
+    <a href="index.html" class="nav-logo"
+      style="font-family: var(--font-display); font-size: 1.5rem; color: #F8F9FA; text-decoration: none; font-weight: 700; letter-spacing: 2px;">DOCH<span
+        style="color:#D7B56D">MO</span></a>
+    <a href="index.html#projetos"
+      style="color: rgba(248,249,250,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease;">←
+      VOLTAR PARA PROJETOS</a>
+  </nav>
+
+  <main>
+    <article class="article-header">
+      <div class="gsap-fade-up">
+        <span class="badge"
+          style="background: rgba(215, 181, 109, 0.1); color: #D7B56D; border: 1px solid rgba(215, 181, 109, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 1.5rem; display: inline-block;">ESTUDO
+          DE CASO ANALÍTICO</span>
+        <h1
+          style="font-family: var(--font-display); font-size: 4rem; color: #F8F9FA; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);">
+          Análise Espacial<br>IPS Brasil</h1>
+        <p style="color:rgba(248,249,250,0.75); max-width:700px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
+          Mapeamento socioterritorial e dinâmico do Índice de Progresso Social nos mais de 5.500 municípios do Brasil
+          (2024-2025).
+          <br><br><span style="font-size: 0.95rem; opacity: 0.6; font-style: italic;">Desenvolvido por: Douglas Chaves
+            Moura</span>
+        </p>
+      </div>
+    </article>
+
+    <div class="article-content">
+
+      <!-- INTRODUÇÃO -->
+      <section class="gsap-fade-up">
+        <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Introdução</h2>
+        <p>O Índice de Progresso Social (IPS) é uma métrica fundamental que vai além dos tradicionais indicadores
+          puramente econômicos. Ele foca diretamente nas Necessidades Humanas Básicas, Fundamentos de Bem-Estar e
+          Oportunidades oferecidas aos cidadãos.</p>
+        <div class="glass-quote">
+          Este estudo investiga as disparidades socioterritoriais no Brasil, mapeando a distribuição espacial do IPS e
+          identificando como os mais de 5.500 municípios do país evoluíram entre 2024 e 2025.
+        </div>
+      </section>
+
+      <!-- METODOLOGIA -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Pipeline e Visualização (Python)</h2>
+        <p>Embora as origens deste estudo remetam à linguagem R e seus ecossistemas tradicionais de geoprocessamento
+          (<code>sf</code>, <code>geobr</code>), este case demonstra a robustez da migração desse pipeline analítico
+          para <strong>Python</strong> visando implementações web de alto impacto e interatividade. A rotina utiliza:
+        </p>
+        <ul>
+          <li><strong>Geoprocessamento:</strong> <code>GeoPandas</code> em conjunto com as malhas municipais do IBGE
+            para manipulação de coordenadas espaciais complexas.</li>
+          <li><strong>Data Wrangling:</strong> Categorização estatística rigorosa de outliers (via método de quartis de
+            Tukey) construída em <code>pandas</code>.</li>
+          <li><strong>Dashboards Interativos:</strong> Construção integral de visualizações dinâmicas através do
+            ecossistema <code>Plotly</code> (incluindo renderizações Mapbox vetoriais e interativas).</li>
+        </ul>
+      </section>
+
+      <!-- MAPA MUNICIPAL -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">03.</span> O Boxmap Socioterritorial</h2>
+        <p>Através da aplicação do método de limites (Boxmap) podemos mitigar distorções visuais de outliers ao
+          classificar os municípios em fatias da distribuição normal do IPS. No mapa interativo do Brasil (2024) abaixo,
+          os tons escuros de vermelho representam as zonas de maior vulnerabilidade, enquanto as cores azuis
+          marcam a excelência social local.</p>
+
+        <div class="article-img-wrap" style="height: 600px; padding: 0;">
+          <iframe src="projetos_arquivos/realatorio_analise_espacial/graphics/ips_boxmap_2024.html" class="plotly-iframe"
+            style="height: 100%; border-radius: 8px;" title="Boxmap IPS Brasil 2024" scrolling="no"></iframe>
+        </div>
+
+        <p>É perceptível empiricamente uma dependência espacial latente: a concentração de índices superiores fortemente
+          aglutinada nos eixos Sul e Sudeste contrasta fortemente com o complexo mosaico de desafios no Norte e Nordeste
+          brasileiro.</p>
+      </section>
+
+      <!-- DISPERSAO -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">04.</span> Transição e Dispersão</h2>
+        <p>Para medir o choque temporal interanual, organizamos os índices em eixos cartesianos. Os quadrantes Alto-Alto
+          e Baixo-Baixo isolam municípios que estagnaram no desenvolvimento ou mantiveram os privilégios inalterados de
+          um ano para o outro.</p>
+
+        <div class="article-img-wrap" style="height: 520px; padding: 0;">
+          <iframe src="projetos_arquivos/realatorio_analise_espacial/graphics/ips_scatter_24_25.html" class="plotly-iframe"
+            style="height: 100%; border-radius: 8px;" title="Dispersão IPS" scrolling="no"></iframe>
+        </div>
+
+        <p>Neste recorte iterativo, a nuvem laranja brilhante destaca os resultados de todos os municípios do
+          <strong>Ceará</strong>, oferecendo uma leitura cristalina sobre a evolução do estado em comparação com o
+          restante do país.
+        </p>
+      </section>
+
+      <!-- ESTADOS -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">05.</span> Desempenho Global (Agregado Estadual)</h2>
+        <p>Por fim, ao extrapolarmos a capilaridade municipal, apuramos o ranking macroestadual. Abaixo dispomos de dois
+          eixos fundamentais: a fotografia geral das UFs de melhor bem-estar base (2024) e, paralelamente, os estados
+          que apresentaram os saltos sociais mais expressivos da transição temporal.</p>
+
+        <div style="display:flex; gap: 2rem; flex-wrap: wrap;">
+          <div class="article-img-wrap" style="flex:1; min-width: 300px; height: 520px; padding: 0;">
+            <iframe src="projetos_arquivos/realatorio_analise_espacial/graphics/ips_bar_estados_2024.html" class="plotly-iframe"
+              style="height: 100%; border-radius: 8px;" title="Média IPS 2024" scrolling="no"></iframe>
+          </div>
+          <div class="article-img-wrap" style="flex:1; min-width: 300px; height: 520px; padding: 0;">
+            <iframe src="projetos_arquivos/realatorio_analise_espacial/graphics/ips_variacao_estados.html" class="plotly-iframe"
+              style="height: 100%; border-radius: 8px;" title="Variação IPS" scrolling="no"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="gsap-fade-up"
+        style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
+        <h3 style="font-family: var(--font-display); font-size: 2rem; color: #F8F9FA; margin-bottom: 1rem;">Aprofunde-se
+          na Análise</h3>
+        <p style="color: rgba(248,249,250,0.6); max-width: 600px; margin: 0 auto 3rem; font-size: 1.1rem;">
+          Tenha acesso ao embasamento teórico detalhado e à formatação acadêmica oficial
+          deste estudo lendo o relatório em PDF.
+        </p>
+
+        <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap: wrap;">
+          <a href="projetos_arquivos/realatorio_analise_espacial/Análise_Espacial_IPS.pdf" target="_blank" rel="noopener noreferrer"
+            style="display:inline-flex; align-items:center; gap:10px; background: transparent; border: 1px solid rgba(248,249,250,0.3); color: #F8F9FA; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease;"
+            onmouseover="this.style.borderColor='#D7B56D'; this.style.color='#D7B56D';"
+            onmouseout="this.style.borderColor='rgba(248,249,250,0.3)'; this.style.color='#F8F9FA';">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Ler Relatório Técnico (PDF)
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer style="border-top: 1px solid rgba(248,249,250,0.05); margin-top: 4rem; padding: 3rem 0; text-align: center;">
+    <a href="index.html"
+      style="font-family: var(--font-display); font-size: 1.2rem; color: rgba(248,249,250,0.4); text-decoration: none; letter-spacing: 2px;">DOCH<span
+        style="color: rgba(215,181,109,0.4)">MO</span></a>
+    <p style="color: rgba(248,249,250,0.3); font-size: 0.85rem; margin-top: 1rem;">&copy; 2026 DOCHMO. Todos os direitos
+      reservados.</p>
+  </footer>
+
+  <script>
+    // GSAP Scroll Animations
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Fade-up elements
+    gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
+      gsap.fromTo(elem,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: elem,
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+    });
+
+    // Custom Cursor tracking (if used in design_system)
+    const ring = document.getElementById('cursor-ring');
+    const dot = document.getElementById('cursor-dot');
+
+    if (ring && dot) {
+      document.addEventListener('mousemove', (e) => {
+        gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.3, ease: 'power2.out' });
+        gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
+      });
+
+      const links = document.querySelectorAll('a, .article-img-wrap');
+      links.forEach(link => {
+        link.addEventListener('mouseenter', () => {
+          gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
+        });
+        link.addEventListener('mouseleave', () => {
+          gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+        });
+      });
+    }
+  </script>
+</body>
+
+</html>
