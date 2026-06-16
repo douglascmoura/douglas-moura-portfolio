@@ -72,11 +72,7 @@
       min-height: calc(100vh - 120px);
     }
 
-    @media (max-width: 1100px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+
 
     .hero-text-side {
       padding: 1rem 0;
@@ -93,8 +89,23 @@
     }
 
     @media (max-width: 1100px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        align-items: start;
+        margin-top: 3rem;
+        min-height: auto;
+        padding-bottom: 6rem;
+      }
+
       .hero-photo-panel {
-        display: none;
+        display: flex !important;
+        height: 380px !important;
+        margin-top: var(--mob-mt, 0);
+        margin-bottom: var(--mob-mb, 1rem);
+      }
+
+      .hero-slices {
+        height: 100% !important;
       }
     }
 
@@ -326,7 +337,7 @@
       letter-spacing: 0.32em;
       text-transform: uppercase;
       color: #42A5F5;
-      margin-bottom: 1.5rem;
+      margin-bottom: 3.5rem;
       display: flex;
       align-items: center;
       gap: 0.75rem;
@@ -648,8 +659,8 @@
     <a href="#projetos">Projetos</a>
     <a href="#skills">Stack</a>
     <a href="#experiencia">Experiência</a>
-    <a href="#contato">Contato</a>
-    <a href="#contato" class="btn btn-primary" style="margin-top:0.5rem;">Falar comigo</a>
+    <a href="#contato" class="btn btn-primary"
+      style="color: #ffffff !important; padding: 0.85rem 1.5rem !important; border-bottom: none !important; margin-top: 0.5rem; justify-content: center !important; letter-spacing: 0.15em;">Contato</a>
   </div>
 
   <!-- ===================================================
@@ -670,7 +681,7 @@
           <!-- ═══ LEFT: Text content ═══ -->
           <div class="hero-text-side" id="hero-text-side">
 
-            <!-- Eyebrow -->
+            <!-- EYEBROW -->
             <div class="hero-eyebrow sr sr-d1">
               <span class="hero-eyebrow-dot"></span>
               Estatístico &amp; Cientista de Dados
@@ -678,7 +689,7 @@
                 style="height:1px;width:40px;background:rgba(66,165,245,0.4);display:inline-block;vertical-align:middle;"></span>
             </div>
 
-            <!-- Main title -->
+            <!-- MAIN TITLE -->
             <h1 style="margin-bottom:1.5rem; line-height:1.1;">
               <span class="display-lg tr-wrap" style="display:block; margin-bottom:0.05em;">
                 <span class="tr-inner hero-title-main">Do Rigor</span>
@@ -691,7 +702,7 @@
               </span>
             </h1>
 
-            <!-- Subtitle -->
+            <!-- SUBTITLE -->
             <p class="body-lg text-muted sr sr-d3" style="max-width:52ch; margin-bottom:2.5rem;">
               Estatística aplicada com <strong class="highlight-word">excelência em código</strong>. Desenvolvo <strong
                 class="highlight-word">pipelines eficientes</strong> e <strong class="highlight-word">painéis
@@ -699,7 +710,7 @@
                 visual</strong> e <strong class="highlight-word">vantagem competitiva</strong>.
             </p>
 
-            <!-- CTAs -->
+            <!-- CALL TO ACTIONS -->
             <div class="sr sr-d4" style="display:flex; gap:1rem; flex-wrap:wrap;">
               <a href="#projetos" class="btn btn-primary">
                 Ver projetos
@@ -712,7 +723,7 @@
               </a>
             </div>
 
-            <!-- Code line decoration -->
+            <!-- DECORATION -->
             <div class="sr sr-d5"
               style="margin-top:3rem; font-family:'Courier New',monospace; font-size:0.72rem; color:rgba(100,181,246,0.35); display:flex; gap:0.5rem; flex-wrap:wrap;">
               <span style="color:rgba(66,165,245,0.6);">import</span>
@@ -724,11 +735,12 @@
           </div>
 
           <!-- ═══ RIGHT: Photo Panel with 5 vertical slices ═══ -->
-          <div class="hero-photo-panel" id="hero-photo-panel" style="height: clamp(550px, 85vh, 900px);">
+          <div class="hero-photo-panel" id="hero-photo-panel"
+            style="height: clamp(550px, 85vh, 900px); --mob-mt: -1rem; --mob-mb: -1rem;">
 
-            <!-- Slices container (GSAP Parallax) -->
+            <!-- SLICES CONTAINER -->
             <div class="hero-slices" id="hero-slices" style="display: flex; gap: 4px; height: 100%;">
-              <!-- As 5 fatias usam clip-path para criar as alturas diferentes (retângulos fragmentados) sem perder o alinhamento inicial da imagem -->
+              
               <div class="hero-slice" data-slice="0"
                 style="flex: 1; height: 100%; clip-path: inset(18% 0 10% 0 round 10px);">
                 <img src="assets/img/fotos/reitoria_2_slice_0.png" alt="Slice 0" class="w-full h-full object-cover">
@@ -754,7 +766,7 @@
           </div><!-- /hero-photo-panel -->
         </div><!-- /hero-grid -->
 
-        <!-- Stats panel (desktop) -->
+        <!-- STATS PANEL -->
         <div class="hero-stat-panel sr sr--right sr-d3">
           <div class="hero-stat-item" style="text-align: left; max-width: 250px;">
             <div class="hero-stat-num" style="font-size: 1.1rem; font-family: var(--font-body); letter-spacing: 0;">
@@ -781,14 +793,26 @@
 
       </div><!-- /container hero-content -->
 
-      <!-- Scroll indicator -->
+      <!-- ===================================================
+     SCROLL INDICATOR
+     =================================================== -->
       <div style="position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); z-index:10; text-align:center;">
-        <div
-          style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.2em; color:rgba(100,181,246,0.4); margin-bottom:0.5rem; font-family:'Courier New',monospace;">
-          scroll</div>
-        <div
-          style="width:1px; height:40px; background:linear-gradient(to bottom,rgba(66,165,245,0.5),transparent); margin:0 auto; animation:floatY 2s ease-in-out infinite;">
+
+        <!-- PC Indicator -->
+        <div class="indicator-pc">
+          <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.2em; color:rgba(100,181,246,0.4); margin-bottom:0.5rem; font-family:'Courier New',monospace;">
+            scroll</div>
+          <div style="width:1px; height:40px; background:linear-gradient(to bottom,rgba(66,165,245,0.5),transparent); margin:0 auto; animation:floatY 2s ease-in-out infinite;">
+          </div>
         </div>
+
+        <!-- Mobile Indicator -->
+        <div class="indicator-mobile">
+          <div style="width:1px; height:35px; background:linear-gradient(to bottom, rgba(215, 181, 109, 0.2), transparent); position:relative;">
+            <div class="floating-dot" style="position:absolute; left:-1.5px;"></div>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -797,15 +821,15 @@
      =================================================== -->
     <section id="sobre" class="section" aria-label="Sobre mim">
       <div class="container">
-        <div style="display:grid; grid-template-columns:1fr 1.1fr; gap:5rem; align-items:center;">
+        <div class="sobre-grid" style="display:grid; grid-template-columns:1fr 1.1fr; gap:5rem; align-items:center;">
 
           <!-- Portrait side -->
-          <div class="about-portrait sr sr--left">
+          <div class="about-portrait sr sr--left desktop-only">
             <div style="position:relative; display:inline-block; width:100%; max-width:400px;">
               <!-- Gradient photo placeholder (usando SVG art) -->
               <!-- Dashboard Cover (Branded) -->
               <div
-                style="width:100%; aspect-ratio:3/4; border-radius:12px; overflow:hidden; position:relative; background:linear-gradient(135deg,#060D1A 0%,#0A1428 60%,#030710 100%); border:1px solid rgba(215,181,109,0.25); box-shadow: inset 0 0 40px rgba(0,0,0,0.5), 0 20px 50px rgba(0,0,0,0.6);">
+                style="width:100%; min-height:560px; border-radius:12px; overflow:hidden; position:relative; background:linear-gradient(135deg,#060D1A 0%,#0A1428 60%,#030710 100%); border:1px solid rgba(215,181,109,0.25); box-shadow: inset 0 0 40px rgba(0,0,0,0.5), 0 20px 50px rgba(0,0,0,0.6);">
 
                 <!-- Subtle glowing background grid -->
                 <svg width="100%" height="100%" viewBox="0 0 400 533" fill="none" style="position:absolute;inset:0;">
@@ -841,7 +865,8 @@
                   <!-- Top: Logo (Selo Institucional) -->
                   <div
                     style="display:flex; justify-content:center; margin-bottom: 2.5rem; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));">
-                    <img src="assets/img/logo_dochmo.png" alt="Selo Institucional DOCHMO" style="width: 140px; height: auto;" />
+                    <img src="assets/img/logo_dochmo.png" alt="Selo Institucional DOCHMO"
+                      style="width: 140px; height: auto;" />
                   </div>
 
                   <!-- Middle: 4B Executive Dashboard Graph -->
@@ -964,7 +989,7 @@
             </div>
 
             <!-- Quick facts -->
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:2rem;">
+            <div class="quick-facts-grid">
               <div class="sr sr-d3 skill-card" style="padding:1rem;">
                 <div class="caption text-dim" style="margin-bottom:0.3rem;">Formação</div>
                 <div class="body-sm text-primary">Estatística - Universidade Federal do Ceará (UFC)</div>
@@ -1032,7 +1057,7 @@
           </h2>
         </div>
 
-        <div class="sr sr-d2" style="max-width: 850px; margin: 0 auto; perspective: 1000px;">
+        <div class="sr sr-d2" id="cert-container" style="max-width: 850px; margin: 0 auto; perspective: 1000px;">
           <div class="certificate-card flashlight">
             <!-- Marca D'água em Latim -->
             <div class="cert-watermark-text">
@@ -1046,22 +1071,23 @@
             <div style="position: relative; z-index: 2; display: flex; flex-direction: column;">
 
               <!-- Cabeçalho do Certificado -->
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3rem;">
+              <div
+                style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2.5rem;">
                 <!-- Brasão Horizontal (Topo Esquerda) -->
-                <div style="width: 250px; flex-shrink: 0;" class="cert-emerge-1">
+                <div style="width: 250px; flex-shrink: 0;" class="cert-emerge-1 sr sr-d6">
                   <img src="assets/img/brasao1_horizontal_monocromatico.svg" alt="Universidade Federal do Ceará"
                     style="width:100%; height:auto; filter: invert(79%) sepia(26%) saturate(666%) hue-rotate(352deg) brightness(91%) contrast(85%);" />
                 </div>
 
                 <!-- Institute Name -->
                 <div
-                  style="text-align: right; font-family: var(--font-body); font-size: 0.85rem; color: rgba(255,255,255,0.6); letter-spacing: 0.15em; text-transform: uppercase; line-height: 1.6;">
+                  style="text-align: right; font-family: var(--font-body); font-size: 0.83rem; color: rgba(255,255,255,0.6); letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.4;">
                   República Federativa do Brasil<br>Ministério da Educação<br>
                   <strong
-                    style="color: #fff; font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 0.05em; display: block; margin-top: 0.5rem;">Universidade
+                    style="color: #fff; font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 0.05em; display: block; margin-top: 0.5rem;">Universidade
                     Federal do Ceará</strong>
                   <strong
-                    style="color: #fff; font-family: var(--font-display); font-size: 0.95rem; letter-spacing: 0.05em; display: block; margin-top: 0.2rem;">Centro
+                    style="color: #fff; font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 0.05em; display: block; margin-top: 0.2rem;">Centro
                     de Ciências</strong>
                 </div>
               </div>
@@ -1075,12 +1101,12 @@
               </div>
 
               <div class="cert-text" style="max-width: 700px;">
-                o título de <strong style="color: #D7B56D; font-weight: 600;">BACHAREL EM ESTATÍSTICA</strong>, tendo em
+                o título de <strong style="color: #D7B56D; font-weight: 550;">BACHAREL EM ESTATÍSTICA</strong>, tendo em
                 vista a conclusão do Curso de Graduação em Estatística / Bacharelado, a fim de que possa usufruir de
                 todos os direitos e prerrogativas legais.
               </div>
 
-              <div style="display: flex; justify-content: center; position: relative; margin-top: 4rem;">
+              <div style="display: flex; justify-content: center; position: relative; margin-top: 2rem;">
                 <div class="cert-date sr sr-d4" style="margin-top: 0;">
                   Fortaleza, 27 de agosto de 2025.
                 </div>
@@ -1091,18 +1117,19 @@
             <div class="cert-shine-container"></div>
 
             <!-- Republic Logo (Bottom Center Seal) -->
-            <div class="cert-emerge-2">
-              <img src="assets/img/republica-federativa-do-brasil-logo.svg" alt="Selo da República" class="cert-seal-bottom" />
+            <div class="cert-emerge-2 sr sr-d6">
+              <img src="assets/img/republica-federativa-do-brasil-logo.svg" alt="Selo da República"
+                class="cert-seal-bottom" />
             </div>
 
             <!-- Verification QR Code (Bottom Left) -->
-            <div class="cert-qr-container">
+            <div class="cert-qr-container sr sr-d6">
               <img src="assets/img/qrcode_verificacao.svg" alt="QR Code Personalizado" class="cert-qr-img" />
               <div class="cert-qr-text">Verificação de<br>Autenticidade</div>
             </div>
 
             <!-- Floating Seal -->
-            <div class="cert-emerge-3">
+            <div class="cert-emerge-3 sr sr-d6">
               <img src="assets/img/laurea_dourada.png" alt="Selo Ouro" class="cert-seal" />
             </div>
           </div>
@@ -1356,7 +1383,8 @@
               <h3 class="proj-card__title">Modelo de Ising 2D<br>
               </h3>
               <p class="proj-card__desc"
-                style="display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">Simulação
+                style="display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">
+                Simulação
                 estocástica em tempo real de transições de fase ferromagnéticas utilizando métodos de Monte Carlo e
                 compilação JIT.</p>
               <div class="proj-card__tags">
@@ -1471,7 +1499,8 @@
               <h3 class="proj-card__title">Análise Espacial: IPS Brasil<br>
               </h3>
               <p class="proj-card__desc"
-                style="display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">Mapeamento
+                style="display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">
+                Mapeamento
                 socioterritorial e dinâmico do Índice de Progresso Social nos mais de 5.500 municípios do Brasil
                 (2024-2025).
               </p>
@@ -1602,7 +1631,8 @@
               <h3 class="proj-card__title">Machine Learning: Titanic<br>
               </h3>
               <p class="proj-card__desc"
-                style="display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">Análise
+                style="display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">
+                Análise
                 Exploratória de Dados, Feature Engineering, Modelagem em Ensembles (Bagging e Boosting).</p>
               <div class="proj-card__tags">
                 <span class="badge badge--tech">Machine Learning</span>
@@ -1990,7 +2020,7 @@
     <section id="contato" class="section" style="background:rgba(10,22,44,0.25);" aria-label="Contato">
       <div class="container">
         <div class="section-label sr">Contato</div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start;">
+        <div class="contact-grid desktop-only">
 
           <!-- Left: info -->
           <div class="sr sr--left">
@@ -2142,6 +2172,76 @@
             </div>
           </div>
 
+        </div>
+
+        <!-- MOBILE ONLY CONTACT CARDS -->
+        <div class="contact-mobile mobile-only"
+          style="display:flex; flex-direction:column; gap:1.5rem; margin-top: 2rem;">
+          <div class="sr sr--fade-up">
+            <h2 class="display-md text-primary" style="margin-bottom:1rem; max-width:20ch;">
+              Vamos construir<br />
+              <em class="italic-serif text-accent">algo juntos?!</em>
+            </h2>
+            <p class="body-md text-muted" style="margin-bottom:2.5rem; max-width:42ch;">
+              Estou disponível para projetos freelance e posições CLT/PJ, na área de dados. Entre em contato!
+            </p>
+          </div>
+          <div class="glass" style="padding:1.5rem; display:flex; align-items:center; gap:1rem; border-radius:12px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D7B56D" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <div>
+              <div
+                style="font-size:0.75rem; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:0.05em;">
+                Email</div>
+              <a href="mailto:douglascmoura21@gmail.com"
+                style="color:#fff; text-decoration:none; font-weight:500;">douglascmoura21@gmail.com</a>
+            </div>
+          </div>
+
+          <div class="glass" style="padding:1.5rem; display:flex; align-items:center; gap:1rem; border-radius:12px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D7B56D" stroke-width="2">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+            <div>
+              <div
+                style="font-size:0.75rem; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:0.05em;">
+                LinkedIn</div>
+              <a href="https://www.linkedin.com/in/douglas-chaves-moura-a545a835b" target="_blank"
+                style="color:#fff; text-decoration:none; font-weight:500;">linkedin.com/in/douglas-moura</a>
+            </div>
+          </div>
+
+          <div class="glass" style="padding:1.5rem; display:flex; align-items:center; gap:1rem; border-radius:12px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D7B56D" stroke-width="2">
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+              </path>
+            </svg>
+            <div>
+              <div
+                style="font-size:0.75rem; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:0.05em;">
+                GitHub</div>
+              <a href="https://github.com/douglascmoura" target="_blank"
+                style="color:#fff; text-decoration:none; font-weight:500;">github.com/douglascmoura</a>
+            </div>
+          </div>
+
+          <div class="glass" style="padding:1.5rem; display:flex; align-items:center; gap:1rem; border-radius:12px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D7B56D" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <div>
+              <div
+                style="font-size:0.75rem; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:0.05em;">
+                Localização</div>
+              <span style="color:#fff; font-weight:500;">Fortaleza, CE · Disponível Remoto</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

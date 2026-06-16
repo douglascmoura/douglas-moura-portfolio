@@ -113,6 +113,7 @@
       background: linear-gradient(90deg, transparent, rgba(215, 181, 109, 0.05), transparent);
       transform: skewX(-20deg);
       animation: scan 6s infinite;
+      z-index: 10;
       pointer-events: none;
     }
 
@@ -177,7 +178,7 @@
       padding: 1.5rem;
       color: rgba(248, 249, 250, 0.7);
       font-size: 0.95rem;
-      white-space: pre-wrap;
+      white-space: pre-line;
     }
 
     .terminal-body .output-highlight {
@@ -229,7 +230,9 @@
   <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
   <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
 
-  <!-- NAVIGATION -->
+  <!-- ==========================================
+     SECTION: MAIN NAVIGATION
+     ========================================== -->
   <nav class="nav" role="navigation" aria-label="Navegação principal"
     style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px);">
     <a href="index.html" class="nav-logo"
@@ -260,7 +263,9 @@
 
     <div class="article-content">
 
-      <!-- INTRODUÇÃO -->
+      <!-- ==========================================
+     SECTION: INTRODUCTION
+     ========================================== -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Introdução</h2>
         <p>O estudo de séries temporais constitui um pilar fundamental da análise de dados, sendo aplicado para
@@ -274,7 +279,9 @@
         </div>
       </section>
 
-      <!-- METODOLOGIA -->
+      <!-- ==========================================
+     SECTION: METHODOLOGY
+     ========================================== -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Metodologia (Box-Jenkins)</h2>
         <p>Para a modelagem preditiva, adotou-se a clássica metodologia de Box-Jenkins, focando em modelos
@@ -293,16 +300,20 @@
         </ul>
       </section>
 
-      <!-- EXPLORATÓRIA -->
+      <!-- ==========================================
+     SECTION: EXPLORATORY ANALYSIS
+     ========================================== -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Análise Exploratória</h2>
         <p>A pergunta central deste estudo explora: <em>"Existe um Ciclo Anual estável na Produção de Petróleo no
             Brasil?"</em> A inspeção visual primária nos dá pistas valiosas da não-estacionariedade da série, marcada
           por uma clara tendência de crescimento e flutuações sazonais repetitivas.</p>
 
-        <div class="article-img-wrap">
-          <iframe src="projetos_arquivos/relatorio_final_series_temporais/graphics/grafico_serie_original.html" class="plotly-iframe"
-            title="Série Histórica Original" scrolling="no"></iframe>
+        <div class="article-img-wrap" style="--mob-wrap-h: 280px;">
+          <iframe loading="lazy"
+            style="max-width: 100%; transform: scale(1) translate(3%, 0%); --mob-scale: 0.44; --mob-tx: 3%; --mob-ty: -4%;"
+            src="projetos_arquivos/relatorio_final_series_temporais/graphics/grafico_serie_original.html"
+            class="plotly-iframe" title="Série Histórica Original" scrolling="no"></iframe>
         </div>
 
         <p>Observamos um crescimento acentuado entre 2019 e 2020, seguido de oscilações (reflexo da pandemia global) e
@@ -335,16 +346,20 @@
           0, atestando uma ciclicidade determinística intransponível no estado bruto da série.</p>
       </section>
 
-      <!-- DECOMPOSIÇÃO E TRANSFORMAÇÃO -->
+      <!-- ==========================================
+     SECTION: DECOMPOSITION & TRANSFORMATION
+     ========================================== -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">04.</span> Decomposição & Pré-Processamento</h2>
         <p>A magnitude das flutuações sazonais aparenta crescer conforme o patamar de produção se eleva, o que dita a
           escolha de um <strong>modelo multiplicativo</strong> para a decomposição clássica. Isso nos permite isolar de
           forma clara a Tendência de longo prazo do Sinal Sazonal.</p>
 
-        <div class="article-img-wrap" style="height: 820px; padding: 0;">
-          <iframe src="projetos_arquivos/relatorio_final_series_temporais/graphics/grafico_decomposicao.html" class="plotly-iframe"
-            style="height: 100%;" title="Decomposição da Série" scrolling="no"></iframe>
+        <div class="article-img-wrap" style="--mob-wrap-h: 394px; --mob-iframe-h: 820px; height: 820px; padding: 0;">
+          <iframe loading="lazy"
+            style="max-width: 100%; transform: scale(0.95) translate(3%, 0%); --mob-scale: 0.5; --mob-tx: 3.5%; --mob-ty: -1.2%; height: 100%;"
+            src="projetos_arquivos/relatorio_final_series_temporais/graphics/grafico_decomposicao.html"
+            class="plotly-iframe" title="Decomposição da Série" scrolling="no"></iframe>
         </div>
 
         <p>Para satisfazer a premissa fundamental de Box-Jenkins (estacionariedade na variância e na média), combinamos
@@ -365,7 +380,9 @@
         </div>
       </section>
 
-      <!-- FORECAST COMPETITIVO -->
+      <!-- ==========================================
+     SECTION: COMPETITIVE FORECAST
+     ========================================== -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">05.</span> Forecast Competitivo (Out-of-Sample)</h2>
         <p>Tendo a série transformada, diagnosticamos as funções de autocorrelação para construir o modelo campeão.
@@ -377,9 +394,11 @@
           contra o método de Suavização Exponencial (Holt-Winters Aditivo) para comparação.
         </p>
 
-        <div class="article-img-wrap">
-          <iframe src="projetos_arquivos/relatorio_final_series_temporais/graphics/previsao_modelo_final.html" class="plotly-iframe"
-            title="Previsão Out of Sample" scrolling="no"></iframe>
+        <div class="article-img-wrap" style="--mob-wrap-h: 270px; --mob-scale: 0.51; --mob-tx: 4%;">
+          <iframe loading="lazy"
+            style="max-width: 100%; transform: scale(1) translate(4%, 1%); --mob-iframe-h: 480px; --mob-ty: -2%;"
+            src="projetos_arquivos/relatorio_final_series_temporais/graphics/previsao_modelo_final.html"
+            class="plotly-iframe" title="Previsão Out of Sample" scrolling="no"></iframe>
         </div>
 
         <div class="glass-quote" style="border-left-color: #4CAF50; background: rgba(76, 175, 80, 0.05);">
@@ -389,7 +408,9 @@
         </div>
       </section>
 
-      <!-- CTA -->
+      <!-- ==========================================
+     SECTION: CALL TO ACTION (CTA)
+     ========================================== -->
       <div class="gsap-fade-up"
         style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
         <h3 style="font-family: var(--font-display); font-size: 2rem; color: #F8F9FA; margin-bottom: 1rem;">Mergulhe na
@@ -400,8 +421,8 @@
         </p>
 
         <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap: wrap;">
-          <a href="projetos_arquivos/relatorio_final_series_temporais/Apresentação_Petróleo_Séries_Temporais.pdf" target="_blank"
-            rel="noopener noreferrer"
+          <a href="projetos_arquivos/relatorio_final_series_temporais/Apresentação_Petróleo_Séries_Temporais.pdf"
+            target="_blank" rel="noopener noreferrer"
             style="display:inline-flex; align-items:center; gap:10px; background: rgba(215,181,109,0.1); border: 1px solid #D7B56D; color: #D7B56D; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(215,181,109,0.15);"
             onmouseover="this.style.background='#D7B56D'; this.style.color='#0A1428';"
             onmouseout="this.style.background='rgba(215,181,109,0.1)'; this.style.color='#D7B56D';">
@@ -412,8 +433,8 @@
             Slides de Apresentação
           </a>
 
-          <a href="projetos_arquivos/relatorio_final_series_temporais/Séries_Temporais_RELATÓRIO_FINAL.pdf" target="_blank"
-            rel="noopener noreferrer"
+          <a href="projetos_arquivos/relatorio_final_series_temporais/Séries_Temporais_RELATÓRIO_FINAL.pdf"
+            target="_blank" rel="noopener noreferrer"
             style="display:inline-flex; align-items:center; gap:10px; background: transparent; border: 1px solid rgba(248,249,250,0.3); color: #F8F9FA; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease;"
             onmouseover="this.style.borderColor='#D7B56D'; this.style.color='#D7B56D';"
             onmouseout="this.style.borderColor='rgba(248,249,250,0.3)'; this.style.color='#F8F9FA';">

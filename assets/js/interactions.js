@@ -334,13 +334,32 @@ function initParticles() {
 function initMobileMenu() {
   const toggle = qs('#menu-toggle');
   const menu = qs('#mobile-menu');
+  const iconBurger = qs('#icon-burger');
+  const iconClose = qs('#icon-close');
   if (!toggle || !menu) return;
+
   toggle.addEventListener('click', () => {
-    menu.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', menu.classList.contains('open'));
+    const isOpen = menu.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen);
+    if (isOpen) {
+      menu.style.display = 'flex';
+      if(iconBurger) iconBurger.style.display = 'none';
+      if(iconClose) iconClose.style.display = 'block';
+    } else {
+      menu.style.display = 'none';
+      if(iconBurger) iconBurger.style.display = 'block';
+      if(iconClose) iconClose.style.display = 'none';
+    }
   });
+
   qsa('#mobile-menu a').forEach(a => {
-    a.addEventListener('click', () => menu.classList.remove('open'));
+    a.addEventListener('click', () => {
+      menu.classList.remove('open');
+      menu.style.display = 'none';
+      toggle.setAttribute('aria-expanded', 'false');
+      if(iconBurger) iconBurger.style.display = 'block';
+      if(iconClose) iconClose.style.display = 'none';
+    });
   });
 }
 

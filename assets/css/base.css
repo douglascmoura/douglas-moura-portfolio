@@ -32,7 +32,7 @@
 
   /* Spacing */
   --section-pad: 6rem 0;
-  --max-w: 1320px;
+  --max-w: 1140px;
   --gutter: 2rem;
 
   /* Radius */
@@ -59,8 +59,9 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 14.4px;
-  /* Equivalente a 90% de zoom padrão */
+  font-size: 16px;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -68,6 +69,7 @@ body {
   background-color: var(--c-bg-deep);
   color: var(--c-text);
   line-height: 1.6;
+  width: 100%;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -287,4 +289,14 @@ button {
 
 .gap-lg {
   gap: 3rem;
+}
+
+/* ─── MOBILE OVERRIDES ───────────────────────────────────────── */
+@media (max-width: 768px) {
+  html {
+    font-size: 13.5px !important;
+  }
+  .scroll-indicator-mobile-hide {
+    display: none !important;
+  }
 }

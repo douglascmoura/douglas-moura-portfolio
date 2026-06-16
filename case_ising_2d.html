@@ -138,6 +138,7 @@
       background: linear-gradient(90deg, transparent, rgba(215, 181, 109, 0.05), transparent);
       transform: skewX(-20deg);
       animation: scan 6s infinite;
+      z-index: 10;
       pointer-events: none;
     }
 
@@ -265,7 +266,9 @@
   <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
   <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
 
-  <!-- NAVIGATION -->
+  <!-- ==========================================
+     SECTION: MAIN NAVIGATION
+     ========================================== -->
   <nav class="nav" role="navigation" aria-label="Navegação principal"
     style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px);">
     <a href="index.html" class="nav-logo"
@@ -299,7 +302,9 @@
 
     <div class="article-content">
 
-      <!-- 01. Fundamentação Teórica -->
+      <!-- ==========================================
+     SECTION: 01. THEORETICAL FOUNDATION
+     ========================================== -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Fundamentação Teórica</h2>
         <p>
@@ -325,7 +330,9 @@
         </p>
       </section>
 
-      <!-- 02. Dinâmica e Performance -->
+      <!-- ==========================================
+     SECTION: 02. DYNAMICS & PERFORMANCE
+     ========================================== -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Dinâmica de Metropolis e Performance JIT</h2>
         <p>
@@ -359,7 +366,9 @@
         </ul>
       </section>
 
-      <!-- 03. O Aplicativo Streamlit -->
+      <!-- ==========================================
+     SECTION: 03. STREAMLIT APPLICATION
+     ========================================== -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Simulação Interativa (Live App)</h2>
         <p>
@@ -368,14 +377,18 @@
           em altas temperaturas prevalece o caos e a desordem térmica).
         </p>
 
-        <!-- IMAGEM DE DEMONSTRAÇÃO -->
-        <div class="article-img-wrap" style="text-align: center; margin: 3rem 0;">
+        <!-- ==========================================
+     SECTION: DEMONSTRATION IMAGE
+     ========================================== -->
+        <div class="article-img-wrap" style="text-align: center; margin: 3rem 0; --mob-wrap-h: auto; display: block !important;">
           <img src="assets/img/app_ising_demo.png" alt="Interface da Simulação do Modelo de Ising"
-            style="width: 100%; border-radius: 12px; border: 1px solid rgba(215, 181, 109, 0.2); box-shadow: 0 15px 40px rgba(0,0,0,0.4);">
+            style="width: 100%; border-radius: 12px; border: 1px solid rgba(215, 181, 109, 0.2); box-shadow: 0 15px 40px rgba(0,0,0,0.4); height: auto;">
         </div>
       </section>
 
-      <!-- Call to Actions -->
+      <!-- ==========================================
+     SECTION: CALL TO ACTION (CTA)
+     ========================================== -->
       <div class="gsap-fade-up"
         style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
         <h3 style="font-family: var(--font-display); font-size: 2rem; color: #F8F9FA; margin-bottom: 1rem;">Explore o

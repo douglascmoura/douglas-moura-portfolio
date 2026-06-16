@@ -113,6 +113,7 @@
       background: linear-gradient(90deg, transparent, rgba(215, 181, 109, 0.05), transparent);
       transform: skewX(-20deg);
       animation: scan 6s infinite;
+      z-index: 10;
       pointer-events: none;
     }
 
@@ -207,7 +208,7 @@
       pointer-events: none;
       z-index: 0;
     }
-  
+
     /* Cursor Dourado Exclusivo para as Páginas de Case */
     .cursor-ring {
       border-color: rgba(215, 181, 109, 0.85) !important;
@@ -229,7 +230,9 @@
   <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
   <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
 
-  <!-- NAVIGATION -->
+  <!-- ==========================================
+     SECTION: MAIN NAVIGATION
+     ========================================== -->
   <nav class="nav" role="navigation" aria-label="Navegação principal"
     style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px);">
     <a href="index.html" class="nav-logo"
@@ -260,7 +263,9 @@
 
     <div class="article-content">
 
-      <!-- INTRODUÇÃO -->
+      <!-- ==========================================
+     SECTION: INTRODUCTION
+     ========================================== -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Introdução</h2>
         <p>O Índice de Progresso Social (IPS) é uma métrica fundamental que vai além dos tradicionais indicadores
@@ -272,7 +277,9 @@
         </div>
       </section>
 
-      <!-- METODOLOGIA -->
+      <!-- ==========================================
+     SECTION: METHODOLOGY
+     ========================================== -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Pipeline e Visualização (Python)</h2>
         <p>Embora as origens deste estudo remetam à linguagem R e seus ecossistemas tradicionais de geoprocessamento
@@ -289,7 +296,9 @@
         </ul>
       </section>
 
-      <!-- MAPA MUNICIPAL -->
+      <!-- ==========================================
+     SECTION: MUNICIPAL MAP
+     ========================================== -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">03.</span> O Boxmap Socioterritorial</h2>
         <p>Através da aplicação do método de limites (Boxmap) podemos mitigar distorções visuais de outliers ao
@@ -297,9 +306,11 @@
           os tons escuros de vermelho representam as zonas de maior vulnerabilidade, enquanto as cores azuis
           marcam a excelência social local.</p>
 
-        <div class="article-img-wrap" style="height: 600px; padding: 0;">
-          <iframe src="projetos_arquivos/realatorio_analise_espacial/graphics/ips_boxmap_2024.html" class="plotly-iframe"
-            style="height: 100%; border-radius: 8px;" title="Boxmap IPS Brasil 2024" scrolling="no"></iframe>
+        <div class="article-img-wrap" style="height: 550px; padding: 0; --mob-wrap-h: 300px;">
+          <iframe loading="lazy"
+            style="max-width: 100%; height: 100%; border-radius: 8px; --mob-scale: 0.45; --mob-tx: 0%; --mob-ty: 0%;"
+            src="projetos_arquivos/realatorio_analise_espacial/graphics/ips_boxmap_2024.html" class="plotly-iframe"
+            title="Boxmap IPS Brasil 2024" scrolling="no"></iframe>
         </div>
 
         <p>É perceptível empiricamente uma dependência espacial latente: a concentração de índices superiores fortemente
@@ -307,16 +318,20 @@
           brasileiro.</p>
       </section>
 
-      <!-- DISPERSAO -->
+      <!-- ==========================================
+     SECTION: SCATTER PLOT
+     ========================================== -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">04.</span> Transição e Dispersão</h2>
         <p>Para medir o choque temporal interanual, organizamos os índices em eixos cartesianos. Os quadrantes Alto-Alto
           e Baixo-Baixo isolam municípios que estagnaram no desenvolvimento ou mantiveram os privilégios inalterados de
           um ano para o outro.</p>
 
-        <div class="article-img-wrap" style="height: 520px; padding: 0;">
-          <iframe src="projetos_arquivos/realatorio_analise_espacial/graphics/ips_scatter_24_25.html" class="plotly-iframe"
-            style="height: 100%; border-radius: 8px;" title="Dispersão IPS" scrolling="no"></iframe>
+        <div class="article-img-wrap" style="height: 490px; padding: 0; --mob-wrap-h: 300px;">
+          <iframe loading="lazy"
+            style="max-width: 100%; transform: scale(0.97) translate(0%, -3%); --mob-tx: -1.2%; border-radius: 8px; "
+            src="projetos_arquivos/realatorio_analise_espacial/graphics/ips_scatter_24_25.html" class="plotly-iframe"
+            title="Dispersão IPS" scrolling="no"></iframe>
         </div>
 
         <p>Neste recorte iterativo, a nuvem laranja brilhante destaca os resultados de todos os municípios do
@@ -325,7 +340,9 @@
         </p>
       </section>
 
-      <!-- ESTADOS -->
+      <!-- ==========================================
+     SECTION: STATES
+     ========================================== -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">05.</span> Desempenho Global (Agregado Estadual)</h2>
         <p>Por fim, ao extrapolarmos a capilaridade municipal, apuramos o ranking macroestadual. Abaixo dispomos de dois
@@ -333,18 +350,26 @@
           que apresentaram os saltos sociais mais expressivos da transição temporal.</p>
 
         <div style="display:flex; gap: 2rem; flex-wrap: wrap;">
-          <div class="article-img-wrap" style="flex:1; min-width: 300px; height: 520px; padding: 0;">
-            <iframe src="projetos_arquivos/realatorio_analise_espacial/graphics/ips_bar_estados_2024.html" class="plotly-iframe"
-              style="height: 100%; border-radius: 8px;" title="Média IPS 2024" scrolling="no"></iframe>
+          <div class="article-img-wrap"
+            style="--mob-wrap-h: 310px; --mob-scale: 0.47; flex:1; min-width: 300px; height: 520px; padding: 0;">
+            <iframe loading="lazy" style="max-width: 100%;"
+              src="projetos_arquivos/realatorio_analise_espacial/graphics/ips_bar_estados_2024.html"
+              class="plotly-iframe" style="height: 100%; border-radius: 8px;" title="Média IPS 2024"
+              scrolling="no"></iframe>
           </div>
-          <div class="article-img-wrap" style="flex:1; min-width: 300px; height: 520px; padding: 0;">
-            <iframe src="projetos_arquivos/realatorio_analise_espacial/graphics/ips_variacao_estados.html" class="plotly-iframe"
-              style="height: 100%; border-radius: 8px;" title="Variação IPS" scrolling="no"></iframe>
+          <div class="article-img-wrap"
+            style="--mob-wrap-h: 310px; --mob-scale: 0.47; flex:1; min-width: 300px; height: 520px; padding: 0;">
+            <iframe loading="lazy" style="max-width: 100%;"
+              src="projetos_arquivos/realatorio_analise_espacial/graphics/ips_variacao_estados.html"
+              class="plotly-iframe" style="height: 100%; border-radius: 8px;" title="Variação IPS"
+              scrolling="no"></iframe>
           </div>
         </div>
       </section>
 
-      <!-- CTA -->
+      <!-- ==========================================
+     SECTION: CALL TO ACTION (CTA)
+     ========================================== -->
       <div class="gsap-fade-up"
         style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
         <h3 style="font-family: var(--font-display); font-size: 2rem; color: #F8F9FA; margin-bottom: 1rem;">Aprofunde-se
@@ -355,7 +380,8 @@
         </p>
 
         <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap: wrap;">
-          <a href="projetos_arquivos/realatorio_analise_espacial/Análise_Espacial_IPS.pdf" target="_blank" rel="noopener noreferrer"
+          <a href="projetos_arquivos/realatorio_analise_espacial/Análise_Espacial_IPS.pdf" target="_blank"
+            rel="noopener noreferrer"
             style="display:inline-flex; align-items:center; gap:10px; background: transparent; border: 1px solid rgba(248,249,250,0.3); color: #F8F9FA; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease;"
             onmouseover="this.style.borderColor='#D7B56D'; this.style.color='#D7B56D';"
             onmouseout="this.style.borderColor='rgba(248,249,250,0.3)'; this.style.color='#F8F9FA';">
