@@ -213,12 +213,12 @@ function initFlashlight() {
   });
 }
 
-/* ─── CANVAS PARTICLES + DIAGONAL BEAMS (hero) ──────────────── */
+/* ─── CANVAS PARTICLES (hero) ──────────────── */
 function initParticles() {
   const canvas = qs('#hero-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  let W, H, particles, diagonalBeams;
+  let W, H, particles;
 
   function resize() {
     W = canvas.width = canvas.offsetWidth;
@@ -257,54 +257,11 @@ function initParticles() {
     }
   }
 
-  /* ── Diagonal Beam — subtle lumina-style star-rain ── */
-  class DiagonalBeam {
-    constructor() { this.reset(true); }
-    reset(init) {
-      this.x = Math.random() * (W + 600) - 200;
-      this.y = init ? Math.random() * (H + 600) - 400 : -(Math.random() * 300 + 50);
-      this.speedX = Math.random() * 0.55 + 0.25;
-      this.speedY = Math.random() * 0.9 + 0.5;
-      this.len = Math.random() * 90 + 50;
-      this.width = Math.random() * 0.7 + 0.2;
-      this.alpha = 0;
-      /* Keep opacity extremely subtle: 1.2% – 3.8% */
-      this.maxAlpha = Math.random() * 0.026 + 0.012;
-      this.life = 0;
-      this.maxLife = (H / this.speedY) * (Math.random() * 0.5 + 0.8);
-    }
-    update() {
-      this.life++;
-      this.x += this.speedX;
-      this.y += this.speedY;
-      const pct = this.life / this.maxLife;
-      if (pct < 0.12) this.alpha = (pct / 0.12) * this.maxAlpha;
-      else if (pct > 0.82) this.alpha = ((1 - pct) / 0.18) * this.maxAlpha;
-      else this.alpha = this.maxAlpha;
-      if (this.y > H + 80 || this.x > W + 80) this.reset(false);
-    }
-    draw() {
-      const ratio = this.speedX / this.speedY;
-      const tailX = this.x - this.len * ratio;
-      const tailY = this.y - this.len;
-      const grad = ctx.createLinearGradient(tailX, tailY, this.x, this.y);
-      grad.addColorStop(0, `rgba(66,165,245,0)`);
-      grad.addColorStop(1, `rgba(66,165,245,${this.alpha})`);
-      ctx.save();
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = this.width;
-      ctx.beginPath();
-      ctx.moveTo(tailX, tailY);
-      ctx.lineTo(this.x, this.y);
-      ctx.stroke();
-      ctx.restore();
-    }
-  }
-
   function init() {
     resize();
-    particles = Array.from({ length: 90 }, () => new Particle());
-    diagonalBeams = Array.from({ length: 18 }, () => new DiagonalBeam());
+    const isMobile = window.innerWidth <= 768;
+    const pCount = isMobile ? 20 : 90;
+    particles = Array.from({ length: pCount }, () => new Particle());
   }
 
   function tick() {
@@ -318,8 +275,6 @@ function initParticles() {
     for (let y = 0; y < H; y += 60) {
       ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
     }
-    /* Diagonal beams (very subtle) */
-    diagonalBeams.forEach(b => { b.update(); b.draw(); });
     /* Floating particles */
     particles.forEach(p => { p.update(); p.draw(); });
     requestAnimationFrame(tick);
@@ -343,12 +298,12 @@ function initMobileMenu() {
     toggle.setAttribute('aria-expanded', isOpen);
     if (isOpen) {
       menu.style.display = 'flex';
-      if(iconBurger) iconBurger.style.display = 'none';
-      if(iconClose) iconClose.style.display = 'block';
+      if (iconBurger) iconBurger.style.display = 'none';
+      if (iconClose) iconClose.style.display = 'block';
     } else {
       menu.style.display = 'none';
-      if(iconBurger) iconBurger.style.display = 'block';
-      if(iconClose) iconClose.style.display = 'none';
+      if (iconBurger) iconBurger.style.display = 'block';
+      if (iconClose) iconClose.style.display = 'none';
     }
   });
 
@@ -357,8 +312,8 @@ function initMobileMenu() {
       menu.classList.remove('open');
       menu.style.display = 'none';
       toggle.setAttribute('aria-expanded', 'false');
-      if(iconBurger) iconBurger.style.display = 'block';
-      if(iconClose) iconClose.style.display = 'none';
+      if (iconBurger) iconBurger.style.display = 'block';
+      if (iconClose) iconClose.style.display = 'none';
     });
   });
 }
@@ -440,6 +395,7 @@ function initHeroSlices() {
 
 /* ─── HERO SCROLL PARALLAX ─────────────────────────────────────── */
 function initHeroScrollParallax() {
+  if (window.innerWidth <= 768) return;
   if (typeof gsap === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
@@ -476,72 +432,132 @@ function initHeroScrollParallax() {
   }
 }
 
-/* ─── CANVAS PARTICLES (hero) ───────────────────────────────── */
-function initParticles() {
-  const canvas = qs('#hero-canvas');
+
+/* ─── METEOR SHOWER (GLOBAL) ────────────────────────────────── */
+function initMeteors() {
+  const canvas = qs('#meteor-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  let W, H, particles;
+  let W, H, diagonalBeams;
 
   function resize() {
-    W = canvas.width = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
   }
 
-  class Particle {
-    constructor() { this.reset(true); }
-    reset(init) {
-      this.x = Math.random() * W;
-      this.y = init ? Math.random() * H : H + 10;
-      this.vy = -(Math.random() * 0.4 + 0.15);
-      this.vx = (Math.random() - 0.5) * 0.3;
-      this.size = Math.random() * 1.4 + 0.4;
+  class DiagonalBeam {
+    constructor(index = 0) { this.reset(true, index); }
+    reset(init, index = 0) {
+      /* =========================================
+         [MANUAL TUNING] - FREQUENCY & SPEED
+         ========================================= */
+      /* 1. DELAY (in frames. 60 frames = 1 sec)
+         Min & Max time the meteor "sleeps" off-screen before spawning.
+         Higher values = less frequent meteors. */
+      const minWaitFrames = 300;    // ~5 seconds minimum
+      const randomWaitFrames = 420; // Up to +7 seconds extra (max ~12s)
+
+      /* 2. SPEED
+         Base speed multiplier. */
+      const baseSpeed = Math.random() * 2.0 + 1.2;
+      /* ========================================= */
+
+      /* Initial spawn (init): enforce perfect stagger so they don't clump */
+      if (init) {
+        this.delay = index * 260 + (Math.random() * 60); 
+      } else {
+        this.delay = Math.random() * randomWaitFrames + minWaitFrames;
+      }
+
+      /* Fixed angle (45 degrees) */
+      this.speedX = -baseSpeed * 1.0;
+      this.speedY = baseSpeed * 1.0;
+
+      /* Spawn strictly off-screen to avoid popping in */
+      if (Math.random() > 0.5) {
+        /* Spawn on TOP edge: spread across total width */
+        this.x = Math.random() * (W + 600); 
+        this.y = -(Math.random() * 200 + 50); 
+      } else {
+        /* Spawn on RIGHT edge: spread across total height */
+        this.x = W + (Math.random() * 300 + 50); 
+        this.y = Math.random() * H - 100; 
+      }
+
+      /* Longer tails for higher speed */
+      this.len = Math.random() * 180 + 100;
+      this.width = Math.random() * 0.6 + 0.2;
       this.alpha = 0;
-      this.maxAlpha = Math.random() * 0.45 + 0.15;
+      this.maxAlpha = Math.random() * 0.15 + 0.05;
       this.life = 0;
-      this.maxLife = Math.random() * 350 + 200;
+      this.maxLife = (W / Math.abs(this.speedX)) + (H / this.speedY);
     }
     update() {
+      if (this.delay > 0) {
+        this.delay--;
+        return;
+      }
       this.life++;
-      this.x += this.vx;
-      this.y += this.vy;
+      this.x += this.speedX;
+      this.y += this.speedY;
       const pct = this.life / this.maxLife;
-      if (pct < 0.15) this.alpha = (pct / 0.15) * this.maxAlpha;
-      else if (pct > 0.8) this.alpha = ((1 - pct) / 0.2) * this.maxAlpha;
+      if (pct < 0.12) this.alpha = (pct / 0.12) * this.maxAlpha;
+      else if (pct > 0.82) this.alpha = ((1 - pct) / 0.18) * this.maxAlpha;
       else this.alpha = this.maxAlpha;
-      if (this.life > this.maxLife || this.y < -10) this.reset(false);
+      /* Reset if it goes off bottom or off left side */
+      if (this.y > H + 80 || this.x < -80) this.reset(false);
     }
     draw() {
+      if (this.delay > 0) return;
+      const ratio = this.speedX / this.speedY;
+      const tailX = this.x - this.len * ratio;
+      const tailY = this.y - this.len;
+      const grad = ctx.createLinearGradient(tailX, tailY, this.x, this.y);
+      grad.addColorStop(0, `rgba(66,165,245,0)`);
+      grad.addColorStop(1, `rgba(66,165,245,${this.alpha})`);
+      ctx.save();
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = this.width;
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(66,165,245,${this.alpha})`;
-      ctx.fill();
+      ctx.moveTo(tailX, tailY);
+      ctx.lineTo(this.x, this.y);
+      ctx.stroke();
+      ctx.restore();
     }
   }
 
   function init() {
     resize();
-    particles = Array.from({ length: 90 }, () => new Particle());
+    const isMobile = window.innerWidth <= 768;
+    /* Minimalist count: 5 on PC, 2 on Mobile */
+    const bCount = isMobile ? 2 : 5;
+    diagonalBeams = Array.from({ length: bCount }, (v, i) => new DiagonalBeam(i));
   }
 
   function tick() {
     ctx.clearRect(0, 0, W, H);
-    /* Grid lines */
-    ctx.strokeStyle = 'rgba(30,136,229,0.055)';
-    ctx.lineWidth = 1;
-    for (let x = 0; x < W; x += 60) {
-      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-    }
-    for (let y = 0; y < H; y += 60) {
-      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-    }
-    particles.forEach(p => { p.update(); p.draw(); });
+    diagonalBeams.forEach(b => { b.update(); b.draw(); });
     requestAnimationFrame(tick);
   }
 
   window.addEventListener('resize', () => { resize(); }, { passive: true });
   init();
   tick();
+
+  /* Intersection Observer to hide meteors in Hero section */
+  const hero = qs('#hero');
+  if (hero) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          canvas.style.opacity = '0';
+        } else {
+          canvas.style.opacity = '1';
+        }
+      });
+    }, { threshold: 0.1 });
+    io.observe(hero);
+  }
 }
 
 /* ─── BOOT ──────────────────────────────────────────────────── */
@@ -555,4 +571,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initHeroScrollParallax();
   initParticles();
+  initMeteors();
 });

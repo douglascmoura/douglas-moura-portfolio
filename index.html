@@ -667,6 +667,7 @@
      MAIN WRAPPER FOR PARALLAX FOOTER
      =================================================== -->
   <div class="main-wrapper">
+    <canvas id="meteor-canvas" aria-hidden="true" style="position:fixed; inset:0; width:100%; height:100%; z-index:-2; pointer-events:none; opacity:0; transition: opacity 1.5s ease;"></canvas>
 
     <!-- ===================================================
      HERO
@@ -705,7 +706,7 @@
             <!-- SUBTITLE -->
             <p class="body-lg text-muted sr sr-d3" style="max-width:52ch; margin-bottom:2.5rem;">
               Estatística aplicada com <strong class="highlight-word">excelência em código</strong>. Desenvolvo <strong
-                class="highlight-word">pipelines eficientes</strong> e <strong class="highlight-word">painéis
+                class="highlight-word"><em>pipelines</em> eficientes</strong> e <strong class="highlight-word">painéis
                 interativos</strong> que traduzem a complexidade dos números em <strong class="highlight-word">clareza
                 visual</strong> e <strong class="highlight-word">vantagem competitiva</strong>.
             </p>
@@ -740,7 +741,7 @@
 
             <!-- SLICES CONTAINER -->
             <div class="hero-slices" id="hero-slices" style="display: flex; gap: 4px; height: 100%;">
-              
+
               <div class="hero-slice" data-slice="0"
                 style="flex: 1; height: 100%; clip-path: inset(18% 0 10% 0 round 10px);">
                 <img src="assets/img/fotos/reitoria_2_slice_0.png" alt="Slice 0" class="w-full h-full object-cover">
@@ -800,15 +801,18 @@
 
         <!-- PC Indicator -->
         <div class="indicator-pc">
-          <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.2em; color:rgba(100,181,246,0.4); margin-bottom:0.5rem; font-family:'Courier New',monospace;">
+          <div
+            style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.2em; color:rgba(100,181,246,0.4); margin-bottom:0.5rem; font-family:'Courier New',monospace;">
             scroll</div>
-          <div style="width:1px; height:40px; background:linear-gradient(to bottom,rgba(66,165,245,0.5),transparent); margin:0 auto; animation:floatY 2s ease-in-out infinite;">
+          <div
+            style="width:1px; height:40px; background:linear-gradient(to bottom,rgba(66,165,245,0.5),transparent); margin:0 auto; animation:floatY 2s ease-in-out infinite;">
           </div>
         </div>
 
         <!-- Mobile Indicator -->
         <div class="indicator-mobile">
-          <div style="width:1px; height:35px; background:linear-gradient(to bottom, rgba(215, 181, 109, 0.2), transparent); position:relative;">
+          <div
+            style="width:1px; height:35px; background:linear-gradient(to bottom, rgba(215, 181, 109, 0.2), transparent); position:relative;">
             <div class="floating-dot" style="position:absolute; left:-1.5px;"></div>
           </div>
         </div>
@@ -1011,7 +1015,7 @@
             <div class="sr sr-d5" style="display:flex; gap:1rem; flex-wrap:wrap;">
               <a href="#projetos" class="btn btn-primary">Ver meus projetos</a>
               <a href="assets/Douglas_Moura___Curriculum_Vitae.pdf" target="_blank" rel="noopener noreferrer"
-                class="btn btn-outline">Curriculum Vitae</a>
+                class="btn btn-outline"><em>Curriculum Vitae</em></a>
             </div>
           </div>
 
@@ -1735,7 +1739,7 @@
                 <div class="skill-card__bar-bg">
                   <div class="skill-card__bar" data-level="0.4"></div>
                 </div>
-                <div class="skill-card__level">Iniciante</div>
+                <div class="skill-card__level">Básico</div>
               </div>
               <div class="skill-card">
                 <div class="skill-card__icon">
@@ -1749,7 +1753,7 @@
                 <div class="skill-card__bar-bg">
                   <div class="skill-card__bar" data-level="0.21"></div>
                 </div>
-                <div class="skill-card__level">Iniciante</div>
+                <div class="skill-card__level">Básico</div>
               </div>
               <div class="skill-card">
                 <div class="skill-card__icon">
@@ -1777,7 +1781,7 @@
                 <div class="skill-card__bar-bg">
                   <div class="skill-card__bar" data-level="0.3"></div>
                 </div>
-                <div class="skill-card__level">Iniciante</div>
+                <div class="skill-card__level">Básico</div>
               </div>
             </div>
           </div>
