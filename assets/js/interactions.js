@@ -124,6 +124,13 @@ function initNavbar() {
 
 /* ─── SCROLL REVEAL ─────────────────────────────────────────── */
 function initScrollReveal() {
+  /* OTIMIZAÇÃO: Desativa as animações de rolagem no celular para economizar CPU/Bateria */
+  if (window.innerWidth <= 768) {
+    qsa('.sr').forEach(el => el.classList.add('in-view'));
+    qsa('.tr-wrap').forEach(el => el.classList.add('revealed'));
+    return;
+  }
+  
   const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
