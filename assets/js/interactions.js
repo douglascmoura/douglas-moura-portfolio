@@ -130,7 +130,7 @@ function initScrollReveal() {
     qsa('.tr-wrap').forEach(el => el.classList.add('revealed'));
     return;
   }
-  
+
   const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -211,11 +211,16 @@ function initCounters() {
 
 /* ─── FLASHLIGHT CARDS ──────────────────────────────────────── */
 function initFlashlight() {
-  qsa('.proj-card.flashlight').forEach(card => {
+  /* OTIMIZAÇÃO: Desliga o rastreamento do mouse no mobile e usa requestAnimationFrame para PC */
+  if (window.innerWidth <= 768) return;
+
+  qsa('.flashlight').forEach(card => {
     card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      card.style.setProperty('--mx', `${e.clientX - rect.left}px`);
-      card.style.setProperty('--my', `${e.clientY - rect.top}px`);
+      requestAnimationFrame(() => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--my', `${e.clientY - rect.top}px`);
+      });
     });
   });
 }

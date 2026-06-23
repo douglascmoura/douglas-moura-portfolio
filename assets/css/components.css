@@ -1130,26 +1130,26 @@
   content: "";
   position: absolute;
   top: 0;
-  left: -100%;
+  left: 0;
   width: 80%;
   height: 100%;
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.025) 50%, rgba(255, 255, 255, 0) 100%);
-  transform: skewX(-50deg);
+  transform: translateX(-150%) skewX(-50deg);
   animation: certSweepShine 10s infinite ease-in-out;
   pointer-events: none;
 }
 
 @keyframes certSweepShine {
   0% {
-    left: -100%;
+    transform: translateX(-150%) skewX(-50deg);
   }
 
   15% {
-    left: 200%;
+    transform: translateX(250%) skewX(-50deg);
   }
 
   100% {
-    left: 200%;
+    transform: translateX(250%) skewX(-50deg);
   }
 }
 
