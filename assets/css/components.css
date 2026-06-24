@@ -597,7 +597,7 @@
   }
 
   .timeline::after {
-    left: 20px;
+    display: none;
   }
 }
 

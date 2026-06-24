@@ -357,6 +357,12 @@
       animation-duration: 40s;
     }
 
+    @media (max-width: 768px) {
+      .meteor-shower, #meteor-canvas {
+        display: none !important;
+      }
+    }
+
     /* ── Eyebrow ───────────────────────────────────────────────────── */
     .hero-eyebrow {
       font-family: 'Courier New', monospace;
@@ -2286,7 +2292,7 @@
      =================================================== -->
   <footer class="footer-sticky" role="contentinfo">
     <!-- Background Image -->
-    <img src="assets/img/vatican_1.jpg" alt="Vatican Overlay" class="footer-bg-img" loading="lazy" />
+    <img src="assets/img/vatican_1.webp" alt="Vatican Overlay" class="footer-bg-img" loading="lazy" decoding="async" />
     <div class="footer-overlay"></div>
 
     <div class="footer-sticky-content">

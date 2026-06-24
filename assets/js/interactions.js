@@ -447,6 +447,7 @@ function initHeroScrollParallax() {
 
 /* ─── METEOR SHOWER (GLOBAL) ────────────────────────────────── */
 function initMeteors() {
+  if (window.innerWidth <= 768) return; // OPTIMIZATION: Disables the Canvas repainting loop on mobile
   const canvas = qs('#meteor-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -541,8 +542,8 @@ function initMeteors() {
   function init() {
     resize();
     const isMobile = window.innerWidth <= 768;
-    /* Minimalist count: 5 on PC, 2 on Mobile */
-    const bCount = isMobile ? 2 : 5;
+    /* Minimalist count: 5 on PC, 3 on Mobile */
+    const bCount = isMobile ? 3 : 5;
     diagonalBeams = Array.from({ length: bCount }, (v, i) => new DiagonalBeam(i));
   }
 
