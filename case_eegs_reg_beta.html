@@ -5,7 +5,7 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/img/favicon.png" />
   <link rel="apple-touch-icon" href="assets/img/favicon.png" />
-  
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
@@ -197,6 +197,12 @@
     .cursor-ring {
       border-color: rgba(215, 181, 109, 0.85) !important;
       box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
+    }
+    @media (max-width: 768px) {
+      .article-img-wrap::before {
+        display: none !important;
+        animation: none !important;
+      }
     }
   </style>
 </head>

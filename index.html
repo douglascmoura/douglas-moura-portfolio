@@ -5,7 +5,7 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/img/favicon.png" />
   <link rel="apple-touch-icon" href="assets/img/favicon.png" />
-  
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -362,7 +362,9 @@
     }
 
     @media (max-width: 768px) {
-      .meteor-shower, #meteor-canvas {
+
+      .meteor-shower,
+      #meteor-canvas {
         display: none !important;
       }
     }
@@ -621,14 +623,7 @@
 
 <body>
 
-  <!-- Custom Meteor Shower Background (Replaces Unicorn Studio) -->
-  <div class="meteor-shower" aria-hidden="true">
-    <div class="meteor"></div>
-    <div class="meteor"></div>
-    <div class="meteor"></div>
-    <div class="meteor"></div>
-    <div class="meteor"></div>
-  </div>
+
 
   <!-- noise texture -->
   <div class="noise" aria-hidden="true"></div>
@@ -705,7 +700,7 @@
      =================================================== -->
   <div class="main-wrapper">
     <canvas id="meteor-canvas" aria-hidden="true"
-      style="position:fixed; inset:0; width:100%; height:100%; z-index:-2; pointer-events:none; opacity:0; transition: opacity 1.5s ease;"></canvas>
+      style="position:fixed; inset:0; width:100%; height:100%; z-index:-2; pointer-events:none; opacity:0; transition: opacity 1.5s ease; filter: drop-shadow(0 0 10px rgba(66, 165, 245, 0.5));"></canvas>
 
     <!-- ===================================================
      HERO
@@ -1175,6 +1170,16 @@
               <img src="assets/img/laurea_dourada.png" alt="Selo Ouro" class="cert-seal" />
             </div>
           </div>
+        </div>
+
+        <div class="sr sr-d3" style="display:flex; justify-content:center; margin-top: 4rem;">
+          <a href="certificacoes.html" class="btn btn-outline">
+            Explorar Certificações
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              style="margin-left: 0.5rem;">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
         </div>
       </div>
     </section>
@@ -2102,8 +2107,8 @@
                 </div>
                 <div>
                   <div class="contact-info-label">LinkedIn</div>
-                  <a href="https://www.linkedin.com/in/douglas-chaves-moura" target="_blank"
-                    rel="noopener noreferrer" class="contact-info-value">linkedin.com/in/douglas-chaves-moura</a>
+                  <a href="https://www.linkedin.com/in/douglas-chaves-moura" target="_blank" rel="noopener noreferrer"
+                    class="contact-info-value">linkedin.com/in/douglas-chaves-moura</a>
                 </div>
               </div>
               <div class="contact-info-item">
@@ -2375,7 +2380,7 @@
     /* Parallax Footer Scroll Reveal */
     (function () {
       if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        // Revelar o texto do footer
+        // Reveal footer text
         gsap.from('.footer-sticky-content > div:first-child', {
           y: 80,
           opacity: 0,
@@ -2388,10 +2393,10 @@
           }
         });
 
-        // Esconder a navegação ao chegar no footer
+        // Hide navigation upon reaching the footer
         ScrollTrigger.create({
           trigger: '.main-wrapper',
-          start: 'bottom 95%', // Quando o fim do conteúdo principal entra na tela
+          start: 'bottom 95%', // When the end of the main content enters the screen
           onEnter: () => gsap.to('.nav', { y: '-100%', opacity: 0, duration: 0.4, ease: 'power2.out' }),
           onLeaveBack: () => gsap.to('.nav', { y: '0%', opacity: 1, duration: 0.4, ease: 'power2.out' })
         });

@@ -124,7 +124,7 @@ function initNavbar() {
 
 /* ─── SCROLL REVEAL ─────────────────────────────────────────── */
 function initScrollReveal() {
-  /* OTIMIZAÇÃO: Desativa as animações de rolagem no celular para economizar CPU/Bateria */
+  /* OPTIMIZATION: Disable scroll animations on mobile to conserve CPU/Battery */
   if (window.innerWidth <= 768) {
     qsa('.sr').forEach(el => el.classList.add('in-view'));
     qsa('.tr-wrap').forEach(el => el.classList.add('revealed'));
@@ -187,22 +187,30 @@ function initTimelineAnim() {
 function initCounters() {
   const counters = qsa('[data-count]');
   if (!counters.length) return;
+
+  const isMobile = window.innerWidth <= 768;
+
   const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       const el = entry.target;
       const end = parseFloat(el.dataset.count);
       const dec = el.dataset.dec || 0;
-      const dur = 1800;
-      const start = performance.now();
-      function update(now) {
-        const t = Math.min((now - start) / dur, 1);
-        const ease = 1 - Math.pow(1 - t, 4);
-        el.textContent = (end * ease).toFixed(dec);
-        if (t < 1) requestAnimationFrame(update);
-        else el.textContent = end.toFixed(dec);
+
+      if (isMobile) {
+        el.textContent = end.toFixed(dec);
+      } else {
+        const dur = 1800;
+        const start = performance.now();
+        function update(now) {
+          const t = Math.min((now - start) / dur, 1);
+          const ease = 1 - Math.pow(1 - t, 4);
+          el.textContent = (end * ease).toFixed(dec);
+          if (t < 1) requestAnimationFrame(update);
+          else el.textContent = end.toFixed(dec);
+        }
+        requestAnimationFrame(update);
       }
-      requestAnimationFrame(update);
       io.unobserve(el);
     });
   }, { threshold: 0.5 });
@@ -447,7 +455,7 @@ function initHeroScrollParallax() {
 
 /* ─── METEOR SHOWER (GLOBAL) ────────────────────────────────── */
 function initMeteors() {
-  if (window.innerWidth <= 768) return; // OPTIMIZATION: Disables the Canvas repainting loop on mobile
+  if (window.innerWidth <= 768) return;
   const canvas = qs('#meteor-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -461,43 +469,30 @@ function initMeteors() {
   class DiagonalBeam {
     constructor(index = 0) { this.reset(true, index); }
     reset(init, index = 0) {
-      /* =========================================
-         [MANUAL TUNING] - FREQUENCY & SPEED
-         ========================================= */
-      /* 1. DELAY (in frames. 60 frames = 1 sec)
-         Min & Max time the meteor "sleeps" off-screen before spawning.
-         Higher values = less frequent meteors. */
-      const minWaitFrames = 300;    // ~5 seconds minimum
-      const randomWaitFrames = 420; // Up to +7 seconds extra (max ~12s)
-
-      /* 2. SPEED
-         Base speed multiplier. */
+      const minWaitFrames = 300;
+      const randomWaitFrames = 420;
       const baseSpeed = Math.random() * 2.0 + 1.2;
-      /* ========================================= */
 
-      /* Initial spawn (init): enforce perfect stagger so they don't clump */
+      /* Enforce stagger on initial spawn */
       if (init) {
-        this.delay = index * 260 + (Math.random() * 60); 
+        this.delay = index * 260 + (Math.random() * 60);
       } else {
         this.delay = Math.random() * randomWaitFrames + minWaitFrames;
       }
 
-      /* Fixed angle (45 degrees) */
+      /* 45 degree angle */
       this.speedX = -baseSpeed * 1.0;
       this.speedY = baseSpeed * 1.0;
 
-      /* Spawn strictly off-screen to avoid popping in */
+      /* Spawn gracefully inside the viewport or near top/right edges */
       if (Math.random() > 0.5) {
-        /* Spawn on TOP edge: spread across total width */
-        this.x = Math.random() * (W + 600); 
-        this.y = -(Math.random() * 200 + 50); 
+        this.x = Math.random() * (W + 400);
+        this.y = (Math.random() * (H * 0.6)) - 100;
       } else {
-        /* Spawn on RIGHT edge: spread across total height */
-        this.x = W + (Math.random() * 300 + 50); 
-        this.y = Math.random() * H - 100; 
+        this.x = (Math.random() * (W * 0.6)) + (W * 0.5);
+        this.y = (Math.random() * (H * 0.8)) - 50;
       }
 
-      /* Longer tails for higher speed */
       this.len = Math.random() * 180 + 100;
       this.width = Math.random() * 0.6 + 0.2;
       this.alpha = 0;
@@ -514,10 +509,12 @@ function initMeteors() {
       this.x += this.speedX;
       this.y += this.speedY;
       const pct = this.life / this.maxLife;
+      
       if (pct < 0.12) this.alpha = (pct / 0.12) * this.maxAlpha;
       else if (pct > 0.82) this.alpha = ((1 - pct) / 0.18) * this.maxAlpha;
       else this.alpha = this.maxAlpha;
-      /* Reset if it goes off bottom or off left side */
+      
+      /* Reset if off-screen (bottom-left) */
       if (this.y > H + 80 || this.x < -80) this.reset(false);
     }
     draw() {
@@ -526,8 +523,10 @@ function initMeteors() {
       const tailX = this.x - this.len * ratio;
       const tailY = this.y - this.len;
       const grad = ctx.createLinearGradient(tailX, tailY, this.x, this.y);
+      
       grad.addColorStop(0, `rgba(66,165,245,0)`);
       grad.addColorStop(1, `rgba(66,165,245,${this.alpha})`);
+      
       ctx.save();
       ctx.strokeStyle = grad;
       ctx.lineWidth = this.width;
@@ -542,35 +541,139 @@ function initMeteors() {
   function init() {
     resize();
     const isMobile = window.innerWidth <= 768;
-    /* Minimalist count: 5 on PC, 3 on Mobile */
     const bCount = isMobile ? 3 : 5;
     diagonalBeams = Array.from({ length: bCount }, (v, i) => new DiagonalBeam(i));
   }
 
+  let isRunning = false;
+  let animId = null;
+
   function tick() {
+    if (!isRunning) return;
     ctx.clearRect(0, 0, W, H);
     diagonalBeams.forEach(b => { b.update(); b.draw(); });
-    requestAnimationFrame(tick);
+    animId = requestAnimationFrame(tick);
   }
 
   window.addEventListener('resize', () => { resize(); }, { passive: true });
   init();
-  tick();
 
-  /* Intersection Observer to hide meteors in Hero section */
+  /* Pause meteors rendering while in Hero section */
   const hero = qs('#hero');
   if (hero) {
     const io = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           canvas.style.opacity = '0';
+          isRunning = false;
+          if (animId) cancelAnimationFrame(animId);
         } else {
           canvas.style.opacity = '1';
+          if (!isRunning) {
+            isRunning = true;
+            tick();
+          }
         }
       });
     }, { threshold: 0.1 });
     io.observe(hero);
+  } else {
+    isRunning = true;
+    tick();
   }
+}
+
+/* ─── CERTIFICATES CAROUSEL ─────────────────────────────────── */
+function initCertCarousel() {
+  const isMobile = window.innerWidth <= 768;
+  const carousels = document.querySelectorAll('.cert-carousel-wrapper');
+
+  if (carousels.length === 0) return;
+
+  carousels.forEach(wrapper => {
+    const track = wrapper.querySelector('.cert-carousel-track');
+    const slides = Array.from(wrapper.querySelectorAll('.cert-carousel-slide'));
+    const prevBtn = wrapper.querySelector('.cert-prev');
+    const nextBtn = wrapper.querySelector('.cert-next');
+
+    if (slides.length < 3 || isMobile) {
+      wrapper.style.height = 'auto';
+      wrapper.style.perspective = 'none';
+      if (track) {
+        track.style.display = 'flex';
+        track.style.flexDirection = 'column';
+        track.style.gap = '2rem';
+      }
+      slides.forEach(slide => {
+        slide.className = 'cert-carousel-slide';
+        slide.style.position = 'relative';
+        slide.style.opacity = '1';
+        slide.style.visibility = 'visible';
+        slide.style.transform = 'none';
+        slide.style.filter = 'none';
+        slide.style.maxWidth = '100%';
+      });
+      if (prevBtn) prevBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'none';
+      return;
+    }
+
+    let currentIndex = 0;
+    let autoPlayTimer;
+
+    function updateCarousel() {
+      slides.forEach((slide, i) => {
+        slide.className = 'cert-carousel-slide';
+        if (i === currentIndex) {
+          slide.classList.add('active');
+        } else if (i === (currentIndex - 1 + slides.length) % slides.length) {
+          slide.classList.add('prev');
+        } else if (i === (currentIndex + 1) % slides.length) {
+          slide.classList.add('next');
+        } else {
+          // Calculate distance to hide left or right
+          const dist = (i - currentIndex + slides.length) % slides.length;
+          if (dist > slides.length / 2) {
+            slide.classList.add('hidden-left');
+          } else {
+            slide.classList.add('hidden-right');
+          }
+        }
+      });
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % slides.length;
+      updateCarousel();
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      updateCarousel();
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        prevSlide();
+        resetTimer();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        nextSlide();
+        resetTimer();
+      });
+    }
+
+    function resetTimer() {
+      clearInterval(autoPlayTimer);
+      autoPlayTimer = setInterval(nextSlide, 7000);
+    }
+
+    updateCarousel();
+    resetTimer();
+  });
 }
 
 /* ─── BOOT ──────────────────────────────────────────────────── */
@@ -585,4 +688,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroScrollParallax();
   initParticles();
   initMeteors();
+  initCertCarousel();
 });
+
