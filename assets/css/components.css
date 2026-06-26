@@ -1879,6 +1879,20 @@ a.glass:hover {
   margin-top: 1rem;
 }
 
+/* ─── MOBILE PERFORMANCE OPTIMIZATIONS ──────────────────────── */
+@media (max-width: 768px) {
+  /* Disable light beam on Academic Certificate */
+  .cert-shine-container {
+    display: none !important;
+  }
+  
+  /* Disable light beam on Project Cards */
+  .proj-card__scan-beam {
+    display: none !important;
+    animation: none !important;
+  }
+}
+
 .cert-carousel-btn {
   background: rgba(10, 22, 44, 0.6);
   border: 1px solid rgba(215, 181, 109, 0.3);
