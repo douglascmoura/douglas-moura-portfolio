@@ -44,5 +44,6 @@ site_dochmo/
 ├── case_ips_brasil.html                # Case: Análise Espacial (Boxmaps e Mapeamento)
 ├── case_ising_2d.html                  # Case: Simulação Estocástica (Monte Carlo e JIT)
 ├── case_series_temporais.html          # Case: Econometria Computacional R (SARIMA/Holt-Winters)
-└── case_titanic.html                   # Case: Machine Learning (Ensembles e EDA)
+├── case_titanic.html                   # Case: Machine Learning (Ensembles e EDA)
+└── certificacoes.html                  # Página de apresentação dos meus certificados
 ```
