@@ -1073,6 +1073,16 @@
 }
 
 @media (max-width: 768px) {
+  .main-wrapper {
+    margin-bottom: 0 !important;
+  }
+
+  .footer-sticky {
+    position: relative !important;
+    height: auto !important;
+    min-height: 70vh;
+  }
+
   .footer-phrase {
     font-size: 2.2rem;
   }
