@@ -1946,21 +1946,37 @@ a.glass:hover {
     animation-delay: 0s !important;
   }
 }
-/* --- TAILWIND REPLACEMENTS --- */
+/* --- TAILWIND REPLACEMENTS E AJUSTES DE GRID --- */
 .h-full { height: 100%; }
 .w-full { width: 100%; }
 .object-cover { object-fit: cover; }
 .hidden { display: none; }
 .text-center { text-align: center; }
 .p-2 { padding: 0.5rem; }
-.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.px-6 { padding-left: 2rem !important; padding-right: 2rem !important; } /* Aumentado para 32px no mobile a pedido do usuário */
 .text-blue-200 { color: #bfdbfe; } /* Tailwind blue-200 */
+
+/* Reset do botão de menu mobile (substituindo o Preflight do Tailwind) */
+#menu-toggle {
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#menu-toggle svg {
+    width: 28px; /* Aumentado para melhor toque e visual premium */
+    height: 28px;
+    stroke-width: 1.5;
+}
 
 @media (min-width: 768px) {
     .md\:hidden { display: none !important; }
     .md\:inline-flex { display: inline-flex !important; }
-    .md\:px-12 { padding-left: 3rem; padding-right: 3rem; }
+    .md\:px-12 { padding-left: 3rem !important; padding-right: 3rem !important; }
 }
 @media (min-width: 1024px) {
-    .lg\:px-20 { padding-left: 5rem; padding-right: 5rem; }
+    .lg\:px-20 { padding-left: 5rem !important; padding-right: 5rem !important; }
 }
