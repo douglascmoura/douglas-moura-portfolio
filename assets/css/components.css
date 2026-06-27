@@ -1930,6 +1930,11 @@ a.glass:hover {
     -webkit-backdrop-filter: none !important;
   }
 
+  /* Disable heavy SVG noise and animated gradients */
+  .noise, .ambient-blob {
+    display: none !important;
+  }
+
   /* 2. Remove all animation/transition delays for immediate rendering */
   .sr,
   .tr-wrap {
