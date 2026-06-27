@@ -19,13 +19,10 @@
     rel="stylesheet" />
 
   <!-- CSS -->
-  <link rel="stylesheet" href="assets/css/base.css" />
-  <link rel="stylesheet" href="assets/css/animations.css" />
-  <link rel="stylesheet" href="assets/css/components.css" />
-
+<link href="assets/css/style.min.css" rel="stylesheet"/>
   <!-- GSAP & Tailwind -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   
 
   <style>
@@ -246,7 +243,7 @@
             border-radius: 8px;
             background: rgba(11, 19, 32, 0.6);
             border: 1px solid rgba(215, 181, 109, 0.2);
-            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
           }
 
           .dochmo-table {
@@ -323,7 +320,7 @@
      SECTION: MAIN NAVIGATION
      ========================================== -->
   <nav class="nav" role="navigation" aria-label="Navegação principal"
-    style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px);">
+    style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);">
     <a href="index.html" class="nav-logo"
       style="font-family: var(--font-display); font-size: 1.5rem; color: #F8F9FA; text-decoration: none; font-weight: 700; letter-spacing: 2px;">DOCH<span
         style="color:#D7B56D">MO</span></a>
@@ -649,6 +646,8 @@
   </footer>
 
   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
     // GSAP Scroll Animations
     gsap.registerPlugin(ScrollTrigger);
 
@@ -690,6 +689,8 @@
         });
       });
     }
+  
+    });
   </script>
 </body>
 
