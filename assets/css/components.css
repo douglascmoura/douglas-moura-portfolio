@@ -1073,16 +1073,6 @@
 }
 
 @media (max-width: 768px) {
-  .main-wrapper {
-    margin-bottom: 0 !important;
-  }
-
-  .footer-sticky {
-    position: relative !important;
-    height: auto !important;
-    min-height: 70vh;
-  }
-
   .footer-phrase {
     font-size: 2.2rem;
   }
@@ -1955,4 +1945,22 @@ a.glass:hover {
     transition-delay: 0s !important;
     animation-delay: 0s !important;
   }
+}
+/* --- TAILWIND REPLACEMENTS --- */
+.h-full { height: 100%; }
+.w-full { width: 100%; }
+.object-cover { object-fit: cover; }
+.hidden { display: none; }
+.text-center { text-align: center; }
+.p-2 { padding: 0.5rem; }
+.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.text-blue-200 { color: #bfdbfe; } /* Tailwind blue-200 */
+
+@media (min-width: 768px) {
+    .md\:hidden { display: none !important; }
+    .md\:inline-flex { display: inline-flex !important; }
+    .md\:px-12 { padding-left: 3rem; padding-right: 3rem; }
+}
+@media (min-width: 1024px) {
+    .lg\:px-20 { padding-left: 5rem; padding-right: 5rem; }
 }

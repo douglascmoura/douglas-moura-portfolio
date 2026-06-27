@@ -237,6 +237,10 @@ function initFlashlight() {
 function initParticles() {
   const canvas = qs('#hero-canvas');
   if (!canvas) return;
+  if (window.innerWidth <= 768) {
+    canvas.style.display = 'none';
+    return;
+  }
   const ctx = canvas.getContext('2d');
   let W, H, particles;
 
