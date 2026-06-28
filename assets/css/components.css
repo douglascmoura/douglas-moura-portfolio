@@ -3,6 +3,17 @@
    Buttons, cards, badges, cursor, navbar, timeline, skills
    ============================================================ */
 
+/* ─── GLOBAL MOBILE OPTIMIZATIONS ──────────────────────────── */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Premium active state for interactive elements */
+.btn:active, .cert-carousel-btn:active, .skill-card:active {
+  transform: scale(0.96) !important;
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* ─── CUSTOM CURSOR (desktop only) ─────────────────────────── */
 .cursor-ring {
   position: fixed;

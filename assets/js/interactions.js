@@ -237,10 +237,7 @@ function initFlashlight() {
 function initParticles() {
   const canvas = qs('#hero-canvas');
   if (!canvas) return;
-  if (window.innerWidth <= 768) {
-    canvas.style.display = 'none';
-    return;
-  }
+  // Particles enabled on mobile per request
   const ctx = canvas.getContext('2d');
   let W, H, particles;
 
@@ -459,7 +456,6 @@ function initHeroScrollParallax() {
 
 /* ─── METEOR SHOWER (GLOBAL) ────────────────────────────────── */
 function initMeteors() {
-  if (window.innerWidth <= 768) return;
   const canvas = qs('#meteor-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
