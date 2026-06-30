@@ -1947,21 +1947,6 @@ a.glass:hover {
     display: none !important;
   }
 
-  /* 2. Remove all animation/transition delays for immediate rendering */
-  .sr,
-  .tr-wrap {
-    transition-duration: 0.3s !important;
-    /* Fast fallback if needed */
-  }
-
-  .sr-d1,
-  .sr-d2,
-  .sr-d3,
-  .sr-d4,
-  .sr-d5 {
-    transition-delay: 0s !important;
-    animation-delay: 0s !important;
-  }
 }
 /* --- TAILWIND REPLACEMENTS E AJUSTES DE GRID --- */
 .h-full { height: 100%; }
