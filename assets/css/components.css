@@ -234,7 +234,7 @@
   transition: left 0.5s ease;
 }
 
-.btn:hover::before {
+.btn:hover::before, .btn:active::before {
   left: 100%;
 }
 

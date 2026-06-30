@@ -124,12 +124,6 @@ function initNavbar() {
 
 /* ─── SCROLL REVEAL ─────────────────────────────────────────── */
 function initScrollReveal() {
-  /* OPTIMIZATION: Disable scroll animations on mobile to conserve CPU/Battery */
-  if (window.innerWidth <= 768) {
-    qsa('.sr').forEach(el => el.classList.add('in-view'));
-    qsa('.tr-wrap').forEach(el => el.classList.add('revealed'));
-    return;
-  }
 
   const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -509,11 +503,11 @@ function initMeteors() {
       this.x += this.speedX;
       this.y += this.speedY;
       const pct = this.life / this.maxLife;
-      
+
       if (pct < 0.12) this.alpha = (pct / 0.12) * this.maxAlpha;
       else if (pct > 0.82) this.alpha = ((1 - pct) / 0.18) * this.maxAlpha;
       else this.alpha = this.maxAlpha;
-      
+
       /* Reset if off-screen (bottom-left) */
       if (this.y > H + 80 || this.x < -80) this.reset(false);
     }
@@ -523,10 +517,10 @@ function initMeteors() {
       const tailX = this.x - this.len * ratio;
       const tailY = this.y - this.len;
       const grad = ctx.createLinearGradient(tailX, tailY, this.x, this.y);
-      
+
       grad.addColorStop(0, `rgba(66,165,245,0)`);
       grad.addColorStop(1, `rgba(66,165,245,${this.alpha})`);
-      
+
       ctx.save();
       ctx.strokeStyle = grad;
       ctx.lineWidth = this.width;
