@@ -2185,25 +2185,25 @@
           <!-- Right: form -->
           <div class="sr sr--right">
             <div class="glass" style="border-radius:12px; padding:2.5rem;">
-              <form id="contact-form" novalidate="">
+              <form class="contact-form-el" id="contact-form" novalidate="">
                 <div class="form-group">
                   <label class="form-label" for="form-name">Nome completo</label>
-                  <input autocomplete="name" class="form-input" id="form-name" name="name"
+                  <input autocomplete="name" class="form-input form-input-name" id="form-name" name="name"
                     placeholder="Raimundo Araújo Chaves" required="" type="text" />
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="form-email">Email</label>
-                  <input autocomplete="email" class="form-input" id="form-email" name="email"
+                  <input autocomplete="email" class="form-input form-input-email" id="form-email" name="email"
                     placeholder="ramin@domínio.com" required="" type="email" />
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="form-subject">Assunto</label>
-                  <input autocomplete="off" class="form-input" id="form-subject" name="_subject"
+                  <input autocomplete="off" class="form-input form-input-subject" id="form-subject" name="_subject"
                     placeholder="Projeto de Machine Learning" required="" type="text" />
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="form-msg">Mensagem</label>
-                  <textarea autocomplete="off" class="form-textarea" id="form-msg" name="message"
+                  <textarea autocomplete="off" class="form-textarea form-input-msg" id="form-msg" name="message"
                     placeholder="Conte sobre seu projeto ou desafio…" required="" rows="5"></textarea>
                 </div>
                 <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:0.5rem;"
@@ -2342,6 +2342,39 @@
               <div class="contact-info-value">Fortaleza, CE · Disponível Remoto</div>
             </div>
           </a>
+
+          <!-- Mobile Form -->
+          <div class="glass sr sr-d6" style="border-radius:12px; padding:1.5rem; margin-top:1rem;">
+            <form class="contact-form-el" id="contact-form-mobile" novalidate="">
+              <div class="form-group">
+                <label class="form-label" for="form-name-mobile">Nome completo</label>
+                <input autocomplete="name" class="form-input form-input-name" id="form-name-mobile" name="name"
+                  placeholder="Raimundo Araújo Chaves" required="" type="text" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="form-email-mobile">Email</label>
+                <input autocomplete="email" class="form-input form-input-email" id="form-email-mobile" name="email"
+                  placeholder="ramin@domínio.com" required="" type="email" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="form-subject-mobile">Assunto</label>
+                <input autocomplete="off" class="form-input form-input-subject" id="form-subject-mobile" name="_subject"
+                  placeholder="Projeto de Machine Learning" required="" type="text" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="form-msg-mobile">Mensagem</label>
+                <textarea autocomplete="off" class="form-textarea form-input-msg" id="form-msg-mobile" name="message"
+                  placeholder="Conte sobre seu projeto ou desafio…" required="" rows="5"></textarea>
+              </div>
+              <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:0.5rem;"
+                type="submit">
+                Enviar mensagem
+                <svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+                  <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path>
+                </svg>
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </section>

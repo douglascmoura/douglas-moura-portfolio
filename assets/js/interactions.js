@@ -335,52 +335,129 @@ function initMobileMenu() {
 
 /* ─── CONTACT FORM ──────────────────────────────────────────── */
 function initContactForm() {
-  const form = qs('#contact-form');
-  if (!form) return;
+  const forms = qsa('.contact-form-el');
+  if (forms.length === 0) return;
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = form.querySelector('button[type="submit"]');
-    const orig = btn.textContent;
-    btn.textContent = 'Enviando...';
-    btn.disabled = true;
+  forms.forEach(form => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      if (!btn) return;
 
-    // Coleta os dados do formulário
-    const formData = new FormData();
+      const nameInput = form.querySelector('.form-input-name');
+      const emailInput = form.querySelector('.form-input-email');
+      const subjectInput = form.querySelector('.form-input-subject');
+      const msgInput = form.querySelector('.form-input-msg');
 
-    // Chave de acesso do Web3Forms (web3forms.com)
-    formData.append("access_key", "b367466a-89a0-40d3-856e-a08e9cc87a56");
+      if (!nameInput || !emailInput || !subjectInput || !msgInput) return;
 
-    formData.append("name", qs('#form-name').value);
-    formData.append("email", qs('#form-email').value);
-    formData.append("subject", qs('#form-subject').value);
-    formData.append("message", qs('#form-msg').value);
-
-    // Permite que você clique em "Responder" no seu e-mail e vá direto pro visitante
-    formData.append("replyto", qs('#form-email').value);
-
-    try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
+      // Reset styles
+      const inputs = [nameInput, emailInput, subjectInput, msgInput];
+      inputs.forEach(input => {
+        input.classList.remove('input-error');
       });
 
-      const result = await response.json();
+      let hasError = false;
+      let errorMsg = 'Preencha os campos!';
 
-      if (response.ok && result.success) {
-        btn.textContent = 'Mensagem enviada ✓';
-        setTimeout(() => { btn.textContent = orig; btn.disabled = false; form.reset(); }, 3500);
-      } else {
-        btn.textContent = 'Erro ao enviar. Tente novamente.';
+      if (nameInput.value.trim() === '') {
+        nameInput.classList.add('input-error');
+        hasError = true;
+      }
+
+      const emailVal = emailInput.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailVal === '') {
+        emailInput.classList.add('input-error');
+        hasError = true;
+      } else if (!emailRegex.test(emailVal)) {
+        emailInput.classList.add('input-error');
+        hasError = true;
+        errorMsg = 'E-mail inválido!';
+      }
+
+      if (subjectInput.value.trim() === '') {
+        subjectInput.classList.add('input-error');
+        hasError = true;
+      }
+
+      if (msgInput.value.trim() === '') {
+        msgInput.classList.add('input-error');
+        hasError = true;
+      }
+
+      if (hasError) {
+        const origText = btn.textContent;
+        const origBg = btn.style.background;
+        const origBoxShadow = btn.style.boxShadow;
+
+        btn.textContent = errorMsg;
+        btn.style.background = 'linear-gradient(135deg, #d32f2f 0%, #ef5350 100%)';
+        btn.style.boxShadow = '0 0 20px rgba(239, 83, 80, 0.4)';
+
+        // Remove highlight on input
+        const clearError = (el) => {
+          el.addEventListener('input', function handler() {
+            el.classList.remove('input-error');
+            el.removeEventListener('input', handler);
+          });
+        };
+        inputs.forEach(input => {
+          if (input.classList.contains('input-error')) {
+            clearError(input);
+          }
+        });
+
+        setTimeout(() => {
+          btn.textContent = origText;
+          btn.style.background = origBg;
+          btn.style.boxShadow = origBoxShadow;
+        }, 3000);
+        return;
+      }
+
+      // Proceed to submit if valid
+      const orig = btn.textContent;
+      btn.textContent = 'Enviando...';
+      btn.disabled = true;
+
+      // Coleta os dados do formulário
+      const formData = new FormData();
+
+      // Chave de acesso do Web3Forms (web3forms.com)
+      formData.append("access_key", "b367466a-89a0-40d3-856e-a08e9cc87a56");
+
+      formData.append("name", nameInput.value.trim());
+      formData.append("email", emailInput.value.trim());
+      formData.append("subject", subjectInput.value.trim());
+      formData.append("message", msgInput.value.trim());
+
+      // Permite que você clique em "Responder" no seu e-mail e vá direto pro visitante
+      formData.append("replyto", emailInput.value.trim());
+
+      try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          btn.textContent = 'Mensagem enviada ✓';
+          setTimeout(() => { btn.textContent = orig; btn.disabled = false; form.reset(); }, 3500);
+        } else {
+          btn.textContent = 'Erro ao enviar. Tente novamente.';
+          setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 3500);
+        }
+      } catch (error) {
+        btn.textContent = 'Erro de conexão.';
         setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 3500);
       }
-    } catch (error) {
-      btn.textContent = 'Erro de conexão.';
-      setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 3500);
-    }
+    });
   });
 }
 
