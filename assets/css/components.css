@@ -9,7 +9,7 @@
 }
 
 /* Premium active state for interactive elements */
-.btn:active, .cert-carousel-btn:active, .skill-card:active {
+.btn:active, .cert-carousel-btn:active, .skill-card:active, a.glass:active {
   transform: scale(0.96) !important;
   transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -936,6 +936,27 @@
   }
 }
 
+a.glass {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+a.glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transition: left 0.5s ease;
+}
+
+a.glass:hover::before, a.glass:active::before {
+  left: 100%;
+}
+
 /* ─── NEON GLOW TEXT ─────────────────────────────────────────── */
 .neon-text {
   animation: textGlowPulse 3.5s ease-in-out infinite;
@@ -955,7 +976,9 @@
   filter: drop-shadow(0 0 0 rgba(215, 181, 109, 0));
 }
 
-.contact-info-item:hover .premium-icon {
+.contact-info-item:hover .premium-icon,
+a.glass:hover .premium-icon,
+a.glass:active .premium-icon {
   filter: drop-shadow(0 0 8px rgba(215, 181, 109, 0.6));
 }
 
