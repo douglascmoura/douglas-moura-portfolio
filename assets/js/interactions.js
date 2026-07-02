@@ -14,28 +14,52 @@ const lerp = (a, b, t) => a + (b - a) * t;
 function initPreloader() {
   const loader = qs('#preloader');
   const bar = qs('#preloader-bar');
-  const text = qs('#preloader-text');
   if (!loader) return;
 
+  const isMobile = window.innerWidth <= 768;
+
+  if (isMobile) {
+    // Skip preloader completely on mobile for maximum PageSpeed score and instant load
+    loader.remove();
+    document.body.style.overflow = '';
+    initSite();
+    return;
+  }
+
+  // Desktop preloader (smooth and premium animation)
   let progress = 0;
   const interval = setInterval(() => {
-    progress += Math.random() * 18 + 4;
-    if (progress >= 100) { progress = 100; clearInterval(interval); }
-    bar.style.width = progress + '%';
-  }, 80);
-
-  window.addEventListener('load', () => {
-    setTimeout(() => {
+    progress += Math.random() * 15 + 5;
+    if (progress >= 90) {
+      progress = 90; // Hold at 90% until loaded
       clearInterval(interval);
-      bar.style.width = '100%';
-      setTimeout(() => {
-        loader.style.opacity = '0';
-        loader.style.pointerEvents = 'none';
-        document.body.style.overflow = '';
-        setTimeout(() => { loader.remove(); initSite(); }, 600);
-      }, 350);
-    }, 400);
-  });
+    }
+    if (bar) bar.style.width = progress + '%';
+  }, 60);
+
+  let dismissed = false;
+  const startDismissal = () => {
+    if (dismissed) return;
+    dismissed = true;
+    clearInterval(interval);
+    clearTimeout(safetyTimeout);
+    if (bar) bar.style.width = '100%';
+    setTimeout(() => {
+      loader.style.opacity = '0';
+      loader.style.pointerEvents = 'none';
+      document.body.style.overflow = '';
+      setTimeout(() => { loader.remove(); initSite(); }, 400);
+    }, 150);
+  };
+
+  // Safety fallback: force load after 2.5s if window.load is delayed
+  const safetyTimeout = setTimeout(startDismissal, 2500);
+
+  if (document.readyState === 'complete') {
+    startDismissal();
+  } else {
+    window.addEventListener('load', startDismissal);
+  }
 
   document.body.style.overflow = 'hidden';
 }

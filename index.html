@@ -52,10 +52,12 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap"
-    rel="stylesheet" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
+  </noscript>
   <!-- CSS -->
+  <link rel="preload" href="assets/css/style.min.css" as="style" />
   <link href="assets/css/style.min.css" rel="stylesheet" />
   <!-- Design tokens, reset, typography scale -->
   <!-- Keyframes, scroll-reveal, text-reveal, char animation -->
@@ -111,6 +113,54 @@
 
     .hero-text-side {
       padding: 1rem 0;
+    }
+
+    /* ── Hero Entrance CSS Animations (Performance & PageSpeed) ────── */
+    @keyframes heroFadeUp {
+      0% {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes heroFadeRight {
+      0% {
+        opacity: 0;
+        transform: translateX(15px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .hero-text-side .hero-eyebrow {
+      animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
+      opacity: 0;
+    }
+
+    .hero-text-side .hero-subtitle {
+      animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.18s forwards;
+      opacity: 0;
+    }
+
+    .hero-text-side .hero-buttons-container {
+      animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.28s forwards;
+      opacity: 0;
+    }
+
+    .hero-text-side .hero-decor-container {
+      animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.38s forwards;
+      opacity: 0;
+    }
+
+    .hero-stat-panel {
+      animation: heroFadeRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.48s forwards;
+      opacity: 0;
     }
 
     /* ── Hero Photo Panel ──────────────────────────────────────────── */
@@ -768,7 +818,7 @@
           <!-- ═══ LEFT: Text content ═══ -->
           <div class="hero-text-side" id="hero-text-side">
             <!-- EYEBROW -->
-            <div class="hero-eyebrow sr sr-d1">
+            <div class="hero-eyebrow">
               <span class="hero-eyebrow-dot"></span>
               Estatístico &amp; Cientista de Dados
               <span
@@ -776,25 +826,25 @@
             </div>
             <!-- MAIN TITLE -->
             <h1 style="margin-bottom:1.5rem; line-height:1.1;">
-              <span class="display-lg tr-wrap" style="display:block; margin-bottom:0.05em;">
+              <span class="display-lg tr-wrap revealed" style="display:block; margin-bottom:0.05em;">
                 <span class="tr-inner hero-title-main">Do Rigor</span>
               </span>
-              <span class="display-lg tr-wrap" data-delay="0.15s" style="display:block; margin-bottom:0.05em;">
+              <span class="display-lg tr-wrap revealed" data-delay="0.15s" style="display:block; margin-bottom:0.05em;">
                 <span class="tr-inner hero-title-main" style="transition-delay:0.15s;">Estatístico ao</span>
               </span>
-              <span class="display-lg tr-wrap" style="display:block;">
+              <span class="display-lg tr-wrap revealed" style="display:block;">
                 <span class="tr-inner hero-title-italic" style="transition-delay:0.28s;">Impacto Visual.</span>
               </span>
             </h1>
             <!-- SUBTITLE -->
-            <p class="body-lg text-muted sr sr-d3" style="max-width:52ch; margin-bottom:2.5rem;">
+            <p class="body-lg text-muted hero-subtitle" style="max-width:52ch; margin-bottom:2.5rem;">
               Estatística aplicada com <strong class="highlight-word">excelência em código</strong>. Desenvolvo <strong
                 class="highlight-word"><em>pipelines</em> eficientes</strong> e <strong class="highlight-word">painéis
                 interativos</strong> que traduzem a complexidade dos números em <strong class="highlight-word">clareza
                 visual</strong> e <strong class="highlight-word">vantagem competitiva</strong>.
             </p>
             <!-- CALL TO ACTIONS -->
-            <div class="sr sr-d4" style="display:flex; gap:1rem; flex-wrap:wrap;">
+            <div class="hero-buttons-container" style="display:flex; gap:1rem; flex-wrap:wrap;">
               <a class="btn btn-primary" href="#projetos">
                 Ver projetos
                 <svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
@@ -806,7 +856,7 @@
               </a>
             </div>
             <!-- DECORATION -->
-            <div class="sr sr-d5"
+            <div class="hero-decor-container"
               style="margin-top:3rem; font-family:'Courier New',monospace; font-size:0.72rem; color:rgba(100,181,246,0.35); display:flex; gap:0.5rem; flex-wrap:wrap;">
               <span style="color:rgba(66,165,245,0.6);">import</span>
               <span>dochmo</span>
@@ -869,7 +919,7 @@
           </div><!-- /hero-photo-panel -->
         </div><!-- /hero-grid -->
         <!-- STATS PANEL -->
-        <div class="hero-stat-panel sr sr--right sr-d3">
+        <div class="hero-stat-panel">
           <div class="hero-stat-item" style="text-align: left; max-width: 250px;">
             <div class="hero-stat-num" style="font-size: 1.1rem; font-family: var(--font-body); letter-spacing: 0;">
               Estatístico (UFC)</div>
