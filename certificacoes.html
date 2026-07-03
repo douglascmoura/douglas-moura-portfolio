@@ -380,6 +380,7 @@
           border-radius: 12px !important;
           box-shadow: none !important;
           background: transparent;
+          aspect-ratio: 2480 / 1754 !important;
         }
 
         .cert-card-header {
@@ -602,7 +603,7 @@
           transform: translate(-50%, -50%) scale(1);
           z-index: 3;
           filter: none;
-          box-shadow: 0 35px 80px rgba(0, 0, 0, 0.45), 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 50px rgba(215, 181, 109, 0.06);
+          box-shadow: 0 35px 80px rgba(0, 0, 0, 0.22), 0 10px 30px rgba(0, 0, 0, 0.1), 0 0 50px rgba(215, 181, 109, 0.04);
         }
 
         .cert-slide.next {
@@ -661,16 +662,49 @@
         /* Mobile specific: Stack layout without JS overhead */
         @media (max-width: 768px) {
 
-          /* Fix manual stack carousels vertical layout on mobile */
+          /* Fix manual stack carousels mobile horizontal scroll-snap layout */
           .cert-slider-wrapper.manual-carousel {
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: stretch !important; /* Stretch all cards to equal height */
+            overflow-x: auto;
+            overflow-y: visible !important; /* Prevent vertical clipping of hover shadow and scale transition */
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 2rem 5% 2.5rem 5% !important; /* Generous top padding for hover space */
+            gap: 1.5rem;
+            scrollbar-width: none;
             height: auto !important;
             min-height: 0 !important;
             max-height: none !important;
             margin-bottom: 0 !important;
           }
 
+          .cert-slider-wrapper.manual-carousel::-webkit-scrollbar {
+            display: none;
+          }
+
           .cert-slider-wrapper.manual-carousel .cert-slide {
-            margin-bottom: 2.5rem !important;
+            margin-bottom: 0 !important;
+            flex: 0 0 85% !important;
+            scroll-snap-align: center;
+            scroll-snap-stop: always !important;
+            width: auto !important;
+            height: auto !important;
+            aspect-ratio: auto !important;
+            overflow: visible !important;
+            display: flex !important; /* Enable flex-column layout to allow internal stretching */
+            flex-direction: column;
+          }
+
+          .cert-slider-wrapper.manual-carousel .cert-glass-card {
+            height: 100% !important;
+            flex-grow: 1;
+          }
+
+          /* Force section header margin bottom on mobile to accommodate 3D tilt */
+          .cert-static-header {
+            margin-bottom: 5.5rem !important;
           }
 
           .cert-glass-controls {
@@ -760,7 +794,7 @@
             background: rgba(215, 181, 109, 0.03);
             border: 1px solid rgba(215, 181, 109, 0.15);
             border-radius: 12px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 0 0 40px rgba(215, 181, 109, 0.05) !important;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15), 0 0 40px rgba(215, 181, 109, 0.03) !important;
             overflow: hidden;
             height: auto !important;
           }
@@ -853,6 +887,16 @@
                   loading="lazy" />
               </div>
             </div>
+
+            <!-- Carousel Item 7 -->
+            <div class="cert-slide hidden-right" data-title="Asimov Academy - Analista de Dados">
+              <h2 class="cert-mobile-title">Asimov Academy - Analista de Dados</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/Certificado-Asimov-Analista-de-Dados.webp" alt="Asimov Academy - Analista de Dados" loading="lazy" />
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>
@@ -1022,7 +1066,7 @@
       <!-- SECTION: SANTANDER OPEN ACADEMY -->
       <div class="cert-section-wrapper alt-bg" style="padding-top: 2rem;">
         <div class="cert-showcase gsap-fade-up">
-          <h2 class="cert-static-header" style="margin-bottom: 3rem;">Santander Open Academy</h2>
+          <h2 class="cert-static-header" style="margin-bottom: 5.5rem;">Santander Open Academy</h2>
 
           <div class="cert-slider-wrapper manual-carousel" id="carousel-santander">
             <!-- Slide 1 -->
@@ -1140,7 +1184,7 @@
       <!-- SECTION: INNER ACADEMY -->
       <div class="cert-section-wrapper" style="padding-top: 2rem;">
         <div class="cert-showcase gsap-fade-up">
-          <h2 class="cert-static-header" style="margin-bottom: 3rem;">Inner Academy</h2>
+          <h2 class="cert-static-header" style="margin-bottom: 5.5rem;">Inner Academy</h2>
 
           <div class="cert-slider-wrapper manual-carousel" id="carousel-innerai">
             <!-- Slide 1 -->
@@ -1305,22 +1349,49 @@
 
           let currentIndex = 0;
 
-          function updateSlides() {
+          function updateSlides(direction) {
             slides.forEach((s, i) => {
-              s.classList.remove('active', 'next', 'prev', 'hidden-right', 'hidden-left');
+              const wasPrev = s.classList.contains('prev');
+              const wasNext = s.classList.contains('next');
+              const wasHiddenRight = s.classList.contains('hidden-right');
+              const wasHiddenLeft = s.classList.contains('hidden-left');
 
               let diff = (i - currentIndex + slides.length) % slides.length;
+              let isNewActive = (diff === 0);
+              let isNewNext = (diff === 1);
+              let isNewPrev = (diff === slides.length - 1);
+              let isNewHiddenRight = (diff > 1 && diff <= Math.floor(slides.length / 2));
+              let isNewHiddenLeft = !isNewActive && !isNewNext && !isNewPrev && !isNewHiddenRight;
 
-              if (diff === 0) {
-                s.classList.add('active');
-              } else if (diff === 1) {
-                s.classList.add('next');
-              } else if (diff === slides.length - 1) {
-                s.classList.add('prev');
-              } else if (diff > 1 && diff <= Math.floor(slides.length / 2)) {
-                s.classList.add('hidden-right');
+              // Wrap-around detection: prevent wrap-around slides from visibly flying across screen
+              let isWrapping = false;
+              if (direction === 'next' && wasPrev && !isNewPrev && !isNewActive) {
+                isWrapping = true;
+              } else if (direction === 'prev' && wasNext && !isNewNext && !isNewActive) {
+                isWrapping = true;
+              }
+
+              if (isWrapping) {
+                s.style.transition = 'none';
+                s.style.opacity = '0';
               } else {
-                s.classList.add('hidden-left');
+                s.style.transition = '';
+                s.style.opacity = '';
+              }
+
+              s.classList.remove('active', 'next', 'prev', 'hidden-right', 'hidden-left');
+              if (isNewActive) s.classList.add('active');
+              else if (isNewNext) s.classList.add('next');
+              else if (isNewPrev) s.classList.add('prev');
+              else if (isNewHiddenRight) s.classList.add('hidden-right');
+              else s.classList.add('hidden-left');
+
+              if (isWrapping) {
+                void s.offsetHeight; // Force reflow
+                setTimeout(() => {
+                  s.style.transition = '';
+                  s.style.opacity = '';
+                }, 50);
               }
             });
 
@@ -1332,14 +1403,14 @@
           if (prevBtn) {
             prevBtn.addEventListener('click', () => {
               currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-              updateSlides();
+              updateSlides('prev');
             });
           }
 
           if (nextBtn) {
             nextBtn.addEventListener('click', () => {
               currentIndex = (currentIndex + 1) % slides.length;
-              updateSlides();
+              updateSlides('next');
             });
           }
 
@@ -1418,15 +1489,39 @@
             currentIndex = (currentIndex + 1) % slides.length;
 
             slides.forEach((s, i) => {
-              s.classList.remove('active', 'next', 'prev', 'hidden-right', 'hidden-left');
-
+              const wasPrev = s.classList.contains('prev');
               let diff = (i - currentIndex + slides.length) % slides.length;
+              let isNewActive = (diff === 0);
+              let isNewNext = (diff === 1);
+              let isNewPrev = (diff === slides.length - 1);
+              let isNewHiddenRight = (diff > 1 && diff <= Math.floor(slides.length / 2));
+              let isNewHiddenLeft = !isNewActive && !isNewNext && !isNewPrev && !isNewHiddenRight;
 
-              if (diff === 0) s.classList.add('active');
-              else if (diff === 1) s.classList.add('next');
-              else if (diff === slides.length - 1) s.classList.add('prev');
-              else if (diff > 1 && diff <= Math.floor(slides.length / 2)) s.classList.add('hidden-right');
+              // Wrap-around detection for automatic carousels moving forward (next direction)
+              let isWrapping = wasPrev && !isNewPrev && !isNewActive;
+
+              if (isWrapping) {
+                s.style.transition = 'none';
+                s.style.opacity = '0';
+              } else {
+                s.style.transition = '';
+                s.style.opacity = '';
+              }
+
+              s.classList.remove('active', 'next', 'prev', 'hidden-right', 'hidden-left');
+              if (isNewActive) s.classList.add('active');
+              else if (isNewNext) s.classList.add('next');
+              else if (isNewPrev) s.classList.add('prev');
+              else if (isNewHiddenRight) s.classList.add('hidden-right');
               else s.classList.add('hidden-left');
+
+              if (isWrapping) {
+                void s.offsetHeight;
+                setTimeout(() => {
+                  s.style.transition = '';
+                  s.style.opacity = '';
+                }, 50);
+              }
             });
 
             // Wait for title to fade out, swap text, fade back in
