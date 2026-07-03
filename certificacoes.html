@@ -19,11 +19,11 @@
     rel="stylesheet" />
 
   <!-- CSS -->
-<link href="assets/css/style.min.css" rel="stylesheet"/>
+  <link href="assets/css/style.min.css" rel="stylesheet" />
   <!-- GSAP & Tailwind -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  
+
 
   <style>
     /* DOCHMO Institutional Overrides */
@@ -106,6 +106,406 @@
           left: 50%;
           transform: translateX(-50%);
           padding: 6rem 0;
+        }
+
+        /* ── Two-column Glass Carousel CSS ────────────────────────────── */
+        .cert-two-cols-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 3.5rem;
+          width: 100%;
+          margin: 0 auto;
+          max-width: 1200px;
+          padding: 0 1rem;
+        }
+
+        .cert-col {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+        }
+
+        .cert-col-title {
+          font-family: var(--font-display);
+          font-size: 1.8rem;
+          color: #D7B56D;
+          margin-bottom: 2rem;
+          text-align: center;
+          letter-spacing: 1px;
+        }
+
+        .cert-glass-carousel-container {
+          width: 100%;
+          max-width: 480px;
+          position: relative;
+        }
+
+        .cert-glass-carousel-track {
+          position: relative;
+          width: 100%;
+          height: 340px;
+          margin-bottom: 1.5rem;
+        }
+
+        .cert-glass-slide {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          pointer-events: none;
+          transform: scale(0.9) translateY(10px);
+          transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+          z-index: 1;
+        }
+
+        .cert-glass-slide.active {
+          opacity: 1;
+          pointer-events: auto;
+          transform: scale(1) translateY(0);
+          z-index: 3;
+        }
+
+        /* Elegant Glassmorphic Card Style */
+        .cert-glass-card {
+          box-sizing: border-box !important;
+          width: 100%;
+          height: 100%;
+          background: rgba(255, 255, 255, 0.01);
+          border-radius: 12px;
+          padding: 2.2rem 2.2rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .cert-glass-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, rgba(215, 181, 109, 0.03) 0%, transparent 50%);
+          pointer-events: none;
+        }
+
+        .cert-glass-card:hover {
+          background: rgba(255, 255, 255, 0.025);
+          border-color: rgba(215, 181, 109, 0.4);
+          box-shadow: 0 25px 50px rgba(215, 181, 109, 0.06);
+          transform: translateY(-4px);
+        }
+
+
+        /* Personalized styles for Santander Open Academy (Red) */
+        .cert-glass-card.cert-card-santander {
+          border: 1px solid rgba(236, 0, 0, 0.12);
+        }
+
+        .cert-glass-card.cert-card-santander::before {
+          background: linear-gradient(135deg, rgba(236, 0, 0, 0.04) 0%, transparent 50%);
+        }
+
+        .cert-glass-card.cert-card-santander:hover {
+          border-color: rgba(236, 0, 0, 0.5);
+          box-shadow: 0 25px 50px rgba(236, 0, 0, 0.06);
+          background: rgba(255, 255, 255, 0.015);
+        }
+
+        .cert-card-org-santander {
+          color: #EC0000 !important;
+          font-weight: 700;
+          letter-spacing: 0.15em;
+        }
+
+        .cert-santander-watermark {
+          position: absolute;
+          bottom: -40px;
+          right: -45px;
+          width: 240px;
+          height: 240px;
+          opacity: 0.018;
+          pointer-events: none;
+          transform: rotate(-15deg);
+          z-index: 0;
+          transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .cert-glass-card:hover .cert-santander-watermark {
+          opacity: 0.04;
+          transform: rotate(-10deg) scale(1.08);
+        }
+
+        /* Personalized styles for Inner Academy / Inner AI */
+        .cert-card-org-innerai {
+          font-family: 'Outfit', 'Inter', sans-serif;
+          font-weight: 400;
+          text-transform: none !important;
+          letter-spacing: 0.05em;
+        }
+
+        .cert-card-org-innerai strong {
+          font-weight: 800;
+          color: currentColor;
+        }
+
+        /* 1. Purple Card: Autodesenvolvimento */
+        .cert-glass-card.cert-card-innerai-purple {
+          border: 1px solid rgba(172, 131, 175, 0.12);
+        }
+
+        .cert-glass-card.cert-card-innerai-purple::before {
+          background: linear-gradient(135deg, rgba(172, 131, 175, 0.04) 0%, transparent 50%);
+        }
+
+        .cert-glass-card.cert-card-innerai-purple:hover {
+          border-color: rgba(172, 131, 175, 0.5);
+          box-shadow: 0 25px 50px rgba(172, 131, 175, 0.06);
+          background: rgba(255, 255, 255, 0.015);
+        }
+
+        .cert-card-innerai-purple .cert-card-org-innerai {
+          color: #AC83AF !important;
+        }
+
+        /* 2. Coral/Pink Card: Dominando a IA Generativa */
+        .cert-glass-card.cert-card-innerai-coral {
+          border: 1px solid rgba(242, 165, 153, 0.12);
+        }
+
+        .cert-glass-card.cert-card-innerai-coral::before {
+          background: linear-gradient(135deg, rgba(242, 165, 153, 0.04) 0%, transparent 50%);
+        }
+
+        .cert-glass-card.cert-card-innerai-coral:hover {
+          border-color: rgba(242, 165, 153, 0.5);
+          box-shadow: 0 25px 50px rgba(242, 165, 153, 0.06);
+          background: rgba(255, 255, 255, 0.015);
+        }
+
+        .cert-card-innerai-coral .cert-card-org-innerai {
+          color: #F2A599 !important;
+        }
+
+        /* 3. Cyan/Blue Card: IA na Pratica */
+        .cert-glass-card.cert-card-innerai-cyan {
+          border: 1px solid rgba(110, 198, 236, 0.12);
+        }
+
+        .cert-glass-card.cert-card-innerai-cyan::before {
+          background: linear-gradient(135deg, rgba(110, 198, 236, 0.04) 0%, transparent 50%);
+        }
+
+        .cert-glass-card.cert-card-innerai-cyan:hover {
+          border-color: rgba(110, 198, 236, 0.5);
+          box-shadow: 0 25px 50px rgba(110, 198, 236, 0.06);
+          background: rgba(255, 255, 255, 0.015);
+        }
+
+        .cert-card-innerai-cyan .cert-card-org-innerai {
+          color: #6EC6EC !important;
+        }
+
+        /* 4. Indigo Card: IA AWS */
+        .cert-glass-card.cert-card-innerai-indigo {
+          border: 1px solid rgba(96, 93, 237, 0.12);
+        }
+
+        .cert-glass-card.cert-card-innerai-indigo::before {
+          background: linear-gradient(135deg, rgba(96, 93, 237, 0.04) 0%, transparent 50%);
+        }
+
+        .cert-glass-card.cert-card-innerai-indigo:hover {
+          border-color: rgba(96, 93, 237, 0.5);
+          box-shadow: 0 25px 50px rgba(96, 93, 237, 0.06);
+          background: rgba(255, 255, 255, 0.015);
+        }
+
+        .cert-card-innerai-indigo .cert-card-org-innerai {
+          color: #605DED !important;
+        }
+
+        /* Inner AI Text-based Watermark Styling */
+        .cert-innerai-watermark {
+          position: absolute;
+          bottom: 55px;
+          right: -25px;
+          width: 360px;
+          height: 110px;
+          opacity: 0.025;
+          pointer-events: none;
+          z-index: 0;
+          transition: opacity 0.5s ease;
+        }
+
+        .cert-glass-card:hover .cert-innerai-watermark {
+          opacity: 0.07;
+        }
+
+        .cert-card-innerai-purple .cert-innerai-watermark {
+          color: #AC83AF !important;
+        }
+
+        .cert-card-innerai-coral .cert-innerai-watermark {
+          color: #F2A599 !important;
+        }
+
+        .cert-card-innerai-cyan .cert-innerai-watermark {
+          color: #6EC6EC !important;
+        }
+
+        .cert-card-innerai-indigo .cert-innerai-watermark {
+          color: #605DED !important;
+        }
+
+        /* Responsive overrides for stack manual carousels */
+        .cert-slider-wrapper.manual-carousel {
+          height: 55vh !important;
+          min-height: 380px !important;
+          max-height: 550px !important;
+          margin-bottom: 2rem;
+        }
+
+        .cert-slider-wrapper.manual-carousel .cert-slide {
+          overflow: visible !important;
+          border-radius: 12px !important;
+          box-shadow: none !important;
+          background: transparent;
+        }
+
+        .cert-card-header {
+          display: flex;
+          align-items: center;
+          font-size: 0.8rem;
+          font-family: 'Outfit', 'Inter', sans-serif;
+          font-weight: 600;
+          letter-spacing: 0.12em;
+          color: #D7B56D;
+          text-transform: uppercase;
+          margin-bottom: 1rem;
+        }
+
+        .cert-card-divider {
+          margin: 0 0.5rem;
+          opacity: 0.5;
+        }
+
+        .cert-card-title {
+          font-family: var(--font-display);
+          font-size: 1.6rem;
+          font-weight: 500;
+          color: #F8F9FA;
+          margin-bottom: 0.8rem;
+          line-height: 1.25;
+          letter-spacing: 0.02em;
+        }
+
+        .cert-card-desc {
+          font-family: var(--font-body);
+          font-size: 0.9rem;
+          color: rgba(248, 249, 250, 0.7);
+          line-height: 1.6;
+          margin-bottom: auto;
+        }
+
+        .cert-card-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 1.5rem;
+          border-top: 1px solid rgba(248, 249, 250, 0.08);
+          padding-top: 1.2rem;
+        }
+
+        .cert-card-code {
+          font-family: var(--font-body);
+          font-size: 0.72rem;
+          color: rgba(248, 249, 250, 0.4);
+          letter-spacing: 0.05em;
+        }
+
+        .cert-card-link {
+          font-family: var(--font-body);
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: #D7B56D;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .cert-card-link:hover {
+          color: #F8F9FA;
+          transform: translateX(2px);
+        }
+
+        /* Controls Styling */
+        .cert-glass-controls {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1.5rem;
+          width: 100%;
+        }
+
+        .cert-glass-control-btn {
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          border: 1px solid rgba(215, 181, 109, 0.3);
+          background: rgba(10, 25, 50, 0.3);
+          color: #D7B56D;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .cert-glass-control-btn:hover {
+          background: #D7B56D;
+          color: #0A1428;
+          border-color: #D7B56D;
+          box-shadow: 0 0 15px rgba(215, 181, 109, 0.3);
+        }
+
+        .cert-glass-indicator {
+          font-family: var(--font-body);
+          font-size: 0.85rem;
+          color: rgba(248, 249, 250, 0.5);
+          letter-spacing: 1px;
+          min-width: 50px;
+          text-align: center;
+        }
+
+        @media (max-width: 900px) {
+          .cert-two-cols-grid {
+            grid-template-columns: 1fr;
+            gap: 4rem;
+          }
+
+          .cert-glass-carousel-container {
+            max-width: 100%;
+          }
+
+          .cert-glass-carousel-track {
+            height: 310px;
+          }
+
+          .cert-card-title {
+            font-size: 1.4rem;
+          }
         }
 
         .cert-section-wrapper.alt-bg {
@@ -261,6 +661,22 @@
         /* Mobile specific: Stack layout without JS overhead */
         @media (max-width: 768px) {
 
+          /* Fix manual stack carousels vertical layout on mobile */
+          .cert-slider-wrapper.manual-carousel {
+            height: auto !important;
+            min-height: 0 !important;
+            max-height: none !important;
+            margin-bottom: 0 !important;
+          }
+
+          .cert-slider-wrapper.manual-carousel .cert-slide {
+            margin-bottom: 2.5rem !important;
+          }
+
+          .cert-glass-controls {
+            display: none !important;
+          }
+
           .hero-stars,
           #heroCanvas {
             display: none !important;
@@ -383,226 +799,484 @@
 
       <div class="cert-section-wrapper" style="padding-top: 2rem;">
         <div class="cert-showcase gsap-fade-up">
-        <h2 id="cert-desktop-title" class="cert-dynamic-header">Programa de Educação Tutorial (PET)</h2>
+          <h2 id="cert-desktop-title" class="cert-dynamic-header">Programa de Educação Tutorial (PET)</h2>
 
-        <div class="cert-slider-wrapper">
-          <!-- Carousel Item 1 -->
-          <div class="cert-slide active" data-title="Programa de Educação Tutorial (PET)">
-            <h2 class="cert-mobile-title">Programa de Educação Tutorial (PET)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/Certificado-PET-Estatística.webp" alt="Certificado PET"
-                loading="lazy" />
+          <div class="cert-slider-wrapper">
+            <!-- Carousel Item 1 -->
+            <div class="cert-slide active" data-title="Programa de Educação Tutorial (PET)">
+              <h2 class="cert-mobile-title">Programa de Educação Tutorial (PET)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/Certificado-PET-Estatística.webp" alt="Certificado PET" loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- Carousel Item 2 -->
-          <div class="cert-slide next" data-title="Gauss Empresa Júnior de Estatística - UFC">
-            <h2 class="cert-mobile-title">Gauss Empresa Júnior de Estatística - UFC</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/Certificado-Gauss.webp" alt="Certificado Gauss" loading="lazy" />
+            <!-- Carousel Item 2 -->
+            <div class="cert-slide next" data-title="Gauss Empresa Júnior de Estatística - UFC">
+              <h2 class="cert-mobile-title">Gauss Empresa Júnior de Estatística - UFC</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/Certificado-Gauss.webp" alt="Certificado Gauss" loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- Carousel Item 3 -->
-          <div class="cert-slide hidden-right" data-title="Simpósio Nacional de Probabilidade e Estatística (SINAPE)">
-            <h2 class="cert-mobile-title">Simpósio Nacional de Probabilidade e Estatística (SINAPE)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/Certificado-SINAPE-Douglas.webp" alt="Certificado SINAPE"
-                loading="lazy" />
+            <!-- Carousel Item 3 -->
+            <div class="cert-slide hidden-right" data-title="Simpósio Nacional de Probabilidade e Estatística (SINAPE)">
+              <h2 class="cert-mobile-title">Simpósio Nacional de Probabilidade e Estatística (SINAPE)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/Certificado-SINAPE-Douglas.webp" alt="Certificado SINAPE"
+                  loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- Carousel Item 4 -->
-          <div class="cert-slide hidden-right" data-title="Feira das Profissões UFC (2024)">
-            <h2 class="cert-mobile-title">Feira das Profissões UFC (2024)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/Certificado-Feira-de-Profissões-2024.webp"
-                alt="Feira das Profissões 2024" loading="lazy" />
+            <!-- Carousel Item 4 -->
+            <div class="cert-slide hidden-right" data-title="Feira das Profissões UFC (2024)">
+              <h2 class="cert-mobile-title">Feira das Profissões UFC (2024)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/Certificado-Feira-de-Profissões-2024.webp" alt="Feira das Profissões 2024"
+                  loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- Carousel Item 5 -->
-          <div class="cert-slide hidden-left" data-title="Assessoria e Consultoria">
-            <h2 class="cert-mobile-title">Assessoria e Consultoria</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/Certificado-de-Assessoria-e-Consultoria-Douglas.webp"
-                alt="Assessoria e Consultoria" loading="lazy" />
+            <!-- Carousel Item 5 -->
+            <div class="cert-slide hidden-left" data-title="Assessoria e Consultoria">
+              <h2 class="cert-mobile-title">Assessoria e Consultoria</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/Certificado-de-Assessoria-e-Consultoria-Douglas.webp"
+                  alt="Assessoria e Consultoria" loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- Carousel Item 6 -->
-          <div class="cert-slide prev" data-title="Feira das Profissões UFC (2025)">
-            <h2 class="cert-mobile-title">Feira das Profissões UFC (2025)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/Certificado-Feira-de-Profissões-2025.webp"
-                alt="Feira das Profissões 2025" loading="lazy" />
+            <!-- Carousel Item 6 -->
+            <div class="cert-slide prev" data-title="Feira das Profissões UFC (2025)">
+              <h2 class="cert-mobile-title">Feira das Profissões UFC (2025)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/Certificado-Feira-de-Profissões-2025.webp" alt="Feira das Profissões 2025"
+                  loading="lazy" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
 
       <!-- Section: University Encounters -->
       <div class="cert-section-wrapper alt-bg">
         <div class="cert-showcase gsap-fade-up">
-        <h2 class="cert-static-header">Encontros Universitários da UFC</h2>
+          <h2 class="cert-static-header">Encontros Universitários da UFC</h2>
 
-        <div class="cert-slider-wrapper eu-carousel">
-          <!-- EU 1 -->
-          <div class="cert-slide active">
-            <h2 class="cert-mobile-title">Encontros Universitários (2021)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/eu/certificado-encontros-universitarios-2021-ouvinte.webp" alt="EU 2021"
-                loading="lazy" />
+          <div class="cert-slider-wrapper eu-carousel">
+            <!-- EU 1 -->
+            <div class="cert-slide active">
+              <h2 class="cert-mobile-title">Encontros Universitários (2021)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/eu/certificado-encontros-universitarios-2021-ouvinte.webp" alt="EU 2021"
+                  loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- EU 2 -->
-          <div class="cert-slide next">
-            <h2 class="cert-mobile-title">Encontros Universitários (2022)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/eu/certificado-encontros-universitarios-2022.webp" alt="EU 2022"
-                loading="lazy" />
+            <!-- EU 2 -->
+            <div class="cert-slide next">
+              <h2 class="cert-mobile-title">Encontros Universitários (2022)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/eu/certificado-encontros-universitarios-2022.webp" alt="EU 2022"
+                  loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- EU 3 -->
-          <div class="cert-slide prev">
-            <h2 class="cert-mobile-title">Encontros Universitários (2023)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/eu/certificado-encontros-universitarios-2023.webp" alt="EU 2023"
-                loading="lazy" />
+            <!-- EU 3 -->
+            <div class="cert-slide prev">
+              <h2 class="cert-mobile-title">Encontros Universitários (2023)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/eu/certificado-encontros-universitarios-2023.webp" alt="EU 2023"
+                  loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- EU 4 -->
-          <div class="cert-slide">
-            <h2 class="cert-mobile-title">Encontros Universitários (2024)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/eu/certificado-encontros-universitarios-2024.webp" alt="EU 2024"
-                loading="lazy" />
+            <!-- EU 4 -->
+            <div class="cert-slide">
+              <h2 class="cert-mobile-title">Encontros Universitários (2024)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/eu/certificado-encontros-universitarios-2024.webp" alt="EU 2024"
+                  loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- EU 5 -->
-          <div class="cert-slide">
-            <h2 class="cert-mobile-title">Encontros Univ. - Coautor (2024)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/eu/certificado-encontros-universitarios-2024-coautor.webp"
-                alt="EU 2024 Coautor" loading="lazy" />
+            <!-- EU 5 -->
+            <div class="cert-slide">
+              <h2 class="cert-mobile-title">Encontros Univ. - Coautor (2024)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/eu/certificado-encontros-universitarios-2024-coautor.webp"
+                  alt="EU 2024 Coautor" loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- EU 6 -->
-          <div class="cert-slide">
-            <h2 class="cert-mobile-title">Encontros Universitários (2025)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/eu/certificado-encontros-universitarios-2025.webp" alt="EU 2025"
-                loading="lazy" />
+            <!-- EU 6 -->
+            <div class="cert-slide">
+              <h2 class="cert-mobile-title">Encontros Universitários (2025)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/eu/certificado-encontros-universitarios-2025.webp" alt="EU 2025"
+                  loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- EU 7 -->
-          <div class="cert-slide">
-            <h2 class="cert-mobile-title">Encontros Univ. - Coautor 1 (2025)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/eu/certificado-encontros-universitarios-2025-coautor-1.webp"
-                alt="EU 2025 Coautor 1" loading="lazy" />
+            <!-- EU 7 -->
+            <div class="cert-slide">
+              <h2 class="cert-mobile-title">Encontros Univ. - Coautor 1 (2025)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/eu/certificado-encontros-universitarios-2025-coautor-1.webp"
+                  alt="EU 2025 Coautor 1" loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- EU 8 -->
-          <div class="cert-slide">
-            <h2 class="cert-mobile-title">Encontros Univ. - Coautor 2 (2025)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/eu/certificado-encontros-universitarios-2025-coautor-2.webp"
-                alt="EU 2025 Coautor 2" loading="lazy" />
+            <!-- EU 8 -->
+            <div class="cert-slide">
+              <h2 class="cert-mobile-title">Encontros Univ. - Coautor 2 (2025)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/eu/certificado-encontros-universitarios-2025-coautor-2.webp"
+                  alt="EU 2025 Coautor 2" loading="lazy" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
 
       <!-- Section: Statistics Week (SEST) -->
       <div class="cert-section-wrapper">
         <div class="cert-showcase gsap-fade-up">
-        <h2 class="cert-static-header">Semana da Estatística (SEST) - UFC</h2>
+          <h2 class="cert-static-header">Semana da Estatística (SEST) - UFC</h2>
 
-        <div class="cert-slider-wrapper eu-carousel">
-          <!-- SEST 1 -->
-          <div class="cert-slide active">
-            <h2 class="cert-mobile-title">XIV SEST (2021)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/sest/Certificado-XIV SEST-2021.webp" alt="XIV SEST 2021"
-                loading="lazy" />
+          <div class="cert-slider-wrapper eu-carousel">
+            <!-- SEST 1 -->
+            <div class="cert-slide active">
+              <h2 class="cert-mobile-title">XIV SEST (2021)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/sest/Certificado-XIV SEST-2021.webp" alt="XIV SEST 2021" loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- SEST 2 -->
-          <div class="cert-slide next">
-            <h2 class="cert-mobile-title">XIV SEST - Minicurso 1</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/sest/Certificado-XIV SEST-minicurso_1-2021.webp"
-                alt="XIV SEST Minicurso 1" loading="lazy" />
+            <!-- SEST 2 -->
+            <div class="cert-slide next">
+              <h2 class="cert-mobile-title">XIV SEST - Minicurso 1</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/sest/Certificado-XIV SEST-minicurso_1-2021.webp"
+                  alt="XIV SEST Minicurso 1" loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- SEST 3 -->
-          <div class="cert-slide hidden-right">
-            <h2 class="cert-mobile-title">XIV SEST - Minicurso 2</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/sest/Certificado-XIV SEST-minicurso_2-2021.webp"
-                alt="XIV SEST Minicurso 2" loading="lazy" />
+            <!-- SEST 3 -->
+            <div class="cert-slide hidden-right">
+              <h2 class="cert-mobile-title">XIV SEST - Minicurso 2</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/sest/Certificado-XIV SEST-minicurso_2-2021.webp"
+                  alt="XIV SEST Minicurso 2" loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- SEST 4 -->
-          <div class="cert-slide hidden-right">
-            <h2 class="cert-mobile-title">XV SEST - Ouvinte (2023)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/sest/Certificado-XV SEST-Ouvinte-2023.webp" alt="XV SEST Ouvinte"
-                loading="lazy" />
+            <!-- SEST 4 -->
+            <div class="cert-slide hidden-right">
+              <h2 class="cert-mobile-title">XV SEST - Ouvinte (2023)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/sest/Certificado-XV SEST-Ouvinte-2023.webp" alt="XV SEST Ouvinte"
+                  loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- SEST 5 -->
-          <div class="cert-slide hidden-right">
-            <h2 class="cert-mobile-title">XV SEST - Organização</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/sest/Certificado-XV SEST-Organização-2023.webp"
-                alt="XV SEST Organização" loading="lazy" />
+            <!-- SEST 5 -->
+            <div class="cert-slide hidden-right">
+              <h2 class="cert-mobile-title">XV SEST - Organização</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/sest/Certificado-XV SEST-Organização-2023.webp" alt="XV SEST Organização"
+                  loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- SEST 6 -->
-          <div class="cert-slide hidden-left">
-            <h2 class="cert-mobile-title">XV SEST - Minicurso</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/sest/Certificado-XV SEST-Minicurso-2023.webp" alt="XV SEST Minicurso"
-                loading="lazy" />
+            <!-- SEST 6 -->
+            <div class="cert-slide hidden-left">
+              <h2 class="cert-mobile-title">XV SEST - Minicurso</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/sest/Certificado-XV SEST-Minicurso-2023.webp" alt="XV SEST Minicurso"
+                  loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- SEST 7 -->
-          <div class="cert-slide hidden-left">
-            <h2 class="cert-mobile-title">XVI SEST (2024)</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/sest/Certificado-XVI SEST-2024.webp" alt="XVI SEST 2024"
-                loading="lazy" />
+            <!-- SEST 7 -->
+            <div class="cert-slide hidden-left">
+              <h2 class="cert-mobile-title">XVI SEST (2024)</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/sest/Certificado-XVI SEST-2024.webp" alt="XVI SEST 2024" loading="lazy" />
+              </div>
             </div>
-          </div>
 
-          <!-- SEST 8 -->
-          <div class="cert-slide prev">
-            <h2 class="cert-mobile-title">XVI SEST - Minicurso</h2>
-            <div class="cert-wrapper">
-              <img src="assets/img/certificados/sest/Certificado-XVI SEST-Minicurso-2024.webp"
-                alt="XVI SEST Minicurso 2024" loading="lazy" />
+            <!-- SEST 8 -->
+            <div class="cert-slide prev">
+              <h2 class="cert-mobile-title">XVI SEST - Minicurso</h2>
+              <div class="cert-wrapper">
+                <img src="assets/certificados/sest/Certificado-XVI SEST-Minicurso-2024.webp"
+                  alt="XVI SEST Minicurso 2024" loading="lazy" />
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+
+
+      <!-- SECTION: SANTANDER OPEN ACADEMY -->
+      <div class="cert-section-wrapper alt-bg" style="padding-top: 2rem;">
+        <div class="cert-showcase gsap-fade-up">
+          <h2 class="cert-static-header" style="margin-bottom: 3rem;">Santander Open Academy</h2>
+
+          <div class="cert-slider-wrapper manual-carousel" id="carousel-santander">
+            <!-- Slide 1 -->
+            <div class="cert-slide active">
+              <div class="cert-glass-card cert-card-santander">
+                <svg class="cert-santander-watermark" viewBox="0 0 1582 1497" xmlns="http://www.w3.org/2000/svg">
+                  <path fill="#EC0000" fill-rule="evenodd"
+                    d="M1582 1067.7c0 237.9-354 429.2-791 429.2S0 1305.6 0 1067.7c0-169.5 184-317.6 447.7-386 0 65.1 14.6 129.6 47.1 187.4l249.6 429.2c18 32.5 32 68.4 39.3 104.9l11.2-18c61.2-104.9 61.2-238.4 0-342.8L595.8 699.6c-61.2-108.3-61.2-237.9 0-342.8l11.2-17.9c7.3 36.4 21.3 72.3 39.8 104.9l115.6 202L943 959.4c18 32.5 32.6 68.4 39.3 104.3l11.2-17.9c61.2-104.4 61.2-237.9 0-342.2L794.9 360.8c-61.7-105-61.7-237.9 0-342.8l10.7-18c7.3 35.9 21.9 72.4 39.8 104.4l245.7 429.2c28.6 47.1 43.2 100.9 46.6 155.4 267.6 68.4 448.2 216.5 444.3 378.7" />
+                </svg>
+                <div class="cert-card-header" style="position: relative; z-index: 1;">
+                  <span class="cert-card-org cert-card-org-santander">Santander Academy</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-date">SET 2025</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-hours">8H</span>
+                </div>
+                <h4 class="cert-card-title" style="position: relative; z-index: 1;">Excel para Análise de Dados</h4>
+                <p class="cert-card-desc" style="position: relative; z-index: 1;">Manipulação avançada de dados, criação
+                  de fórmulas complexas, tabelas dinâmicas e dashboards interativos voltados a relatórios corporativos.
+                </p>
+                <div class="cert-card-footer" style="position: relative; z-index: 1;">
+                  <span class="cert-card-code" title="Série: OA-2025-0915001719421">Série: OA-2025-0915...</span>
+                  <a href="assets/certificados/santander/santander-excel.pdf" class="cert-card-link" target="_blank"
+                    rel="noopener noreferrer">
+                    Visualizar PDF
+                    <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="cert-slide next">
+              <div class="cert-glass-card cert-card-santander">
+                <svg class="cert-santander-watermark" viewBox="0 0 1582 1497" xmlns="http://www.w3.org/2000/svg">
+                  <path fill="#EC0000" fill-rule="evenodd"
+                    d="M1582 1067.7c0 237.9-354 429.2-791 429.2S0 1305.6 0 1067.7c0-169.5 184-317.6 447.7-386 0 65.1 14.6 129.6 47.1 187.4l249.6 429.2c18 32.5 32 68.4 39.3 104.9l11.2-18c61.2-104.9 61.2-238.4 0-342.8L595.8 699.6c-61.2-108.3-61.2-237.9 0-342.8l11.2-17.9c7.3 36.4 21.3 72.3 39.8 104.9l115.6 202L943 959.4c18 32.5 32.6 68.4 39.3 104.3l11.2-17.9c61.2-104.4 61.2-237.9 0-342.2L794.9 360.8c-61.7-105-61.7-237.9 0-342.8l10.7-18c7.3 35.9 21.9 72.4 39.8 104.4l245.7 429.2c28.6 47.1 43.2 100.9 46.6 155.4 267.6 68.4 448.2 216.5 444.3 378.7" />
+                </svg>
+                <div class="cert-card-header" style="position: relative; z-index: 1;">
+                  <span class="cert-card-org cert-card-org-santander">Santander Academy</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-date">SET 2025</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-hours">6H</span>
+                </div>
+                <h4 class="cert-card-title" style="position: relative; z-index: 1;">Introdução à Ciência de Dados</h4>
+                <p class="cert-card-desc" style="position: relative; z-index: 1;">Fundamentos do fluxo de ciência de
+                  dados, abrangendo pré-processamento de datasets, estatística descritiva e visualização exploratória.
+                </p>
+                <div class="cert-card-footer" style="position: relative; z-index: 1;">
+                  <span class="cert-card-code" title="Série: OA-2025-0909001696546">Série: OA-2025-0909...</span>
+                  <a href="assets/certificados/santander/santander-ciencia-dados.pdf" class="cert-card-link"
+                    target="_blank" rel="noopener noreferrer">
+                    Visualizar PDF
+                    <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="cert-slide prev">
+              <div class="cert-glass-card cert-card-santander">
+                <svg class="cert-santander-watermark" viewBox="0 0 1582 1497" xmlns="http://www.w3.org/2000/svg">
+                  <path fill="#EC0000" fill-rule="evenodd"
+                    d="M1582 1067.7c0 237.9-354 429.2-791 429.2S0 1305.6 0 1067.7c0-169.5 184-317.6 447.7-386 0 65.1 14.6 129.6 47.1 187.4l249.6 429.2c18 32.5 32 68.4 39.3 104.9l11.2-18c61.2-104.9 61.2-238.4 0-342.8L595.8 699.6c-61.2-108.3-61.2-237.9 0-342.8l11.2-17.9c7.3 36.4 21.3 72.3 39.8 104.9l115.6 202L943 959.4c18 32.5 32.6 68.4 39.3 104.3l11.2-17.9c61.2-104.4 61.2-237.9 0-342.2L794.9 360.8c-61.7-105-61.7-237.9 0-342.8l10.7-18c7.3 35.9 21.9 72.4 39.8 104.4l245.7 429.2c28.6 47.1 43.2 100.9 46.6 155.4 267.6 68.4 448.2 216.5 444.3 378.7" />
+                </svg>
+                <div class="cert-card-header" style="position: relative; z-index: 1;">
+                  <span class="cert-card-org cert-card-org-santander">MIT Professional Ed</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-date">SET 2025</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-hours">8H</span>
+                </div>
+                <h4 class="cert-card-title" style="position: relative; z-index: 1;">Introdução à IA Generativa</h4>
+                <p class="cert-card-desc" style="position: relative; z-index: 1;">Fundamentos teóricos e práticos de
+                  inteligência artificial generativa, redes neurais e aplicações corporativas em parceria com a MIT
+                  Professional Education.</p>
+                <div class="cert-card-footer" style="position: relative; z-index: 1;">
+                  <span class="cert-card-code" title="Série: OA-2025-0912001710040">Série: OA-2025-0912...</span>
+                  <a href="assets/certificados/santander/santander-ia-generativa.pdf" class="cert-card-link"
+                    target="_blank" rel="noopener noreferrer">
+                    Visualizar PDF
+                    <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="cert-glass-controls" style="margin-top: 1.5rem;">
+            <button class="cert-glass-control-btn prev-btn" aria-label="Anterior">
+              <svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16">
+                <path d="M15 18l-6-6 6-6"></path>
+              </svg>
+            </button>
+            <div class="cert-glass-indicator">1 / 3</div>
+            <button class="cert-glass-control-btn next-btn" aria-label="Próximo">
+              <svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16">
+                <path d="M9 18l6-6-6-6"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
+
+
+      <!-- SECTION: INNER ACADEMY -->
+      <div class="cert-section-wrapper" style="padding-top: 2rem;">
+        <div class="cert-showcase gsap-fade-up">
+          <h2 class="cert-static-header" style="margin-bottom: 3rem;">Inner Academy</h2>
+
+          <div class="cert-slider-wrapper manual-carousel" id="carousel-innerai">
+            <!-- Slide 1 -->
+            <div class="cert-slide active">
+              <div class="cert-glass-card cert-card-innerai-purple">
+                <svg class="cert-innerai-watermark" viewBox="0 0 360 90" xmlns="http://www.w3.org/2000/svg"><text
+                    x="50%" y="65%" text-anchor="middle" font-family="'Outfit', 'Inter', sans-serif" font-size="56"
+                    font-weight="400" fill="currentColor">Inner <tspan font-weight="800">AI</tspan></text></svg>
+                <div class="cert-card-header">
+                  <span class="cert-card-org cert-card-org-innerai">Inner <strong>AI</strong></span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-date">SET 2025</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-hours">6H</span>
+                </div>
+                <h4 class="cert-card-title">Autodesenvolvimento com IA</h4>
+                <p class="cert-card-desc">Aplicação de inteligência artificial voltada ao autodesenvolvimento
+                  profissional, otimizando fluxos de trabalho e produtividade pessoal.</p>
+                <div class="cert-card-footer">
+                  <span class="cert-card-code">Credencial: bjva8997</span>
+                  <a href="assets/certificados/inner-ai/innerai-autodesenvolvimento-ia.pdf" class="cert-card-link"
+                    target="_blank" rel="noopener noreferrer">
+                    Visualizar PDF
+                    <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="cert-slide next">
+              <div class="cert-glass-card cert-card-innerai-coral">
+                <svg class="cert-innerai-watermark" viewBox="0 0 360 90" xmlns="http://www.w3.org/2000/svg"><text
+                    x="50%" y="65%" text-anchor="middle" font-family="'Outfit', 'Inter', sans-serif" font-size="56"
+                    font-weight="400" fill="currentColor">Inner <tspan font-weight="800">AI</tspan></text></svg>
+                <div class="cert-card-header">
+                  <span class="cert-card-org cert-card-org-innerai">Inner <strong>AI</strong></span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-date">AGO 2025</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-hours">4H</span>
+                </div>
+                <h4 class="cert-card-title">Dominando a IA Generativa</h4>
+                <p class="cert-card-desc">Conceitos fundamentais de Inteligência Artificial generativa, Large Language
+                  Models (LLMs) e engenharia de prompt para processos corporativos.</p>
+                <div class="cert-card-footer">
+                  <span class="cert-card-code">Credencial: fuxi8128</span>
+                  <a href="assets/certificados/inner-ai/innerai-dominando-ia-generativa.pdf" class="cert-card-link"
+                    target="_blank" rel="noopener noreferrer">
+                    Visualizar PDF
+                    <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="cert-slide hidden-right">
+              <div class="cert-glass-card cert-card-innerai-cyan">
+                <svg class="cert-innerai-watermark" viewBox="0 0 360 90" xmlns="http://www.w3.org/2000/svg"><text
+                    x="50%" y="65%" text-anchor="middle" font-family="'Outfit', 'Inter', sans-serif" font-size="56"
+                    font-weight="400" fill="currentColor">Inner <tspan font-weight="800">AI</tspan></text></svg>
+                <div class="cert-card-header">
+                  <span class="cert-card-org cert-card-org-innerai">Inner <strong>AI</strong></span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-date">SET 2025</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-hours">5H</span>
+                </div>
+                <h4 class="cert-card-title">IA na Prática</h4>
+                <p class="cert-card-desc">Casos reais e aplicações práticas de inteligência artificial aplicados a
+                  inteligência de negócios, inovação e resolução de desafios de mercado.</p>
+                <div class="cert-card-footer">
+                  <span class="cert-card-code">Credencial: lzem2862</span>
+                  <a href="assets/certificados/inner-ai/innerai-ia-pratica.pdf" class="cert-card-link" target="_blank"
+                    rel="noopener noreferrer">
+                    Visualizar PDF
+                    <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="cert-slide prev">
+              <div class="cert-glass-card cert-card-innerai-indigo">
+                <svg class="cert-innerai-watermark" viewBox="0 0 360 90" xmlns="http://www.w3.org/2000/svg"><text
+                    x="50%" y="65%" text-anchor="middle" font-family="'Outfit', 'Inter', sans-serif" font-size="56"
+                    font-weight="400" fill="currentColor">Inner <tspan font-weight="800">AI</tspan></text></svg>
+                <div class="cert-card-header">
+                  <span class="cert-card-org cert-card-org-innerai">Inner <strong>AI</strong></span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-date">SET 2025</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-hours">4H</span>
+                </div>
+                <h4 class="cert-card-title">IA para Programadores com a AWS</h4>
+                <p class="cert-card-desc">Uso de ferramentas e serviços de IA da AWS integrados ao ciclo de
+                  desenvolvimento de software, automação de código e criação de pipelines modernos.</p>
+                <div class="cert-card-footer">
+                  <span class="cert-card-code">Credencial: tgub1332</span>
+                  <a href="assets/certificados/inner-ai/innerai-ia-programadores-aws.pdf" class="cert-card-link"
+                    target="_blank" rel="noopener noreferrer">
+                    Visualizar PDF
+                    <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="cert-glass-controls" style="margin-top: 1.5rem;">
+            <button class="cert-glass-control-btn prev-btn" aria-label="Anterior">
+              <svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16">
+                <path d="M15 18l-6-6 6-6"></path>
+              </svg>
+            </button>
+            <div class="cert-glass-indicator">1 / 4</div>
+            <button class="cert-glass-control-btn next-btn" aria-label="Próximo">
+              <svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16">
+                <path d="M9 18l6-6-6-6"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </main>
 
@@ -615,100 +1289,158 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
+      // Stack Manual Carousels Logic
+      function initStackCarousels() {
+        const wrappers = document.querySelectorAll('.cert-slider-wrapper.manual-carousel');
 
-    // GSAP Scroll Animations
-    gsap.registerPlugin(ScrollTrigger);
+        wrappers.forEach(wrapper => {
+          const slides = wrapper.querySelectorAll('.cert-slide');
+          const container = wrapper.closest('.cert-showcase');
+          const prevBtn = container.querySelector('.prev-btn');
+          const nextBtn = container.querySelector('.next-btn');
+          const indicator = container.querySelector('.cert-glass-indicator');
 
-    // Fade-up elements
-    gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
-      gsap.fromTo(elem,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: elem,
-            start: "top 85%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      );
-    });
+          if (slides.length === 0) return;
 
-    // Custom Cursor tracking
-    const ring = document.getElementById('cursor-ring');
-    const dot = document.getElementById('cursor-dot');
+          let currentIndex = 0;
 
-    if (ring && dot) {
-      const xToRing = gsap.quickTo(ring, "x", { duration: 0.3, ease: "power2.out" });
-      const yToRing = gsap.quickTo(ring, "y", { duration: 0.3, ease: "power2.out" });
-      const xToDot = gsap.quickTo(dot, "x", { duration: 0.1, ease: "power2.out" });
-      const yToDot = gsap.quickTo(dot, "y", { duration: 0.1, ease: "power2.out" });
+          function updateSlides() {
+            slides.forEach((s, i) => {
+              s.classList.remove('active', 'next', 'prev', 'hidden-right', 'hidden-left');
 
-      document.addEventListener('mousemove', (e) => {
-        xToRing(e.clientX);
-        yToRing(e.clientY);
-        xToDot(e.clientX);
-        yToDot(e.clientY);
-      });
+              let diff = (i - currentIndex + slides.length) % slides.length;
 
-      const links = document.querySelectorAll('a, .article-img-wrap, .cta-btn');
-      links.forEach(link => {
-        link.addEventListener('mouseenter', () => {
-          gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
-        });
-        link.addEventListener('mouseleave', () => {
-          gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
-        });
-      });
-    }
+              if (diff === 0) {
+                s.classList.add('active');
+              } else if (diff === 1) {
+                s.classList.add('next');
+              } else if (diff === slides.length - 1) {
+                s.classList.add('prev');
+              } else if (diff > 1 && diff <= Math.floor(slides.length / 2)) {
+                s.classList.add('hidden-right');
+              } else {
+                s.classList.add('hidden-left');
+              }
+            });
 
-    // Carousel Logic for Desktop only
-    if (window.innerWidth > 768) {
-      const carousels = document.querySelectorAll('.cert-slider-wrapper');
-
-      carousels.forEach((carousel) => {
-        const slides = carousel.querySelectorAll('.cert-slide');
-        if (slides.length === 0) return;
-
-        const titleEl = carousel.parentElement.querySelector('#cert-desktop-title');
-        let currentIndex = 0;
-
-        setInterval(() => {
-          // Fade out title slowly if it's dynamic
-          if (titleEl && slides[currentIndex].hasAttribute('data-title')) {
-            titleEl.style.opacity = 0;
+            if (indicator) {
+              indicator.textContent = `${currentIndex + 1} / ${slides.length}`;
+            }
           }
 
-          currentIndex = (currentIndex + 1) % slides.length;
+          if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+              currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+              updateSlides();
+            });
+          }
 
-          slides.forEach((s, i) => {
-            s.classList.remove('active', 'next', 'prev', 'hidden-right', 'hidden-left');
+          if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+              currentIndex = (currentIndex + 1) % slides.length;
+              updateSlides();
+            });
+          }
 
-            let diff = (i - currentIndex + slides.length) % slides.length;
+          updateSlides();
+        });
+      }
 
-            if (diff === 0) s.classList.add('active');
-            else if (diff === 1) s.classList.add('next');
-            else if (diff === slides.length - 1) s.classList.add('prev');
-            else if (diff > 1 && diff <= Math.floor(slides.length / 2)) s.classList.add('hidden-right');
-            else s.classList.add('hidden-left');
+      initStackCarousels();
+
+      // GSAP Scroll Animations
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Fade-up elements
+      gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
+        gsap.fromTo(elem,
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: elem,
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
+      });
+
+      // Custom Cursor tracking
+      const ring = document.getElementById('cursor-ring');
+      const dot = document.getElementById('cursor-dot');
+
+      if (ring && dot) {
+        const xToRing = gsap.quickTo(ring, "x", { duration: 0.3, ease: "power2.out" });
+        const yToRing = gsap.quickTo(ring, "y", { duration: 0.3, ease: "power2.out" });
+        const xToDot = gsap.quickTo(dot, "x", { duration: 0.1, ease: "power2.out" });
+        const yToDot = gsap.quickTo(dot, "y", { duration: 0.1, ease: "power2.out" });
+
+        document.addEventListener('mousemove', (e) => {
+          xToRing(e.clientX);
+          yToRing(e.clientY);
+          xToDot(e.clientX);
+          yToDot(e.clientY);
+        });
+
+        const links = document.querySelectorAll('a, .article-img-wrap, .cta-btn');
+        links.forEach(link => {
+          link.addEventListener('mouseenter', () => {
+            gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
           });
+          link.addEventListener('mouseleave', () => {
+            gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+          });
+        });
+      }
 
-          // Wait for title to fade out, swap text, fade back in
-          if (titleEl && slides[currentIndex].hasAttribute('data-title')) {
-            setTimeout(() => {
-              titleEl.textContent = slides[currentIndex].getAttribute('data-title');
-              titleEl.style.opacity = 1;
-            }, 800);
-          }
-        }, 8000);
-      });
-    }
+      // Carousel Logic for Desktop only
+      if (window.innerWidth > 768) {
+        const carousels = document.querySelectorAll('.cert-slider-wrapper:not(.manual-carousel)');
 
-  
+        carousels.forEach((carousel) => {
+          const slides = carousel.querySelectorAll('.cert-slide');
+          if (slides.length === 0) return;
+
+          const titleEl = carousel.parentElement.querySelector('#cert-desktop-title');
+          let currentIndex = 0;
+
+          setInterval(() => {
+            // Fade out title slowly if it's dynamic
+            if (titleEl && slides[currentIndex].hasAttribute('data-title')) {
+              titleEl.style.opacity = 0;
+            }
+
+            currentIndex = (currentIndex + 1) % slides.length;
+
+            slides.forEach((s, i) => {
+              s.classList.remove('active', 'next', 'prev', 'hidden-right', 'hidden-left');
+
+              let diff = (i - currentIndex + slides.length) % slides.length;
+
+              if (diff === 0) s.classList.add('active');
+              else if (diff === 1) s.classList.add('next');
+              else if (diff === slides.length - 1) s.classList.add('prev');
+              else if (diff > 1 && diff <= Math.floor(slides.length / 2)) s.classList.add('hidden-right');
+              else s.classList.add('hidden-left');
+            });
+
+            // Wait for title to fade out, swap text, fade back in
+            if (titleEl && slides[currentIndex].hasAttribute('data-title')) {
+              setTimeout(() => {
+                titleEl.textContent = slides[currentIndex].getAttribute('data-title');
+                titleEl.style.opacity = 1;
+              }, 800);
+            }
+          }, 8000);
+        });
+      }
+
+
     });
   </script>
 </body>
