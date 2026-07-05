@@ -39,6 +39,7 @@ site_dochmo/
 │   ├── realatorio_analise_espacial/
 │   ├── relatorio_final_series_temporais/
 │   └── Titanic/
+├── _headers                            # Configuração de cabeçalhos HTTP (Segurança, CSP, Cache) para o Cloudflare Pages.
 ├── index.html                          # Página principal (Portfólio)
 ├── case_eegs_reg_beta.html             # Case: Estatística Teórica (Equações de Estimação Generalizadas)
 ├── case_ips_brasil.html                # Case: Análise Espacial (Boxmaps e Mapeamento)
