@@ -19,11 +19,11 @@
     rel="stylesheet" />
 
   <!-- CSS -->
-<link href="assets/css/style.min.css" rel="stylesheet"/>
+  <link href="assets/css/style.min.css" rel="stylesheet" />
   <!-- GSAP & Tailwind -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  
+
 
   <style>
     /* Institucional DOCHMO Overrides */
@@ -215,6 +215,7 @@
       border-color: rgba(215, 181, 109, 0.85) !important;
       box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
     }
+
     @media (max-width: 768px) {
       .article-img-wrap::before {
         display: none !important;
@@ -317,7 +318,7 @@
           por uma clara tendência de crescimento e flutuações sazonais repetitivas.</p>
 
         <div class="article-img-wrap" style="--mob-wrap-h: 280px;">
-          <iframe 
+          <iframe
             style="max-width: 100%; transform: scale(1) translate(3%, 0%); --mob-scale: 0.44; --mob-tx: 3%; --mob-ty: -4%;"
             src="projetos_arquivos/relatorio_final_series_temporais/graphics/grafico_serie_original.html"
             class="plotly-iframe" title="Série Histórica Original" scrolling="no"></iframe>
@@ -362,9 +363,9 @@
           escolha de um <strong>modelo multiplicativo</strong> para a decomposição clássica. Isso nos permite isolar de
           forma clara a Tendência de longo prazo do Sinal Sazonal.</p>
 
-        <div class="article-img-wrap" style="--mob-wrap-h: 394px; --mob-iframe-h: 820px; height: 820px; padding: 0;">
-          <iframe 
-            style="max-width: 100%; transform: scale(0.95) translate(3%, 0%); --mob-scale: 0.5; --mob-tx: 3.5%; --mob-ty: -1.2%; height: 100%;"
+        <div class="article-img-wrap" style="--mob-wrap-h: 380px; --mob-iframe-h: 820px; height: 820px; padding: 0;">
+          <iframe
+            style="max-width: 100%; transform: scale(0.95) translate(3%, 0%); --mob-scale: 0.47; --mob-tx: 3.5%; --mob-ty: -1.2%; height: 100%;"
             src="projetos_arquivos/relatorio_final_series_temporais/graphics/grafico_decomposicao.html"
             class="plotly-iframe" title="Decomposição da Série" scrolling="no"></iframe>
         </div>
@@ -401,9 +402,8 @@
           contra o método de Suavização Exponencial (Holt-Winters Aditivo) para comparação.
         </p>
 
-        <div class="article-img-wrap" style="--mob-wrap-h: 270px; --mob-scale: 0.51; --mob-tx: 4%;">
-          <iframe 
-            style="max-width: 100%; transform: scale(1) translate(4%, 1%); --mob-iframe-h: 480px; --mob-ty: -2%;"
+        <div class="article-img-wrap" style="--mob-wrap-h: 264px; --mob-scale: 0.49; --mob-tx: 4%;">
+          <iframe style="max-width: 100%; transform: scale(1) translate(4%, 1%); --mob-iframe-h: 480px; --mob-ty: -2%;"
             src="projetos_arquivos/relatorio_final_series_temporais/graphics/previsao_modelo_final.html"
             class="plotly-iframe" title="Previsão Out of Sample" scrolling="no"></iframe>
         </div>
@@ -469,50 +469,50 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
 
-    // GSAP Scroll Animations
-    gsap.registerPlugin(ScrollTrigger);
+      // GSAP Scroll Animations
+      gsap.registerPlugin(ScrollTrigger);
 
-    // Fade-up elements
-    gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
-      gsap.fromTo(elem,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: elem,
-            start: "top 85%",
-            toggleActions: "play none none reverse"
+      // Fade-up elements
+      gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
+        gsap.fromTo(elem,
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: elem,
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            }
           }
-        }
-      );
-    });
-
-    // Custom Cursor tracking (if used in design_system)
-    const ring = document.getElementById('cursor-ring');
-    const dot = document.getElementById('cursor-dot');
-
-    if (ring && dot) {
-      document.addEventListener('mousemove', (e) => {
-        gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.3, ease: 'power2.out' });
-        gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
+        );
       });
 
-      const links = document.querySelectorAll('a, .article-img-wrap');
-      links.forEach(link => {
-        link.addEventListener('mouseenter', () => {
-          gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
+      // Custom Cursor tracking (if used in design_system)
+      const ring = document.getElementById('cursor-ring');
+      const dot = document.getElementById('cursor-dot');
+
+      if (ring && dot) {
+        document.addEventListener('mousemove', (e) => {
+          gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.3, ease: 'power2.out' });
+          gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
         });
-        link.addEventListener('mouseleave', () => {
-          gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+
+        const links = document.querySelectorAll('a, .article-img-wrap');
+        links.forEach(link => {
+          link.addEventListener('mouseenter', () => {
+            gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
+          });
+          link.addEventListener('mouseleave', () => {
+            gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+          });
         });
-      });
-    }
-  
+      }
+
     });
   </script>
 </body>
