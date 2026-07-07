@@ -1,14 +1,30 @@
-# Regras de Seguranca Globais para o Site
+# ==========================================
+# 1. CABECALHOS GLOBAIS (APLICADOS A TODOS OS ARQUIVOS)
+# ==========================================
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+
+# ==========================================
+# 2. CSP RIGIDA (APLICADA APENAS AS PAGINAS HTML DO PORTFOLIO)
+# ==========================================
+/
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net https://cdn.plot.ly; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://api.web3forms.com; frame-src 'self';
 
-# Regras Relaxadas e Seguras Exclusivas para a Pasta de Graficos (WebGL/Mapbox/Workers)
-/projetos_arquivos/realatorio_analise_espacial/graphics/*
-  X-Content-Type-Options: nosniff
-  X-Frame-Options: SAMEORIGIN
+/index.html
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net https://cdn.plot.ly; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://api.web3forms.com; frame-src 'self';
+
+/certificacoes.html
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net https://cdn.plot.ly; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://api.web3forms.com; frame-src 'self';
+
+/case_*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net https://cdn.plot.ly; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://api.web3forms.com; frame-src 'self';
+
+# ==========================================
+# 3. CSP RELAXADA (APLICADA EXCLUSIVAMENTE AOS IFRAMES DOS GRAFICOS/MAPAS)
+# ==========================================
+/projetos_arquivos/*
   Content-Security-Policy: default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; worker-src 'self' blob:; child-src 'self' blob:;
