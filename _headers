@@ -1,7 +1,14 @@
+# Regras de Seguranca Globais para o Site
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net https://cdn.plot.ly; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.mapbox.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.google-analytics.com https://*.mapbox.com https://*.basemaps.cartocdn.com https://*.openstreetmap.org; connect-src 'self' https://www.google-analytics.com https://api.web3forms.com https://*.mapbox.com https://api.mapbox.com; frame-src 'self'; worker-src 'self' blob:; child-src 'self' blob:;
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net https://cdn.plot.ly; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://api.web3forms.com; frame-src 'self';
+
+# Regras Relaxadas e Seguras Exclusivas para a Pasta de Graficos (WebGL/Mapbox/Workers)
+/projetos_arquivos/realatorio_analise_espacial/graphics/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; worker-src 'self' blob:; child-src 'self' blob:;
