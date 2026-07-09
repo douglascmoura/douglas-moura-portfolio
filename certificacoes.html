@@ -367,6 +367,55 @@
           color: #605DED !important;
         }
 
+        /* Personalized styles for Asimov Academy */
+        .cert-card-org-asimov {
+          font-family: 'Outfit', 'Inter', sans-serif;
+          font-weight: 400;
+          text-transform: none !important;
+          letter-spacing: 0.05em;
+          color: #10B981 !important;
+        }
+
+        .cert-card-org-asimov strong {
+          font-weight: 800;
+          color: currentColor;
+        }
+
+        /* Unified Emerald Green Card style for Asimov Academy */
+        .cert-glass-card.cert-card-asimov {
+          border: 1px solid rgba(16, 185, 129, 0.12);
+        }
+
+        .cert-glass-card.cert-card-asimov::before {
+          background: linear-gradient(135deg, rgba(16, 185, 129, 0.04) 0%, transparent 50%);
+        }
+
+        .cert-glass-card.cert-card-asimov:hover {
+          border-color: rgba(16, 185, 129, 0.5);
+          box-shadow: 0 25px 50px rgba(16, 185, 129, 0.06);
+          background: rgba(255, 255, 255, 0.015);
+        }
+
+        /* Asimov Academy Text-based Watermark Styling */
+        .cert-asimov-watermark {
+          position: absolute;
+          top: 50%;
+          right: -100px;
+          width: 360px;
+          height: 110px;
+          transform: translateY(-50%) rotate(90deg);
+          transform-origin: center;
+          opacity: 0.025;
+          pointer-events: none;
+          z-index: 0;
+          transition: opacity 0.5s ease;
+          color: #10B981 !important;
+        }
+
+        .cert-glass-card:hover .cert-asimov-watermark {
+          opacity: 0.07;
+        }
+
         /* Responsive overrides for stack manual carousels */
         .cert-slider-wrapper.manual-carousel {
           height: 55vh !important;
@@ -666,12 +715,15 @@
           .cert-slider-wrapper.manual-carousel {
             flex-direction: row;
             justify-content: flex-start;
-            align-items: stretch !important; /* Stretch all cards to equal height */
+            align-items: stretch !important;
+            /* Stretch all cards to equal height */
             overflow-x: auto;
-            overflow-y: visible !important; /* Prevent vertical clipping of hover shadow and scale transition */
+            overflow-y: visible !important;
+            /* Prevent vertical clipping of hover shadow and scale transition */
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
-            padding: 2rem 5% 2.5rem 5% !important; /* Generous top padding for hover space */
+            padding: 2rem 5% 2.5rem 5% !important;
+            /* Generous top padding for hover space */
             gap: 1.5rem;
             scrollbar-width: none;
             height: auto !important;
@@ -693,7 +745,8 @@
             height: auto !important;
             aspect-ratio: auto !important;
             overflow: visible !important;
-            display: flex !important; /* Enable flex-column layout to allow internal stretching */
+            display: flex !important;
+            /* Enable flex-column layout to allow internal stretching */
             flex-direction: column;
           }
 
@@ -892,7 +945,8 @@
             <div class="cert-slide hidden-right" data-title="Asimov Academy - Analista de Dados">
               <h2 class="cert-mobile-title">Asimov Academy - Analista de Dados</h2>
               <div class="cert-wrapper">
-                <img src="assets/certificados/Certificado-Asimov-Analista-de-Dados.webp" alt="Asimov Academy - Analista de Dados" loading="lazy" />
+                <img src="assets/certificados/Certificado-Asimov-Analista-de-Dados.webp"
+                  alt="Asimov Academy - Analista de Dados" loading="lazy" />
               </div>
             </div>
 
@@ -1312,6 +1366,180 @@
               </svg>
             </button>
             <div class="cert-glass-indicator">1 / 4</div>
+            <button class="cert-glass-control-btn next-btn" aria-label="Próximo">
+              <svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16">
+                <path d="M9 18l6-6-6-6"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: ASIMOV ACADEMY -->
+      <div class="cert-section-wrapper alt-bg" style="padding-top: 2rem;">
+        <div class="cert-showcase gsap-fade-up">
+          <h2 class="cert-static-header" style="margin-bottom: 5.5rem;">Asimov Academy</h2>
+
+          <div class="cert-slider-wrapper manual-carousel" id="carousel-asimov">
+            <!-- Slide 1: Logica de Programacao -->
+            <div class="cert-slide active">
+              <div class="cert-glass-card cert-card-asimov">
+                <svg class="cert-asimov-watermark" viewBox="0 0 360 110" xmlns="http://www.w3.org/2000/svg">
+                  <text x="50%" y="65%" text-anchor="middle" font-family="'Outfit', 'Inter', sans-serif" font-size="70"
+                    font-weight="900" fill="currentColor" letter-spacing="4">ASIMOV</text>
+                </svg>
+                <div class="cert-card-header">
+                  <span class="cert-card-org cert-card-org-asimov">Asimov <strong>Academy</strong></span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-date">MAI 2026</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-hours">3H</span>
+                </div>
+                <h4 class="cert-card-title">Introdução à Lógica de Programação</h4>
+                <p class="cert-card-desc">Fundamentos de lógica de programação, cobrindo variáveis, operadores lógicos,
+                  estruturas de decisão e repetição para resolução de problemas computacionais.</p>
+                <div class="cert-card-footer">
+                  <span class="cert-card-code">Credencial: 3d7196e4</span>
+                  <a href="assets/certificados/asimov-academy/asimov-logica-programacao.pdf" class="cert-card-link"
+                    target="_blank" rel="noopener noreferrer">
+                    Visualizar PDF
+                    <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2: Python Basico -->
+            <div class="cert-slide next">
+              <div class="cert-glass-card cert-card-asimov">
+                <svg class="cert-asimov-watermark" viewBox="0 0 360 110" xmlns="http://www.w3.org/2000/svg">
+                  <text x="50%" y="65%" text-anchor="middle" font-family="'Outfit', 'Inter', sans-serif" font-size="70"
+                    font-weight="900" fill="currentColor" letter-spacing="4">ASIMOV</text>
+                </svg>
+                <div class="cert-card-header">
+                  <span class="cert-card-org cert-card-org-asimov">Asimov <strong>Academy</strong></span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-date">MAI 2026</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-hours">15H</span>
+                </div>
+                <h4 class="cert-card-title">Aprendendo Python: Conceitos Básicos</h4>
+                <p class="cert-card-desc">Fundamentos da linguagem Python, cobrindo controle de fluxo, loops,
+                  sequências, dicionários, funções e importações.</p>
+                <div class="cert-card-footer">
+                  <span class="cert-card-code">Credencial: 1681dbeb</span>
+                  <a href="assets/certificados/asimov-academy/asimov-python-basico.pdf" class="cert-card-link"
+                    target="_blank" rel="noopener noreferrer">
+                    Visualizar PDF
+                    <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3: Python para Dados -->
+            <div class="cert-slide hidden-right">
+              <div class="cert-glass-card cert-card-asimov">
+                <svg class="cert-asimov-watermark" viewBox="0 0 360 110" xmlns="http://www.w3.org/2000/svg">
+                  <text x="50%" y="65%" text-anchor="middle" font-family="'Outfit', 'Inter', sans-serif" font-size="70"
+                    font-weight="900" fill="currentColor" letter-spacing="4">ASIMOV</text>
+                </svg>
+                <div class="cert-card-header">
+                  <span class="cert-card-org cert-card-org-asimov">Asimov <strong>Academy</strong></span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-date">MAI 2026</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-hours">8H</span>
+                </div>
+                <h4 class="cert-card-title">Python para dados: do zero à análise completa</h4>
+                <p class="cert-card-desc">Introdução à ciência de dados com Python, manipulação e análise de conjuntos
+                  de dados reais utilizando a biblioteca Pandas.</p>
+                <div class="cert-card-footer">
+                  <span class="cert-card-code">Credencial: e7fddc8b</span>
+                  <a href="assets/certificados/asimov-academy/asimov-python-dados.pdf" class="cert-card-link"
+                    target="_blank" rel="noopener noreferrer">
+                    Visualizar PDF
+                    <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 4: Python Intermediario -->
+            <div class="cert-slide hidden-right">
+              <div class="cert-glass-card cert-card-asimov">
+                <svg class="cert-asimov-watermark" viewBox="0 0 360 110" xmlns="http://www.w3.org/2000/svg">
+                  <text x="50%" y="65%" text-anchor="middle" font-family="'Outfit', 'Inter', sans-serif" font-size="70"
+                    font-weight="900" fill="currentColor" letter-spacing="4">ASIMOV</text>
+                </svg>
+                <div class="cert-card-header">
+                  <span class="cert-card-org cert-card-org-asimov">Asimov <strong>Academy</strong></span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-date">MAI 2026</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-hours">12H</span>
+                </div>
+                <h4 class="cert-card-title">Aprendendo Python: Conceitos Intermediários</h4>
+                <p class="cert-card-desc">Estruturas de dados avançadas, iteração otimizada, gerenciamento de erros e
+                  exceções, e exploração profunda da biblioteca padrão do Python.</p>
+                <div class="cert-card-footer">
+                  <span class="cert-card-code">Credencial: 56e6f40f</span>
+                  <a href="assets/certificados/asimov-academy/asimov-aprendendo-python-conceitos-intermediarios.pdf"
+                    class="cert-card-link" target="_blank" rel="noopener noreferrer">
+                    Visualizar PDF
+                    <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 5: IA e Machine Learning -->
+            <div class="cert-slide prev">
+              <div class="cert-glass-card cert-card-asimov">
+                <svg class="cert-asimov-watermark" viewBox="0 0 360 110" xmlns="http://www.w3.org/2000/svg">
+                  <text x="50%" y="65%" text-anchor="middle" font-family="'Outfit', 'Inter', sans-serif" font-size="70"
+                    font-weight="900" fill="currentColor" letter-spacing="4">ASIMOV</text>
+                </svg>
+                <div class="cert-card-header">
+                  <span class="cert-card-org cert-card-org-asimov">Asimov <strong>Academy</strong></span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-date">MAI 2026</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-hours">5H</span>
+                </div>
+                <h4 class="cert-card-title">Fundamentos de AI e Machine Learning</h4>
+                <p class="cert-card-desc">Conceitos essenciais de Aprendizado de Máquina, tipos de algoritmos de ML e
+                  aplicação prática de modelagem preditiva para estimativa de preços.</p>
+                <div class="cert-card-footer">
+                  <span class="cert-card-code">Credencial: 1cce90a6</span>
+                  <a href="assets/certificados/asimov-academy/asimov-fundamentos-ai-ml.pdf" class="cert-card-link"
+                    target="_blank" rel="noopener noreferrer">
+                    Visualizar PDF
+                    <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="cert-glass-controls" style="margin-top: 1.5rem;">
+            <button class="cert-glass-control-btn prev-btn" aria-label="Anterior">
+              <svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16">
+                <path d="M15 18l-6-6 6-6"></path>
+              </svg>
+            </button>
+            <div class="cert-glass-indicator">1 / 5</div>
             <button class="cert-glass-control-btn next-btn" aria-label="Próximo">
               <svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16">
                 <path d="M9 18l6-6-6-6"></path>
