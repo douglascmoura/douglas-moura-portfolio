@@ -19,11 +19,11 @@
     rel="stylesheet" />
 
   <!-- CSS -->
-<link href="assets/css/style.min.css" rel="stylesheet"/>
+  <link href="assets/css/style.min.css" rel="stylesheet" />
   <!-- GSAP & Tailwind -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  
+
 
   <!-- MathJax para as equações matemáticas -->
   <script>
@@ -181,7 +181,8 @@
       border: 1px solid rgba(215, 181, 109, 0.3);
       border-radius: 30px;
       background: rgba(7, 16, 32, 0.6);
-      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
       transition: all 0.3s ease;
     }
 
@@ -228,7 +229,8 @@
       background: rgba(7, 16, 32, 0.6);
       color: #D7B56D;
       border: 1px solid rgba(215, 181, 109, 0.4);
-      -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
     }
 
     .cta-btn--secondary:hover {
@@ -243,16 +245,65 @@
       font-size: 1.2rem !important;
       margin: 1.5rem 0 !important;
     }
-  
+
     /* Cursor Dourado Exclusivo para as Páginas de Case */
     .cursor-ring {
       border-color: rgba(215, 181, 109, 0.85) !important;
       box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
     }
+
     @media (max-width: 768px) {
       .article-img-wrap::before {
         display: none !important;
         animation: none !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .article-img-wrap::before {
+        display: none !important;
+        animation: none !important;
+      }
+
+      .ising-svg-card {
+        padding: 2rem 1.25rem 1.75rem 1.25rem !important;
+      }
+    }
+
+    /* CSS para animação e tremor de Spins (Modelo de Ising) */
+    .spin-g {
+      transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transform: scale(var(--hover-scale, 1));
+      cursor: pointer;
+    }
+
+    .spin-g.trembling {
+      animation: spin-thermal-shake 0.1s infinite linear;
+    }
+
+    @keyframes spin-thermal-shake {
+      0% {
+        transform: scale(var(--hover-scale, 1)) translate(0, 0) rotate(0deg);
+      }
+
+      20% {
+        transform: scale(var(--hover-scale, 1)) translate(calc(-1.2px * var(--shake-intensity, 1)), calc(0.8px * var(--shake-intensity, 1))) rotate(calc(-0.4deg * var(--shake-intensity, 1)));
+      }
+
+      40% {
+        transform: scale(var(--hover-scale, 1)) translate(calc(1.2px * var(--shake-intensity, 1)), calc(-0.8px * var(--shake-intensity, 1))) rotate(calc(0.4deg * var(--shake-intensity, 1)));
+      }
+
+      60% {
+        transform: scale(var(--hover-scale, 1)) translate(calc(-0.8px * var(--shake-intensity, 1)), calc(-0.8px * var(--shake-intensity, 1))) rotate(calc(-0.25deg * var(--shake-intensity, 1)));
+      }
+
+      80% {
+        transform: scale(var(--hover-scale, 1)) translate(calc(0.8px * var(--shake-intensity, 1)), calc(0.8px * var(--shake-intensity, 1))) rotate(calc(0.25deg * var(--shake-intensity, 1)));
+      }
+
+      100% {
+        transform: scale(var(--hover-scale, 1)) translate(0, 0) rotate(0deg);
       }
     }
   </style>
@@ -315,7 +366,7 @@
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Fundamentação Teórica</h2>
         <p>
-          O <strong>Modelo de Ising Bidimensional</strong> é um dos paradigmas mais vitais da Mecânica Estatística
+          O <strong>Modelo de Ising Bidimensional</strong> é um dos paradigmas mais fundamentais da Mecânica Estatística
           moderna. Ele foi formulado para descrever a natureza de materiais ferromagnéticos em função da temperatura. Em
           sua essência, o sistema consiste em uma rede quadrada bidimensional de dimensão $n \times n$.
         </p>
@@ -331,10 +382,411 @@
 
         <p>
           Onde $J$ dita a constante de acoplamento (se positiva, os spins vizinhos tendem a se alinhar, caracterizando
-          ferromagnetismo) e $h$ é o campo magnético externo. Ao cruzar o Ponto de Curie (a temperatura crítica do
+          ferromagnetismo) e $h$ é o campo magnético externo. Ao cruzar a temperatura crítica (Ponto de Curie do
           sistema), a simulação revela o desabrochar espontâneo da magnetização — a clássica <strong>transição de
             fase</strong> de segunda ordem.
         </p>
+
+        <!-- ==========================================
+        SECTION: SPINS GRID PERSPECTIVE (SVG)
+        ========================================== -->
+        <div class="article-img-wrap ising-svg-card"
+          style="padding: 3rem 3rem 2.5rem 3rem; margin: 4rem 0; background: rgba(7, 16, 32, 0.55); border: 1px solid rgba(215, 181, 109, 0.18); border-radius: 12px; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(215, 181, 109, 0.05); display: block !important; position: relative; --mob-wrap-h: auto;">
+          <!-- Top-left Gold Badge -->
+          <div style="margin-bottom: 1.5rem; text-align: left;">
+            <span class="badge"
+              style="background: rgba(215, 181, 109, 0.08); color: #D7B56D; border: 1px solid rgba(215, 181, 109, 0.35); padding: 5px 12px; border-radius: 20px; font-size: 0.72rem; font-family: 'Inter', sans-serif; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;">REDE
+              DE SPINS 2D</span>
+          </div>
+
+          <!-- Title & Description -->
+          <div style="text-align: left; margin-bottom: 2.5rem; font-family: 'Inter', sans-serif;">
+            <h3
+              style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-style: italic; font-weight: 600; color: #D7B56D; margin: 0 0 0.5rem 0; text-shadow: 0 2px 10px rgba(215, 181, 109, 0.15); border: none; padding: 0;">
+              Representação de Microestados</h3>
+            <p
+              style="color: rgba(248, 249, 250, 0.65); font-size: 1rem; line-height: 1.6; margin: 0; font-family: 'Inter', sans-serif;">
+              Configurção oblíqua de uma malha retangular $5 \times 6$ de spins sob oscilações térmicas e defeitos de
+              alinhamento ferromagnético.
+            </p>
+          </div>
+
+          <!-- Inline SVG -->
+          <svg id="ising-svg" viewBox="22 -8 751 436" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg"
+            style="background: transparent; max-width: 800px; margin: 0 auto; display: block; height: auto;">
+            <defs>
+              <!-- Marker for Up Arrow (Gold) -->
+              <marker id="arrow-gold" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6"
+                orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#D7B56D" />
+              </marker>
+              <!-- Marker for Down Arrow (Blue) -->
+              <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6"
+                orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+              </marker>
+
+              <!-- Diagonal Gradient for Legend Border -->
+              <linearGradient id="legend-border-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#D7B56D" />
+                <stop offset="100%" stop-color="#3b82f6" />
+              </linearGradient>
+
+              <!-- Neon Glow Filter for Legend Border -->
+              <filter id="neon-glow-legend" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="2" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <line x1="90.0" y1="350.0" x2="525.0" y2="350.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="1.00"
+              stroke-width="1.8" />
+            <line x1="135.0" y1="280.0" x2="570.0" y2="280.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.85"
+              stroke-width="1.5" />
+            <line x1="180.0" y1="210.0" x2="615.0" y2="210.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.70"
+              stroke-width="1.2" />
+            <line x1="225.0" y1="140.0" x2="660.0" y2="140.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.55"
+              stroke-width="1.0" />
+            <line x1="270.0" y1="70.0" x2="705.0" y2="70.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.40"
+              stroke-width="0.8" />
+            <line x1="120.0" y1="350.0" x2="165.0" y2="280.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.93"
+              stroke-width="1.6" />
+            <line x1="195.0" y1="350.0" x2="240.0" y2="280.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.93"
+              stroke-width="1.6" />
+            <line x1="270.0" y1="350.0" x2="315.0" y2="280.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.93"
+              stroke-width="1.6" />
+            <line x1="345.0" y1="350.0" x2="390.0" y2="280.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.93"
+              stroke-width="1.6" />
+            <line x1="420.0" y1="350.0" x2="465.0" y2="280.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.93"
+              stroke-width="1.6" />
+            <line x1="495.0" y1="350.0" x2="540.0" y2="280.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.93"
+              stroke-width="1.6" />
+            <line x1="165.0" y1="280.0" x2="210.0" y2="210.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.78"
+              stroke-width="1.4" />
+            <line x1="240.0" y1="280.0" x2="285.0" y2="210.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.78"
+              stroke-width="1.4" />
+            <line x1="315.0" y1="280.0" x2="360.0" y2="210.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.78"
+              stroke-width="1.4" />
+            <line x1="390.0" y1="280.0" x2="435.0" y2="210.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.78"
+              stroke-width="1.4" />
+            <line x1="465.0" y1="280.0" x2="510.0" y2="210.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.78"
+              stroke-width="1.4" />
+            <line x1="540.0" y1="280.0" x2="585.0" y2="210.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.78"
+              stroke-width="1.4" />
+            <line x1="210.0" y1="210.0" x2="255.0" y2="140.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.62"
+              stroke-width="1.1" />
+            <line x1="285.0" y1="210.0" x2="330.0" y2="140.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.62"
+              stroke-width="1.1" />
+            <line x1="360.0" y1="210.0" x2="405.0" y2="140.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.62"
+              stroke-width="1.1" />
+            <line x1="435.0" y1="210.0" x2="480.0" y2="140.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.62"
+              stroke-width="1.1" />
+            <line x1="510.0" y1="210.0" x2="555.0" y2="140.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.62"
+              stroke-width="1.1" />
+            <line x1="585.0" y1="210.0" x2="630.0" y2="140.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.62"
+              stroke-width="1.1" />
+            <line x1="255.0" y1="140.0" x2="300.0" y2="70.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.48"
+              stroke-width="0.9" />
+            <line x1="330.0" y1="140.0" x2="375.0" y2="70.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.48"
+              stroke-width="0.9" />
+            <line x1="405.0" y1="140.0" x2="450.0" y2="70.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.48"
+              stroke-width="0.9" />
+            <line x1="480.0" y1="140.0" x2="525.0" y2="70.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.48"
+              stroke-width="0.9" />
+            <line x1="555.0" y1="140.0" x2="600.0" y2="70.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.48"
+              stroke-width="0.9" />
+            <line x1="630.0" y1="140.0" x2="675.0" y2="70.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.48"
+              stroke-width="0.9" />
+            <line x1="102.0" y1="378.0" x2="120.0" y2="350.0" stroke="rgba(248, 249, 250, 0.4)" stroke-opacity="1.0"
+              stroke-width="1.75" />
+            <line x1="300.0" y1="70.0" x2="318.0" y2="42.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.4"
+              stroke-width="0.75" />
+            <line x1="177.0" y1="378.0" x2="195.0" y2="350.0" stroke="rgba(248, 249, 250, 0.4)" stroke-opacity="1.0"
+              stroke-width="1.75" />
+            <line x1="375.0" y1="70.0" x2="393.0" y2="42.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.4"
+              stroke-width="0.75" />
+            <line x1="252.0" y1="378.0" x2="270.0" y2="350.0" stroke="rgba(248, 249, 250, 0.4)" stroke-opacity="1.0"
+              stroke-width="1.75" />
+            <line x1="450.0" y1="70.0" x2="468.0" y2="42.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.4"
+              stroke-width="0.75" />
+            <line x1="327.0" y1="378.0" x2="345.0" y2="350.0" stroke="rgba(248, 249, 250, 0.4)" stroke-opacity="1.0"
+              stroke-width="1.75" />
+            <line x1="525.0" y1="70.0" x2="543.0" y2="42.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.4"
+              stroke-width="0.75" />
+            <line x1="402.0" y1="378.0" x2="420.0" y2="350.0" stroke="rgba(248, 249, 250, 0.4)" stroke-opacity="1.0"
+              stroke-width="1.75" />
+            <line x1="600.0" y1="70.0" x2="618.0" y2="42.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.4"
+              stroke-width="0.75" />
+            <line x1="477.0" y1="378.0" x2="495.0" y2="350.0" stroke="rgba(248, 249, 250, 0.4)" stroke-opacity="1.0"
+              stroke-width="1.75" />
+            <line x1="675.0" y1="70.0" x2="693.0" y2="42.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.4"
+              stroke-width="0.75" />
+            <!-- Spin at x=1, y=5 -->
+            <g class="spin-g" data-cx="300.0" data-cy="70.0" opacity="0.48"
+              style="--cx: 300.0px; --cy: 70.0px; transform-origin: 300.0px 70.0px;">
+              <circle cx="300.0" cy="70.0" r="8.8" stroke="#D7B56D" stroke-width="0.99"
+                fill="rgba(215, 181, 109, 0.15)" />
+              <line x1="300.0" y1="75.5" x2="300.0" y2="64.5" stroke="#D7B56D" stroke-width="1.10"
+                marker-end="url(#arrow-gold)" transform="rotate(8, 300.0, 70.0)" />
+            </g>
+            <!-- Spin at x=2, y=5 -->
+            <g class="spin-g" data-cx="375.0" data-cy="70.0" opacity="0.48"
+              style="--cx: 375.0px; --cy: 70.0px; transform-origin: 375.0px 70.0px;">
+              <circle cx="375.0" cy="70.0" r="8.8" stroke="#D7B56D" stroke-width="0.99"
+                fill="rgba(215, 181, 109, 0.15)" />
+              <line x1="375.0" y1="75.5" x2="375.0" y2="64.5" stroke="#D7B56D" stroke-width="1.10"
+                marker-end="url(#arrow-gold)" transform="rotate(-12, 375.0, 70.0)" />
+            </g>
+            <!-- Spin at x=3, y=5 -->
+            <g class="spin-g" data-cx="450.0" data-cy="70.0" opacity="0.48"
+              style="--cx: 450.0px; --cy: 70.0px; transform-origin: 450.0px 70.0px;">
+              <circle cx="450.0" cy="70.0" r="8.8" stroke="#D7B56D" stroke-width="0.99"
+                fill="rgba(215, 181, 109, 0.15)" />
+              <line x1="450.0" y1="75.5" x2="450.0" y2="64.5" stroke="#D7B56D" stroke-width="1.10"
+                marker-end="url(#arrow-gold)" transform="rotate(15, 450.0, 70.0)" />
+            </g>
+            <!-- Spin at x=4, y=5 -->
+            <g class="spin-g" data-cx="525.0" data-cy="70.0" opacity="0.48"
+              style="--cx: 525.0px; --cy: 70.0px; transform-origin: 525.0px 70.0px;">
+              <circle cx="525.0" cy="70.0" r="8.8" stroke="#3b82f6" stroke-width="0.99"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="525.0" y1="64.5" x2="525.0" y2="75.5" stroke="#3b82f6" stroke-width="1.10"
+                marker-end="url(#arrow-blue)" transform="rotate(-5, 525.0, 70.0)" />
+            </g>
+            <!-- Spin at x=5, y=5 -->
+            <g class="spin-g" data-cx="600.0" data-cy="70.0" opacity="0.48"
+              style="--cx: 600.0px; --cy: 70.0px; transform-origin: 600.0px 70.0px;">
+              <circle cx="600.0" cy="70.0" r="8.8" stroke="#3b82f6" stroke-width="0.99"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="600.0" y1="64.5" x2="600.0" y2="75.5" stroke="#3b82f6" stroke-width="1.10"
+                marker-end="url(#arrow-blue)" transform="rotate(10, 600.0, 70.0)" />
+            </g>
+            <!-- Spin at x=6, y=5 -->
+            <g class="spin-g" data-cx="675.0" data-cy="70.0" opacity="0.48"
+              style="--cx: 675.0px; --cy: 70.0px; transform-origin: 675.0px 70.0px;">
+              <circle cx="675.0" cy="70.0" r="8.8" stroke="#3b82f6" stroke-width="0.99"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="675.0" y1="64.5" x2="675.0" y2="75.5" stroke="#3b82f6" stroke-width="1.10"
+                marker-end="url(#arrow-blue)" transform="rotate(-15, 675.0, 70.0)" />
+            </g>
+            <!-- Spin at x=1, y=4 -->
+            <g class="spin-g" data-cx="255.0" data-cy="140.0" opacity="0.62"
+              style="--cx: 255.0px; --cy: 140.0px; transform-origin: 255.0px 140.0px;">
+              <circle cx="255.0" cy="140.0" r="10.9" stroke="#D7B56D" stroke-width="1.22"
+                fill="rgba(215, 181, 109, 0.15)" />
+              <line x1="255.0" y1="146.8" x2="255.0" y2="133.2" stroke="#D7B56D" stroke-width="1.36"
+                marker-end="url(#arrow-gold)" transform="rotate(-5, 255.0, 140.0)" />
+            </g>
+            <!-- Spin at x=2, y=4 -->
+            <g class="spin-g" data-cx="330.0" data-cy="140.0" opacity="0.62"
+              style="--cx: 330.0px; --cy: 140.0px; transform-origin: 330.0px 140.0px;">
+              <circle cx="330.0" cy="140.0" r="10.9" stroke="#D7B56D" stroke-width="1.22"
+                fill="rgba(215, 181, 109, 0.15)" />
+              <line x1="330.0" y1="146.8" x2="330.0" y2="133.2" stroke="#D7B56D" stroke-width="1.36"
+                marker-end="url(#arrow-gold)" transform="rotate(18, 330.0, 140.0)" />
+            </g>
+            <!-- Spin at x=3, y=4 -->
+            <g class="spin-g" data-cx="405.0" data-cy="140.0" opacity="0.62"
+              style="--cx: 405.0px; --cy: 140.0px; transform-origin: 405.0px 140.0px;">
+              <circle cx="405.0" cy="140.0" r="10.9" stroke="#D7B56D" stroke-width="1.22"
+                fill="rgba(215, 181, 109, 0.15)" />
+              <line x1="405.0" y1="146.8" x2="405.0" y2="133.2" stroke="#D7B56D" stroke-width="1.36"
+                marker-end="url(#arrow-gold)" transform="rotate(-8, 405.0, 140.0)" />
+            </g>
+            <!-- Spin at x=4, y=4 -->
+            <g class="spin-g" data-cx="480.0" data-cy="140.0" opacity="0.62"
+              style="--cx: 480.0px; --cy: 140.0px; transform-origin: 480.0px 140.0px;">
+              <circle cx="480.0" cy="140.0" r="10.9" stroke="#3b82f6" stroke-width="1.22"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="480.0" y1="133.2" x2="480.0" y2="146.8" stroke="#3b82f6" stroke-width="1.36"
+                marker-end="url(#arrow-blue)" transform="rotate(12, 480.0, 140.0)" />
+            </g>
+            <!-- Spin at x=5, y=4 -->
+            <g class="spin-g" data-cx="555.0" data-cy="140.0" opacity="0.62"
+              style="--cx: 555.0px; --cy: 140.0px; transform-origin: 555.0px 140.0px;">
+              <circle cx="555.0" cy="140.0" r="10.9" stroke="#3b82f6" stroke-width="1.22"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="555.0" y1="133.2" x2="555.0" y2="146.8" stroke="#3b82f6" stroke-width="1.36"
+                marker-end="url(#arrow-blue)" transform="rotate(-8, 555.0, 140.0)" />
+            </g>
+            <!-- Spin at x=6, y=4 -->
+            <g class="spin-g" data-cx="630.0" data-cy="140.0" opacity="0.62"
+              style="--cx: 630.0px; --cy: 140.0px; transform-origin: 630.0px 140.0px;">
+              <circle cx="630.0" cy="140.0" r="10.9" stroke="#3b82f6" stroke-width="1.22"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="630.0" y1="133.2" x2="630.0" y2="146.8" stroke="#3b82f6" stroke-width="1.36"
+                marker-end="url(#arrow-blue)" transform="rotate(5, 630.0, 140.0)" />
+            </g>
+            <!-- Spin at x=1, y=3 -->
+            <g class="spin-g" data-cx="210.0" data-cy="210.0" opacity="0.75"
+              style="--cx: 210.0px; --cy: 210.0px; transform-origin: 210.0px 210.0px;">
+              <circle cx="210.0" cy="210.0" r="12.8" stroke="#D7B56D" stroke-width="1.44"
+                fill="rgba(215, 181, 109, 0.15)" />
+              <line x1="210.0" y1="218.0" x2="210.0" y2="202.0" stroke="#D7B56D" stroke-width="1.60"
+                marker-end="url(#arrow-gold)" transform="rotate(12, 210.0, 210.0)" />
+            </g>
+            <!-- Spin at x=2, y=3 -->
+            <g class="spin-g" data-cx="285.0" data-cy="210.0" opacity="0.75"
+              style="--cx: 285.0px; --cy: 210.0px; transform-origin: 285.0px 210.0px;">
+              <circle cx="285.0" cy="210.0" r="12.8" stroke="#D7B56D" stroke-width="1.44"
+                fill="rgba(215, 181, 109, 0.15)" />
+              <line x1="285.0" y1="218.0" x2="285.0" y2="202.0" stroke="#D7B56D" stroke-width="1.60"
+                marker-end="url(#arrow-gold)" transform="rotate(-10, 285.0, 210.0)" />
+            </g>
+            <!-- Spin at x=3, y=3 -->
+            <g class="spin-g" data-cx="360.0" data-cy="210.0" opacity="0.75"
+              style="--cx: 360.0px; --cy: 210.0px; transform-origin: 360.0px 210.0px;">
+              <circle cx="360.0" cy="210.0" r="12.8" stroke="#D7B56D" stroke-width="1.44"
+                fill="rgba(215, 181, 109, 0.15)" />
+              <line x1="360.0" y1="218.0" x2="360.0" y2="202.0" stroke="#D7B56D" stroke-width="1.60"
+                marker-end="url(#arrow-gold)" transform="rotate(5, 360.0, 210.0)" />
+            </g>
+            <!-- Spin at x=4, y=3 -->
+            <g class="spin-g" data-cx="435.0" data-cy="210.0" opacity="0.75"
+              style="--cx: 435.0px; --cy: 210.0px; transform-origin: 435.0px 210.0px;">
+              <circle cx="435.0" cy="210.0" r="12.8" stroke="#3b82f6" stroke-width="1.44"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="435.0" y1="202.0" x2="435.0" y2="218.0" stroke="#3b82f6" stroke-width="1.60"
+                marker-end="url(#arrow-blue)" transform="rotate(-14, 435.0, 210.0)" />
+            </g>
+            <!-- Spin at x=5, y=3 -->
+            <g class="spin-g" data-cx="510.0" data-cy="210.0" opacity="0.75"
+              style="--cx: 510.0px; --cy: 210.0px; transform-origin: 510.0px 210.0px;">
+              <circle cx="510.0" cy="210.0" r="12.8" stroke="#3b82f6" stroke-width="1.44"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="510.0" y1="202.0" x2="510.0" y2="218.0" stroke="#3b82f6" stroke-width="1.60"
+                marker-end="url(#arrow-blue)" transform="rotate(8, 510.0, 210.0)" />
+            </g>
+            <!-- Spin at x=6, y=3 -->
+            <g class="spin-g" data-cx="585.0" data-cy="210.0" opacity="0.75"
+              style="--cx: 585.0px; --cy: 210.0px; transform-origin: 585.0px 210.0px;">
+              <circle cx="585.0" cy="210.0" r="12.8" stroke="#3b82f6" stroke-width="1.44"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="585.0" y1="202.0" x2="585.0" y2="218.0" stroke="#3b82f6" stroke-width="1.60"
+                marker-end="url(#arrow-blue)" transform="rotate(-12, 585.0, 210.0)" />
+            </g>
+            <!-- Spin at x=1, y=2 -->
+            <g class="spin-g" data-cx="165.0" data-cy="280.0" opacity="0.88"
+              style="--cx: 165.0px; --cy: 280.0px; transform-origin: 165.0px 280.0px;">
+              <circle cx="165.0" cy="280.0" r="14.7" stroke="#D7B56D" stroke-width="1.66"
+                fill="rgba(215, 181, 109, 0.15)" />
+              <line x1="165.0" y1="289.2" x2="165.0" y2="270.8" stroke="#D7B56D" stroke-width="1.84"
+                marker-end="url(#arrow-gold)" transform="rotate(-15, 165.0, 280.0)" />
+            </g>
+            <!-- Spin at x=2, y=2 -->
+            <g class="spin-g" data-cx="240.0" data-cy="280.0" opacity="0.88"
+              style="--cx: 240.0px; --cy: 280.0px; transform-origin: 240.0px 280.0px;">
+              <circle cx="240.0" cy="280.0" r="14.7" stroke="#3b82f6" stroke-width="1.66"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="240.0" y1="270.8" x2="240.0" y2="289.2" stroke="#3b82f6" stroke-width="1.84"
+                marker-end="url(#arrow-blue)" transform="rotate(10, 240.0, 280.0)" />
+            </g>
+            <!-- Spin at x=3, y=2 -->
+            <g class="spin-g" data-cx="315.0" data-cy="280.0" opacity="0.88"
+              style="--cx: 315.0px; --cy: 280.0px; transform-origin: 315.0px 280.0px;">
+              <circle cx="315.0" cy="280.0" r="14.7" stroke="#3b82f6" stroke-width="1.66"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="315.0" y1="270.8" x2="315.0" y2="289.2" stroke="#3b82f6" stroke-width="1.84"
+                marker-end="url(#arrow-blue)" transform="rotate(-8, 315.0, 280.0)" />
+            </g>
+            <!-- Spin at x=4, y=2 -->
+            <g class="spin-g" data-cx="390.0" data-cy="280.0" opacity="0.88"
+              style="--cx: 390.0px; --cy: 280.0px; transform-origin: 390.0px 280.0px;">
+              <circle cx="390.0" cy="280.0" r="14.7" stroke="#3b82f6" stroke-width="1.66"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="390.0" y1="270.8" x2="390.0" y2="289.2" stroke="#3b82f6" stroke-width="1.84"
+                marker-end="url(#arrow-blue)" transform="rotate(15, 390.0, 280.0)" />
+            </g>
+            <!-- Spin at x=5, y=2 -->
+            <g class="spin-g" data-cx="465.0" data-cy="280.0" opacity="0.88"
+              style="--cx: 465.0px; --cy: 280.0px; transform-origin: 465.0px 280.0px;">
+              <circle cx="465.0" cy="280.0" r="14.7" stroke="#3b82f6" stroke-width="1.66"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="465.0" y1="270.8" x2="465.0" y2="289.2" stroke="#3b82f6" stroke-width="1.84"
+                marker-end="url(#arrow-blue)" transform="rotate(-5, 465.0, 280.0)" />
+            </g>
+            <!-- Spin at x=6, y=2 -->
+            <g class="spin-g" data-cx="540.0" data-cy="280.0" opacity="0.88"
+              style="--cx: 540.0px; --cy: 280.0px; transform-origin: 540.0px 280.0px;">
+              <circle cx="540.0" cy="280.0" r="14.7" stroke="#D7B56D" stroke-width="1.66"
+                fill="rgba(215, 181, 109, 0.15)" />
+              <line x1="540.0" y1="289.2" x2="540.0" y2="270.8" stroke="#D7B56D" stroke-width="1.84"
+                marker-end="url(#arrow-gold)" transform="rotate(18, 540.0, 280.0)" />
+            </g>
+            <!-- Spin at x=1, y=1 -->
+            <g class="spin-g" data-cx="120.0" data-cy="350.0" opacity="1.00"
+              style="--cx: 120.0px; --cy: 350.0px; transform-origin: 120.0px 350.0px;">
+              <circle cx="120.0" cy="350.0" r="16.8" stroke="#3b82f6" stroke-width="1.89"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="120.0" y1="339.5" x2="120.0" y2="360.5" stroke="#3b82f6" stroke-width="2.10"
+                marker-end="url(#arrow-blue)" transform="rotate(12, 120.0, 350.0)" />
+            </g>
+            <!-- Spin at x=2, y=1 -->
+            <g class="spin-g" data-cx="195.0" data-cy="350.0" opacity="1.00"
+              style="--cx: 195.0px; --cy: 350.0px; transform-origin: 195.0px 350.0px;">
+              <circle cx="195.0" cy="350.0" r="16.8" stroke="#3b82f6" stroke-width="1.89"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="195.0" y1="339.5" x2="195.0" y2="360.5" stroke="#3b82f6" stroke-width="2.10"
+                marker-end="url(#arrow-blue)" transform="rotate(-15, 195.0, 350.0)" />
+            </g>
+            <!-- Spin at x=3, y=1 -->
+            <g class="spin-g" data-cx="270.0" data-cy="350.0" opacity="1.00"
+              style="--cx: 270.0px; --cy: 350.0px; transform-origin: 270.0px 350.0px;">
+              <circle cx="270.0" cy="350.0" r="16.8" stroke="#3b82f6" stroke-width="1.89"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="270.0" y1="339.5" x2="270.0" y2="360.5" stroke="#3b82f6" stroke-width="2.10"
+                marker-end="url(#arrow-blue)" transform="rotate(8, 270.0, 350.0)" />
+            </g>
+            <!-- Spin at x=4, y=1 -->
+            <g class="spin-g" data-cx="345.0" data-cy="350.0" opacity="1.00"
+              style="--cx: 345.0px; --cy: 350.0px; transform-origin: 345.0px 350.0px;">
+              <circle cx="345.0" cy="350.0" r="16.8" stroke="#3b82f6" stroke-width="1.89"
+                fill="rgba(59, 130, 246, 0.15)" />
+              <line x1="345.0" y1="339.5" x2="345.0" y2="360.5" stroke="#3b82f6" stroke-width="2.10"
+                marker-end="url(#arrow-blue)" transform="rotate(-10, 345.0, 350.0)" />
+            </g>
+            <!-- Spin at x=5, y=1 -->
+            <g class="spin-g" data-cx="420.0" data-cy="350.0" opacity="1.00"
+              style="--cx: 420.0px; --cy: 350.0px; transform-origin: 420.0px 350.0px;">
+              <circle cx="420.0" cy="350.0" r="16.8" stroke="#D7B56D" stroke-width="1.89"
+                fill="rgba(215, 181, 109, 0.15)" />
+              <line x1="420.0" y1="360.5" x2="420.0" y2="339.5" stroke="#D7B56D" stroke-width="2.10"
+                marker-end="url(#arrow-gold)" transform="rotate(14, 420.0, 350.0)" />
+            </g>
+            <!-- Spin at x=6, y=1 -->
+            <g class="spin-g" data-cx="495.0" data-cy="350.0" opacity="1.00"
+              style="--cx: 495.0px; --cy: 350.0px; transform-origin: 495.0px 350.0px;">
+              <circle cx="495.0" cy="350.0" r="16.8" stroke="#D7B56D" stroke-width="1.89"
+                fill="rgba(215, 181, 109, 0.15)" />
+              <line x1="495.0" y1="360.5" x2="495.0" y2="339.5" stroke="#D7B56D" stroke-width="2.10"
+                marker-end="url(#arrow-gold)" transform="rotate(-8, 495.0, 350.0)" />
+            </g>
+            <!-- Legend -->
+            <g transform="translate(578, 330)">
+              <rect width="170" height="70" rx="8" fill="rgba(10, 20, 40, 0.85)" opacity="0.9" />
+              <rect width="170" height="70" rx="8" fill="none" stroke="url(#legend-border-grad)" stroke-width="1.8"
+                filter="url(#neon-glow-legend)" opacity="0.9" />
+
+              <g transform="translate(15, 12)">
+                <circle cx="10" cy="10" r="8" stroke="#D7B56D" stroke-width="1.8" fill="rgba(215, 181, 109, 0.15)" />
+                <text x="28" y="14" fill="rgba(248, 249, 250, 0.85)" font-family="'Inter', sans-serif" font-size="11"
+                  font-weight="bold">Spin Up (&#963;<tspan font-size="8" dy="2">i</tspan>
+                  <tspan dy="-2"> = +1</tspan>)
+                </text>
+              </g>
+
+              <g transform="translate(15, 38)">
+                <circle cx="10" cy="10" r="8" stroke="#3b82f6" stroke-width="1.8" fill="rgba(59, 130, 246, 0.15)" />
+                <text x="28" y="14" fill="rgba(248, 249, 250, 0.85)" font-family="'Inter', sans-serif" font-size="11"
+                  font-weight="bold">Spin Down (&#963;<tspan font-size="8" dy="2">i</tspan>
+                  <tspan dy="-2"> = -1</tspan>)
+                </text>
+              </g>
+            </g>
+          </svg>
+        </div>
       </section>
 
       <!-- ==========================================
@@ -345,49 +797,78 @@
         <p>
           Dado o crescimento exponencial dos microestados $2^N$, calcular a Função de Partição de forma analítica exata
           é
-          inviável para redes amplas. Adotamos o rigor estocástico dos <strong>Métodos de Monte Carlo</strong>. O
+          inviável para redes amplas. Foi adotado o rigor estocástico dos <strong>Métodos de Monte Carlo</strong>. O
           coração
           da atualização computacional baseia-se no Algoritmo de <em>Metropolis-Hastings</em>, que assegura o alcance da
           distribuição de equilíbrio de Gibbs por meio de cadeias de Markov regulares.
         </p>
 
         <div class="glass-quote">
-          "O gargalo da interpretação nativa do Python foi desintegrado através do compilador JIT (Just-In-Time).
-          Decorando as funções matemáticas de atualização de rede com <code>@njit</code> da biblioteca Numba, atingimos
+          "O gargalo da interpretação nativa do Python foi superado através do compilador JIT (Just-In-Time).
+          Decorando as funções matemáticas de atualização de rede com <code>@njit</code> da biblioteca Numba, atingindo
           velocidades de linguagem compilada (C/C++), calculando milhões de interações de spin termodinâmico em frações
-          de
-          segundo."
+          de segundo."
         </div>
 
         <p>
           <strong>Diferenciais Técnicos Alcançados:</strong>
         </p>
         <ul>
-          <li><strong>Aceleração JIT extrema:</strong> Uso cirúrgico do framework `numba` para desviar a lentidão do
-            Global Interpreter Lock (GIL).</li>
+          <li><strong>Aceleração JIT extrema:</strong> Uso cirúrgico do framework `numba` para compilar as funções
+            críticas em código de máquina via LLVM, eliminando o <em>overhead</em> do interpretador Python (CPython) nos
+            laços de atualização de spins.</li>
           <li><strong>Multilinguagem:</strong> Estudo arquitetado e testado usando Python para a interatividade e a
             linguagem R como pilar de validação analítica da amostragem base.</li>
           <li><strong>UX Científico Moderno:</strong> Criação de front-end em <code>Streamlit</code> puramente via
-            código,
-            fornecendo a estudantes e curiosos um lab-deck em tempo real (painel lateral de interatividade).</li>
+            código, fornecendo a estudantes e curiosos um laboratório virtual em tempo real (painel lateral de
+            interatividade).
+          </li>
         </ul>
       </section>
 
       <!-- ==========================================
-     SECTION: 03. STREAMLIT APPLICATION
+     SECTION: 03. ADVANCED THEORY & ANALYSIS
+     ========================================== -->
+      <section class="gsap-fade-up">
+        <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Análise Físico-Estatística Avançada</h2>
+        <p>
+          O relatório técnico incorporado apresenta o aprofundamento rigoroso das propriedades do modelo e
+          da engenharia de simulação implementada. Dentre as descobertas e formulações fundamentais descritas,
+          destacam-se:
+        </p>
+        <ul>
+          <li><strong>Balanço Detalhado e Ergodicidade:</strong> Demonstração matemática de como as probabilidades de
+            aceitação no critério de Metropolis satisfazem a condição de balanço detalhado, garantindo a convergência
+            assintótica do microestado da rede para a distribuição de equilíbrio de Gibbs.</li>
+          <li><strong>Grandezas Observáveis Termodinâmicas:</strong> Dedução física das flutuações microscópicas de
+            energia e magnetização para estimativa de variáveis macroscópicas, como a Magnetização Média, Calor
+            Específico ($C$) e Suscetibilidade Magnética ($\chi$).</li>
+          <li><strong>Desaceleramento Crítico (<em>Critical Slowing Down</em>):</strong> Análise da divergência do tempo
+            de autocorrelação integrado ($\tau_{\text{int}} \sim |T - T_c|^{-z\nu}$) próximo ao ponto de transição de
+            fase ($T_c \approx 2,269 \,J/k_B$), ilustrando as limitações computacionais de algoritmos de atualização
+            local nas proximidades de fenômenos críticos.</li>
+          <li><strong>Invariância de Escala e Dimensão Fractal:</strong> Estudo geométrico da fronteira dos domínios
+            magnéticos na temperatura crítica, evidenciando visualmente a emergência de comportamento fractal, cuja
+            dimensão teórica exata é conhecida como $D_f = 1,375$ (Evolução de Schramm-Loewner).</li>
+        </ul>
+      </section>
+
+      <!-- ==========================================
+     SECTION: 04. STREAMLIT APPLICATION
      ========================================== -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Simulação Interativa (Live App)</h2>
         <p>
-          Sinta a termodinâmica rodando na nuvem. Altere os valores de <em>Temperatura</em> e veja a rede de spins
-          ferromagnéticos quebrar sua simetria visualmente (em baixas temperaturas formam-se domínios magnéticos densos;
-          em altas temperaturas prevalece o caos e a desordem térmica).
+          Sinta a termodinâmica rodando na nuvem. Altere o parâmetro $\beta$ (inverso da Temperatura) e veja a rede de
+          spins ferromagnéticos quebrar sua simetria visualmente (em baixas temperaturas formam-se domínios magnéticos
+          densos; em altas temperaturas prevalece o caos e a desordem térmica).
         </p>
 
         <!-- ==========================================
      SECTION: DEMONSTRATION IMAGE
      ========================================== -->
-        <div class="article-img-wrap" style="text-align: center; margin: 3rem 0; --mob-wrap-h: auto; display: block !important;">
+        <div class="article-img-wrap"
+          style="text-align: center; margin: 3rem 0; --mob-wrap-h: auto; display: block !important;">
           <img src="assets/img/app_ising_demo.png" alt="Interface da Simulação do Modelo de Ising"
             style="width: 100%; border-radius: 12px; border: 1px solid rgba(215, 181, 109, 0.2); box-shadow: 0 15px 40px rgba(0,0,0,0.4); height: auto;">
         </div>
@@ -417,7 +898,8 @@
             Acessar Live App
           </a>
 
-          <a href="projetos_arquivos/modelo_ising_2d_metropolis/Modelo_Ising.pdf" target="_blank" rel="noopener noreferrer"
+          <a href="projetos_arquivos/modelo_ising_2d_metropolis/Relatorio_Modelo_Ising_2D.pdf" target="_blank"
+            rel="noopener noreferrer"
             style="display:inline-flex; align-items:center; gap:10px; background: transparent; border: 1px solid rgba(248,249,250,0.3); color: #F8F9FA; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease;"
             onmouseover="this.style.borderColor='#D7B56D'; this.style.color='#D7B56D';"
             onmouseout="this.style.borderColor='rgba(248,249,250,0.3)'; this.style.color='#F8F9FA';">
@@ -446,49 +928,137 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // ==========================================
+      // ANIMATION & INTERACTIVITY FOR ISING SPINS
+      // ==========================================
+      const isingSvg = document.getElementById('ising-svg');
+      if (isingSvg) {
+        const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        const spins = isingSvg.querySelectorAll('.spin-g');
 
-    // GSAP Scroll Animations
-    gsap.registerPlugin(ScrollTrigger);
+        if (!isMobile) {
+          // Desktop: Proximity and Hover interaction
+          const svgPt = isingSvg.createSVGPoint();
 
-    // Fade-up elements
-    gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
-      gsap.fromTo(elem,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: elem,
-            start: "top 85%",
-            toggleActions: "play none none reverse"
+          function getSVGCoords(e) {
+            svgPt.x = e.clientX;
+            svgPt.y = e.clientY;
+            return svgPt.matrixTransform(isingSvg.getScreenCTM().inverse());
           }
+
+          isingSvg.addEventListener('mousemove', function (e) {
+            const coords = getSVGCoords(e);
+            const radius = 110; // Influence radius in SVG coordinate pixels
+
+            spins.forEach(spin => {
+              const cx = parseFloat(spin.getAttribute('data-cx'));
+              const cy = parseFloat(spin.getAttribute('data-cy'));
+
+              const dx = coords.x - cx;
+              const dy = coords.y - cy;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+
+              if (dist < radius) {
+                const intensity = 1.0 - (dist / radius); // 0 to 1
+
+                // Set CSS variables for scale and shake intensity
+                spin.style.setProperty('--hover-scale', 1.0 + 0.18 * intensity);
+                spin.style.setProperty('--shake-intensity', intensity);
+
+                if (intensity > 0.05) {
+                  spin.classList.add('trembling');
+                } else {
+                  spin.classList.remove('trembling');
+                }
+              } else {
+                spin.style.removeProperty('--hover-scale');
+                spin.style.removeProperty('--shake-intensity');
+                spin.classList.remove('trembling');
+              }
+            });
+          });
+
+          // Reset all spins on mouseleave
+          isingSvg.addEventListener('mouseleave', function () {
+            spins.forEach(spin => {
+              spin.style.removeProperty('--hover-scale');
+              spin.style.removeProperty('--shake-intensity');
+              spin.classList.remove('trembling');
+            });
+          });
+
+        } else {
+          // Mobile Fallback: Ambient Thermal Fluctuations (Alive Effect)
+          // We randomly select 2-3 spins to tremble at different intervals to mimic thermal noise
+          setInterval(() => {
+            // First reset 1-2 random spins that were active
+            spins.forEach(spin => {
+              if (spin.classList.contains('trembling') && Math.random() > 0.4) {
+                spin.style.removeProperty('--hover-scale');
+                spin.style.removeProperty('--shake-intensity');
+                spin.classList.remove('trembling');
+              }
+            });
+
+            // Activate 2-3 new random spins
+            const numToActivate = 2 + Math.floor(Math.random() * 2);
+            for (let i = 0; i < numToActivate; i++) {
+              const rIndex = Math.floor(Math.random() * spins.length);
+              const spin = spins[rIndex];
+              if (spin) {
+                const intensity = 0.25 + Math.random() * 0.35; // Subtle shake (0.25 to 0.6)
+                spin.style.setProperty('--hover-scale', 1.0 + 0.08 * intensity);
+                spin.style.setProperty('--shake-intensity', intensity);
+                spin.classList.add('trembling');
+              }
+            }
+          }, 1400);
         }
-      );
-    });
+      }
 
-    // Custom Cursor tracking
-    const ring = document.getElementById('cursor-ring');
-    const dot = document.getElementById('cursor-dot');
 
-    if (ring && dot) {
-      document.addEventListener('mousemove', (e) => {
-        gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.3, ease: 'power2.out' });
-        gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
+      // GSAP Scroll Animations
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Fade-up elements
+      gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
+        gsap.fromTo(elem,
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: elem,
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
       });
 
-      const links = document.querySelectorAll('a, .article-img-wrap, .cta-btn');
-      links.forEach(link => {
-        link.addEventListener('mouseenter', () => {
-          gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
+      // Custom Cursor tracking
+      const ring = document.getElementById('cursor-ring');
+      const dot = document.getElementById('cursor-dot');
+
+      if (ring && dot) {
+        document.addEventListener('mousemove', (e) => {
+          gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.3, ease: 'power2.out' });
+          gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
         });
-        link.addEventListener('mouseleave', () => {
-          gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+
+        const links = document.querySelectorAll('a, .article-img-wrap, .cta-btn');
+        links.forEach(link => {
+          link.addEventListener('mouseenter', () => {
+            gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
+          });
+          link.addEventListener('mouseleave', () => {
+            gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+          });
         });
-      });
-    }
-  
+      }
+
     });
   </script>
 </body>
