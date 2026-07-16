@@ -53,8 +53,8 @@ def fmt_br(x, casas=2):
 
 
 # Leitura vetorizada do Excel
-CAMINHO_DIR = Path.cwd().resolve()
-dados = pd.read_excel(CAMINHO_DIR / "Produção Mensal de Petróleo no Brasil.xlsx")
+CAMINHO_DIR = Path.cwd().parent
+dados = pd.read_excel(CAMINHO_DIR / "dataset" / "Produção Mensal de Petróleo no Brasil.xlsx")
 dados.columns = ["data", "producao"]
 
 # Conversão para Datetime e truncamento estrito em Maio de 2025
