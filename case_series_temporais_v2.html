@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/img/favicon.png" />
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Estudo de Caso Analítico — Produção de Petróleo no Brasil v2.0 (Investigação Multimetodológica 1997–2025)." />
+  <title>Séries Temporais v2.0 | DOCHMO</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- CSS -->
+  <link href="assets/css/style.min.css" rel="stylesheet" />
+  <!-- GSAP & Tailwind -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+
+  <style>
+    /* Institucional DOCHMO Overrides */
+    .article-header {
+      padding: 180px 20px 100px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px 100px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content p {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 1.8rem;
+      font-size: 1.15rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .article-content h2 {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      color: #D7B56D;
+      margin-top: 5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .article-content h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: #F8F9FA;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content ul {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      padding-left: 20px;
+      font-size: 1.1rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.8rem;
+      list-style-type: none;
+      position: relative;
+    }
+
+    .article-content li::before {
+      content: '✤';
+      position: absolute;
+      left: -25px;
+      color: #D7B56D;
+      font-size: 0.9rem;
+    }
+
+    .article-img-wrap {
+      margin: 4rem 0;
+      position: relative;
+      padding: 10px;
+      background: rgba(215, 181, 109, 0.03);
+      border: 1px solid rgba(215, 181, 109, 0.15);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .article-img-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(215, 181, 109, 0.05), transparent);
+      transform: skewX(-20deg);
+      animation: scan 6s infinite;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    @keyframes scan {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 200%;
+      }
+    }
+
+    .article-img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .plotly-iframe {
+      width: 100%;
+      height: 520px;
+      border: none;
+      border-radius: 8px;
+      display: block;
+      background: transparent;
+    }
+
+    .glass-quote {
+      padding: 2rem;
+      margin: 3rem 0;
+      border-left: 4px solid #D7B56D;
+      background: rgba(215, 181, 109, 0.05);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: rgba(248, 249, 250, 0.95);
+    }
+
+    .terminal-window {
+      background: #050A15;
+      border: 1px solid rgba(215, 181, 109, 0.2);
+      border-radius: 8px;
+      margin: 2rem 0;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .terminal-header {
+      background: rgba(215, 181, 109, 0.08);
+      padding: 8px 15px;
+      font-size: 0.85rem;
+      color: #D7B56D;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(215, 181, 109, 0.2);
+    }
+
+    .terminal-body {
+      padding: 1.5rem;
+      color: rgba(248, 249, 250, 0.7);
+      font-size: 0.95rem;
+      white-space: pre-line;
+    }
+
+    .terminal-body .output-highlight {
+      color: #D7B56D;
+      font-weight: bold;
+    }
+
+    .terminal-body .output-success {
+      color: #4CAF50;
+      font-weight: bold;
+    }
+
+    /* Verde para indicadores positivos */
+    .terminal-body .output-warning {
+      color: #E74C3C;
+      font-weight: bold;
+    }
+
+    /* Table Premium UX/UI Redesign */
+    .premium-table-card {
+      margin: 3.5rem 0;
+      background: linear-gradient(135deg, rgba(10, 22, 44, 0.7) 0%, rgba(5, 10, 25, 0.85) 100%);
+      border: 1px solid rgba(215, 181, 109, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      position: relative;
+      overflow: visible;
+    }
+
+    .premium-table-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(215, 181, 109, 0.03) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .premium-table-header {
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .premium-table-header h4 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: #D7B56D;
+      margin: 0 0 0.5rem 0;
+      letter-spacing: 0.5px;
+    }
+
+    .premium-table-header p {
+      font-size: 0.95rem;
+      color: rgba(248, 249, 250, 0.6) !important;
+      margin: 0 !important;
+      line-height: 1.5 !important;
+    }
+
+    .premium-table-wrapper {
+      overflow: visible;
+      position: relative;
+      z-index: 1;
+      border-radius: 8px;
+      border: 1px solid rgba(248, 249, 250, 0.05);
+    }
+
+    .premium-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+    }
+
+    .premium-table th {
+      background: rgba(215, 181, 109, 0.06);
+      color: #D7B56D;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      padding: 1.1rem 1.2rem;
+      border-bottom: 1px solid rgba(215, 181, 109, 0.2);
+      text-align: right;
+    }
+
+    .premium-table th:first-child {
+      text-align: left;
+      border-top-left-radius: 8px;
+    }
+
+    .premium-table th:last-child {
+      border-top-right-radius: 8px;
+    }
+
+    .premium-table td {
+      padding: 1.1rem 1.2rem;
+      border-bottom: 1px solid rgba(248, 249, 250, 0.05);
+      color: rgba(248, 249, 250, 0.85);
+      text-align: right;
+      transition: background 0.2s ease;
+    }
+
+    .premium-table td:first-child {
+      text-align: left;
+      font-weight: 500;
+      color: rgba(248, 249, 250, 0.95);
+    }
+
+    .premium-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .premium-table tr:hover td {
+      background: rgba(215, 181, 109, 0.03) !important;
+    }
+
+    /* Alternating row colors */
+    .premium-table tbody tr:nth-child(even) td {
+      background: rgba(15, 30, 60, 0.4);
+    }
+
+    /* Highlight winner row */
+    .premium-table tr.row-winner td {
+      background: rgba(76, 175, 80, 0.04) !important;
+      border-bottom: 1px solid rgba(76, 175, 80, 0.15);
+    }
+
+    .premium-table tr.row-winner:hover td {
+      background: rgba(76, 175, 80, 0.06) !important;
+    }
+
+    .premium-table tr.row-winner td:first-child {
+      color: #4CAF50 !important;
+      font-weight: 600;
+    }
+
+    .text-winner {
+      color: #4CAF50 !important;
+      font-weight: 700;
+    }
+
+    .winner-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      background: rgba(76, 175, 80, 0.15);
+      border: 1px solid rgba(76, 175, 80, 0.3);
+      color: #4CAF50;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Description legend block */
+    .premium-table-legend {
+      margin-top: 1.8rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(248, 249, 250, 0.06);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .legend-item h5 {
+      margin: 0 0 0.3rem 0;
+      font-family: var(--font-display);
+      color: #D7B56D;
+      font-size: 1rem;
+    }
+
+    .legend-item p {
+      margin: 0 !important;
+      font-size: 0.85rem !important;
+      color: rgba(248, 249, 250, 0.5) !important;
+      line-height: 1.5 !important;
+    }
+
+    /* Tooltip styles */
+    .premium-table th.has-tooltip {
+      position: relative;
+      cursor: help;
+      text-decoration: underline dotted rgba(215, 181, 109, 0.4);
+    }
+
+    .premium-table th.has-tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%) scale(0.85);
+      background: rgba(10, 22, 44, 0.95);
+      border: 1px solid rgba(215, 181, 109, 0.3);
+      color: rgba(248, 249, 250, 0.95);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: normal;
+      text-transform: none;
+      letter-spacing: 0;
+      white-space: normal;
+      width: 220px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+      z-index: 100;
+      pointer-events: none;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    .premium-table th.has-tooltip:hover::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) scale(1);
+    }
+
+    /* Prevent tooltip overflows on edge columns */
+    .premium-table th.has-tooltip.tooltip-left::after {
+      left: 0;
+      transform: translateX(0) scale(0.85);
+    }
+
+    .premium-table th.has-tooltip.tooltip-left:hover::after {
+      transform: translateX(0) scale(1);
+    }
+
+    .premium-table th.has-tooltip.tooltip-right::after {
+      left: auto;
+      right: 0;
+      transform: translateX(0) scale(0.85);
+    }
+
+    .premium-table th.has-tooltip.tooltip-right:hover::after {
+      transform: translateX(0) scale(1);
+    }
+
+    /* Parallax background for hero */
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: radial-gradient(circle at 50% 30%, rgba(215, 181, 109, 0.08) 0%, rgba(10, 20, 40, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Cursor Dourado Exclusivo para as Páginas de Case */
+    .cursor-ring {
+      border-color: rgba(215, 181, 109, 0.85) !important;
+      box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
+    }
+
+    /* 3D Glassmorphism Banner */
+    .version-banner-3d {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      padding: 1.5rem 2rem;
+      margin: 3rem 0;
+      border-radius: 12px;
+      background: rgba(215, 181, 109, 0.03);
+      border: 1px solid rgba(215, 181, 109, 0.15);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .version-banner-3d:hover {
+      border-color: rgba(215, 181, 109, 0.35);
+      box-shadow: 0 20px 45px rgba(215, 181, 109, 0.1);
+    }
+
+    .version-card-content {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transform: translateZ(20px);
+    }
+
+    .version-card-icon {
+      font-size: 1.5rem;
+      color: #D7B56D;
+      filter: drop-shadow(0 0 5px rgba(215, 181, 109, 0.5));
+    }
+
+    .version-card-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .version-card-label {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: #D7B56D;
+      font-size: 1.05rem;
+    }
+
+    .version-card-desc {
+      font-family: 'Inter', sans-serif;
+      color: rgba(248, 249, 250, 0.85);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Premium Glass Shine Button */
+    .btn-glass-shine {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #0A1428;
+      background: #D7B56D;
+      border: 1px solid #D7B56D;
+      box-shadow: 0 4px 15px rgba(215, 181, 109, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateZ(30px);
+    }
+
+    .btn-glass-shine.secondary-btn {
+      color: #F8F9FA;
+      background: rgba(248, 249, 250, 0.05);
+      border: 1px solid rgba(248, 249, 250, 0.2);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-glass-shine::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .btn-glass-shine:hover::before {
+      left: 100%;
+    }
+
+    .btn-glass-shine:hover {
+      transform: translateZ(35px) scale(1.03);
+      box-shadow: 0 6px 20px rgba(215, 181, 109, 0.4);
+    }
+
+    .btn-glass-shine.secondary-btn:hover {
+      border-color: #D7B56D;
+      color: #D7B56D;
+      background: rgba(215, 181, 109, 0.05);
+      box-shadow: 0 6px 20px rgba(215, 181, 109, 0.15);
+    }
+
+    @media (max-width: 768px) {
+      .article-img-wrap::before {
+        display: none !important;
+        animation: none !important;
+      }
+
+      .version-banner-3d {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.5rem;
+      }
+
+      .btn-glass-shine {
+        width: 100%;
+      }
+
+      /* Mobile horizontal scrolling for premium tables */
+      .premium-table-wrapper {
+        overflow-x: auto !important;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .premium-table-card {
+        padding: 1rem;
+      }
+
+      /* Disable tooltips on mobile to prevent overflow-x clipping and tap issues */
+      .premium-table th.has-tooltip::after {
+        display: none !important;
+      }
+
+      .premium-table th.has-tooltip {
+        text-decoration: none !important;
+        cursor: default !important;
+      }
+    }
+  </style>
+</head>
+
+<body style="background: #0A1428;">
+
+  <!-- Ambient background -->
+  <div class="noise" aria-hidden="true"
+    style="position: fixed; inset: 0; opacity: 0.04; background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E'); z-index:9000; pointer-events:none;">
+  </div>
+
+  <div class="hero-bg"></div>
+
+  <!-- Cursor -->
+  <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
+  <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
+
+  <!-- ==========================================
+     SECTION: MAIN NAVIGATION
+     ========================================== -->
+  <nav class="nav" role="navigation" aria-label="Navegação principal"
+    style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);">
+    <a href="index.html" class="nav-logo"
+      style="font-family: var(--font-display); font-size: 1.5rem; color: #F8F9FA; text-decoration: none; font-weight: 700; letter-spacing: 2px;">DOCH<span
+        style="color:#D7B56D">MO</span></a>
+    <a href="index.html#projetos"
+      style="color: rgba(248,249,250,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease;">←
+      VOLTAR PARA PROJETOS</a>
+  </nav>
+
+  <main>
+    <article class="article-header">
+      <div class="gsap-fade-up">
+        <span class="badge"
+          style="background: rgba(215, 181, 109, 0.1); color: #D7B56D; border: 1px solid rgba(215, 181, 109, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 1.5rem; display: inline-block;">ESTUDO
+          DE CASO ANALÍTICO</span>
+        <h1
+          style="font-family: var(--font-display); font-size: 4rem; color: #F8F9FA; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);">
+          Produção de Petróleo<br>no Brasil</h1>
+        <p style="color:rgba(248,249,250,0.75); max-width:700px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
+          Uma investigação estatística multimetodológica (1997–2025) independente e autoral sobre a dinâmica de produção
+          nacional.
+        </p>
+      </div>
+    </article>
+
+    <div class="article-content">
+
+      <!-- ==========================================
+      SECTION: INTRODUCTION
+      ========================================== -->
+      <section class="gsap-fade-up">
+        <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Introdução</h2>
+        <p>O estudo de séries temporais constitui um dos pilares mais produtivos da estatística aplicada: em vez de
+          tratar a dependência entre observações passadas e futuras como um obstáculo, ele a transforma em informação —
+          sobre o processo que gera os dados e sobre seu comportamento futuro.</p>
+        <p>O petróleo ocupa posição estratégica na economia brasileira: parcela relevante da balança comercial, receitas
+          fiscais via <em>royalties</em>, e a principal fonte de energia primária do país. A descoberta do pré-sal,
+          anunciada em 2006, redesenhou a trajetória de produção nacional nas duas décadas seguintes — e é essa
+          trajetória, com 348 observações mensais entre janeiro de 1997 e dezembro de 2025, que este trabalho investiga.
+        </p>
+
+        <div class="version-banner-3d" id="version-card">
+          <div class="version-card-content">
+            <span class="version-card-icon">✤</span>
+            <div class="version-card-text">
+              <span class="version-card-label">Nota de Evolução:</span>
+              <span class="version-card-desc">Este projeto é uma evolução natural e independente do projeto original
+                (v1.0). Você pode acessar o trabalho acadêmico que deu origem a essa evolução clicando no botão
+                abaixo.</span>
+            </div>
+          </div>
+          <a href="case_series_temporais.html" class="btn-glass-shine secondary-btn">
+            Ver Versão 1.0 (Acadêmica)
+          </a>
+        </div>
+
+        <div class="glass-quote">
+          Este é um estudo em sua segunda versão: a série foi estendida até o fim de 2025, e duas metodologias novas
+          foram incorporadas — análise de intervenção (Box-Tiao) para modelar formalmente choques históricos, e análise
+          espectral para investigar a série no domínio da frequência.
+        </div>
+      </section>
+
+      <!-- ==========================================
+      SECTION: METHODOLOGY
+      ========================================== -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Metodologia</h2>
+        <p>A modelagem seguiu a abordagem clássica de Box-Jenkins para a família SARIMA, complementada por três frentes
+          adicionais que boa parte dos exercícios de previsão aplicada deixa de fora:</p>
+        <ul>
+          <li><strong>Identificação, estimação e diagnóstico</strong> — o ciclo iterativo padrão: funções de
+            autocorrelação (FAC/FACP/EACF), estimação por máxima verossimilhança, e testes formais nos resíduos
+            (Ljung-Box, Shapiro-Wilk, Jarque-Bera) para garantir que o que sobrou é, de fato, ruído.</li>
+          <li><strong>Análise de dados atípicos e intervenção</strong> — os choques que marcaram o setor (apagão de
+            2001, Lava Jato, pandemia) não foram apenas observados na série: foram modelados formalmente, com magnitude
+            e significância estatística estimadas.</li>
+          <li><strong>Análise espectral</strong> — a série foi decomposta no domínio da frequência para verificar se o
+            ciclo sazonal é, de fato, um ciclo anual simples ou algo mais complexo.</li>
+          <li><strong>Validação preditiva sob dois desenhos</strong> — um <em>holdout</em> estático de 36 meses e uma
+            validação <em>rolling-origin</em> de sete origens — porque um único corte de teste pode mascarar (ou
+            exagerar) o desempenho real de um modelo.</li>
+        </ul>
+      </section>
+
+      <!-- ==========================================
+      SECTION: EXPLORATORY ANALYSIS
+      ========================================== -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Análise Exploratória</h2>
+        <p>A pergunta que orienta todo o trabalho: <em>existe um ciclo anual estável na produção de petróleo do Brasil —
+            e o que o molda?</em></p>
+        <p>A inspeção da série completa já entrega a resposta parcial: uma tendência de crescimento acentuada,
+          especialmente a partir de 2015, e um padrão sazonal que se repete, mas cuja amplitude cresce junto com o nível
+          da série.</p>
+
+        <div class="article-img-wrap" style="--mob-wrap-h: 235px; --mob-scale: 0.45; --mob-tx: 1%; --mob-ty: 0.5%">
+          <iframe style="transform: scale(1) translate(1%,3.5%); height: 500px; max-width: 100%"
+            src="projetos_arquivos/relatorio_dochmo_series_temporais_v2.0/graphics/g01_serie_historica.html" class="plotly-iframe"
+            title="Série Histórica Original" scrolling="no"></iframe>
+        </div>
+
+        <p>Quatro fases distintas emergem da leitura visual: crescimento linear até 2008 (campos convencionais da Bacia
+          de Campos); estabilidade relativa entre 2008–2015 (maturação do pré-sal); aceleração pronunciada entre
+          2015–2020, interrompida pela crise da Lava Jato; e, a partir de 2020, um período mais instável — pandemia
+          seguida por uma nova fase de crescimento acentuado, com recordes sucessivos.</p>
+
+        <h3>O "pico de março" que não existe</h3>
+        <p>Um dos achados mais contraintuitivos do trabalho: a leitura tradicional de que fevereiro é um mês fraco e
+          março um mês de recuperação sazonal é, em boa parte, uma ilusão de calendário — não um efeito operacional.</p>
+
+        <div class="article-img-wrap" style="--mob-wrap-h: 220px; --mob-scale: 0.45; --mob-tx: 1%; --mob-ty: -1.5%">
+          <iframe style="transform: scale(1) translate(1.3%,1%); height: 470px; max-width: 100%"
+            src="projetos_arquivos/relatorio_dochmo_series_temporais_v2.0/graphics/g02_efeito_calendario.html" class="plotly-iframe"
+            title="Efeito Calendário" scrolling="no"></iframe>
+        </div>
+
+        <p>Quando a produção é reescalada pelo número de dias de cada mês, o desvio de fevereiro (que parecia ser de
+          −9,1%) cai para −2,1% — e o "pico" de março, na verdade, se torna um dos meses mais fracos do ano (−2,8%)
+          depois do ajuste. Quase metade (46,6%) da dispersão sazonal aparente desaparece só com essa correção. O que
+          sobra — a sazonalidade genuína, de natureza operacional — é o que de fato compete pela energia espectral
+          discutida mais adiante.</p>
+      </section>
+
+      <!-- ==========================================
+      SECTION: STRUCTURAL SHOCKS AND INTERVENTION
+      ========================================== -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">04.</span> Choques Estruturais e Intervenção</h2>
+        <p>A produção de petróleo não é uma curva suave: ela é pontuada por eventos que deslocaram seu nível de forma
+          permanente ou temporária. Em vez de deixar esses choques "escondidos" dentro do erro do modelo, cada um foi
+          modelado explicitamente.</p>
+
+        <div class="article-img-wrap" style="--mob-wrap-h: 245px; --mob-scale: 0.45; --mob-tx: 1%; --mob-ty: 1%">
+          <iframe style="transform: scale(1) translate(1%,1%); height: 500px; max-width: 100%"
+            src="projetos_arquivos/relatorio_dochmo_series_temporais_v2.0/graphics/g03_intervencoes.html" class="plotly-iframe"
+            title="Choques Estruturais e Intervenção" scrolling="no"></iframe>
+        </div>
+
+        <p>Cinco eventos foram construídos com base em conhecimento de domínio — a crise do apagão energético de 2001, a
+          retração de investimentos durante a Operação Lava Jato, o início da produção comercial do pré-sal, alterações
+          no marco regulatório do setor, e o choque da pandemia de COVID-19. Testes formais de quebra estrutural
+          (Bai-Perron) confirmam, de forma independente, a instabilidade em pontos muito próximos aos historicamente
+          documentados — uma convergência entre detecção estatística não supervisionada e conhecimento de domínio.</p>
+      </section>
+
+      <!-- ==========================================
+      SECTION: THE CENTRAL FINDING
+      ========================================== -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">05.</span> O Achado Central: Quando os Modelos Discordam</h2>
+        <p>Aqui está o coração do trabalho — e o motivo pelo qual comparar 18 modelos sob um único teste seria, na
+          melhor das hipóteses, incompleto.</p>
+        <p>Testamos SARIMA, ARIMAX (com regressores de intervenção), Holt-Winters, Prophet, TBATS, redes neurais
+          autorregressivas (NNAR) e um modelo estrutural de espaço de estados — sob dois desenhos de validação
+          diferentes: um teste único de 36 meses, e uma validação com sete origens móveis de 12 meses cada.</p>
+
+        <div class="article-img-wrap" style="--mob-wrap-h: 260px; --mob-scale: 0.45; --mob-tx: 1%; --mob-ty: -0.5%">
+          <iframe style="transform: scale(1) translate(1%,0); height: 535px; max-width: 100%"
+            src="projetos_arquivos/relatorio_dochmo_series_temporais_v2.0/graphics/g04_comparacao_modelos.html" class="plotly-iframe"
+            title="Comparação de Modelos" scrolling="no"></iframe>
+        </div>
+
+        <div class="premium-table-card">
+          <div class="premium-table-header">
+            <h4>Comparação de Acurácia das Previsões (<em>Holdout</em>)</h4>
+            <p>Métricas de erro calculadas exclusivamente no período de teste fora da amostra (janeiro de 2023 a
+              dezembro de 2025 — horizonte de 36 meses). Esse período não foi utilizado no treinamento dos modelos,
+              fornecendo um teste real de capacidade preditiva.</p>
+          </div>
+
+          <div class="premium-table-wrapper">
+            <table class="premium-table">
+              <thead>
+                <tr>
+                  <th style="text-align: left;">Modelo</th>
+                  <th class="has-tooltip tooltip-left"
+                    data-tooltip="Erro Absoluto Médio: Mede a média dos desvios absolutos entre os valores reais e as previsões."
+                    onclick="showMetricTooltip(this, 'MAE (Erro Absoluto Médio)')">
+                    MAE (m³)</th>
+                  <th class="has-tooltip"
+                    data-tooltip="Raiz do Erro Quadrático Médio: Mede a magnitude do erro de previsão, penalizando desvios maiores."
+                    onclick="showMetricTooltip(this, 'RMSE (Raiz do Erro Quadrático Médio)')">
+                    RMSE (m³)</th>
+                  <th class="has-tooltip"
+                    data-tooltip="Erro Percentual Absoluto Médio: Mede a porcentagem média do desvio relativo de previsão."
+                    onclick="showMetricTooltip(this, 'MAPE (Erro Percentual Absoluto Médio)')">
+                    MAPE</th>
+                  <th class="has-tooltip"
+                    data-tooltip="Erro Escalonado Absoluto Médio: Compara o erro do modelo com um previsor ingênuo sazonal. Valores menores que 1 são bons."
+                    onclick="showMetricTooltip(this, 'MASE (Erro Escalonado Absoluto Médio)')">
+                    MASE</th>
+                  <th class="has-tooltip tooltip-right"
+                    data-tooltip="Coeficiente U de Theil: Compara o modelo com um passeio aleatório (random walk). Menor que 1 indica superioridade."
+                    onclick="showMetricTooltip(this, 'Coeficiente U-Theil')">
+                    U-Theil</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="row-winner">
+                  <td style="text-align: left;">
+                    Holt-Winters <span class="winner-badge">Campeão</span>
+                  </td>
+                  <td>830.657</td>
+                  <td>1.008.788</td>
+                  <td class="text-winner">4,74%</td>
+                  <td>1,350</td>
+                  <td>1,260</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">
+                    auto.arima<br><span
+                      style="color:#D7B56D; font-size:0.85rem; font-style:italic;">[ARIMA(2,1,1)(2,0,0)₁₂ c/
+                      deriva]</span>
+                  </td>
+                  <td>922.925</td>
+                  <td>1.127.748</td>
+                  <td>5,25%</td>
+                  <td>1,500</td>
+                  <td>1,409</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">
+                    ARIMA + Fourier<br><span
+                      style="color:#D7B56D; font-size:0.85rem; font-style:italic;">parcimonioso</span>
+                  </td>
+                  <td>1.000.498</td>
+                  <td>1.229.305</td>
+                  <td>5,68%</td>
+                  <td>1,626</td>
+                  <td>1,535</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">
+                    ARIMAX<br><span style="color:#D7B56D; font-size:0.85rem; font-style:italic;">5 manuais</span>
+                  </td>
+                  <td>1.082.475</td>
+                  <td>1.334.219</td>
+                  <td>6,12%</td>
+                  <td>1,759</td>
+                  <td>1,666</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">
+                    SARIMA(8,1,1)(1,0,1)₁₂<br><span style="color:#D7B56D; font-size:0.85rem; font-style:italic;">Campeão
+                      AICc</span>
+                  </td>
+                  <td>1.156.409</td>
+                  <td>1.413.640</td>
+                  <td>6,54%</td>
+                  <td>1,879</td>
+                  <td>1,766</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">
+                    Prophet<br><span style="color:#D7B56D; font-size:0.85rem; font-style:italic;">Meta</span>
+                  </td>
+                  <td>1.333.382</td>
+                  <td>1.622.580</td>
+                  <td>7,53%</td>
+                  <td>2,166</td>
+                  <td>2,027</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">
+                    Rede Neural<br><span style="color:#D7B56D; font-size:0.85rem; font-style:italic;">NNAR</span>
+                  </td>
+                  <td>1.972.473</td>
+                  <td>2.316.409</td>
+                  <td>11,14%</td>
+                  <td>3,205</td>
+                  <td>2,893</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="premium-table-legend">
+            <div class="legend-item">
+              <h5>MAE &amp; RMSE</h5>
+              <p>Métricas absolutas de erro em metros cúbicos (m³). Medem o desvio médio das previsões em relação aos
+                valores reais observados. O RMSE penaliza erros de maior magnitude.</p>
+            </div>
+            <div class="legend-item">
+              <h5>MAPE</h5>
+              <p>Erro percentual absoluto médio. Expressa o erro em termos relativos. O modelo Holt-Winters apresentou a
+                maior precisão relativa com apenas 4,74% de desvio médio.</p>
+            </div>
+            <div class="legend-item">
+              <h5>MASE &amp; U-Theil</h5>
+              <p>Métricas relativas. O MASE compara o erro do modelo com um previsor ingênuo sazonal (valores &gt; 1
+                indicam que a previsão é pior do que apenas repetir o ano anterior). O U-Theil compara com um passeio
+                aleatório.</p>
+            </div>
+          </div>
+        </div>
+
+        <p>O resultado é uma virada completa de ranking:</p>
+        <ul>
+          <li>Sob o teste de 36 meses, <strong>Holt-Winters</strong> vence disparado — nenhum dos outros 17 modelos
+            chega perto.</li>
+          <li>Mas o candidato SARIMA selecionado <em>automaticamente</em> (sem nenhuma intervenção manual do analista) —
+            que havia ficado em <strong>último lugar</strong> entre os 8 candidatos SARIMA na etapa de seleção por
+            critério de informação (AICc/BIC) — se torna o <strong>2º melhor modelo entre os 18</strong>, superando até
+            o modelo escolhido manualmente como "referência" da família SARIMA.</li>
+          <li>Sob o desenho de validação com origens móveis (rolling-origin), esse mesmo SARIMA automático supera o
+            Holt-Winters.</li>
+        </ul>
+        <p>A conclusão prática não é "qual modelo é o melhor" — é que essa pergunta muda de resposta dependendo de como
+          você mede. Um critério de seleção <em>dentro da amostra de treino</em> (AICc) e o desempenho <em>fora da
+            amostra</em> respondem perguntas diferentes, e um bom exercício preditivo precisa testar ambas antes de
+          declarar um vencedor.</p>
+      </section>
+
+      <!-- ==========================================
+      SECTION: QUANTIFYING UNCERTAINTY
+      ========================================== -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">06.</span> Nem Todo Modelo que Acerta Sabe que Pode Errar</h2>
+        <p>Um segundo achado, menos óbvio, mas igualmente importante: acurácia pontual e qualidade da incerteza são
+          coisas diferentes — e nem sempre andam juntas.</p>
+        <p>O Prophet, por exemplo, teve a melhor acurácia pontual sob o desenho de validação com origens móveis. Mas
+          seus intervalos de confiança de 95% só continham o valor real observado em <strong>47,2%</strong> das vezes —
+          quando deveriam conter em 95%. Ou seja: o modelo acerta bem "no ponto", mas sua noção de quão incerto ele
+          deveria estar é sistematicamente otimista demais.</p>
+
+        <div class="glass-quote">
+          Boa acurácia pontual não é evidência de boa quantificação de incerteza. Para decisões que dependem de cenários
+          (notícias ou um número único), vale mais um modelo com intervalo de confiança calibrado do que um com o menor
+          erro médio isolado.
+        </div>
+      </section>
+
+      <!-- ==========================================
+      SECTION: FORECAST 2026
+      ========================================== -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">07.</span> Previsão para 2026</h2>
+        <p>Depois de toda a validação, a pergunta prática: o que esperar para o próximo ano?</p>
+
+        <div class="article-img-wrap" style="--mob-wrap-h: 225px; --mob-scale: 0.45; --mob-tx: 1%; --mob-ty: -3%">
+          <iframe style="transform: scale(1) translate(1%,-2%); height: 470px; max-width: 100%"
+            src="projetos_arquivos/relatorio_dochmo_series_temporais_v2.0/graphics/g05_previsao_2026.html" class="plotly-iframe"
+            title="Previsão 2026" scrolling="no"></iframe>
+        </div>
+
+        <p>Entre os modelos com intervalos de confiança mais confiáveis, o cenário central aponta para um crescimento
+          moderado, entre 7% e 8% em relação à produção total de 2025. A faixa de incerteza entre os diferentes modelos,
+          porém, é ampla — o que reforça o princípio central do trabalho: tratar a previsão como uma faixa de cenários
+          plausíveis é mais honesto (e mais útil) do que apostar num único valor pontual.</p>
+
+        <div class="premium-table-card" style="margin-top: 2.5rem;">
+          <div class="premium-table-header">
+            <h4>Cenários Comparativos de Previsão Mensal para 2026 (m³)</h4>
+            <p>Comparativo das projeções ponto a ponto mês a mês dos principais modelos estimadores para o ano de 2026.
+            </p>
+          </div>
+
+          <div class="premium-table-wrapper">
+            <table class="premium-table">
+              <thead>
+                <tr>
+                  <th style="text-align: left;">Mês/2026</th>
+                  <th class="has-tooltip tooltip-left"
+                    data-tooltip="Holt-Winters: Suavização exponencial que captura sazonalidade e tendência, vencedor sob horizonte de 36 meses."
+                    onclick="showMetricTooltip(this, 'Modelo Holt-Winters')">
+                    Holt-Winters</th>
+                  <th class="has-tooltip"
+                    data-tooltip="ARIMA + Fourier: Modelo híbrido que modela a sazonalidade através de ondas harmônicas senos e cossenos."
+                    onclick="showMetricTooltip(this, 'Modelo ARIMA + Fourier')">
+                    ARIMA + Fourier (parc.)</th>
+                  <th class="has-tooltip"
+                    data-tooltip="SARIMA: Modelo Box-Jenkins sazonal exaustivo de referência, campeão por AICc in-sample."
+                    onclick="showMetricTooltip(this, 'Modelo SARIMA(8,1,1)(1,0,1)₁₂')">
+                    SARIMA(8,1,1)(1,0,1)₁₂</th>
+                  <th class="has-tooltip"
+                    data-tooltip="Prophet: Algoritmo de série temporal aditiva da Meta, ideal para lidar com tendências flexíveis."
+                    onclick="showMetricTooltip(this, 'Modelo Prophet (Meta)')">
+                    Prophet</th>
+                  <th class="has-tooltip tooltip-right"
+                    data-tooltip="ARIMAX: Modelo ARIMA ajustado com variáveis dummy nulas na previsão (simula a ausência de choques exógenos)."
+                    onclick="showMetricTooltip(this, 'Modelo ARIMAX (parc.)')">
+                    ARIMAX (parc.)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align: left;">Janeiro</td>
+                  <td>19.511.394</td>
+                  <td>19.558.253</td>
+                  <td>19.859.521</td>
+                  <td>18.348.739</td>
+                  <td>21.341.420</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Fevereiro</td>
+                  <td>17.873.531</td>
+                  <td>17.779.174</td>
+                  <td>17.844.214</td>
+                  <td>16.491.707</td>
+                  <td>19.073.367</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Março</td>
+                  <td>19.277.260</td>
+                  <td>19.482.163</td>
+                  <td>19.351.269</td>
+                  <td>17.904.236</td>
+                  <td>20.717.470</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Abril</td>
+                  <td>18.748.571</td>
+                  <td>18.946.251</td>
+                  <td>18.859.164</td>
+                  <td>17.511.381</td>
+                  <td>20.199.715</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Maio</td>
+                  <td>19.508.463</td>
+                  <td>19.607.189</td>
+                  <td>19.628.612</td>
+                  <td>18.269.709</td>
+                  <td>21.075.394</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Junho</td>
+                  <td>19.090.336</td>
+                  <td>19.159.019</td>
+                  <td>19.125.410</td>
+                  <td>17.741.214</td>
+                  <td>20.513.398</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Julho</td>
+                  <td>20.005.660</td>
+                  <td>20.001.969</td>
+                  <td>20.280.665</td>
+                  <td>18.726.506</td>
+                  <td>21.713.107</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Agosto</td>
+                  <td>20.199.513</td>
+                  <td>20.061.604</td>
+                  <td>20.292.527</td>
+                  <td>18.849.004</td>
+                  <td>21.748.031</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Setembro</td>
+                  <td>19.690.214</td>
+                  <td>19.498.324</td>
+                  <td>19.775.759</td>
+                  <td>18.265.199</td>
+                  <td>21.186.430</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Outubro</td>
+                  <td>20.292.192</td>
+                  <td>20.069.502</td>
+                  <td>20.289.872</td>
+                  <td>18.762.125</td>
+                  <td>21.773.148</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Novembro</td>
+                  <td>19.582.604</td>
+                  <td>19.656.214</td>
+                  <td>19.629.256</td>
+                  <td>18.179.834</td>
+                  <td>21.018.672</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left;">Dezembro</td>
+                  <td>20.760.087</td>
+                  <td>20.740.545</td>
+                  <td>20.691.990</td>
+                  <td>19.150.053</td>
+                  <td>22.145.622</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <p style="margin-top: 1.5rem;">A análise comparativa desses cenários revela uma convergência e algumas
+          divergências fundamentais sobre a melhor abordagem preditiva:</p>
+
+        <ul>
+          <li><strong>Convergência por Consenso:</strong> O modelo campeão Holt-Winters, o ARIMA + Fourier e o SARIMA
+            campeão por AICc convergem notavelmente para um cenário de crescimento anual moderado (entre 7% e 8% em
+            relação a 2025), projetando médias mensais próximas a 19,5 milhões de m³.</li>
+          <li><strong>Divergência Contrafactual (ARIMAX):</strong> O modelo ARIMAX parcimonioso projeta o cenário mais
+            otimista, com cerca de 15% de crescimento. Isso ocorre porque seus regressores de choques históricos (como
+            Lava Jato, COVID-19 e Crise do Apagão) tornam-se nulos no período de previsão. Assim, a extrapolação do
+            ARIMAX responde a uma pergunta contrafactual: <em>qual seria a produção futura livre de choques operacionais
+              severos</em>.</li>
+          <li><strong>Previsão por Consenso de Modelos:</strong> Em vez de apostar no valor pontual de um único modelo
+            isolado, a prática metodológica mais recomendada e robusta é mapear a dispersão entre eles. Tratar o
+            intervalo de 16,5 a 22,1 milhões de m³/mês como a faixa substantiva de incerteza, e utilizar a média de
+            consenso de <strong>19,59 milhões de m³/mês</strong> como previsor central robusto (totalizando cerca de
+            235,1 milhões de m³ no ano).</li>
+        </ul>
+      </section>
+
+      <!-- ==========================================
+      SECTION: RIGOR AND REPRODUCIBILITY
+      ========================================== -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">08.</span> Rigor e Reprodutibilidade</h2>
+        <p>Um detalhe que normalmente fica de fora de um case, mas que diz bastante sobre como o trabalho foi conduzido:
+          parte da análise foi auditada de forma independente, em um ambiente computacional diferente do original. Isso
+          revelou que alguns procedimentos automáticos (busca automática de modelo, detecção automática de eventos
+          atípicos) produzem resultados que variam entre versões de pacotes estatísticos — uma limitação real,
+          documentada explicitamente no relatório em vez de ocultada, com as versões exatas de software registradas para
+          que os resultados possam ser conferidos.</p>
+
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <span>&gt;_ R Console // Auditoria de Ambiente Computacional</span>
+            <span style="color:rgba(215,181,109,0.5)">[ R-4.4.2 // Windows ]</span>
+          </div>
+          <div class="terminal-body" style="max-height: 400px; overflow-y: auto;">
+            &gt; <span style="color: #5B8FD9;">audit_environment</span>()
+            Checking system and package version consistency...
+
+            <span class="output-highlight">[System Settings]</span>
+            Platform: x86_64-w64-mingw32/x64 (64-bit Windows 11)
+            R Version: 4.4.2 (2024-10-31 ucrt)
+            Active Locale: Portuguese_Brazil.utf8
+
+            <span class="output-highlight">[Package Audit Results]</span>
+
+            <span style="color: rgba(215, 181, 109, 0.6); font-weight: bold;"># Manipulação de Dados</span>
+            <span class="output-success">✓
+              readxl</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.4.5)&nbsp;&nbsp;: OK (leitura do dataset
+            original livre de desvios)
+            <span class="output-success">✓
+              dplyr</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.2.1)&nbsp;&nbsp;: OK (transformação
+            e agregação consistente de dados)
+            <span class="output-success">✓
+              tidyr</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.3.2)&nbsp;&nbsp;: OK (organização e
+            pivotagem estrutural)
+            <span class="output-success">✓
+              tibble</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v3.3.1)&nbsp;&nbsp;: OK (data frames
+            modernos validados)
+            <span class="output-success">✓ stringr</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.6.0)&nbsp;&nbsp;:
+            OK (manipulação de strings textuais)
+            <span class="output-success">✓ lubridate</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.9.5)&nbsp;&nbsp;: OK
+            (ajuste de fusos e parsing de datas)
+            <span class="output-success">✓ nanoparquet</span>&nbsp;&nbsp;&nbsp;(v0.5.1)&nbsp;&nbsp;: OK (leitura/escrita
+            otimizada em formato colunar)
+            <span class="output-success">✓
+              here</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.0.2)&nbsp;&nbsp;: OK (resolução
+            dinâmica de caminhos relativos)
+
+            <span style="color: rgba(215, 181, 109, 0.6); font-weight: bold;"># Modelagem de Séries Temporais</span>
+            <span class="output-success">✓ forecast</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v9.0.2)&nbsp;&nbsp;: OK
+            (resíduos Box-Jenkins consistentes)
+            <span class="output-success">✓ tseries</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v0.10-61): OK (teste
+            ADF de estacionariedade de raiz unitária)
+            <span class="output-success">✓ Kendall</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v2.2.2)&nbsp;&nbsp;:
+            OK (teste de tendência de Mann-Kendall)
+            <span class="output-success">✓ randtests</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.0.2)&nbsp;&nbsp;: OK (teste
+            de aleatoriedade não-paramétrico de Cox-Stuart)
+            <span class="output-success">✓ seastests</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v0.15.4)&nbsp;: OK (testes
+            diagnósticos de sazonalidade estável)
+            <span class="output-success">✓ tsoutliers</span>&nbsp;&nbsp;&nbsp;&nbsp;(v0.6-10)&nbsp;: OK (intervenções
+            automáticas estimadas sem vazamento)
+            <span class="output-success">✓ strucchange</span>&nbsp;&nbsp;&nbsp;(v1.5-4)&nbsp;&nbsp;: OK (quebras
+            estruturais Bai-Perron validadas)
+            <span class="output-success">✓
+              car</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v3.1-3)&nbsp;&nbsp;: OK
+            (diagnósticos de regressão e homocedasticidade)
+            <span class="output-success">✓ prophet</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.1.7)&nbsp;&nbsp;:
+            OK (parâmetros de sazonalidade flexíveis validados)
+
+            <span style="color: rgba(215, 181, 109, 0.6); font-weight: bold;"># Visualização &amp; Gráficos</span>
+            <span class="output-success">✓ ggplot2</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v4.0.3)&nbsp;&nbsp;:
+            OK (plotagem estruturada em camadas)
+            <span class="output-success">✓ gridExtra</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v2.3)&nbsp;&nbsp;&nbsp;&nbsp;:
+            OK (arranjo multidimensional de painéis gráficos)
+            <span class="output-success">✓
+              scales</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.4.0)&nbsp;&nbsp;: OK (formatação de eixos
+            e paletas de cores)
+
+            <span style="color: rgba(215, 181, 109, 0.6); font-weight: bold;"># Estatística Descritiva</span>
+            <span class="output-success">✓
+              psych</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v2.6.5)&nbsp;&nbsp;: OK (análise
+            descritiva multivariada das variáveis)
+
+            Audit status: <span class="output-success">SUCCESS</span> (0 divergências encontradas entre ambientes)
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+     SECTION: CALL TO ACTION (CTA)
+     ========================================== -->
+      <div class="gsap-fade-up"
+        style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
+        <h3 style="font-family: var(--font-display); font-size: 2rem; color: #F8F9FA; margin-bottom: 1rem;">Mergulhe na
+          Pesquisa Completa</h3>
+        <p style="color: rgba(248,249,250,0.6); max-width: 600px; margin: 0 auto 3rem; font-size: 1.1rem;">
+          Tenha acesso à metodologia completa, às 18 comparações de modelo, aos testes estatísticos formais e ao
+          apêndice de reprodutibilidade no relatório técnico oficial.
+        </p>
+
+        <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap: wrap;">
+          <a href="projetos_arquivos/relatorio_dochmo_series_temporais_v2.0/Modelagem_Previsao_Petroleo_Brasil.pdf" target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-flex; align-items:center; gap:10px; background: rgba(215,181,109,0.1); border: 1px solid #D7B56D; color: #D7B56D; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(215,181,109,0.15);"
+            onmouseover="this.style.background='#D7B56D'; this.style.color='#0A1428';"
+            onmouseout="this.style.background='rgba(215,181,109,0.1)'; this.style.color='#D7B56D';">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Relatório Técnico Completo
+          </a>
+
+          <a href="https://github.com/douglascmoura/previsao-producao-petroleo-brasil" target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-flex; align-items:center; gap:10px; background: transparent; border: 1px solid rgba(248,249,250,0.3); color: #F8F9FA; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease;"
+            onmouseover="this.style.borderColor='#D7B56D'; this.style.color='#D7B56D';"
+            onmouseout="this.style.borderColor='rgba(248,249,250,0.3)'; this.style.color='#F8F9FA';">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+              </path>
+            </svg>
+            Repositório no GitHub
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer style="border-top: 1px solid rgba(248,249,250,0.05); margin-top: 4rem; padding: 3rem 0; text-align: center;">
+    <a href="index.html"
+      style="font-family: var(--font-display); font-size: 1.2rem; color: rgba(248,249,250,0.4); text-decoration: none; letter-spacing: 2px;">DOCH<span
+        style="color: rgba(215,181,109,0.4)">MO</span></a>
+    <p style="color: rgba(248,249,250,0.3); font-size: 0.85rem; margin-top: 1rem;">&copy; 2026 DOCHMO. Todos os direitos
+      reservados.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      // GSAP Scroll Animations
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Fade-up elements
+      gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
+        gsap.fromTo(elem,
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: elem,
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
+      });
+
+      // Custom Cursor tracking (if used in design_system)
+      const ring = document.getElementById('cursor-ring');
+      const dot = document.getElementById('cursor-dot');
+
+      if (ring && dot) {
+        document.addEventListener('mousemove', (e) => {
+          gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.3, ease: 'power2.out' });
+          gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
+        });
+
+        const links = document.querySelectorAll('a, .article-img-wrap');
+        links.forEach(link => {
+          link.addEventListener('mouseenter', () => {
+            gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
+          });
+          link.addEventListener('mouseleave', () => {
+            gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+          });
+        });
+      }
+
+      // 3D Tilt Effect on version-card
+      const card = document.getElementById('version-card');
+      if (card) {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const xc = rect.width / 2;
+          const yc = rect.height / 2;
+          const dx = x - xc;
+          const dy = y - yc;
+
+          const maxRot = 8;
+          const rotX = -(dy / yc) * maxRot;
+          const rotY = (dx / xc) * maxRot;
+
+          gsap.to(card, {
+            rotationX: rotX,
+            rotationY: rotY,
+            ease: "power2.out",
+            duration: 0.4,
+            transformPerspective: 1000
+          });
+        });
+
+        card.addEventListener('mouseleave', () => {
+          gsap.to(card, {
+            rotationX: 0,
+            rotationY: 0,
+            ease: "power2.out",
+            duration: 0.6
+          });
+        });
+      }
+
+    });
+  </script>
+
+  <!-- Floating Toast Container for Mobile/Desktop click tooltips -->
+  <div id="toast-tooltip"
+    style="position: fixed; bottom: -120px; left: 50%; transform: translateX(-50%); background: rgba(10, 22, 44, 0.98); border: 1px solid #D7B56D; border-radius: 12px; padding: 16px 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); z-index: 9999; width: 90%; max-width: 420px; opacity: 0; pointer-events: none; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: 'Inter', sans-serif;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(215, 181, 109, 0.2); padding-bottom: 6px; margin-bottom: 4px;">
+        <span id="toast-title"
+          style="font-family: var(--font-display, serif); color: #D7B56D; font-weight: bold; font-size: 1.05rem; letter-spacing: 0.5px;">Métrica</span>
+        <span onclick="hideToast()"
+          style="color: rgba(248, 249, 250, 0.5); cursor: pointer; font-size: 1.4rem; padding: 0 4px; line-height: 1; transition: color 0.2s;"
+          onmouseover="this.style.color='#D7B56D'" onmouseout="this.style.color='rgba(248,249,250,0.5)'">&times;</span>
+      </div>
+      <p id="toast-body"
+        style="margin: 0; font-size: 0.88rem; color: rgba(248, 249, 250, 0.9); line-height: 1.5; white-space: normal; text-align: left;">
+      </p>
+    </div>
+  </div>
+
+  <script>
+    let toastTimeout;
+    function showMetricTooltip(el, name) {
+      const tooltipText = el.getAttribute('data-tooltip');
+      const toast = document.getElementById('toast-tooltip');
+      const title = document.getElementById('toast-title');
+      const body = document.getElementById('toast-body');
+
+      if (!toast || !title || !body) return;
+
+      title.innerText = name;
+      body.innerText = tooltipText;
+
+      // Show toast sliding up
+      toast.style.bottom = '24px';
+      toast.style.opacity = '1';
+      toast.style.pointerEvents = 'auto';
+
+      // Clear any existing timeout
+      if (toastTimeout) clearTimeout(toastTimeout);
+
+      // Auto-hide after 6 seconds
+      toastTimeout = setTimeout(hideToast, 6000);
+    }
+
+    function hideToast() {
+      const toast = document.getElementById('toast-tooltip');
+      if (toast) {
+        toast.style.bottom = '-120px';
+        toast.style.opacity = '0';
+        toast.style.pointerEvents = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

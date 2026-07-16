@@ -216,10 +216,136 @@
       box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
     }
 
+    /* 3D Glassmorphism Banner */
+    .version-banner-3d {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      padding: 1.5rem 2rem;
+      margin: 3rem 0;
+      border-radius: 12px;
+      background: rgba(215, 181, 109, 0.03);
+      border: 1px solid rgba(215, 181, 109, 0.15);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .version-banner-3d:hover {
+      border-color: rgba(215, 181, 109, 0.35);
+      box-shadow: 0 20px 45px rgba(215, 181, 109, 0.1);
+    }
+
+    .version-card-content {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transform: translateZ(20px);
+    }
+
+    .version-card-icon {
+      font-size: 1.5rem;
+      color: #D7B56D;
+      filter: drop-shadow(0 0 5px rgba(215, 181, 109, 0.5));
+    }
+
+    .version-card-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .version-card-label {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: #D7B56D;
+      font-size: 1.05rem;
+    }
+
+    .version-card-desc {
+      font-family: 'Inter', sans-serif;
+      color: rgba(248, 249, 250, 0.85);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Premium Glass Shine Button */
+    .btn-glass-shine {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #0A1428;
+      background: #D7B56D;
+      border: 1px solid #D7B56D;
+      box-shadow: 0 4px 15px rgba(215, 181, 109, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateZ(30px);
+    }
+
+    .btn-glass-shine.secondary-btn {
+      color: #F8F9FA;
+      background: rgba(248, 249, 250, 0.05);
+      border: 1px solid rgba(248, 249, 250, 0.2);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-glass-shine::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .btn-glass-shine:hover::before {
+      left: 100%;
+    }
+
+    .btn-glass-shine:hover {
+      transform: translateZ(35px) scale(1.03);
+      box-shadow: 0 6px 20px rgba(215, 181, 109, 0.4);
+    }
+
+    .btn-glass-shine.secondary-btn:hover {
+      border-color: #D7B56D;
+      color: #D7B56D;
+      background: rgba(215, 181, 109, 0.05);
+      box-shadow: 0 6px 20px rgba(215, 181, 109, 0.15);
+    }
+
     @media (max-width: 768px) {
       .article-img-wrap::before {
         display: none !important;
         animation: none !important;
+      }
+
+      .version-banner-3d {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.5rem;
+      }
+
+      .btn-glass-shine {
+        width: 100%;
       }
     }
   </style>
@@ -282,8 +408,22 @@
           previsão para subsidiar decisões mais estratégicas e informadas.</p>
         <div class="glass-quote">
           O presente trabalho analisa a dinâmica da produção mensal de petróleo (em m³) no Brasil (Jan/2001 a Mai/2025),
-          buscando identificar padrões, tendências e sazonalidades num dos setores mais estratégicos da economia
-          nacional.
+          com base em dados públicos da ANP (Agência Nacional do Petróleo, Gás Natural e Biocombustíveis), buscando
+          identificar padrões, tendências e sazonalidades num dos setores mais estratégicos da economia
+        </div>
+
+        <div class="version-banner-3d" id="version-card">
+          <div class="version-card-content">
+            <span class="version-card-icon">⚡</span>
+            <div class="version-card-text">
+              <span class="version-card-label">Nota Histórica:</span>
+              <span class="version-card-desc">Você está visualizando a Versão 1.0 (Clássica) deste estudo de
+                caso.</span>
+            </div>
+          </div>
+          <a href="case_series_temporais_v2.html" class="btn-glass-shine">
+            Acessar Versão 2.0 (Atual)
+          </a>
         </div>
       </section>
 
@@ -303,8 +443,8 @@
           </li>
           <li><strong>Diagnóstico (Verificação):</strong> Teste rigoroso nos resíduos do modelo para garantir
             comportamento de "ruído branco" (Ljung-Box e Shapiro-Wilk).</li>
-          <li><strong>Previsão (Forecast):</strong> Projeções Out-of-Sample contrastando o SARIMA contra métodos de
-            Suavização Exponencial (Holt-Winters).</li>
+          <li><strong>Previsão (<em>Forecast</em>):</strong> Projeções <em>Out-of-Sample</em> contrastando o SARIMA
+            contra métodos de Suavização Exponencial (Holt-Winters).</li>
         </ul>
       </section>
 
@@ -317,16 +457,17 @@
             Brasil?"</em> A inspeção visual primária nos dá pistas valiosas da não-estacionariedade da série, marcada
           por uma clara tendência de crescimento e flutuações sazonais repetitivas.</p>
 
-        <div class="article-img-wrap" style="--mob-wrap-h: 280px;">
-          <iframe
-            style="max-width: 100%; transform: scale(1) translate(3%, 0%); --mob-scale: 0.44; --mob-tx: 3%; --mob-ty: -4%;"
+        <div class="article-img-wrap"
+          style="height: 500px; --mob-wrap-h: 300px; --mob-scale: 0.47; --mob-tx: 3.5%; --mob-ty: -3.5%">
+          <iframe style="transform: scale(1) translate(3%, -3.5%); max-width: 100%"
             src="projetos_arquivos/relatorio_final_series_temporais/graphics/grafico_serie_original.html"
             class="plotly-iframe" title="Série Histórica Original" scrolling="no"></iframe>
         </div>
 
-        <p>Observamos um crescimento acentuado entre 2019 e 2020, seguido de oscilações (reflexo da pandemia global) e
-          outro avanço expressivo advindo da expansão em campos do pré-sal. A fim de validar essas impressões com rigor
-          estatístico, executamos baterias de testes formais (ADF e KPSS) para comprovar a presença de raiz unitária.
+        <p>Observamos um crescimento acentuado entre 2019 e 2020, seguido de uma queda, e outro avanço expressivo entre
+          2021 e 2024 — movimentos que o relatório associa, a título de hipótese, aos impactos da pandemia de COVID-19 e
+          à entrada em operação de novos campos do pré-sal. A fim de validar essas impressões com rigor estatístico,
+          executamos baterias de testes formais (ADF e KPSS) para comprovar a presença de raiz unitária.
         </p>
 
         <div class="terminal-window">
@@ -350,8 +491,9 @@
           </div>
         </div>
 
-        <p>A sazonalidade também foi confirmada formalmente usando o Teste QS (Quadratic Spectral), cujo valor-p atingiu
-          0, atestando uma ciclicidade determinística intransponível no estado bruto da série.</p>
+        <p>A sazonalidade também foi confirmada formalmente usando o Teste QS (<em>Quadratic Spectral</em>), cujo
+          valor-<em>p</em> atingiu 0, atestando uma ciclicidade determinística intransponível no estado bruto da série.
+        </p>
       </section>
 
       <!-- ==========================================
@@ -363,17 +505,18 @@
           escolha de um <strong>modelo multiplicativo</strong> para a decomposição clássica. Isso nos permite isolar de
           forma clara a Tendência de longo prazo do Sinal Sazonal.</p>
 
-        <div class="article-img-wrap" style="--mob-wrap-h: 380px; --mob-iframe-h: 820px; height: 820px; padding: 0;">
-          <iframe
-            style="max-width: 100%; transform: scale(0.95) translate(3%, 0%); --mob-scale: 0.47; --mob-tx: 3.5%; --mob-ty: -1.2%; height: 100%;"
+        <div class="article-img-wrap"
+          style="--mob-wrap-h: 370px; --mob-iframe-h: 820px; --mob-scale: 0.47; --mob-tx: 3.5%; --mob-ty: -2.5%">
+          <iframe style="max-width: 100%; transform: scale(1) translate(4%, -2%); height: 780px"
             src="projetos_arquivos/relatorio_final_series_temporais/graphics/grafico_decomposicao.html"
             class="plotly-iframe" title="Decomposição da Série" scrolling="no"></iframe>
         </div>
 
-        <p>Para satisfazer a premissa fundamental de Box-Jenkins (estacionariedade na variância e na média), combinamos
-          duas técnicas poderosas: aplicamos a transformação logarítmica (estabilizando a variância heteroscedástica)
-          sucedida de uma diferenciação. Como resultado, os testes pós-transformação rejeitaram fortemente a presença de
-          raiz unitária, garantindo a estabilidade necessária.</p>
+        <p>Para satisfazer a premissa fundamental de Box-Jenkins (estacionariedade na variância e na média), foi
+          combinado duas técnicas poderosas: a aplicação da transformação logarítmica (estabilizando a variância
+          heteroscedástica) sucedida de uma diferenciação. O mesmo procedimento foi validado formalmente sobre a
+          partição de treino utilizada na modelagem (Jan/2001 – Abr/2021), com os testes rejeitando fortemente a
+          presença de raiz unitária e garantindo a estabilidade necessária para a etapa seguinte.</p>
 
         <div class="terminal-window" style="margin-top: 1rem;">
           <div class="terminal-header">
@@ -392,27 +535,36 @@
      SECTION: COMPETITIVE FORECAST
      ========================================== -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
-        <h2><span style="color: rgba(215,181,109,0.4);">05.</span> Forecast Competitivo (Out-of-Sample)</h2>
-        <p>Tendo a série transformada, diagnosticamos as funções de autocorrelação para construir o modelo campeão.
-          Dividimos os dados: <strong>Treino</strong> (Jan/2001 - Abr/2021) e <strong>Teste</strong> (Mai/2021 -
-          Mai/2025). Essa separação testou o algoritmo no período mais desafiador e volátil.</p>
+        <h2><span style="color: rgba(215,181,109,0.4);">05.</span> <span>Forecast Competitivo (<em>Out-of-Sample</em>)</span></h2>
+        <p>Tendo a série transformada, foi diagnosticado as funções de autocorrelação para construir o modelo campeão.
+          Os dados foram divididos em: <strong>Treino</strong> (Jan/2001-Abr/2021) e <strong>Teste</strong>
+          (Mai/2021-Mai/2025). Essa separação testou o algoritmo no período mais desafiador e volátil.</p>
 
         <p>Após avaliação das funções ACF e PACF e o rigoroso teste de resíduos Ljung-Box, o modelo
-          <strong>SARIMA(2,1,3)(0,1,1)₁₂</strong> se destacou capturando a complexidade dos dados. Colocamos o SARIMA
-          contra o método de Suavização Exponencial (Holt-Winters Aditivo) para comparação.
+          <strong>SARIMA(2,1,3)(0,1,1)₁₂ com &phi;<sub>1</sub> = 0</strong> se destacou capturando a complexidade dos
+          dados — o coeficiente autorregressivo de primeira ordem mostrou-se estatisticamente não significativo e foi
+          removido, resultando em um modelo mais parcimonioso. Colocamos o SARIMA contra o método de Suavização
+          Exponencial (Holt-Winters Aditivo) para comparação.
         </p>
 
-        <div class="article-img-wrap" style="--mob-wrap-h: 264px; --mob-scale: 0.49; --mob-tx: 4%;">
-          <iframe style="max-width: 100%; transform: scale(1) translate(4%, 1%); --mob-iframe-h: 480px; --mob-ty: -2%;"
+        <div class="article-img-wrap"
+          style=" height: 500px; --mob-wrap-h: 240px; --mob-scale: 0.47; --mob-tx: 4%; --mob-ty: -2.5%">
+          <iframe style="transform: scale(1) translate(4.5%, -4%); max-width: 100%;"
             src="projetos_arquivos/relatorio_final_series_temporais/graphics/previsao_modelo_final.html"
             class="plotly-iframe" title="Previsão Out of Sample" scrolling="no"></iframe>
         </div>
 
         <div class="glass-quote" style="border-left-color: #4CAF50; background: rgba(76, 175, 80, 0.05);">
-          O modelo SARIMA superou as expectativas mantendo o menor Root Mean Square Error (RMSE) durante a janela de
-          previsão. Conclui-se que o comportamento histórico não é um ruído aleatório, mas uma orquestra predizível de
-          flutuações macroeconômicas.
+          O modelo SARIMA manteve uma vantagem discreta, porém consistente, em RMSE sobre a Suavização Exponencial ao
+          longo de toda a janela de previsão. O resultado reforça que a produção de petróleo segue um padrão de
+          tendência e sazonalidade relativamente previsível, ainda que sujeito a flutuações de mercado.
         </div>
+
+        <p style="font-size: 1rem; opacity: 0.85;">
+          Vale ressaltar que, embora os resíduos do modelo tenham passado nos testes de independência (Ljung-Box), eles
+          não atendem plenamente à premissa de normalidade — o que não compromete a qualidade das previsões pontuais,
+          mas amplia a incerteza dos intervalos de confiança projetados.
+        </p>
       </section>
 
       <!-- ==========================================
@@ -428,7 +580,7 @@
         </p>
 
         <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap: wrap;">
-          <a href="projetos_arquivos/relatorio_final_series_temporais/Apresentação_Petróleo_Séries_Temporais.pdf"
+          <a href="projetos_arquivos/relatorio_final_series_temporais/Apresentacao_Petroleo_Series_Temporais.pdf"
             target="_blank" rel="noopener noreferrer"
             style="display:inline-flex; align-items:center; gap:10px; background: rgba(215,181,109,0.1); border: 1px solid #D7B56D; color: #D7B56D; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(215,181,109,0.15);"
             onmouseover="this.style.background='#D7B56D'; this.style.color='#0A1428';"
@@ -440,7 +592,7 @@
             Slides de Apresentação
           </a>
 
-          <a href="projetos_arquivos/relatorio_final_series_temporais/Séries_Temporais_RELATÓRIO_FINAL.pdf"
+          <a href="projetos_arquivos/relatorio_final_series_temporais/Series_Temporais_RELATORIO_FINAL.pdf"
             target="_blank" rel="noopener noreferrer"
             style="display:inline-flex; align-items:center; gap:10px; background: transparent; border: 1px solid rgba(248,249,250,0.3); color: #F8F9FA; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease;"
             onmouseover="this.style.borderColor='#D7B56D'; this.style.color='#D7B56D';"
@@ -509,6 +661,41 @@
           });
           link.addEventListener('mouseleave', () => {
             gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+          });
+        });
+      }
+
+      // 3D Tilt Effect on version-card
+      const card = document.getElementById('version-card');
+      if (card) {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const xc = rect.width / 2;
+          const yc = rect.height / 2;
+          const dx = x - xc;
+          const dy = y - yc;
+
+          const maxRot = 8;
+          const rotX = -(dy / yc) * maxRot;
+          const rotY = (dx / xc) * maxRot;
+
+          gsap.to(card, {
+            rotationX: rotX,
+            rotationY: rotY,
+            ease: "power2.out",
+            duration: 0.4,
+            transformPerspective: 1000
+          });
+        });
+
+        card.addEventListener('mouseleave', () => {
+          gsap.to(card, {
+            rotationX: 0,
+            rotationY: 0,
+            ease: "power2.out",
+            duration: 0.6
           });
         });
       }
