@@ -20,11 +20,11 @@
     rel="stylesheet" />
 
   <!-- CSS -->
-<link href="assets/css/style.min.css" rel="stylesheet"/>
+  <link href="assets/css/style.min.css" rel="stylesheet" />
   <!-- GSAP & Tailwind -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  
+
 
   <!-- MathJax -->
   <script>
@@ -189,12 +189,13 @@
       pointer-events: none;
       z-index: 0;
     }
-  
+
     /* Cursor Dourado Exclusivo para as Páginas de Case */
     .cursor-ring {
       border-color: rgba(215, 181, 109, 0.85) !important;
       box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
     }
+
     @media (max-width: 768px) {
       .article-img-wrap::before {
         display: none !important;
@@ -261,10 +262,163 @@
           e restritos ao intervalo $(0,1)$ — como proporções, taxas e índices —, a regressão linear clássica falha. Para
           isso, utilizamos a <strong>Distribuição Beta</strong>.
         </p>
+
         <p>
-          A fim de conectar as covariáveis diretamente à resposta esperada, a formulação da distribuição foi
-          reparametrizada em termos da média $\mu$ e de um parâmetro de precisão $\phi$ (Ferrari e Cribari-Neto, 2004).
-          A densidade de probabilidade é dada por:
+          A distribuição Beta clássica é comumente definida em termos de dois parâmetros de forma positivos, $\alpha$ e
+          $\beta$. A densidade de probabilidade correspondente é dada por:
+        </p>
+
+        <div class="text-center">
+          $$f(y; \alpha, \beta) = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} y^{\alpha-1}
+          (1-y)^{\beta-1}$$
+        </div>
+
+        <!-- Box 1: Parametrização Clássica (α, β) -->
+        <div class="beta-simulator-container"
+          style="margin: 4rem 0; padding: 3rem; border-radius: 12px; background: rgba(7, 16, 32, 0.55); border: 1px solid rgba(215, 181, 109, 0.18); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(215, 181, 109, 0.03);">
+          
+          <!-- Top-left Gold Badge -->
+          <div style="margin-bottom: 1.5rem; text-align: left;">
+            <span class="badge"
+              style="background: rgba(215, 181, 109, 0.08); color: #D7B56D; border: 1px solid rgba(215, 181, 109, 0.35); padding: 5px 12px; border-radius: 20px; font-size: 0.72rem; font-family: 'Inter', sans-serif; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;">DISTRIBUIÇÃO CLÁSSICA</span>
+          </div>
+
+          <!-- Title & Description -->
+          <div style="text-align: left; margin-bottom: 2.5rem; font-family: 'Inter', sans-serif;">
+            <h3
+              style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-style: italic; font-weight: 600; color: #D7B56D; margin: 0 0 0.5rem 0; border: none; padding: 0;">
+              Parametrização da Forma (α, β)</h3>
+            <p
+              style="color: rgba(248, 249, 250, 0.65); font-size: 0.95rem; line-height: 1.6; margin: 0; font-family: 'Inter', sans-serif;">
+              Ajuste os parâmetros de forma $\alpha$ e $\beta$ para explorar a flexibilidade da distribuição clássica. O
+              gráfico exibe a densidade (PDF, área dourada) e a probabilidade acumulada (CDF, linha azul tracejada).
+            </p>
+          </div>
+
+          <!-- Gráfico SVG (Proporção Ampliada 800x320) -->
+          <div style="position: relative; margin-bottom: 1.5rem;">
+            <svg id="classicSvg" viewBox="0 0 800 320"
+              style="width: 100%; height: auto; background: transparent; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.03); overflow: visible; cursor: crosshair;">
+              <defs>
+                <linearGradient id="classicPdfGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#D7B56D" stop-opacity="0.8" />
+                  <stop offset="100%" stop-color="#D7B56D" stop-opacity="0.05" />
+                </linearGradient>
+              </defs>
+
+              <!-- Grade de fundo -->
+              <g stroke="rgba(255, 255, 255, 0.03)" stroke-width="1">
+                <line x1="65" y1="40" x2="735" y2="40" />
+                <line x1="65" y1="105" x2="735" y2="105" />
+                <line x1="65" y1="170" x2="735" y2="170" />
+                <line x1="65" y1="235" x2="735" y2="235" />
+                <line x1="232.5" y1="40" x2="232.5" y2="270" />
+                <line x1="400" y1="40" x2="400" y2="270" />
+                <line x1="567.5" y1="40" x2="567.5" y2="270" />
+              </g>
+
+              <!-- Eixos principais -->
+              <line x1="65" y1="270" x2="735" y2="270" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+              <line x1="65" y1="40" x2="65" y2="270" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+
+              <!-- Rótulos do eixo X -->
+              <text x="65" y="290" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">0,0</text>
+              <text x="232.5" y="290" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">0,25</text>
+              <text x="400" y="290" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">0,5</text>
+              <text x="567.5" y="290" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">0,75</text>
+              <text x="735" y="290" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">1,0</text>
+              <text x="400" y="312" fill="#BBD9F5" font-size="11" font-weight="600" text-anchor="middle">y (Valores no
+                intervalo unitário)</text>
+
+              <!-- Rótulos do eixo Y (PDF esquerdo) -->
+              <text x="40" y="45" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end"
+                id="classicYMaxLabel">4,0</text>
+              <text x="40" y="157" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end"
+                id="classicYMidLabel">2,0</text>
+              <text x="40" y="275" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">0,0</text>
+
+              <!-- Rótulos do eixo Y (CDF direito) -->
+              <text x="755" y="45" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="start">1,0</text>
+              <text x="755" y="157" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="start">0,5</text>
+              <text x="755" y="275" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="start">0,0</text>
+
+              <!-- Rótulos de eixos verticais -->
+              <text x="15" y="155" fill="#D7B56D" font-size="12" font-weight="600" text-anchor="middle"
+                transform="rotate(-90, 15, 155)">Densidade de Probabilidade (PDF)</text>
+              <text x="785" y="155" fill="#42A5F5" font-size="12" font-weight="600" text-anchor="middle"
+                transform="rotate(90, 785, 155)">Acumulada (CDF)</text>
+
+              <!-- Caminhos das curvas -->
+              <path id="classicPdfArea" fill="url(#classicPdfGrad)" d="" />
+              <path id="classicPdfLine" fill="none" stroke="#D7B56D" stroke-width="2.5" d="" />
+              <path id="classicCdfLine" fill="none" stroke="#42A5F5" stroke-dasharray="4,4" stroke-width="2" d="" />
+
+              <!-- Elementos de hover -->
+              <line id="classicHoverLine" x1="0" y1="40" x2="0" y2="270" stroke="rgba(255,255,255,0.25)"
+                stroke-width="1" style="display:none;" />
+              <circle id="classicHoverPdfCircle" r="5" fill="#D7B56D" stroke="#070e1b" stroke-width="1.5"
+                style="display:none;" />
+              <circle id="classicHoverCdfCircle" r="5" fill="#42A5F5" stroke="#070e1b" stroke-width="1.5"
+                style="display:none;" />
+            </svg>
+
+            <!-- Tooltip -->
+            <div id="classicTooltip"
+              style="position: absolute; display: none; background: rgba(10, 20, 40, 0.95); border: 1px solid #D7B56D; border-radius: 6px; padding: 10px; font-size: 0.8rem; color: #F8F9FA; pointer-events: none; box-shadow: 0 10px 25px rgba(0,0,0,0.6); z-index: 50; line-height: 1.4; font-family: 'Inter', sans-serif;">
+              <strong>y:</strong> <span id="classicTooltipY">0,500</span><br>
+              <strong style="color:#D7B56D;">PDF(y):</strong> <span id="classicTooltipPdf">1,250</span><br>
+              <strong style="color:#42A5F5;">CDF(y):</strong> <span id="classicTooltipCdf">0,500</span>
+            </div>
+          </div>
+
+          <!-- Controles na parte inferior -->
+          <div
+            style="display: flex; gap: 2.5rem; flex-wrap: wrap; align-items: stretch; justify-content: space-between; border-top: 1px solid rgba(215,181,109,0.15); padding-top: 2rem;">
+            <!-- Controles deslizantes (Esquerda) -->
+            <div style="flex: 1.3; min-width: 280px; display: flex; flex-direction: column; gap: 1.5rem;">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items: center; margin-bottom: 8px;">
+                  <label style="font-size:0.82rem; color:#BBD9F5; font-weight:600; text-transform: uppercase; letter-spacing: 0.5px;">Parâmetro α (Forma)</label>
+                  <span id="classicValAlpha" style="font-size:0.8rem; color:#D7B56D; font-weight:700; background: rgba(215, 181, 109, 0.12); border: 1px solid rgba(215, 181, 109, 0.25); padding: 2px 8px; border-radius: 12px; min-width: 36px; text-align: center;">2,0</span>
+                </div>
+                <input type="range" id="classicSliderAlpha" min="0.5" max="50" step="0.1" value="2.0"
+                  oninput="updateClassicSimulator()"
+                  style="width: 100%; cursor: pointer; accent-color: #D7B56D; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;" />
+              </div>
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items: center; margin-bottom: 8px;">
+                  <label style="font-size:0.82rem; color:#BBD9F5; font-weight:600; text-transform: uppercase; letter-spacing: 0.5px;">Parâmetro β (Forma)</label>
+                  <span id="classicValBeta" style="font-size:0.8rem; color:#D7B56D; font-weight:700; background: rgba(215, 181, 109, 0.12); border: 1px solid rgba(215, 181, 109, 0.25); padding: 2px 8px; border-radius: 12px; min-width: 36px; text-align: center;">2,0</span>
+                </div>
+                <input type="range" id="classicSliderBeta" min="0.5" max="50" step="0.1" value="2.0"
+                  oninput="updateClassicSimulator()"
+                  style="width: 100%; cursor: pointer; accent-color: #D7B56D; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;" />
+              </div>
+            </div>
+
+            <!-- Estatísticas calculadas (Estilo Dashboard Premium) -->
+            <div
+              style="flex: 1; min-width: 250px; background: rgba(215, 181, 109, 0.03); border: 1px solid rgba(215, 181, 109, 0.12); border-radius: 8px; padding: 20px; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; justify-content: center; box-shadow: inset 0 0 15px rgba(215, 181, 109, 0.02);">
+              <h4
+                style="margin-top:0; color:#BBD9F5; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:12px; border-bottom: 1px solid rgba(215, 181, 109, 0.15); padding-bottom: 6px;">
+                Propriedades Estatísticas</h4>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size:0.82rem; color: rgba(248, 249, 250, 0.9);">
+                <div><span style="opacity:0.65;">Média (μ):</span> <strong id="classicStatMean"
+                    style="color:#D7B56D;">0,500</strong></div>
+                <div><span style="opacity:0.65;">Variância:</span> <strong id="classicStatVar" style="color:#F8F9FA;">0,050</strong></div>
+                <div><span style="opacity:0.65;">Assimetria:</span> <strong id="classicStatSkew" style="color:#F8F9FA;">0,000</strong></div>
+                <div><span style="opacity:0.65;">Formato:</span> <strong id="classicStatShape"
+                    style="color:#42A5F5;">Simétrico</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          Embora a parametrização clássica seja excelente para descrever densidades de probabilidade sob diversas
+          formas, ela dificulta a modelagem de regressão direta sobre a resposta média. Para sanar isso, Ferrari e
+          Cribari-Neto (2004) propuseram a reparametrização em termos da média $\mu = \alpha / (\alpha + \beta)$ e de um
+          parâmetro de precisão $\phi = \alpha + \beta$. A nova densidade é expressa por:
         </p>
 
         <div class="text-center">
@@ -273,25 +427,626 @@
         </div>
 
         <p>
-          A grande vantagem dessa abordagem é a capacidade de modelar simultaneamente a média e a dispersão
-          (heterocedasticidade) utilizando funções de ligação rigorosas aplicadas a um vetor de covariáveis:
+          Essa formulação alternativa permite modelar simultaneamente o valor médio $\mu$ e a precisão $\phi$
+          (capturando a heteroscedasticidade longitudinal) através de covariáveis associadas a funções de ligação
+          estritamente monótonas:
         </p>
 
         <div class="text-center">
-          $$g_1(\mu_{it}) = x_{it}^T \beta \quad \text{e} \quad g_2(\phi_{it}) = z_{it}^T \gamma$$
+          $$g(\mu_{ij}) = x_{ij}^T \boldsymbol{\beta} \quad \text{e} \quad h(\phi_{ij}) = q_{ij}^T \gamma$$
         </div>
 
-        <div class="article-img-wrap" style="margin-top: 3rem; margin-bottom: 1.5rem;">
-          <img src="projetos_arquivos/eegs_reg_beta_medidas_repetidas/graphics/dist.beta.png"
-            alt="Densidade da Distribuição Beta Clássica" class="article-img"
-            style="box-shadow: 0 10px 30px rgba(0,0,0,0.5);" />
+        <!-- Box 2: Parametrização de Regressão (μ, φ) -->
+        <div class="beta-simulator-container"
+          style="margin: 4rem 0; padding: 3rem; border-radius: 12px; background: rgba(7, 16, 32, 0.55); border: 1px solid rgba(215, 181, 109, 0.18); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(215, 181, 109, 0.03);">
+          
+          <!-- Top-left Gold Badge -->
+          <div style="margin-bottom: 1.5rem; text-align: left;">
+            <span class="badge"
+              style="background: rgba(215, 181, 109, 0.08); color: #D7B56D; border: 1px solid rgba(215, 181, 109, 0.35); padding: 5px 12px; border-radius: 20px; font-size: 0.72rem; font-family: 'Inter', sans-serif; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;">PARAMETRIZAÇÃO DE REGRESSÃO</span>
+          </div>
+
+          <!-- Title & Description -->
+          <div style="text-align: left; margin-bottom: 2.5rem; font-family: 'Inter', sans-serif;">
+            <h3
+              style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-style: italic; font-weight: 600; color: #D7B56D; margin: 0 0 0.5rem 0; border: none; padding: 0;">
+              Reparametrização de Média e Precisão (μ, φ)</h3>
+            <p
+              style="color: rgba(248, 249, 250, 0.65); font-size: 0.95rem; line-height: 1.6; margin: 0; font-family: 'Inter', sans-serif;">
+              Ajuste a Média (μ) e o Parâmetro de Precisão (φ). Observe como a variância é controlada diretamente pelas
+              alterações em φ, viabilizando análises de regressão robustas.
+            </p>
+          </div>
+
+          <!-- Gráfico SVG (Proporção Ampliada 800x320) -->
+          <div style="position: relative; margin-bottom: 1.5rem;">
+            <svg id="reparSvg" viewBox="0 0 800 320"
+              style="width: 100%; height: auto; background: transparent; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.03); overflow: visible; cursor: crosshair;">
+              <defs>
+                <linearGradient id="reparPdfGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#D7B56D" stop-opacity="0.8" />
+                  <stop offset="100%" stop-color="#D7B56D" stop-opacity="0.05" />
+                </linearGradient>
+              </defs>
+
+              <!-- Grade de fundo -->
+              <g stroke="rgba(255, 255, 255, 0.03)" stroke-width="1">
+                <line x1="65" y1="40" x2="735" y2="40" />
+                <line x1="65" y1="105" x2="735" y2="105" />
+                <line x1="65" y1="170" x2="735" y2="170" />
+                <line x1="65" y1="235" x2="735" y2="235" />
+                <line x1="232.5" y1="40" x2="232.5" y2="270" />
+                <line x1="400" y1="40" x2="400" y2="270" />
+                <line x1="567.5" y1="40" x2="567.5" y2="270" />
+              </g>
+
+              <!-- Eixos principais -->
+              <line x1="65" y1="270" x2="735" y2="270" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+              <line x1="65" y1="40" x2="65" y2="270" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+
+              <!-- Rótulos do eixo X -->
+              <text x="65" y="290" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">0,0</text>
+              <text x="232.5" y="290" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">0,25</text>
+              <text x="400" y="290" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">0,5</text>
+              <text x="567.5" y="290" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">0,75</text>
+              <text x="735" y="290" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">1,0</text>
+              <text x="400" y="312" fill="#BBD9F5" font-size="11" font-weight="600" text-anchor="middle">y (Valores no
+                intervalo unitário)</text>
+
+              <!-- Rótulos do eixo Y (PDF esquerdo) -->
+              <text x="40" y="45" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end"
+                id="reparYMaxLabel">4,0</text>
+              <text x="40" y="157" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end"
+                id="reparYMidLabel">2,0</text>
+              <text x="40" y="275" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">0,0</text>
+
+              <!-- Rótulos do eixo Y (CDF direito) -->
+              <text x="755" y="45" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="start">1,0</text>
+              <text x="755" y="157" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="start">0,5</text>
+              <text x="755" y="275" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="start">0,0</text>
+
+              <!-- Rótulos de eixos verticais -->
+              <text x="15" y="155" fill="#D7B56D" font-size="12" font-weight="600" text-anchor="middle"
+                transform="rotate(-90, 15, 155)">Densidade de Probabilidade (PDF)</text>
+              <text x="785" y="155" fill="#42A5F5" font-size="12" font-weight="600" text-anchor="middle"
+                transform="rotate(90, 785, 155)">Acumulada (CDF)</text>
+
+              <!-- Caminhos das curvas -->
+              <path id="reparPdfArea" fill="url(#reparPdfGrad)" d="" />
+              <path id="reparPdfLine" fill="none" stroke="#D7B56D" stroke-width="2.5" d="" />
+              <path id="reparCdfLine" fill="none" stroke="#42A5F5" stroke-dasharray="4,4" stroke-width="2" d="" />
+
+              <!-- Elementos de hover -->
+              <line id="reparHoverLine" x1="0" y1="40" x2="0" y2="270" stroke="rgba(255,255,255,0.25)" stroke-width="1"
+                style="display:none;" />
+              <circle id="reparHoverPdfCircle" r="5" fill="#D7B56D" stroke="#070e1b" stroke-width="1.5"
+                style="display:none;" />
+              <circle id="reparHoverCdfCircle" r="5" fill="#42A5F5" stroke="#070e1b" stroke-width="1.5"
+                style="display:none;" />
+            </svg>
+
+            <!-- Tooltip -->
+            <div id="reparTooltip"
+              style="position: absolute; display: none; background: rgba(10, 20, 40, 0.95); border: 1px solid #D7B56D; border-radius: 6px; padding: 10px; font-size: 0.8rem; color: #F8F9FA; pointer-events: none; box-shadow: 0 10px 25px rgba(0,0,0,0.6); z-index: 50; line-height: 1.4; font-family: 'Inter', sans-serif;">
+              <strong>y:</strong> <span id="reparTooltipY">0,500</span><br>
+              <strong style="color:#D7B56D;">PDF(y):</strong> <span id="reparTooltipPdf">1,250</span><br>
+              <strong style="color:#42A5F5;">CDF(y):</strong> <span id="reparTooltipCdf">0,500</span>
+            </div>
+          </div>
+
+          <!-- Controles na parte inferior -->
+          <div
+            style="display: flex; gap: 2.5rem; flex-wrap: wrap; align-items: stretch; justify-content: space-between; border-top: 1px solid rgba(215,181,109,0.15); padding-top: 2rem;">
+            <!-- Controles deslizantes (Esquerda) -->
+            <div style="flex: 1.3; min-width: 280px; display: flex; flex-direction: column; gap: 1.5rem;">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items: center; margin-bottom: 8px;">
+                  <label style="font-size:0.82rem; color:#BBD9F5; font-weight:600; text-transform: uppercase; letter-spacing: 0.5px;">Média (μ)</label>
+                  <span id="reparValMu" style="font-size:0.8rem; color:#D7B56D; font-weight:700; background: rgba(215, 181, 109, 0.12); border: 1px solid rgba(215, 181, 109, 0.25); padding: 2px 8px; border-radius: 12px; min-width: 36px; text-align: center;">0,50</span>
+                </div>
+                <input type="range" id="reparSliderMu" min="0.05" max="0.95" step="0.01" value="0.50"
+                  oninput="updateReparSimulator()"
+                  style="width: 100%; cursor: pointer; accent-color: #D7B56D; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;" />
+                <span style="font-size:0.75rem; opacity:0.5; display:block; margin-top:3px;">Define o centro de
+                  gravidade da distribuição.</span>
+              </div>
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items: center; margin-bottom: 8px;">
+                  <label style="font-size:0.82rem; color:#BBD9F5; font-weight:600; text-transform: uppercase; letter-spacing: 0.5px;">Precisão (φ)</label>
+                  <span id="reparValPhi" style="font-size:0.8rem; color:#D7B56D; font-weight:700; background: rgba(215, 181, 109, 0.12); border: 1px solid rgba(215, 181, 109, 0.25); padding: 2px 8px; border-radius: 12px; min-width: 36px; text-align: center;">20</span>
+                </div>
+                <input type="range" id="reparSliderPhi" min="2" max="150" step="1" value="20"
+                  oninput="updateReparSimulator()"
+                  style="width: 100%; cursor: pointer; accent-color: #D7B56D; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;" />
+                <span style="font-size:0.75rem; opacity:0.5; display:block; margin-top:3px;">Quanto maior φ, menor a
+                  dispersão (variabilidade).</span>
+              </div>
+            </div>
+
+            <!-- Estatísticas calculadas (Estilo Dashboard Premium) -->
+            <div
+              style="flex: 1; min-width: 250px; background: rgba(215, 181, 109, 0.03); border: 1px solid rgba(215, 181, 109, 0.12); border-radius: 8px; padding: 20px; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; justify-content: center; box-shadow: inset 0 0 15px rgba(215, 181, 109, 0.02);">
+              <h4
+                style="margin-top:0; color:#BBD9F5; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:12px; border-bottom: 1px solid rgba(215, 181, 109, 0.15); padding-bottom: 6px;">
+                Propriedades Estatísticas</h4>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size:0.82rem; color: rgba(248, 249, 250, 0.9);">
+                <div><span style="opacity:0.65;">Média (μ):</span> <strong id="reparStatMean"
+                    style="color:#D7B56D;">0,500</strong></div>
+                <div><span style="opacity:0.65;">Variância:</span> <strong id="reparStatVar" style="color:#F8F9FA;">0,012</strong></div>
+                <div><span style="opacity:0.65;">Assimetria:</span> <strong id="reparStatSkew" style="color:#F8F9FA;">0,000</strong></div>
+                <div><span style="opacity:0.65;">Formato:</span> <strong id="reparStatShape"
+                    style="color:#42A5F5;">Simétrico</strong></div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="article-img-wrap" style="margin-bottom: 3rem;">
-          <img src="projetos_arquivos/eegs_reg_beta_medidas_repetidas/graphics/dist.beta.reparametrizada.png"
-            alt="Densidade da Distribuição Beta Reparametrizada" class="article-img"
-            style="box-shadow: 0 10px 30px rgba(0,0,0,0.5);" />
-        </div>
+        <!-- Scripts Matemáticos e Interações dos Dois Simuladores Independentes -->
+        <script>
+          // ==============================================================================
+          // CORE MATEMÁTICO COMPARTILHADO (Lanczos & Continued Fractions)
+          // ==============================================================================
+          function logGamma(z) {
+            let g = 7;
+            let p = [
+              0.99999999999980993,
+              676.5203681218851,
+              -1259.1392167224028,
+              771.32342877765313,
+              -176.61502916214059,
+              12.507381424447023,
+              -0.13857109526572012,
+              9.9843695780195716e-6,
+              1.5056327351493116e-7
+            ];
+            if (z < 0.5) {
+              return Math.log(Math.PI / Math.sin(Math.PI * z)) - logGamma(1 - z);
+            }
+            z -= 1;
+            let x = p[0];
+            for (let i = 1; i < g + 2; i++) {
+              x += p[i] / (z + i);
+            }
+            let t = z + g + 0.5;
+            return 0.5 * Math.log(2 * Math.PI) + Math.log(t) * (z + 0.5) - t + Math.log(x);
+          }
+
+          function betaFunction(a, b) {
+            return Math.exp(logGamma(a) + logGamma(b) - logGamma(a + b));
+          }
+
+          function betaPDF(y, a, b) {
+            if (y <= 1e-6 || y >= 0.999999) return 0;
+            let B = betaFunction(a, b);
+            return Math.pow(y, a - 1) * Math.pow(1 - y, b - 1) / B;
+          }
+
+          function ibeta(x, a, b) {
+            if (x <= 0) return 0;
+            if (x >= 1) return 1;
+            let bt = Math.exp(logGamma(a + b) - logGamma(a) - logGamma(b) + a * Math.log(x) + b * Math.log(1 - x));
+            if (x < (a + 1) / (a + b + 2)) {
+              return bt * continuedFraction(x, a, b) / a;
+            } else {
+              return 1 - bt * continuedFraction(1 - x, b, a) / b;
+            }
+          }
+
+          function continuedFraction(x, a, b) {
+            let max_iter = 100;
+            let eps = 3e-7;
+            let qab = a + b;
+            let qap = a + 1;
+            let qam = a - 1;
+            let c = 1.0;
+            let d = 1.0 - qab * x / qap;
+            if (Math.abs(d) < 1e-30) d = 1e-30;
+            d = 1.0 / d;
+            let h = d;
+
+            for (let m = 1; m <= max_iter; m++) {
+              let m2 = 2 * m;
+              // Passo par
+              let aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+              d = 1.0 + aa * d;
+              if (Math.abs(d) < 1e-30) d = 1e-30;
+              c = 1.0 + aa / c;
+              if (Math.abs(c) < 1e-30) c = 1e-30;
+              d = 1.0 / d;
+              h *= d * c;
+
+              // Passo ímpar
+              aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+              d = 1.0 + aa * d;
+              if (Math.abs(d) < 1e-30) d = 1e-30;
+              c = 1.0 + aa / c;
+              if (Math.abs(c) < 1e-30) c = 1e-30;
+              d = 1.0 / d;
+              let del = d * c;
+              h *= del;
+              if (Math.abs(del - 1.0) < eps) break;
+            }
+            return h;
+          }
+
+          // Classifica o formato morfológico da curva
+          function getBetaShapeName(alpha, beta, skew) {
+            if (alpha < 1 && beta < 1) return "Formato U";
+            if (alpha === 1 && beta === 1) return "Uniforme";
+            if (alpha === 1 && beta < 1) return "J-Shape Invertido (Decrescente)";
+            if (alpha < 1 && beta === 1) return "J-Shape (Crescente)";
+            if (alpha > 1 && beta > 1) {
+              if (Math.abs(skew) < 0.1) return "Unimodal Simétrico";
+              return skew > 0 ? "Assimetria Positiva (Direita)" : "Assimetria Negativa (Esquerda)";
+            }
+            if (alpha > 1 && beta <= 1) return "J-Shape (Crescente)";
+            if (alpha <= 1 && beta > 1) return "J-Shape Invertido (Decrescente)";
+            return "Assimétrica";
+          }
+
+          // ==============================================================================
+          // SIMULADOR 1: PARAMETRIZAÇÃO CLÁSSICA (α, β)
+          // ==============================================================================
+          let clAlpha = 2.0;
+          let clBeta = 2.0;
+
+          function updateClassicSimulator() {
+            clAlpha = parseFloat(document.getElementById("classicSliderAlpha").value);
+            clBeta = parseFloat(document.getElementById("classicSliderBeta").value);
+
+            document.getElementById("classicValAlpha").innerText = clAlpha.toFixed(1).replace(".", ",");
+            document.getElementById("classicValBeta").innerText = clBeta.toFixed(1).replace(".", ",");
+
+            renderClassicCurves();
+            updateClassicStats();
+          }
+
+          function renderClassicCurves() {
+            const svg = document.getElementById("classicSvg");
+            const w = 800, h = 320;
+            const pLeft = 65, pRight = 65;
+            const pTop = 40, pBottom = 50;
+            const plotW = w - pLeft - pRight;
+            const plotH = h - pTop - pBottom;
+
+            let xPoints = [];
+            let yPdf = [];
+            let maxPdf = 0.5;
+
+            for (let i = 0; i <= 200; i++) {
+              let t = 0.0001 + (i / 200) * 0.9998;
+              let pdf = betaPDF(t, clAlpha, clBeta);
+              xPoints.push(t);
+              yPdf.push(pdf);
+              if (pdf > maxPdf && isFinite(pdf)) maxPdf = pdf;
+            }
+
+            // Analisa pontos bem próximos dos limites extremos para capturar assíntotas
+            let edge1 = betaPDF(0.001, clAlpha, clBeta);
+            let edge2 = betaPDF(0.999, clAlpha, clBeta);
+            if (edge1 > maxPdf && isFinite(edge1)) maxPdf = edge1;
+            if (edge2 > maxPdf && isFinite(edge2)) maxPdf = edge2;
+
+            let yMaxScale = Math.max(2.5, Math.ceil(maxPdf * 1.1));
+            document.getElementById("classicYMaxLabel").textContent = yMaxScale.toFixed(1).replace(".", ",");
+            document.getElementById("classicYMidLabel").textContent = (yMaxScale / 2).toFixed(2).replace(".", ",");
+
+            function getCoords(x, pdfVal, cdfVal) {
+              let svgX = pLeft + x * plotW;
+              let svgY_pdf = h - pBottom - (pdfVal / yMaxScale) * plotH;
+              let svgY_cdf = h - pBottom - cdfVal * plotH;
+
+              if (svgY_pdf < pTop) svgY_pdf = pTop;
+              if (svgY_pdf > h - pBottom) svgY_pdf = h - pBottom;
+
+              return { x: svgX, y_pdf: svgY_pdf, y_cdf: svgY_cdf };
+            }
+
+            let pdfLinePath = "";
+            let pdfAreaPath = `M ${pLeft} ${h - pBottom} `;
+            let cdfLinePath = "";
+
+            xPoints.forEach((x, i) => {
+              let pdf = yPdf[i];
+              let cdf = ibeta(x, clAlpha, clBeta);
+              let coords = getCoords(x, pdf, cdf);
+
+              if (i === 0) {
+                pdfLinePath += `M ${coords.x} ${coords.y_pdf} `;
+                cdfLinePath += `M ${coords.x} ${coords.y_cdf} `;
+              } else {
+                pdfLinePath += `L ${coords.x} ${coords.y_pdf} `;
+                cdfLinePath += `L ${coords.x} ${coords.y_cdf} `;
+              }
+              pdfAreaPath += `L ${coords.x} ${coords.y_pdf} `;
+            });
+
+            pdfAreaPath += `L ${pLeft + plotW} ${h - pBottom} Z`;
+
+            document.getElementById("classicPdfLine").setAttribute("d", pdfLinePath);
+            document.getElementById("classicPdfArea").setAttribute("d", pdfAreaPath);
+            document.getElementById("classicCdfLine").setAttribute("d", cdfLinePath);
+
+            svg.dataset.yMaxScale = yMaxScale;
+            svg.dataset.plotW = plotW;
+            svg.dataset.plotH = plotH;
+            svg.dataset.pLeft = pLeft;
+            svg.dataset.pTop = pTop;
+            svg.dataset.pBottom = pBottom;
+          }
+
+          function updateClassicStats() {
+            let mean = clAlpha / (clAlpha + clBeta);
+            let variance = (clAlpha * clBeta) / (Math.pow(clAlpha + clBeta, 2) * (clAlpha + clBeta + 1));
+
+            let skew = 0;
+            if (clAlpha > 0 && clBeta > 0) {
+              let num = 2 * (clBeta - clAlpha) * Math.sqrt(clAlpha + clBeta + 1);
+              let den = (clAlpha + clBeta + 2) * Math.sqrt(clAlpha * clBeta);
+              skew = num / den;
+            }
+
+            document.getElementById("classicStatMean").textContent = mean.toFixed(3).replace(".", ",");
+            document.getElementById("classicStatVar").textContent = variance.toFixed(4).replace(".", ",");
+            document.getElementById("classicStatSkew").textContent = isNaN(skew) ? "0,000" : skew.toFixed(3).replace(".", ",");
+            document.getElementById("classicStatShape").textContent = getBetaShapeName(clAlpha, clBeta, skew);
+          }
+
+          // Eventos mouse - Clássico
+          const classicSvg = document.getElementById("classicSvg");
+          const classicTooltip = document.getElementById("classicTooltip");
+          const clHLine = document.getElementById("classicHoverLine");
+          const clHPdfCircle = document.getElementById("classicHoverPdfCircle");
+          const clHCdfCircle = document.getElementById("classicHoverCdfCircle");
+
+          classicSvg.addEventListener("mousemove", (e) => {
+            const rect = classicSvg.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const w = classicSvg.clientWidth;
+            const scaleFactor = 800 / w;
+            const svgMouseX = mouseX * scaleFactor;
+
+            const pLeft = parseFloat(classicSvg.dataset.pLeft);
+            const plotW = parseFloat(classicSvg.dataset.plotW);
+            const plotH = parseFloat(classicSvg.dataset.plotH);
+            const yMax = parseFloat(classicSvg.dataset.yMaxScale);
+            const pTop = parseFloat(classicSvg.dataset.pTop);
+            const pBottom = parseFloat(classicSvg.dataset.pBottom);
+
+            if (svgMouseX >= pLeft && svgMouseX <= pLeft + plotW) {
+              let t = (svgMouseX - pLeft) / plotW;
+              let pdf = betaPDF(t, clAlpha, clBeta);
+              let cdf = ibeta(t, clAlpha, clBeta);
+
+              let svgY_pdf = 320 - pBottom - (pdf / yMax) * plotH;
+              let svgY_cdf = 320 - pBottom - cdf * plotH;
+
+              if (svgY_pdf < pTop) svgY_pdf = pTop;
+              if (svgY_pdf > 320 - pBottom) svgY_pdf = 320 - pBottom;
+
+              clHLine.setAttribute("x1", svgMouseX);
+              clHLine.setAttribute("x2", svgMouseX);
+              clHLine.style.display = "block";
+
+              clHPdfCircle.setAttribute("cx", svgMouseX);
+              clHPdfCircle.setAttribute("cy", svgY_pdf);
+              clHPdfCircle.style.display = "block";
+
+              clHCdfCircle.setAttribute("cx", svgMouseX);
+              clHCdfCircle.setAttribute("cy", svgY_cdf);
+              clHCdfCircle.style.display = "block";
+
+              classicTooltip.style.display = "block";
+              let tooltipW = classicTooltip.offsetWidth || 120;
+              if (mouseX + 15 + tooltipW > rect.width) {
+                classicTooltip.style.left = `${mouseX - 15 - tooltipW}px`;
+              } else {
+                classicTooltip.style.left = `${mouseX + 15}px`;
+              }
+              classicTooltip.style.top = `${e.clientY - rect.top - 50}px`;
+
+              document.getElementById("classicTooltipY").textContent = t.toFixed(3).replace(".", ",");
+              document.getElementById("classicTooltipPdf").textContent = isFinite(pdf) ? pdf.toFixed(3).replace(".", ",") : "∞";
+              document.getElementById("classicTooltipCdf").textContent = cdf.toFixed(3).replace(".", ",");
+            } else {
+              hideClassicHover();
+            }
+          });
+
+          classicSvg.addEventListener("mouseleave", hideClassicHover);
+
+          function hideClassicHover() {
+            clHLine.style.display = "none";
+            clHPdfCircle.style.display = "none";
+            clHCdfCircle.style.display = "none";
+            classicTooltip.style.display = "none";
+          }
+
+          // ==============================================================================
+          // SIMULADOR 2: PARAMETRIZAÇÃO DE REGRESSÃO (μ, φ)
+          // ==============================================================================
+          let rpMu = 0.50;
+          let rpPhi = 20.0;
+          let rpAlpha = 10.0;
+          let rpBeta = 10.0;
+
+          function updateReparSimulator() {
+            rpMu = parseFloat(document.getElementById("reparSliderMu").value);
+            rpPhi = parseFloat(document.getElementById("reparSliderPhi").value);
+            rpAlpha = rpMu * rpPhi;
+            rpBeta = (1 - rpMu) * rpPhi;
+
+            document.getElementById("reparValMu").innerText = rpMu.toFixed(2).replace(".", ",");
+            document.getElementById("reparValPhi").innerText = rpPhi.toFixed(0);
+
+            renderReparCurves();
+            updateReparStats();
+          }
+
+          function renderReparCurves() {
+            const svg = document.getElementById("reparSvg");
+            const w = 800, h = 320;
+            const pLeft = 65, pRight = 65;
+            const pTop = 40, pBottom = 50;
+            const plotW = w - pLeft - pRight;
+            const plotH = h - pTop - pBottom;
+
+            let xPoints = [];
+            let yPdf = [];
+            let maxPdf = 0.5;
+
+            for (let i = 0; i <= 200; i++) {
+              let t = 0.0001 + (i / 200) * 0.9998;
+              let pdf = betaPDF(t, rpAlpha, rpBeta);
+              xPoints.push(t);
+              yPdf.push(pdf);
+              if (pdf > maxPdf && isFinite(pdf)) maxPdf = pdf;
+            }
+
+            // Analisa pontos bem próximos dos limites extremos para capturar assíntotas
+            let edge1 = betaPDF(0.001, rpAlpha, rpBeta);
+            let edge2 = betaPDF(0.999, rpAlpha, rpBeta);
+            if (edge1 > maxPdf && isFinite(edge1)) maxPdf = edge1;
+            if (edge2 > maxPdf && isFinite(edge2)) maxPdf = edge2;
+
+            let yMaxScale = Math.max(2.5, Math.ceil(maxPdf * 1.1));
+            document.getElementById("reparYMaxLabel").textContent = yMaxScale.toFixed(1).replace(".", ",");
+            document.getElementById("reparYMidLabel").textContent = (yMaxScale / 2).toFixed(2).replace(".", ",");
+
+            function getCoords(x, pdfVal, cdfVal) {
+              let svgX = pLeft + x * plotW;
+              let svgY_pdf = h - pBottom - (pdfVal / yMaxScale) * plotH;
+              let svgY_cdf = h - pBottom - cdfVal * plotH;
+
+              if (svgY_pdf < pTop) svgY_pdf = pTop;
+              if (svgY_pdf > h - pBottom) svgY_pdf = h - pBottom;
+
+              return { x: svgX, y_pdf: svgY_pdf, y_cdf: svgY_cdf };
+            }
+
+            let pdfLinePath = "";
+            let pdfAreaPath = `M ${pLeft} ${h - pBottom} `;
+            let cdfLinePath = "";
+
+            xPoints.forEach((x, i) => {
+              let pdf = yPdf[i];
+              let cdf = ibeta(x, rpAlpha, rpBeta);
+              let coords = getCoords(x, pdf, cdf);
+
+              if (i === 0) {
+                pdfLinePath += `M ${coords.x} ${coords.y_pdf} `;
+                cdfLinePath += `M ${coords.x} ${coords.y_cdf} `;
+              } else {
+                pdfLinePath += `L ${coords.x} ${coords.y_pdf} `;
+                cdfLinePath += `L ${coords.x} ${coords.y_cdf} `;
+              }
+              pdfAreaPath += `L ${coords.x} ${coords.y_pdf} `;
+            });
+
+            pdfAreaPath += `L ${pLeft + plotW} ${h - pBottom} Z`;
+
+            document.getElementById("reparPdfLine").setAttribute("d", pdfLinePath);
+            document.getElementById("reparPdfArea").setAttribute("d", pdfAreaPath);
+            document.getElementById("reparCdfLine").setAttribute("d", cdfLinePath);
+
+            svg.dataset.yMaxScale = yMaxScale;
+            svg.dataset.plotW = plotW;
+            svg.dataset.plotH = plotH;
+            svg.dataset.pLeft = pLeft;
+            svg.dataset.pTop = pTop;
+            svg.dataset.pBottom = pBottom;
+          }
+
+          function updateReparStats() {
+            let variance = (rpMu * (1 - rpMu)) / (rpPhi + 1);
+
+            let skew = 0;
+            if (rpAlpha > 0 && rpBeta > 0) {
+              let num = 2 * (rpBeta - rpAlpha) * Math.sqrt(rpAlpha + rpBeta + 1);
+              let den = (rpAlpha + rpBeta + 2) * Math.sqrt(rpAlpha * rpBeta);
+              skew = num / den;
+            }
+
+            document.getElementById("reparStatMean").textContent = rpMu.toFixed(3).replace(".", ",");
+            document.getElementById("reparStatVar").textContent = variance.toFixed(4).replace(".", ",");
+            document.getElementById("reparStatSkew").textContent = isNaN(skew) ? "0,000" : skew.toFixed(3).replace(".", ",");
+            document.getElementById("reparStatShape").textContent = getBetaShapeName(rpAlpha, rpBeta, skew);
+          }
+
+          // Eventos mouse - Reparametrizado
+          const reparSvg = document.getElementById("reparSvg");
+          const reparTooltip = document.getElementById("reparTooltip");
+          const rpHLine = document.getElementById("reparHoverLine");
+          const rpHPdfCircle = document.getElementById("reparHoverPdfCircle");
+          const rpHCdfCircle = document.getElementById("reparHoverCdfCircle");
+
+          reparSvg.addEventListener("mousemove", (e) => {
+            const rect = reparSvg.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const w = reparSvg.clientWidth;
+            const scaleFactor = 800 / w;
+            const svgMouseX = mouseX * scaleFactor;
+
+            const pLeft = parseFloat(reparSvg.dataset.pLeft);
+            const plotW = parseFloat(reparSvg.dataset.plotW);
+            const plotH = parseFloat(reparSvg.dataset.plotH);
+            const yMax = parseFloat(reparSvg.dataset.yMaxScale);
+            const pTop = parseFloat(reparSvg.dataset.pTop);
+            const pBottom = parseFloat(reparSvg.dataset.pBottom);
+
+            if (svgMouseX >= pLeft && svgMouseX <= pLeft + plotW) {
+              let t = (svgMouseX - pLeft) / plotW;
+              let pdf = betaPDF(t, rpAlpha, rpBeta);
+              let cdf = ibeta(t, rpAlpha, rpBeta);
+
+              let svgY_pdf = 320 - pBottom - (pdf / yMax) * plotH;
+              let svgY_cdf = 320 - pBottom - cdf * plotH;
+
+              if (svgY_pdf < pTop) svgY_pdf = pTop;
+              if (svgY_pdf > 320 - pBottom) svgY_pdf = 320 - pBottom;
+
+              rpHLine.setAttribute("x1", svgMouseX);
+              rpHLine.setAttribute("x2", svgMouseX);
+              rpHLine.style.display = "block";
+
+              rpHPdfCircle.setAttribute("cx", svgMouseX);
+              rpHPdfCircle.setAttribute("cy", svgY_pdf);
+              rpHPdfCircle.style.display = "block";
+
+              rpHCdfCircle.setAttribute("cx", svgMouseX);
+              rpHCdfCircle.setAttribute("cy", svgY_cdf);
+              rpHCdfCircle.style.display = "block";
+
+              reparTooltip.style.display = "block";
+              let tooltipW = reparTooltip.offsetWidth || 120;
+              if (mouseX + 15 + tooltipW > rect.width) {
+                reparTooltip.style.left = `${mouseX - 15 - tooltipW}px`;
+              } else {
+                reparTooltip.style.left = `${mouseX + 15}px`;
+              }
+              reparTooltip.style.top = `${e.clientY - rect.top - 50}px`;
+
+              document.getElementById("reparTooltipY").textContent = t.toFixed(3).replace(".", ",");
+              document.getElementById("reparTooltipPdf").textContent = isFinite(pdf) ? pdf.toFixed(3).replace(".", ",") : "∞";
+              document.getElementById("reparTooltipCdf").textContent = cdf.toFixed(3).replace(".", ",");
+            } else {
+              hideReparHover();
+            }
+          });
+
+          reparSvg.addEventListener("mouseleave", hideReparHover);
+
+          function hideReparHover() {
+            rpHLine.style.display = "none";
+            rpHPdfCircle.style.display = "none";
+            rpHCdfCircle.style.display = "none";
+            reparTooltip.style.display = "none";
+          }
+
+          // Inicialização de ambos os simuladores
+          updateClassicSimulator();
+          updateReparSimulator();
+        </script>
       </section>
 
       <!-- ==========================================
@@ -300,10 +1055,11 @@
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Equações de Estimação Generalizadas (EEGs)</h2>
         <p>
-          Para incorporar a dependência longitudinal intra-sujeito, estendemos a Regressão Beta via <strong>Equações de
-            Estimação Generalizadas (EEGs)</strong>. A grande força das EEGs é não exigir a especificação completa da
-          distribuição conjunta multivariada temporal; é necessário o conhecimento apenas dos dois primeiros momentos da
-          resposta.
+          Para incorporar a dependência longitudinal intra-sujeito, estende-se a Regressão Beta via <strong>Equações de
+            Estimação Generalizadas (EEGs)</strong>, propostas originalmente por Liang e Zeger (1986). A grande força
+          das
+          EEGs é não exigir a especificação completa da distribuição conjunta multivariada temporal; é necessário o
+          conhecimento apenas dos dois primeiros momentos da resposta.
         </p>
 
         <div class="glass-quote">
@@ -316,8 +1072,9 @@
         </div>
 
         <p>
-          Onde $D_i$ é a matriz de derivadas e $V_i$ engloba a estrutura da variância. A correlação ao longo do tempo é
-          parametrizada através da <em>Matriz de Correlação de Trabalho</em> $R(\alpha)$. Neste estudo, investigamos
+          Em que $D_i$ é a matriz de derivadas e $V_i$ engloba a estrutura da variância. A correlação ao longo do tempo
+          é
+          parametrizada através da <em>Matriz de Correlação de Trabalho</em> $R(\alpha)$. Este estudo, investiga
           detalhadamente estruturas fundamentais como <strong>Autoregressiva de Ordem 1 (AR-1)</strong>,
           <strong>Simetria Composta (Exchangeable)</strong> e <strong>Não Estruturada (Unstructured)</strong>. Para
           inferências sólidas, o modelo incorpora a robustez do estimador "Sanduíche", blindando os erros padrão do
@@ -374,8 +1131,8 @@
             Apresentação Beamer
           </a>
 
-          <a href="projetos_arquivos/eegs_reg_beta_medidas_repetidas/EEGs_Regressão_Beta_com_Medidas_Repetidas.pdf" target="_blank"
-            rel="noopener noreferrer"
+          <a href="projetos_arquivos/eegs_reg_beta_medidas_repetidas/EEGs_Regressão_Beta_com_Medidas_Repetidas.pdf"
+            target="_blank" rel="noopener noreferrer"
             style="display:inline-flex; align-items:center; gap:10px; background: transparent; border: 1px solid rgba(248,249,250,0.3); color: #F8F9FA; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease;"
             onmouseover="this.style.borderColor='#D7B56D'; this.style.color='#D7B56D';"
             onmouseout="this.style.borderColor='rgba(248,249,250,0.3)'; this.style.color='#F8F9FA';">
@@ -403,50 +1160,50 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
 
-    // GSAP Scroll Animations
-    gsap.registerPlugin(ScrollTrigger);
+      // GSAP Scroll Animations
+      gsap.registerPlugin(ScrollTrigger);
 
-    // Fade-up elements
-    gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
-      gsap.fromTo(elem,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: elem,
-            start: "top 85%",
-            toggleActions: "play none none reverse"
+      // Fade-up elements
+      gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
+        gsap.fromTo(elem,
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: elem,
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            }
           }
-        }
-      );
-    });
-
-    // Custom Cursor tracking (if used in design_system)
-    const ring = document.getElementById('cursor-ring');
-    const dot = document.getElementById('cursor-dot');
-
-    if (ring && dot) {
-      document.addEventListener('mousemove', (e) => {
-        gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.3, ease: 'power2.out' });
-        gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
+        );
       });
 
-      const links = document.querySelectorAll('a, .article-img-wrap');
-      links.forEach(link => {
-        link.addEventListener('mouseenter', () => {
-          gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
+      // Custom Cursor tracking (if used in design_system)
+      const ring = document.getElementById('cursor-ring');
+      const dot = document.getElementById('cursor-dot');
+
+      if (ring && dot) {
+        document.addEventListener('mousemove', (e) => {
+          gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.3, ease: 'power2.out' });
+          gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
         });
-        link.addEventListener('mouseleave', () => {
-          gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+
+        const links = document.querySelectorAll('a, .article-img-wrap');
+        links.forEach(link => {
+          link.addEventListener('mouseenter', () => {
+            gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
+          });
+          link.addEventListener('mouseleave', () => {
+            gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+          });
         });
-      });
-    }
-  
+      }
+
     });
   </script>
 </body>
