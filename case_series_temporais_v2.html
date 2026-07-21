@@ -25,7 +25,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
-
   <style>
     /* Institucional DOCHMO Overrides */
     .article-header {
@@ -1337,13 +1336,13 @@
         });
       }
 
-      // 3D Tilt Effect on version-card (with dynamic mobile touch support)
+      // 3D Tilt Effect on version-card
       const card = document.getElementById('version-card');
       if (card) {
-        const handleMove = (clientX, clientY) => {
+        card.addEventListener('mousemove', (e) => {
           const rect = card.getBoundingClientRect();
-          const x = clientX - rect.left;
-          const y = clientY - rect.top;
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
           const xc = rect.width / 2;
           const yc = rect.height / 2;
           const dx = x - xc;
@@ -1360,43 +1359,15 @@
             duration: 0.4,
             transformPerspective: 1000
           });
-        };
+        });
 
-        const handleReset = () => {
+        card.addEventListener('mouseleave', () => {
           gsap.to(card, {
             rotationX: 0,
             rotationY: 0,
             ease: "power2.out",
             duration: 0.6
           });
-        };
-
-        card.addEventListener('mousemove', (e) => {
-          handleMove(e.clientX, e.clientY);
-        });
-
-        card.addEventListener('mouseleave', () => {
-          handleReset();
-        });
-
-        card.addEventListener('touchstart', (e) => {
-          if (e.touches.length > 0) {
-            handleMove(e.touches[0].clientX, e.touches[0].clientY);
-          }
-        }, { passive: true });
-
-        card.addEventListener('touchmove', (e) => {
-          if (e.touches.length > 0) {
-            handleMove(e.touches[0].clientX, e.touches[0].clientY);
-          }
-        }, { passive: true });
-
-        card.addEventListener('touchend', () => {
-          handleReset();
-        });
-
-        card.addEventListener('touchcancel', () => {
-          handleReset();
         });
       }
 
