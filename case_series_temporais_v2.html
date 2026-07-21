@@ -651,8 +651,8 @@
           DE CASO ANALÍTICO</span>
         <h1
           style="font-family: var(--font-display); font-size: 4rem; color: #F8F9FA; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);">
-          Produção de Petróleo<br><span
-            style="font-size: 1em; color: #D7B56D; font-weight: 400; font-style: italic;">no Brasil</span></h1>
+          Produção de Petróleo<br><span style="font-size: 1em; color: #D7B56D; font-weight: 400; font-style: italic;">no
+            Brasil</span></h1>
         <p style="color:rgba(248,249,250,0.75); max-width:700px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
           Uma investigação estatística multimetodológica (1997–2025) independente e autoral sobre a dinâmica de produção
           nacional.
@@ -680,7 +680,17 @@
 
         <div class="version-banner-3d" id="version-card">
           <div class="version-card-content">
-            <span class="version-card-icon">✤</span>
+            <svg class="version-card-icon-svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D7B56D"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              style="filter: drop-shadow(0 0 5px rgba(215, 181, 109, 0.5)); flex-shrink: 0; margin-top: 2px;">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <path d="M8 17l3-3 2 2 4-4" stroke="#D7B56D" stroke-width="1.5"></path>
+              <circle cx="8" cy="17" r="1" fill="#D7B56D"></circle>
+              <circle cx="11" cy="14" r="1" fill="#D7B56D"></circle>
+              <circle cx="13" cy="16" r="1" fill="#D7B56D"></circle>
+              <circle cx="17" cy="11" r="1" fill="#D7B56D"></circle>
+            </svg>
             <div class="version-card-text">
               <span class="version-card-label">Nota de Evolução:</span>
               <span class="version-card-desc">Este projeto é uma evolução natural e independente do projeto original
@@ -1327,13 +1337,13 @@
         });
       }
 
-      // 3D Tilt Effect on version-card (desktop only to prevent stuck rotation on mobile touch events)
+      // 3D Tilt Effect on version-card (with dynamic mobile touch support)
       const card = document.getElementById('version-card');
-      if (card && window.matchMedia('(hover: hover)').matches) {
-        card.addEventListener('mousemove', (e) => {
+      if (card) {
+        const handleMove = (clientX, clientY) => {
           const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
+          const x = clientX - rect.left;
+          const y = clientY - rect.top;
           const xc = rect.width / 2;
           const yc = rect.height / 2;
           const dx = x - xc;
@@ -1350,15 +1360,43 @@
             duration: 0.4,
             transformPerspective: 1000
           });
-        });
+        };
 
-        card.addEventListener('mouseleave', () => {
+        const handleReset = () => {
           gsap.to(card, {
             rotationX: 0,
             rotationY: 0,
             ease: "power2.out",
             duration: 0.6
           });
+        };
+
+        card.addEventListener('mousemove', (e) => {
+          handleMove(e.clientX, e.clientY);
+        });
+
+        card.addEventListener('mouseleave', () => {
+          handleReset();
+        });
+
+        card.addEventListener('touchstart', (e) => {
+          if (e.touches.length > 0) {
+            handleMove(e.touches[0].clientX, e.touches[0].clientY);
+          }
+        }, { passive: true });
+
+        card.addEventListener('touchmove', (e) => {
+          if (e.touches.length > 0) {
+            handleMove(e.touches[0].clientX, e.touches[0].clientY);
+          }
+        }, { passive: true });
+
+        card.addEventListener('touchend', () => {
+          handleReset();
+        });
+
+        card.addEventListener('touchcancel', () => {
+          handleReset();
         });
       }
 
