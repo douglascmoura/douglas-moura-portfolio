@@ -151,8 +151,7 @@
       background: rgba(215, 181, 109, 0.05);
       border-radius: 0 12px 12px 0;
       font-style: italic;
-      font-size: 1.25rem;
-      color: rgba(248, 249, 250, 0.95);
+      font-size: 1.05rem;
     }
 
     .terminal-window {
@@ -592,14 +591,27 @@
         padding: 1rem;
       }
 
-      /* Disable tooltips on mobile to prevent overflow-x clipping and tap issues */
+      /* Disable hover tooltips on mobile to prevent overflow-x clipping and tap issues */
       .premium-table th.has-tooltip::after {
         display: none !important;
       }
 
       .premium-table th.has-tooltip {
-        text-decoration: none !important;
-        cursor: default !important;
+        text-decoration: underline dotted rgba(215, 181, 109, 0.45) !important;
+        cursor: pointer !important;
+      }
+
+      /* Stack and center Holt-Winters champion badge in first column on mobile */
+      .premium-table tr.row-winner td:first-child {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .winner-badge {
+        margin-left: 0 !important;
+        margin-top: 4px;
       }
     }
   </style>
@@ -639,7 +651,8 @@
           DE CASO ANALÍTICO</span>
         <h1
           style="font-family: var(--font-display); font-size: 4rem; color: #F8F9FA; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);">
-          Produção de Petróleo<br>no Brasil</h1>
+          Produção de Petróleo<br><span
+            style="font-size: 1em; color: #D7B56D; font-weight: 400; font-style: italic;">no Brasil</span></h1>
         <p style="color:rgba(248,249,250,0.75); max-width:700px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
           Uma investigação estatística multimetodológica (1997–2025) independente e autoral sobre a dinâmica de produção
           nacional.
@@ -720,7 +733,7 @@
           especialmente a partir de 2015, e um padrão sazonal que se repete, mas cuja amplitude cresce junto com o nível
           da série.</p>
 
-        <div class="article-img-wrap" style="--mob-wrap-h: 235px; --mob-scale: 0.45; --mob-tx: 1%; --mob-ty: 0.5%">
+        <div class="article-img-wrap" style="--mob-wrap-h: 235px; --mob-scale: 0.44; --mob-tx: 1%; --mob-ty: 0.5%">
           <iframe style="transform: scale(1) translate(1%,3.5%); height: 500px; max-width: 100%"
             src="projetos_arquivos/relatorio_dochmo_series_temporais_v2.0/graphics/g01_serie_historica.html"
             class="plotly-iframe" title="Série Histórica Original" scrolling="no"></iframe>
@@ -735,7 +748,7 @@
         <p>Um dos achados mais contraintuitivos do trabalho: a leitura tradicional de que fevereiro é um mês fraco e
           março um mês de recuperação sazonal é, em boa parte, uma ilusão de calendário — não um efeito operacional.</p>
 
-        <div class="article-img-wrap" style="--mob-wrap-h: 220px; --mob-scale: 0.45; --mob-tx: 1%; --mob-ty: -1.5%">
+        <div class="article-img-wrap" style="--mob-wrap-h: 220px; --mob-scale: 0.44; --mob-tx: 1%; --mob-ty: -1.5%">
           <iframe style="transform: scale(1) translate(1.3%,1%); height: 470px; max-width: 100%"
             src="projetos_arquivos/relatorio_dochmo_series_temporais_v2.0/graphics/g02_efeito_calendario.html"
             class="plotly-iframe" title="Efeito Calendário" scrolling="no"></iframe>
@@ -757,7 +770,7 @@
           permanente ou temporária. Em vez de deixar esses choques "escondidos" dentro do erro do modelo, cada um foi
           modelado explicitamente.</p>
 
-        <div class="article-img-wrap" style="--mob-wrap-h: 245px; --mob-scale: 0.45; --mob-tx: 1%; --mob-ty: 1%">
+        <div class="article-img-wrap" style="--mob-wrap-h: 240px; --mob-scale: 0.44; --mob-tx: 1%; --mob-ty: 1%">
           <iframe style="transform: scale(1) translate(1%,1%); height: 500px; max-width: 100%"
             src="projetos_arquivos/relatorio_dochmo_series_temporais_v2.0/graphics/g03_intervencoes.html"
             class="plotly-iframe" title="Choques Estruturais e Intervenção" scrolling="no"></iframe>
@@ -781,7 +794,7 @@
           autorregressivas (NNAR) e um modelo estrutural de espaço de estados — sob dois desenhos de validação
           diferentes: um teste único de 36 meses, e uma validação com sete origens móveis de 12 meses cada.</p>
 
-        <div class="article-img-wrap" style="--mob-wrap-h: 260px; --mob-scale: 0.45; --mob-tx: 1%; --mob-ty: -0.5%">
+        <div class="article-img-wrap" style="--mob-wrap-h: 260px; --mob-scale: 0.44; --mob-tx: 1%; --mob-ty: -0.5%">
           <iframe style="transform: scale(1) translate(1%,0); height: 535px; max-width: 100%"
             src="projetos_arquivos/relatorio_dochmo_series_temporais_v2.0/graphics/g04_comparacao_modelos.html"
             class="plotly-iframe" title="Comparação de Modelos" scrolling="no"></iframe>
@@ -964,7 +977,7 @@
         <h2><span style="color: rgba(215,181,109,0.4);">07.</span> Previsão para 2026</h2>
         <p>Depois de toda a validação, a pergunta prática: o que esperar para o próximo ano?</p>
 
-        <div class="article-img-wrap" style="--mob-wrap-h: 225px; --mob-scale: 0.45; --mob-tx: 1%; --mob-ty: -3%">
+        <div class="article-img-wrap" style="--mob-wrap-h: 220px; --mob-scale: 0.44; --mob-tx: 1%; --mob-ty: -3%">
           <iframe style="transform: scale(1) translate(1%,-2%); height: 470px; max-width: 100%"
             src="projetos_arquivos/relatorio_dochmo_series_temporais_v2.0/graphics/g05_previsao_2026.html"
             class="plotly-iframe" title="Previsão 2026" scrolling="no"></iframe>
@@ -1160,62 +1173,54 @@
             <span class="output-highlight">[Package Audit Results]</span>
 
             <span style="color: rgba(215, 181, 109, 0.6); font-weight: bold;"># Manipulação de Dados</span>
-            <span class="output-success">✓
-              readxl</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.4.5)&nbsp;&nbsp;: OK (leitura do dataset
-            original livre de desvios)
-            <span class="output-success">✓
-              dplyr</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.2.1)&nbsp;&nbsp;: OK (transformação
-            e agregação consistente de dados)
-            <span class="output-success">✓
-              tidyr</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.3.2)&nbsp;&nbsp;: OK (organização e
-            pivotagem estrutural)
-            <span class="output-success">✓
-              tibble</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v3.3.1)&nbsp;&nbsp;: OK (data frames
-            modernos validados)
-            <span class="output-success">✓ stringr</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.6.0)&nbsp;&nbsp;:
-            OK (manipulação de strings textuais)
-            <span class="output-success">✓ lubridate</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.9.5)&nbsp;&nbsp;: OK
+            <span class="output-success">✓ readxl</span> (v1.4.5) : OK
+            (leitura do dataset original livre de desvios)
+            <span class="output-success">✓ dplyr</span> (v1.2.1) : OK
+            (transformação e agregação consistente de dados)
+            <span class="output-success">✓ tidyr</span> (v1.3.2) : OK
+            (organização e pivotagem estrutural)
+            <span class="output-success">✓ tibble</span> (v3.3.1) : OK
+            (data frames modernos validados)
+            <span class="output-success">✓ stringr</span> (v1.6.0) : OK
+            (manipulação de strings textuais)
+            <span class="output-success">✓ lubridate</span> (v1.9.5) : OK
             (ajuste de fusos e parsing de datas)
-            <span class="output-success">✓ nanoparquet</span>&nbsp;&nbsp;&nbsp;(v0.5.1)&nbsp;&nbsp;: OK (leitura/escrita
-            otimizada em formato colunar)
-            <span class="output-success">✓
-              here</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.0.2)&nbsp;&nbsp;: OK (resolução
-            dinâmica de caminhos relativos)
+            <span class="output-success">✓ nanoparquet</span> (v0.5.1) : OK
+            (leitura/escrita otimizada em formato colunar)
+            <span class="output-success">✓ here</span> (v1.0.2) : OK
+            (resolução dinâmica de caminhos relativos)
 
             <span style="color: rgba(215, 181, 109, 0.6); font-weight: bold;"># Modelagem de Séries Temporais</span>
-            <span class="output-success">✓ forecast</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v9.0.2)&nbsp;&nbsp;: OK
+            <span class="output-success">✓ forecast</span> (v9.0.2) : OK
             (resíduos Box-Jenkins consistentes)
-            <span class="output-success">✓ tseries</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v0.10-61): OK (teste
-            ADF de estacionariedade de raiz unitária)
-            <span class="output-success">✓ Kendall</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v2.2.2)&nbsp;&nbsp;:
-            OK (teste de tendência de Mann-Kendall)
-            <span class="output-success">✓ randtests</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.0.2)&nbsp;&nbsp;: OK (teste
-            de aleatoriedade não-paramétrico de Cox-Stuart)
-            <span class="output-success">✓ seastests</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v0.15.4)&nbsp;: OK (testes
-            diagnósticos de sazonalidade estável)
-            <span class="output-success">✓ tsoutliers</span>&nbsp;&nbsp;&nbsp;&nbsp;(v0.6-10)&nbsp;: OK (intervenções
-            automáticas estimadas sem vazamento)
-            <span class="output-success">✓ strucchange</span>&nbsp;&nbsp;&nbsp;(v1.5-4)&nbsp;&nbsp;: OK (quebras
-            estruturais Bai-Perron validadas)
-            <span class="output-success">✓
-              car</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v3.1-3)&nbsp;&nbsp;: OK
+            <span class="output-success">✓ tseries</span> (v0.10-61) : OK
+            (teste ADF de estacionariedade de raiz unitária)
+            <span class="output-success">✓ Kendall</span> (v2.2.2) : OK
+            (teste de tendência de Mann-Kendall)
+            <span class="output-success">✓ randtests</span> (v1.0.2) : OK
+            (teste de aleatoriedade não-paramétrico de Cox-Stuart)
+            <span class="output-success">✓ seastests</span> (v0.15.4) : OK
+            (testes diagnósticos de sazonalidade estável)
+            <span class="output-success">✓ tsoutliers</span> (v0.6-10) : OK
+            (intervenções automáticas estimadas sem vazamento)
+            <span class="output-success">✓ strucchange</span> (v1.5-4) : OK
+            (quebras estruturais Bai-Perron validadas)
+            <span class="output-success">✓ car</span> (v3.1-3) : OK
             (diagnósticos de regressão e homocedasticidade)
-            <span class="output-success">✓ prophet</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.1.7)&nbsp;&nbsp;:
-            OK (parâmetros de sazonalidade flexíveis validados)
+            <span class="output-success">✓ prophet</span> (v1.1.7) : OK
+            (parâmetros de sazonalidade flexíveis validados)
 
-            <span style="color: rgba(215, 181, 109, 0.6); font-weight: bold;"># Visualização &amp; Gráficos</span>
-            <span class="output-success">✓ ggplot2</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v4.0.3)&nbsp;&nbsp;:
-            OK (plotagem estruturada em camadas)
-            <span class="output-success">✓ gridExtra</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v2.3)&nbsp;&nbsp;&nbsp;&nbsp;:
-            OK (arranjo multidimensional de painéis gráficos)
-            <span class="output-success">✓
-              scales</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v1.4.0)&nbsp;&nbsp;: OK (formatação de eixos
-            e paletas de cores)
+            <span style="color: rgba(215, 181, 109, 0.6); font-weight: bold;"># Visualização & Gráficos</span>
+            <span class="output-success">✓ ggplot2</span> (v4.0.3) : OK
+            (plotagem estruturada em camadas)
+            <span class="output-success">✓ gridExtra</span> (v2.3) : OK
+            (arranjo multidimensional de painéis gráficos)
+            <span class="output-success">✓ scales</span> (v1.4.0) : OK
+            (formatação de eixos e paletas de cores)
 
             <span style="color: rgba(215, 181, 109, 0.6); font-weight: bold;"># Estatística Descritiva</span>
-            <span class="output-success">✓
-              psych</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(v2.6.5)&nbsp;&nbsp;: OK (análise
-            descritiva multivariada das variáveis)
+            <span class="output-success">✓ psych</span> (v2.6.5) : OK
+            (análise descritiva multivariada das variáveis)
 
             Audit status: <span class="output-success">SUCCESS</span> (0 divergências encontradas entre ambientes)
           </div>
@@ -1322,9 +1327,9 @@
         });
       }
 
-      // 3D Tilt Effect on version-card
+      // 3D Tilt Effect on version-card (desktop only to prevent stuck rotation on mobile touch events)
       const card = document.getElementById('version-card');
-      if (card) {
+      if (card && window.matchMedia('(hover: hover)').matches) {
         card.addEventListener('mousemove', (e) => {
           const rect = card.getBoundingClientRect();
           const x = e.clientX - rect.left;
