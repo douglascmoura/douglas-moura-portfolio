@@ -24,7 +24,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
-
   <style>
     /* Institucional DOCHMO Overrides */
     .article-header {
@@ -150,8 +149,7 @@
       background: rgba(215, 181, 109, 0.05);
       border-radius: 0 12px 12px 0;
       font-style: italic;
-      font-size: 1.25rem;
-      color: rgba(248, 249, 250, 0.95);
+      font-size: 1.05rem;
     }
 
     .terminal-window {
@@ -385,7 +383,8 @@
           DE CASO ANALÍTICO</span>
         <h1
           style="font-family: var(--font-display); font-size: 4rem; color: #F8F9FA; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);">
-          Produção de Petróleo<br>no Brasil</h1>
+          Produção de Petróleo<br><span style="font-size: 1em; color: #D7B56D; font-weight: 400; font-style: italic;">no
+            Brasil</span></h1>
         <p style="color:rgba(248,249,250,0.75); max-width:700px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
           Uma investigação estatística rigorosa (2001-2025) aplicando modelagem Box-Jenkins (SARIMA) e Suavização
           Exponencial.
@@ -414,7 +413,12 @@
 
         <div class="version-banner-3d" id="version-card">
           <div class="version-card-content">
-            <span class="version-card-icon">⚡</span>
+            <svg class="version-card-icon-svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D7B56D"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              style="filter: drop-shadow(0 0 5px rgba(215, 181, 109, 0.5)); flex-shrink: 0; margin-top: 2px;">
+              <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5Z" fill="rgba(215, 181, 109, 0.15)">
+              </path>
+            </svg>
             <div class="version-card-text">
               <span class="version-card-label">Nota Histórica:</span>
               <span class="version-card-desc">Você está visualizando a Versão 1.0 (Clássica) deste estudo de
@@ -458,7 +462,7 @@
           por uma clara tendência de crescimento e flutuações sazonais repetitivas.</p>
 
         <div class="article-img-wrap"
-          style="height: 500px; --mob-wrap-h: 300px; --mob-scale: 0.47; --mob-tx: 3.5%; --mob-ty: -3.5%">
+          style="height: 500px; --mob-wrap-h: 285px; --mob-scale: 0.45; --mob-tx: 3.5%; --mob-ty: -5%">
           <iframe style="transform: scale(1) translate(3%, -3.5%); max-width: 100%"
             src="projetos_arquivos/relatorio_final_series_temporais/graphics/grafico_serie_original.html"
             class="plotly-iframe" title="Série Histórica Original" scrolling="no"></iframe>
@@ -506,7 +510,7 @@
           forma clara a Tendência de longo prazo do Sinal Sazonal.</p>
 
         <div class="article-img-wrap"
-          style="--mob-wrap-h: 370px; --mob-iframe-h: 820px; --mob-scale: 0.47; --mob-tx: 3.5%; --mob-ty: -2.5%">
+          style="--mob-wrap-h: 370px; --mob-iframe-h: 780px; --mob-scale: 0.45; --mob-tx: 3.5%; --mob-ty: -2.5%">
           <iframe style="max-width: 100%; transform: scale(1) translate(4%, -2%); height: 780px"
             src="projetos_arquivos/relatorio_final_series_temporais/graphics/grafico_decomposicao.html"
             class="plotly-iframe" title="Decomposição da Série" scrolling="no"></iframe>
@@ -535,7 +539,8 @@
      SECTION: COMPETITIVE FORECAST
      ========================================== -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
-        <h2><span style="color: rgba(215,181,109,0.4);">05.</span> <span>Forecast Competitivo (<em>Out-of-Sample</em>)</span></h2>
+        <h2><span style="color: rgba(215,181,109,0.4);">05.</span> <span>Forecast Competitivo
+            (<em>Out-of-Sample</em>)</span></h2>
         <p>Tendo a série transformada, foi diagnosticado as funções de autocorrelação para construir o modelo campeão.
           Os dados foram divididos em: <strong>Treino</strong> (Jan/2001-Abr/2021) e <strong>Teste</strong>
           (Mai/2021-Mai/2025). Essa separação testou o algoritmo no período mais desafiador e volátil.</p>
@@ -548,7 +553,7 @@
         </p>
 
         <div class="article-img-wrap"
-          style=" height: 500px; --mob-wrap-h: 240px; --mob-scale: 0.47; --mob-tx: 4%; --mob-ty: -2.5%">
+          style=" height: 500px; --mob-wrap-h: 230px; --mob-scale: 0.45; --mob-tx: 3.5%; --mob-ty: -4%">
           <iframe style="transform: scale(1) translate(4.5%, -4%); max-width: 100%;"
             src="projetos_arquivos/relatorio_final_series_temporais/graphics/previsao_modelo_final.html"
             class="plotly-iframe" title="Previsão Out of Sample" scrolling="no"></iframe>
