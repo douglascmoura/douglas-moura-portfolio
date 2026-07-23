@@ -1,70 +1,30 @@
-/* ============================================================
-   DOCHMO PORTFOLIO — interactions.js
-   Cursor, scroll-reveal, particles, navbar, preloader,
-   skill bars, timeline, flashlight cards, scroll progress
-   ============================================================ */
+/**
+ * DOCHMO PORTFOLIO — interactions.js
+ * Core Interactive Engine & Visual Micro-Interactions Controller
+ * Manages custom magnetic cursor, scroll reveals, particle canvases, navbar triggers,
+ * flashlight card dynamics, contact form submission (Web3Forms), and 3D certificates carousel.
+ */
+
 'use strict';
 
-/* ─── UTILS ─────────────────────────────────────────────────── */
+/* ─── 1. UTILITY HELPERS ───────────────────────────────────────── */
 const qs = (s, ctx = document) => ctx.querySelector(s);
 const qsa = (s, ctx = document) => [...ctx.querySelectorAll(s)];
 const lerp = (a, b, t) => a + (b - a) * t;
 
-/* ─── PRELOADER ─────────────────────────────────────────────── */
+/* ─── 2. PRELOADER INTEGRATION ──────────────────────────────────── */
+/**
+ * Bridges preloader execution with site initialization.
+ * Delegated to assets/js/preloader.js for overall workflow.
+ */
 function initPreloader() {
-  const loader = qs('#preloader');
-  const bar = qs('#preloader-bar');
-  if (!loader) return;
-
-  const isMobile = window.innerWidth <= 768;
-
-  if (isMobile) {
-    // Skip preloader completely on mobile for maximum PageSpeed score and instant load
-    loader.remove();
-    document.body.style.overflow = '';
-    initSite();
-    return;
-  }
-
-  // Desktop preloader (smooth and premium animation)
-  let progress = 0;
-  const interval = setInterval(() => {
-    progress += Math.random() * 15 + 5;
-    if (progress >= 90) {
-      progress = 90; // Hold at 90% until loaded
-      clearInterval(interval);
-    }
-    if (bar) bar.style.width = progress + '%';
-  }, 60);
-
-  let dismissed = false;
-  const startDismissal = () => {
-    if (dismissed) return;
-    dismissed = true;
-    clearInterval(interval);
-    clearTimeout(safetyTimeout);
-    if (bar) bar.style.width = '100%';
-    setTimeout(() => {
-      loader.style.opacity = '0';
-      loader.style.pointerEvents = 'none';
-      document.body.style.overflow = '';
-      setTimeout(() => { loader.remove(); initSite(); }, 400);
-    }, 150);
-  };
-
-  // Safety fallback: force load after 2.5s if window.load is delayed
-  const safetyTimeout = setTimeout(startDismissal, 2500);
-
-  if (document.readyState === 'complete') {
-    startDismissal();
-  } else {
-    window.addEventListener('load', startDismissal);
-  }
-
-  document.body.style.overflow = 'hidden';
+  initSite();
 }
 
-/* ─── SITE INIT (called after preloader) ──────────────────────── */
+/* ─── 3. SITE INITIALIZATION ────────────────────────────────────── */
+/**
+ * Initializes section-specific animations upon page ready or preloader completion.
+ */
 function initSite() {
   initScrollReveal();
   initSkillBars();
@@ -73,7 +33,10 @@ function initSite() {
   initHeroSlices();
 }
 
-/* ─── CUSTOM CURSOR ─────────────────────────────────────────── */
+/* ─── 4. CUSTOM MAGNETIC CURSOR ─────────────────────────────────── */
+/**
+ * Handles custom ring and dot magnetic cursor tracking with lerp smoothing.
+ */
 function initCursor() {
   const ring = qs('#cursor-ring');
   const dot = qs('#cursor-dot');
@@ -83,37 +46,47 @@ function initCursor() {
   let rx = -100, ry = -100;
   let raf;
 
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+  });
 
   function animate() {
     rx = lerp(rx, mx, 0.14);
     ry = lerp(ry, my, 0.14);
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
-    dot.style.left = mx + 'px';
-    dot.style.top = my + 'px';
+    ring.style.left = `${rx}px`;
+    ring.style.top = `${ry}px`;
+    dot.style.left = `${mx}px`;
+    dot.style.top = `${my}px`;
     raf = requestAnimationFrame(animate);
   }
   animate();
 
-  /* Hover states */
+  /* Interactive element hover scaling */
   qsa('a, button, .btn, .proj-card, .skill-card, .timeline-card, [data-cursor]').forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('hover-active'));
     el.addEventListener('mouseleave', () => ring.classList.remove('hover-active'));
   });
 
+  /* Viewport visibility bounds */
   document.addEventListener('mouseleave', () => {
-    ring.style.opacity = '0'; dot.style.opacity = '0';
+    ring.style.opacity = '0';
+    dot.style.opacity = '0';
   });
   document.addEventListener('mouseenter', () => {
-    ring.style.opacity = ''; dot.style.opacity = '';
+    ring.style.opacity = '';
+    dot.style.opacity = '';
   });
 }
 
-/* ─── SCROLL PROGRESS ───────────────────────────────────────── */
+/* ─── 5. SCROLL PROGRESS INDICATOR ─────────────────────────────── */
+/**
+ * Updates top progress bar indicator based on document scroll percentage.
+ */
 function initScrollProgress() {
   const bar = qs('.scroll-progress');
   if (!bar) return;
+
   window.addEventListener('scroll', () => {
     const doc = document.documentElement;
     const pct = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
@@ -121,15 +94,19 @@ function initScrollProgress() {
   }, { passive: true });
 }
 
-/* ─── NAVBAR SCROLL STATE ──────────────────────────────────── */
+/* ─── 6. NAVBAR SCROLL & ACTIVE LINK STATE ─────────────────────── */
+/**
+ * Toggles glassmorphic navbar backdrop on scroll and highlights active section link.
+ */
 function initNavbar() {
   const nav = qs('.nav');
   if (!nav) return;
+
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 60);
   }, { passive: true });
 
-  /* Active link highlight */
+  /* Active navigation section intersection tracking */
   const sections = qsa('section[id]');
   const navLinks = qsa('.nav-links a');
   const io = new IntersectionObserver(entries => {
@@ -143,12 +120,15 @@ function initNavbar() {
       }
     });
   }, { rootMargin: '-40% 0px -55% 0px' });
+
   sections.forEach(s => io.observe(s));
 }
 
-/* ─── SCROLL REVEAL ─────────────────────────────────────────── */
+/* ─── 7. SCROLL REVEAL OBSERVER ─────────────────────────────────── */
+/**
+ * Triggers fade-in and blur-removal animations as elements enter the viewport.
+ */
 function initScrollReveal() {
-
   const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -160,7 +140,7 @@ function initScrollReveal() {
 
   qsa('.sr').forEach(el => io.observe(el));
 
-  /* Text reveal wrappers */
+  /* Text mask reveal wrappers */
   const trIO = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -169,13 +149,18 @@ function initScrollReveal() {
       }
     });
   }, { threshold: 0.3 });
+
   qsa('.tr-wrap').forEach(el => trIO.observe(el));
 }
 
-/* ─── SKILL BARS ────────────────────────────────────────────── */
+/* ─── 8. SKILL BARS ANIMATION ───────────────────────────────────── */
+/**
+ * Animates technical competency percentage bars upon intersection.
+ */
 function initSkillBars() {
   const cards = qsa('.skill-card');
   if (!cards.length) return;
+
   const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -183,25 +168,31 @@ function initSkillBars() {
         const bar = card.querySelector('.skill-card__bar');
         if (bar) {
           const lvl = bar.dataset.level || '0.7';
-          bar.style.width = (parseFloat(lvl) * 100) + '%';
+          bar.style.width = `${parseFloat(lvl) * 100}%`;
           bar.classList.add('animated');
         }
         io.unobserve(card);
       }
     });
   }, { threshold: 0.2 });
+
   cards.forEach(c => io.observe(c));
 }
 
-/* ─── TIMELINE REVEAL ───────────────────────────────────────── */
+/* ─── 9. TIMELINE STAGGER ANIMATION ────────────────────────────── */
+/**
+ * Applies progressive entrance delays to professional timeline items.
+ */
 function initTimelineAnim() {
-  /* Already handled by .sr class; add extra for odd/even */
   qsa('.timeline-item').forEach((item, i) => {
-    item.style.transitionDelay = (i * 0.12) + 's';
+    item.style.transitionDelay = `${i * 0.12}s`;
   });
 }
 
-/* ─── COUNTER ANIMATION ─────────────────────────────────────── */
+/* ─── 10. NUMERIC COUNTER ANIMATIONS ────────────────────────────── */
+/**
+ * Smoothly increments statistics numeric counters with cubic easing.
+ */
 function initCounters() {
   const counters = qsa('[data-count]');
   if (!counters.length) return;
@@ -213,7 +204,7 @@ function initCounters() {
       if (!entry.isIntersecting) return;
       const el = entry.target;
       const end = parseFloat(el.dataset.count);
-      const dec = el.dataset.dec || 0;
+      const dec = parseInt(el.dataset.dec || '0', 10);
 
       if (isMobile) {
         el.textContent = end.toFixed(dec);
@@ -232,12 +223,15 @@ function initCounters() {
       io.unobserve(el);
     });
   }, { threshold: 0.5 });
+
   counters.forEach(c => io.observe(c));
 }
 
-/* ─── FLASHLIGHT CARDS ──────────────────────────────────────── */
+/* ─── 11. FLASHLIGHT CARD MOUSE TRACKING ───────────────────────── */
+/**
+ * Updates dynamic radial gradient coordinates (--mx, --my) for flashlight cards.
+ */
 function initFlashlight() {
-  /* OTIMIZAÇÃO: Desliga o rastreamento do mouse no mobile e usa requestAnimationFrame para PC */
   if (window.innerWidth <= 768) return;
 
   qsa('.flashlight').forEach(card => {
@@ -251,11 +245,14 @@ function initFlashlight() {
   });
 }
 
-/* ─── CANVAS PARTICLES (hero) ──────────────── */
+/* ─── 12. HERO CANVAS PARTICLES ─────────────────────────────────── */
+/**
+ * Renders ambient cyan particle field and grid lines on hero canvas.
+ */
 function initParticles() {
   const canvas = qs('#hero-canvas');
   if (!canvas) return;
-  // Particles enabled on mobile per request
+
   const ctx = canvas.getContext('2d');
   let W, H, particles;
 
@@ -264,7 +261,6 @@ function initParticles() {
     H = canvas.height = canvas.offsetHeight;
   }
 
-  /* ── Floating Particle (original) ── */
   class Particle {
     constructor() { this.reset(true); }
     reset(init) {
@@ -286,12 +282,13 @@ function initParticles() {
       if (pct < 0.15) this.alpha = (pct / 0.15) * this.maxAlpha;
       else if (pct > 0.8) this.alpha = ((1 - pct) / 0.2) * this.maxAlpha;
       else this.alpha = this.maxAlpha;
+
       if (this.life > this.maxLife || this.y < -10) this.reset(false);
     }
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(66,165,245,${this.alpha})`;
+      ctx.fillStyle = `rgba(66, 165, 245, ${this.alpha})`;
       ctx.fill();
     }
   }
@@ -306,25 +303,35 @@ function initParticles() {
   function tick() {
     ctx.clearRect(0, 0, W, H);
     /* Grid lines */
-    ctx.strokeStyle = 'rgba(30,136,229,0.055)';
+    ctx.strokeStyle = 'rgba(30, 136, 229, 0.055)';
     ctx.lineWidth = 1;
     for (let x = 0; x < W; x += 60) {
-      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, H);
+      ctx.stroke();
     }
     for (let y = 0; y < H; y += 60) {
-      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(W, y);
+      ctx.stroke();
     }
-    /* Floating particles */
+
+    /* Particles update and render */
     particles.forEach(p => { p.update(); p.draw(); });
     requestAnimationFrame(tick);
   }
 
-  window.addEventListener('resize', () => { resize(); }, { passive: true });
+  window.addEventListener('resize', resize, { passive: true });
   init();
   tick();
 }
 
-/* ─── MOBILE MENU ───────────────────────────────────────────── */
+/* ─── 13. MOBILE MENU TOGGLE ────────────────────────────────────── */
+/**
+ * Controls mobile overlay drawer navigation menu.
+ */
 function initMobileMenu() {
   const toggle = qs('#menu-toggle');
   const menu = qs('#mobile-menu');
@@ -357,7 +364,10 @@ function initMobileMenu() {
   });
 }
 
-/* ─── CONTACT FORM ──────────────────────────────────────────── */
+/* ─── 14. CONTACT FORM SUBMISSION (Web3Forms API) ──────────────── */
+/**
+ * Validates contact form inputs and submits via Web3Forms API asynchronously.
+ */
 function initContactForm() {
   const forms = qsa('.contact-form-el');
   if (forms.length === 0) return;
@@ -375,11 +385,9 @@ function initContactForm() {
 
       if (!nameInput || !emailInput || !subjectInput || !msgInput) return;
 
-      // Reset styles
+      /* Reset previous validation state */
       const inputs = [nameInput, emailInput, subjectInput, msgInput];
-      inputs.forEach(input => {
-        input.classList.remove('input-error');
-      });
+      inputs.forEach(input => input.classList.remove('input-error'));
 
       let hasError = false;
       let errorMsg = 'Preencha os campos!';
@@ -419,7 +427,6 @@ function initContactForm() {
         btn.style.background = 'linear-gradient(135deg, #d32f2f 0%, #ef5350 100%)';
         btn.style.boxShadow = '0 0 20px rgba(239, 83, 80, 0.4)';
 
-        // Remove highlight on input
         const clearError = (el) => {
           el.addEventListener('input', function handler() {
             el.classList.remove('input-error');
@@ -427,9 +434,7 @@ function initContactForm() {
           });
         };
         inputs.forEach(input => {
-          if (input.classList.contains('input-error')) {
-            clearError(input);
-          }
+          if (input.classList.contains('input-error')) clearError(input);
         });
 
         setTimeout(() => {
@@ -440,59 +445,63 @@ function initContactForm() {
         return;
       }
 
-      // Proceed to submit if valid
+      /* Web3Forms API submission payload */
       const orig = btn.textContent;
       btn.textContent = 'Enviando...';
       btn.disabled = true;
 
-      // Coleta os dados do formulário
       const formData = new FormData();
-
-      // Chave de acesso do Web3Forms (web3forms.com)
       formData.append("access_key", "b367466a-89a0-40d3-856e-a08e9cc87a56");
-
       formData.append("name", nameInput.value.trim());
       formData.append("email", emailInput.value.trim());
       formData.append("subject", subjectInput.value.trim());
       formData.append("message", msgInput.value.trim());
-
-      // Permite que você clique em "Responder" no seu e-mail e vá direto pro visitante
       formData.append("replyto", emailInput.value.trim());
 
       try {
         const response = await fetch("https://api.web3forms.com/submit", {
           method: "POST",
           body: formData,
-          headers: {
-            'Accept': 'application/json'
-          }
+          headers: { 'Accept': 'application/json' }
         });
 
         const result = await response.json();
 
         if (response.ok && result.success) {
           btn.textContent = 'Mensagem enviada ✓';
-          setTimeout(() => { btn.textContent = orig; btn.disabled = false; form.reset(); }, 3500);
+          setTimeout(() => {
+            btn.textContent = orig;
+            btn.disabled = false;
+            form.reset();
+          }, 3500);
         } else {
           btn.textContent = 'Erro ao enviar. Tente novamente.';
-          setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 3500);
+          setTimeout(() => {
+            btn.textContent = orig;
+            btn.disabled = false;
+          }, 3500);
         }
       } catch (error) {
         btn.textContent = 'Erro de conexão.';
-        setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 3500);
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.disabled = false;
+        }, 3500);
       }
     });
   });
 }
 
-/* ─── HERO SLICES ─────────────────────────────────────────── */
+/* ─── 15. HERO SLICES REVEAL STAGGER ───────────────────────────── */
+/**
+ * Triggers staggered reveal sequence for hero photo slices and glass cards.
+ */
 function initHeroSlices() {
   const panel = qs('#hero-slices');
   const slices = qsa('.hero-slice');
   const glassCards = qsa('.hero-stat-glass');
   if (!slices.length || !panel) return;
 
-  /* Stagger entrance: slices reveal left-to-right, glass cards after */
   const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
@@ -509,7 +518,10 @@ function initHeroSlices() {
   io.observe(panel);
 }
 
-/* ─── HERO SCROLL PARALLAX ─────────────────────────────────────── */
+/* ─── 16. HERO SCROLL PARALLAX (GSAP ScrollTrigger) ─────────────── */
+/**
+ * Configures desktop hero section parallax scroll effects using GSAP ScrollTrigger.
+ */
 function initHeroScrollParallax() {
   if (window.innerWidth <= 768) return;
   if (typeof gsap === 'undefined') return;
@@ -520,7 +532,7 @@ function initHeroScrollParallax() {
   const slices = qsa('.hero-slice');
   if (!hero || !textSide || slices.length === 0) return;
 
-  // Text Side: subtle float down on scroll (no blur, no opacity drop)
+  /* Text side scroll float */
   gsap.to(textSide, {
     y: 120,
     ease: 'none',
@@ -532,7 +544,7 @@ function initHeroScrollParallax() {
     }
   });
 
-  // Image Panel: subtle unified float down to create premium parallax without breaking the face
+  /* Photo panel scroll float */
   const photoPanel = qs('.hero-photo-panel');
   if (photoPanel) {
     gsap.to(photoPanel, {
@@ -548,11 +560,14 @@ function initHeroScrollParallax() {
   }
 }
 
-
-/* ─── METEOR SHOWER (GLOBAL) ────────────────────────────────── */
+/* ─── 17. GLOBAL METEOR SHOWER CANVAS ───────────────────────────── */
+/**
+ * Renders ambient diagonal meteor beams on fixed background canvas.
+ */
 function initMeteors() {
   const canvas = qs('#meteor-canvas');
   if (!canvas) return;
+
   const ctx = canvas.getContext('2d');
   let W, H, diagonalBeams;
 
@@ -568,18 +583,15 @@ function initMeteors() {
       const randomWaitFrames = 420;
       const baseSpeed = Math.random() * 2.0 + 1.2;
 
-      /* Enforce stagger on initial spawn */
       if (init) {
         this.delay = index * 260 + (Math.random() * 60);
       } else {
         this.delay = Math.random() * randomWaitFrames + minWaitFrames;
       }
 
-      /* 45 degree angle */
       this.speedX = -baseSpeed * 1.0;
       this.speedY = baseSpeed * 1.0;
 
-      /* Spawn gracefully inside the viewport or near top/right edges */
       if (Math.random() > 0.5) {
         this.x = Math.random() * (W + 400);
         this.y = (Math.random() * (H * 0.6)) - 100;
@@ -609,7 +621,6 @@ function initMeteors() {
       else if (pct > 0.82) this.alpha = ((1 - pct) / 0.18) * this.maxAlpha;
       else this.alpha = this.maxAlpha;
 
-      /* Reset if off-screen (bottom-left) */
       if (this.y > H + 80 || this.x < -80) this.reset(false);
     }
     draw() {
@@ -619,8 +630,8 @@ function initMeteors() {
       const tailY = this.y - this.len;
       const grad = ctx.createLinearGradient(tailX, tailY, this.x, this.y);
 
-      grad.addColorStop(0, `rgba(66,165,245,0)`);
-      grad.addColorStop(1, `rgba(66,165,245,${this.alpha})`);
+      grad.addColorStop(0, 'rgba(66, 165, 245, 0)');
+      grad.addColorStop(1, `rgba(66, 165, 245, ${this.alpha})`);
 
       ctx.save();
       ctx.strokeStyle = grad;
@@ -650,10 +661,10 @@ function initMeteors() {
     animId = requestAnimationFrame(tick);
   }
 
-  window.addEventListener('resize', () => { resize(); }, { passive: true });
+  window.addEventListener('resize', resize, { passive: true });
   init();
 
-  /* Pause meteors rendering while in Hero section */
+  /* Pause meteors rendering while Hero is visible */
   const hero = qs('#hero');
   if (hero) {
     const io = new IntersectionObserver(entries => {
@@ -678,11 +689,13 @@ function initMeteors() {
   }
 }
 
-/* ─── CERTIFICATES CAROUSEL ─────────────────────────────────── */
+/* ─── 18. CERTIFICATES 3D CAROUSEL ─────────────────────────────── */
+/**
+ * Controls 3D perspective slider for academic & professional certificates.
+ */
 function initCertCarousel() {
   const isMobile = window.innerWidth <= 768;
   const carousels = document.querySelectorAll('.cert-carousel-wrapper');
-
   if (carousels.length === 0) return;
 
   carousels.forEach(wrapper => {
@@ -726,7 +739,6 @@ function initCertCarousel() {
         } else if (i === (currentIndex + 1) % slides.length) {
           slide.classList.add('next');
         } else {
-          // Calculate distance to hide left or right
           const dist = (i - currentIndex + slides.length) % slides.length;
           if (dist > slides.length / 2) {
             slide.classList.add('hidden-left');
@@ -771,7 +783,7 @@ function initCertCarousel() {
   });
 }
 
-/* ─── BOOT ──────────────────────────────────────────────────── */
+/* ─── 19. APPLICATION BOOTSTRAP ─────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   initPreloader();
   initCursor();
@@ -785,4 +797,3 @@ document.addEventListener('DOMContentLoaded', () => {
   initMeteors();
   initCertCarousel();
 });
-
