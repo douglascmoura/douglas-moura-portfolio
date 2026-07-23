@@ -1,0 +1,272 @@
+/* ============================================================
+   DOCHMO PORTFOLIO — preloader.css
+   Ultra-Smooth, Velvet & Premium Preloader Design System
+   ============================================================ */
+
+body.preloader-active {
+  overflow: hidden !important;
+}
+
+.dochmo-preloader {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
+  background-color: #050b17;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0.8s;
+  visibility: visible;
+  user-select: none;
+}
+
+.dochmo-preloader.preloader-hidden {
+  opacity: 0;
+  transform: scale(1.02);
+  filter: blur(6px);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ─── BACKGROUND VIDEO BANNER & AMBIENT OVERLAY ───────────── */
+.preloader-bg-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.preloader-bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 95% 15%;
+  opacity: 0.50;
+  filter: contrast(1.2) brightness(0.85) saturate(1.1);
+  transform: scale(1.01);
+  transition: transform 6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dochmo-preloader:not(.preloader-hidden) .preloader-bg-video {
+  transform: scale(1.04);
+}
+
+.preloader-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 85%, rgba(5, 11, 23, 0.4) 0%, rgba(5, 11, 23, 0.70) 50%, #050b17 90%),
+    linear-gradient(180deg, rgba(5, 11, 23, 0.4) 0%, transparent 40%, rgba(5, 11, 23, 0.95) 100%);
+  pointer-events: none;
+}
+
+/* ─── CENTRAL CONTENT CONTAINER ─────────────────────────────── */
+.preloader-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+
+/* ─── GLASSMORPHIC SHIELD & BACKLIT HALO CARD ─────────────── */
+.preloader-glass-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.2rem 3.8rem;
+  background: rgba(5, 11, 23, 0.82);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(66, 165, 245, 0.18);
+  border-radius: 24px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 0 50px rgba(66, 165, 245, 0.25);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: hidden;
+}
+
+/* ─── ELEGANT CERTIFICATE-STYLE MICRO-GRID TEXTURE ──────────── */
+.preloader-glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 15 L15 15 L15 30 M15 0 L30 0 L30 15' fill='none' stroke='rgba(215, 181, 109, 0.08)' stroke-width='1.2'/%3E%3C/svg%3E");
+  background-size: 15px 15px;
+  opacity: 0.75;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .preloader-glass-card {
+    padding: 1.8rem 2.2rem;
+    border-radius: 18px;
+  }
+}
+
+/* ─── BRAND TYPOGRAPHY CONTAINER ────────────────────────────── */
+.preloader-logo-container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.02em;
+  font-family: var(--font-display, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #e3f2fd;
+  min-height: 1.3em;
+}
+
+/* Individual characters supporting fog blur transitions */
+.logo-char {
+  display: inline-block;
+  position: relative;
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  filter: blur(0px);
+  color: #e3f2fd;
+  text-shadow: 0 0 20px rgba(227, 242, 253, 0.35);
+  transition: transform 1.3s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 1.3s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 1.3s cubic-bezier(0.22, 1, 0.36, 1),
+    max-width 1.3s cubic-bezier(0.22, 1, 0.36, 1),
+    color 1.3s cubic-bezier(0.22, 1, 0.36, 1),
+    text-shadow 1.3s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity, filter, max-width;
+}
+
+/* Accent suffix 'MO' in brand cyan color */
+.logo-char.char-accent {
+  color: #42a5f5 !important;
+  text-shadow: 0 0 22px rgba(66, 165, 245, 0.55) !important;
+}
+
+/* Stage 0: Initial centered entry for D C M with fog blur */
+.logo-char.char-fade-entry {
+  opacity: 0;
+  filter: blur(10px);
+  transform: scale(0.95);
+}
+
+/* Stage 1: Hidden intermediate characters (O, H, O) with deep fog veil */
+.logo-char.char-hidden-veil {
+  opacity: 0;
+  max-width: 0;
+  margin: 0;
+  overflow: hidden;
+  filter: blur(14px);
+  transform: scale(0.85);
+  visibility: hidden;
+}
+
+.logo-char.char-reveal-veil {
+  opacity: 1;
+  max-width: 0.9em;
+  filter: blur(0px);
+  transform: scale(1);
+  visibility: visible;
+}
+
+/* Elegant Subtitle */
+.preloader-sub {
+  position: relative;
+  z-index: 2;
+  margin-top: 2rem;
+  font-family: var(--font-mono, 'Courier New', monospace);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  color: rgba(100, 181, 246, 0.55);
+  opacity: 0;
+  filter: blur(6px);
+  transform: translateY(10px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.preloader-sub.sub-visible {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateY(0);
+}
+
+/* ─── PROGRESS BAR & PERCENTAGE COUNTER ─────────────────────── */
+.preloader-progress-box {
+  position: absolute;
+  bottom: 3.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  z-index: 10;
+}
+
+.preloader-progress-bar {
+  width: 220px;
+  height: 2px;
+  background: rgba(30, 136, 229, 0.15);
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.preloader-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #1565c0, #42a5f5, #90caf9);
+  box-shadow: 0 0 10px rgba(66, 165, 245, 0.6);
+  transition: width 0.12s linear;
+  border-radius: 9999px;
+}
+
+.preloader-counter {
+  font-family: var(--font-mono, 'Courier New', monospace);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(144, 202, 249, 0.65);
+  letter-spacing: 0.12em;
+}
+
+/* ─── RESPONSIVE BREAKPOINTS ─────────────────────────────────── */
+@media (max-width: 640px) {
+  .preloader-logo-container {
+    font-size: 2.3rem;
+  }
+
+  .preloader-sub {
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+  }
+
+  .preloader-progress-bar {
+    width: 160px;
+  }
+}
