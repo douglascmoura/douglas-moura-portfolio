@@ -63,6 +63,8 @@
   <!-- CSS -->
   <link rel="preload" href="assets/css/style.min.css" as="style" />
   <link href="assets/css/style.min.css" rel="stylesheet" />
+  <link href="assets/css/preloader.css" rel="stylesheet" />
+  <script src="assets/js/preloader.js"></script>
   <!-- Design tokens, reset, typography scale -->
   <!-- Keyframes, scroll-reveal, text-reveal, char animation -->
   <!-- Cursor, navbar, buttons, cards, timeline, skills, form, footer -->
@@ -759,14 +761,37 @@
   <!-- scroll progress -->
   <div aria-hidden="true" class="scroll-progress"></div>
   <!-- ===================================================
-     PRELOADER
+     PRELOADER (DOCHMO ELEGANT & MINIMALIST)
      =================================================== -->
-  <div aria-label="Carregando portfólio" id="preloader" role="status">
-    <div id="preloader-name">DOCH<em>MO</em></div>
-    <div id="preloader-bar-wrap">
-      <div id="preloader-bar"></div>
+  <div id="dochmo-preloader" class="dochmo-preloader" aria-label="Carregando portfólio" role="status">
+    <div class="preloader-bg-wrapper">
+      <video class="preloader-bg-video" autoplay loop muted playsinline poster="assets/img/banner-preload.png">
+        <source src="assets/video/dochmo-preloader-bg.webm" type="video/webm">
+        <source src="assets/video/dochmo-preloader-bg.mp4" type="video/mp4">
+      </video>
+      <div class="preloader-overlay"></div>
     </div>
-    <p id="preloader-sub">Sintetizando inteligência analítica...</p>
+
+    <div class="preloader-content">
+      <div class="preloader-glass-card">
+        <div class="preloader-logo-container" aria-label="DOCHMO">
+          <span class="logo-char char-d">D</span>
+          <span class="logo-char char-o">O</span>
+          <span class="logo-char char-c">C</span>
+          <span class="logo-char char-h">H</span>
+          <span class="logo-char char-m">M</span>
+          <span class="logo-char char-o2">O</span>
+        </div>
+        <p class="preloader-sub">Douglas Chaves Moura | Estatístico</p>
+      </div>
+    </div>
+
+    <div class="preloader-progress-box">
+      <div class="preloader-progress-bar">
+        <div class="preloader-progress-fill" id="preloader-fill"></div>
+      </div>
+      <span class="preloader-counter" id="preloader-counter">0%</span>
+    </div>
   </div>
   <!-- ===================================================
      NAVIGATION
