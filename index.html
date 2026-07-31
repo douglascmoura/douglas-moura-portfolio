@@ -63,6 +63,7 @@
   <!-- CSS -->
   <link rel="preload" href="assets/css/style.min.css" as="style" />
   <link href="assets/css/style.min.css" rel="stylesheet" />
+  <link href="assets/css/components.css" rel="stylesheet" />
   <link href="assets/css/preloader.css" rel="stylesheet" />
   <script src="assets/js/preloader.js"></script>
   <!-- Design tokens, reset, typography scale -->
@@ -1207,6 +1208,96 @@
         </div>
       </div>
     </div>
+
+    <!-- ===================================================
+     PILARES DE ATUAÇÃO (NOVA SEÇÃO 3D INTERATIVA)
+     =================================================== -->
+    <section aria-label="Pilares de Atuação" class="section tech-pillars-section" id="pilares">
+
+      <div class="container" style="position: relative; z-index: 1;">
+        <!-- Section Header -->
+        <div style="margin-bottom: 2rem;">
+          <div class="section-label sr">Pilares &amp; Metodologia</div>
+          <h2 class="display-md text-primary sr sr-d1">
+            Excelência Analítica em<br />
+            <em class="italic-serif text-accent">Três Dimensões</em>
+          </h2>
+        </div>
+
+        <!-- Palco 3D para cálculo de perspectiva e Cards -->
+        <div class="cards-3d-stage sr sr-d3">
+          <!-- Efeito de Fundo: Ondas Tech -->
+          <div class="ripple-background" aria-hidden="true">
+            <div class="ripple-ring delay-1"></div>
+            <div class="ripple-ring delay-2"></div>
+            <div class="ripple-ring delay-3"></div>
+          </div>
+
+          <!-- Símbolo Central em Mosaico (16 blocos SVG com degradê dourado/ciano e glow) -->
+          <div class="center-hub">
+            <div class="center-hub-glow"></div>
+
+            <svg class="bg-lines" viewBox="0 0 280 280" preserveAspectRatio="none">
+              <line x1="140" y1="0" x2="140" y2="280" vector-effect="non-scaling-stroke"></line>
+              <line x1="239" y1="41" x2="41" y2="239" vector-effect="non-scaling-stroke"></line>
+              <line x1="280" y1="140" y2="140" vector-effect="non-scaling-stroke"></line>
+              <line x1="239" y1="239" x2="41" y2="41" vector-effect="non-scaling-stroke"></line>
+            </svg>
+
+            <div class="flower" id="flower">
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+            </div>
+          </div>
+
+          <!-- SLIDE 1 (Inicialmente em Foco - Topo) -->
+          <div class="slide is-active" id="card-pilar-1" data-pattern="padraoCard1">
+            <article class="card">
+              <span class="card-ordinal" aria-hidden="true">01</span>
+              <h3>Rigor Estatístico <span class="amp">&amp;</span> Inferência</h3>
+              <p>Fundamentação matemática sólida para mensuração de incertezas, testes de hipóteses e modelagem
+                estatística de alta precisão.</p>
+            </article>
+          </div>
+
+          <!-- SLIDE 2 (Inicialmente em Repouso - Esquerda) -->
+          <div class="slide pos-left" id="card-pilar-3" data-pattern="padraoCard3">
+            <article class="card">
+              <span class="card-ordinal" aria-hidden="true">02</span>
+              <h3>Data Storytelling <span class="amp">&amp;</span> BI</h3>
+              <p>Tradução de dados complexos em dashboards interativos de alta qualidade e narrativas visuais que
+                impulsionam decisões estratégicas.</p>
+            </article>
+          </div>
+
+          <!-- SLIDE 3 (Inicialmente em Repouso - Direita) -->
+          <div class="slide pos-right" id="card-pilar-2" data-pattern="padraoCard2">
+            <article class="card">
+              <span class="card-ordinal" aria-hidden="true">03</span>
+              <h3>Machine Learning <span class="amp">&amp;</span> IA</h3>
+              <p>Aplicação de aprendizado estatístico e modelos preditivos supervisionados para extração de padrões,
+                classificação e previsão de dados.</p>
+            </article>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
     <!-- ===================================================
      CERTIFICAÇÃO
      =================================================== -->
@@ -1214,8 +1305,8 @@
       style="background:rgba(10,22,44,0.3);">
       <div class="container">
         <div class="section-label sr">Credenciais</div>
-        <div style="display:flex; justify-content:center; margin-bottom: 3rem;">
-          <h2 class="display-md text-primary sr sr-d1" style="text-align: center;">
+        <div style="display:flex; margin-bottom: 3rem;">
+          <h2 class="display-md text-primary sr sr-d1">
             Formação Acadêmica de <br /><em class="italic-serif text-accent">Excelência</em>
           </h2>
         </div>
@@ -2539,18 +2630,22 @@
       /* Parallax Footer Scroll Reveal */
       (function () {
         if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-          // Reveal footer text
-          gsap.from('.footer-sticky-content > div:first-child', {
-            y: 80,
-            opacity: 0,
-            scale: 0.95,
-            scrollTrigger: {
-              trigger: '.footer-sticky',
-              start: 'top bottom',
-              end: 'bottom bottom',
-              scrub: true
+          // Reveal footer text as main-wrapper scrolls away
+          gsap.fromTo('.footer-sticky-content > div:first-child', 
+            { y: 60, opacity: 0, scale: 0.95 },
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: '.main-wrapper',
+                start: 'bottom 80%',
+                end: 'bottom 20%',
+                scrub: true
+              }
             }
-          });
+          );
 
           // Hide navigation upon reaching the footer
           ScrollTrigger.create({
@@ -2561,6 +2656,7 @@
           });
         }
       })();
+
 
     });
   </script>
