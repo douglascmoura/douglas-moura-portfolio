@@ -114,7 +114,7 @@ function initNavbar() {
       if (entry.isIntersecting) {
         navLinks.forEach(a => a.classList.remove('active'));
         let targetId = entry.target.id;
-        if (targetId === 'certificacao') targetId = 'sobre';
+        if (targetId === 'certificacao' || targetId === 'pilares') targetId = 'sobre';
         const link = qs(`.nav-links a[href="#${targetId}"]`);
         if (link) link.classList.add('active');
       }
@@ -518,46 +518,12 @@ function initHeroSlices() {
   io.observe(panel);
 }
 
-/* ─── 16. HERO SCROLL PARALLAX (GSAP ScrollTrigger) ─────────────── */
+/* ─── 16. HERO SCROLL PARALLAX ───────────────────────────────────── */
 /**
- * Configures desktop hero section parallax scroll effects using GSAP ScrollTrigger.
+ * Hero section parallax scroll effects (Disabled to ensure strict layout stability).
  */
 function initHeroScrollParallax() {
-  if (window.innerWidth <= 768) return;
-  if (typeof gsap === 'undefined') return;
-  gsap.registerPlugin(ScrollTrigger);
-
-  const hero = qs('#hero');
-  const textSide = qs('#hero-text-side');
-  const slices = qsa('.hero-slice');
-  if (!hero || !textSide || slices.length === 0) return;
-
-  /* Text side scroll float */
-  gsap.to(textSide, {
-    y: 120,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: hero,
-      start: 'top top',
-      end: 'bottom top',
-      scrub: true
-    }
-  });
-
-  /* Photo panel scroll float */
-  const photoPanel = qs('.hero-photo-panel');
-  if (photoPanel) {
-    gsap.to(photoPanel, {
-      y: 200,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: hero,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true
-      }
-    });
-  }
+  return;
 }
 
 /* ─── 17. GLOBAL METEOR SHOWER CANVAS ───────────────────────────── */
@@ -783,7 +749,209 @@ function initCertCarousel() {
   });
 }
 
-/* ─── 19. APPLICATION BOOTSTRAP ─────────────────────────────────── */
+/* ─── 19. 3D CAROUSEL & MOSAIC SYSTEM ───────────────────────────── */
+/**
+ * Controls 3D revolving carousel deck and interactive central geometric arc mosaic.
+ */
+function init3DCarouselMosaic() {
+  const stage = qs('.cards-3d-stage');
+  const slides = qsa('.tech-pillars-section .slide');
+  if (!slides.length) return;
+
+  /* Position-based 120° card angle distribution */
+  slides.forEach(slide => {
+    let startAngle = 0;
+    if (slide.classList.contains('pos-right')) {
+      startAngle = 120;
+    } else if (slide.classList.contains('pos-left')) {
+      startAngle = -120;
+    }
+    slide.dataset.angle = startAngle;
+    slide.style.setProperty('--rotateZ', `${startAngle}deg`);
+  });
+
+  /* Curated 7 Visual Grammar Geometric Arc Patterns */
+  const geometricPatterns = [
+    /* 1. Concentric Flower */
+    [
+      { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "-25%" },
+      { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "25%" },
+      { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "-25%" },
+      { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "25%" }
+    ],
+    /* 2. Central Flower with Outer Frame */
+    [
+      { tx: "-25%", ty: "-25%" }, { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "-25%" }, { tx: "25%", ty: "-25%" },
+      { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "-25%" },
+      { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "25%" },
+      { tx: "-25%", ty: "25%" }, { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "25%" }, { tx: "25%", ty: "25%" }
+    ],
+    /* 3. 4-Ring Concentric Lattice */
+    [
+      { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "25%" },
+      { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "-25%" },
+      { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "25%" },
+      { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "-25%" }
+    ],
+    /* 4. Double Concentric Octagon */
+    [
+      { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "25%" },
+      { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "-25%" },
+      { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "25%" },
+      { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "-25%" }
+    ],
+    /* 5. Inverted Geometric Clover / Mandala */
+    [
+      { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "-25%" },
+      { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "25%" },
+      { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "-25%" },
+      { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "25%" }, { tx: "25%", ty: "25%" }
+    ],
+    /* 6. Crossed Waves */
+    [
+      { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "-25%" },
+      { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "25%" },
+      { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "-25%" },
+      { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "-25%" }, { tx: "25%", ty: "25%" }
+    ],
+    /* 7. Radial Expansion */
+    [
+      { tx: "25%", ty: "25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "25%" }, { tx: "-25%", ty: "25%" },
+      { tx: "25%", ty: "25%" }, { tx: "25%", ty: "25%" }, { tx: "-25%", ty: "25%" }, { tx: "-25%", ty: "25%" },
+      { tx: "25%", ty: "-25%" }, { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "-25%" }, { tx: "-25%", ty: "-25%" },
+      { tx: "25%", ty: "-25%" }, { tx: "25%", ty: "-25%" }, { tx: "-25%", ty: "-25%" }, { tx: "-25%", ty: "-25%" }
+    ]
+  ];
+
+  let globalMosaicStep = -1;
+
+  function morphCentralMosaic() {
+    globalMosaicStep++;
+    const pattern = geometricPatterns[globalMosaicStep % geometricPatterns.length];
+    const cells = qsa('#flower .cell');
+    if (!cells.length || !pattern) return;
+
+    cells.forEach((cell, i) => {
+      const config = pattern[i];
+      if (!config) return;
+
+      let shape = cell.querySelector('.shape');
+      if (!shape) {
+        shape = document.createElement('span');
+        shape.className = 'shape shape-quarter';
+        cell.appendChild(shape);
+      }
+      shape.style.setProperty('--tx', config.tx);
+      shape.style.setProperty('--ty', config.ty);
+    });
+  }
+
+  /* Render Pattern 1 immediately */
+  morphCentralMosaic();
+
+  /* Full 1.9s pulse animation cycle on cell hover (independent of mouse exit) */
+  const cells = qsa('#flower .cell');
+  cells.forEach(cell => {
+    cell.addEventListener('mouseenter', () => {
+      const shape = cell.querySelector('.shape');
+      if (shape) {
+        shape.classList.remove('is-pulsing');
+        void shape.offsetWidth; // Force reflow to restart animation on re-hover
+        shape.classList.add('is-pulsing');
+
+        setTimeout(() => {
+          shape.classList.remove('is-pulsing');
+        }, 1900);
+      }
+    });
+  });
+
+  /* Revolving deck rotation handler with animation lock */
+  let isAnimating = false;
+  const ROTATION_DURATION = 2900; // ms transition lock
+
+  function selectSlide(clickedSlide) {
+    if (isAnimating || clickedSlide.classList.contains('is-active')) return;
+
+    let delta = 0;
+    if (clickedSlide.classList.contains('pos-left')) {
+      delta = 120; // Clockwise rotation (+120°)
+    } else if (clickedSlide.classList.contains('pos-right')) {
+      delta = -120; // Counter-clockwise rotation (-120°)
+    }
+
+    if (delta === 0) return;
+
+    isAnimating = true;
+
+    slides.forEach(slide => {
+      const currentAngle = parseFloat(slide.dataset.angle) || 0;
+      const newAngle = currentAngle + delta;
+      slide.dataset.angle = newAngle;
+      slide.style.setProperty('--rotateZ', `${newAngle}deg`);
+    });
+
+    /* State class synchronization based on normalized rotation angle */
+    slides.forEach(slide => {
+      const angle = parseFloat(slide.dataset.angle);
+      const norm = ((angle % 360) + 360) % 360;
+
+      slide.classList.remove('is-active', 'pos-left', 'pos-right');
+
+      if (norm < 45 || norm > 315) {
+        slide.classList.add('is-active');
+      } else if (norm >= 45 && norm <= 180) {
+        slide.classList.add('pos-right');
+      } else {
+        slide.classList.add('pos-left');
+      }
+    });
+
+    /* Morph central symbol on each revolution */
+    morphCentralMosaic();
+
+    /* Unlock interaction after animation duration */
+    setTimeout(() => {
+      isAnimating = false;
+    }, ROTATION_DURATION);
+  }
+
+  slides.forEach(slide => {
+    slide.addEventListener('click', () => selectSlide(slide));
+  });
+
+  /* Desktop mouse parallax tilt effect on stage */
+  if (stage && window.innerWidth > 768) {
+    stage.addEventListener('mouseenter', () => {
+      // Disable CSS transition during JS animation to prevent fighting & trembling
+      stage.style.transition = 'none';
+    });
+
+    stage.addEventListener('mousemove', e => {
+      requestAnimationFrame(() => {
+        const rect = stage.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rotateX = (y / rect.height) * -3;
+        const rotateY = (x / rect.width) * 3;
+        stage.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+    });
+
+    stage.addEventListener('mouseleave', () => {
+      // Restore CSS transition for smooth return to center
+      stage.style.transition = 'transform 0.9s ease-out';
+      stage.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+
+      // Cleanup inline style after transition completes so it doesn't override stylesheet
+      setTimeout(() => {
+        stage.style.transition = '';
+      }, 900);
+    });
+  }
+}
+
+/* ─── 20. APPLICATION BOOTSTRAP ─────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   initPreloader();
   initCursor();
@@ -796,4 +964,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initParticles();
   initMeteors();
   initCertCarousel();
+  init3DCarouselMosaic();
 });
