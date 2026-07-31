@@ -9,7 +9,10 @@
 }
 
 /* Premium active state for interactive elements */
-.btn:active, .cert-carousel-btn:active, .skill-card:active, a.glass:active {
+.btn:active,
+.cert-carousel-btn:active,
+.skill-card:active,
+a.glass:active {
   transform: scale(0.96) !important;
   transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -28,7 +31,8 @@
   transform: translate(-50%, -50%) scale(1);
   transition: width 0.18s, height 0.18s, border-color 0.18s, opacity 0.18s;
   box-shadow: 0 0 0 2px rgba(13, 71, 161, 0.15), 0 0 28px rgba(30, 136, 229, 0.2);
-  -webkit-backdrop-filter: blur(1px); backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
   display: none;
 }
 
@@ -114,8 +118,8 @@
   left: 0;
   right: 0;
   z-index: 100;
-  -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
   background: rgba(5, 11, 23, 0.82);
   border-bottom: 1px solid rgba(30, 136, 229, 0.12);
   transition: all 0.4s ease;
@@ -234,7 +238,8 @@
   transition: left 0.5s ease;
 }
 
-.btn:hover::before, .btn:active::before {
+.btn:hover::before,
+.btn:active::before {
   left: 100%;
 }
 
@@ -275,7 +280,8 @@
   border: 1px solid rgba(66, 165, 245, 0.3);
   background: rgba(30, 136, 229, 0.08);
   color: #90CAF9;
-  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   transition: all 0.3s ease;
 }
 
@@ -730,7 +736,8 @@
   border-radius: 12px;
   overflow: hidden;
   background: rgba(10, 22, 44, 0.6);
-  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
 }
 
 .stat-item {
@@ -929,16 +936,16 @@
 
 /* ─── GLASS PANEL ────────────────────────────────────────────── */
 .glass {
-  -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
   background: rgba(10, 22, 44, 0.55);
   border: 1px solid rgba(30, 136, 229, 0.12);
 }
 
 @media (max-width: 768px) {
   .glass {
-    -webkit-backdrop-filter: blur(6px) saturate(140%) !important; backdrop-filter: blur(6px) saturate(140%) !important;
     -webkit-backdrop-filter: blur(6px) saturate(140%) !important;
+    backdrop-filter: blur(6px) saturate(140%) !important;
   }
 }
 
@@ -959,7 +966,8 @@ a.glass::before {
   transition: left 0.5s ease;
 }
 
-a.glass:hover::before, a.glass:active::before {
+a.glass:hover::before,
+a.glass:active::before {
   left: 100%;
 }
 
@@ -1179,8 +1187,8 @@ a.glass:active .premium-icon {
   border-radius: 16px;
   pointer-events: none;
   z-index: 4;
-  -webkit-clip-path: inset(0 round 16px); clip-path: inset(0 round 16px);
   -webkit-clip-path: inset(0 round 16px);
+  clip-path: inset(0 round 16px);
 }
 
 .cert-shine-container::after {
@@ -1449,7 +1457,7 @@ a.glass:active .premium-icon {
     gap: 3rem;
   }
 
-  /* Garante que o SVG (Dashboard Cover) não suma/quebre no mobile */
+  /* Ensures SVG Dashboard Cover remains visible and intact on mobile viewports */
   .about-portrait {
     display: block !important;
     visibility: visible !important;
@@ -1458,7 +1466,7 @@ a.glass:active .premium-icon {
     width: 100% !important;
   }
 
-  /* Hero Buttons - Padronização */
+  /* Hero action buttons layout standardization */
   .hero-btn-group {
     flex-direction: column;
     width: 100%;
@@ -1562,7 +1570,7 @@ a.glass:active .premium-icon {
     white-space: nowrap;
   }
 
-  /* Case Pages: Textos menores e Gráficos Responsivos Centrais */
+  /* Case Study Pages: Typography scaling and centered responsive charts */
   .article-header h1 {
     font-size: 2.2rem !important;
   }
@@ -1572,9 +1580,7 @@ a.glass:active .premium-icon {
     font-size: 1.5rem !important;
   }
 
-  /* Case Pages: Gráficos Responsivos (Otimizado para Galaxy A51/71) */
-
-
+  /* Case Study Pages: Responsive chart viewport optimization */
   .article-img-wrap iframe {
     position: relative !important;
     top: 0 !important;
@@ -1583,9 +1589,9 @@ a.glass:active .premium-icon {
     min-width: 800px !important;
     max-width: 800px !important;
     height: var(--mob-iframe-h, 650px) !important;
-    /* Altura original do gráfico */
+    /* Original chart height */
 
-    /* Mágica da Centralização: Lida as variáveis diretamente do HTML (com valores padrão se não existirem) */
+    /* Responsive centering matrix: reads CSS custom properties from HTML with fallbacks */
     transform: scale(var(--mob-scale, 0.48)) translateX(var(--mob-tx, 0%)) translateY(var(--mob-ty, 0%)) !important;
 
     transform-origin: top center !important;
@@ -1598,18 +1604,18 @@ a.glass:active .premium-icon {
     letter-spacing: 0px !important;
   }
 
-  /* Contact Section: Ocultar apenas a coluna do formulário no mobile */
+  /* Contact Section: Hide form column on mobile screens */
   #contato .sr--right {
     display: none !important;
   }
 
-  /* Footer: Santo Agostinho em uma linha com fonte um pouco maior */
+  /* Footer: Quote styling */
   .footer-phrase {
     font-size: 1.64rem !important;
     white-space: nowrap;
   }
 
-  /* Utility: Swipe Horizontal para gráficos muito largos no Mobile */
+  /* Utility: Horizontal swipe container for wide mobile charts */
   .swipe-plot {
     overflow-x: auto !important;
     overflow-y: hidden !important;
@@ -1618,17 +1624,17 @@ a.glass:active .premium-icon {
     align-items: flex-start !important;
   }
 
-  /* Força o iframe a ter sua largura natural e remove a escala global */
+  /* Enforces iframe natural width and overrides global scaling */
   .swipe-plot iframe {
     transform: none !important;
     zoom: var(--mob-swipe-zoom, 0.75) !important;
     width: var(--mob-swipe-w, 1200px) !important;
     min-width: var(--mob-swipe-w, 1200px) !important;
     max-width: none !important;
-    /* Reduz a altura para a scrollbar não comer a parte de baixo do gráfico */
+    /* Adjusts height to prevent scrollbar clipping chart content */
     height: calc(100% / var(--mob-swipe-zoom, 0.75) - 20px) !important;
     pointer-events: auto !important;
-    /* Permite arrastar na área do gráfico */
+    /* Enables touch interaction inside chart viewport */
   }
 }
 
@@ -1644,13 +1650,6 @@ a.glass:hover {
     display: none !important;
   }
 }
-
-@media (min-width: 769px) {
-  .mobile-only {
-    display: none !important;
-  }
-}
-
 
 .contact-grid {
   display: grid;
@@ -1785,8 +1784,8 @@ a.glass:hover {
   border: 1px solid rgba(215, 181, 109, 0.15);
   border-left: 3px solid #D7B56D;
   padding: 1.5rem;
-  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.5s ease, opacity 0.5s ease;
   display: flex;
   flex-direction: column;
@@ -1922,11 +1921,12 @@ a.glass:hover {
 
 /* ─── MOBILE PERFORMANCE OPTIMIZATIONS ──────────────────────── */
 @media (max-width: 768px) {
+
   /* Disable light beam on Academic Certificate */
   .cert-shine-container {
     display: none !important;
   }
-  
+
   /* Disable light beam on Project Cards */
   .proj-card__scan-beam {
     display: none !important;
@@ -1967,47 +1967,515 @@ a.glass:hover {
 
   /* 1. Disable all backdrop-filters to save GPU and battery */
   * {
-    -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
 
   /* Disable heavy SVG noise and animated gradients */
-  .noise, .ambient-blob {
+  .noise,
+  .ambient-blob {
     display: none !important;
   }
 
 }
-/* --- TAILWIND REPLACEMENTS E AJUSTES DE GRID --- */
-.h-full { height: 100%; }
-.w-full { width: 100%; }
-.object-cover { object-fit: cover; }
-.hidden { display: none; }
-.text-center { text-align: center; }
-.p-2 { padding: 0.5rem; }
-.px-6 { padding-left: 2rem !important; padding-right: 2rem !important; } /* Aumentado para 32px no mobile a pedido do usuário */
-.text-blue-200 { color: #bfdbfe; } /* Tailwind blue-200 */
 
-/* Reset do botão de menu mobile (substituindo o Preflight do Tailwind) */
-#menu-toggle {
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* --- TAILWIND REPLACEMENTS E AJUSTES DE GRID --- */
+.h-full {
+  height: 100%;
 }
+
+.w-full {
+  width: 100%;
+}
+
+.object-cover {
+  object-fit: cover;
+}
+
+.hidden {
+  display: none;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.p-2 {
+  padding: 0.5rem;
+}
+
+.px-6 {
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+}
+
+.text-blue-200 {
+  color: #bfdbfe;
+}
+
+/* Mobile navigation toggle button reset */
+#menu-toggle {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #menu-toggle svg {
-    width: 28px; /* Aumentado para melhor toque e visual premium */
-    height: 28px;
-    stroke-width: 1.5;
+  width: 28px;
+  /* Aumentado para melhor toque e visual premium */
+  height: 28px;
+  stroke-width: 1.5;
 }
 
 @media (min-width: 768px) {
-    .md\:hidden { display: none !important; }
-    .md\:inline-flex { display: inline-flex !important; }
-    .md\:px-12 { padding-left: 3rem !important; padding-right: 3rem !important; }
+  .md\:hidden {
+    display: none !important;
+  }
+
+  .md\:inline-flex {
+    display: inline-flex !important;
+  }
+
+  .md\:px-12 {
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+  }
 }
+
 @media (min-width: 1024px) {
-    .lg\:px-20 { padding-left: 5rem !important; padding-right: 5rem !important; }
+  .lg\:px-20 {
+    padding-left: 5rem !important;
+    padding-right: 5rem !important;
+  }
+}
+
+/* ─── 11. 3D CAROUSEL & MOSAIC SYSTEM ────────────────────────── */
+
+/* Main Section Wrapper */
+.tech-pillars-section {
+  position: relative;
+  width: 100%;
+  min-height: 850px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(5, 11, 23, 0.95) 0%, rgba(10, 22, 44, 0.75) 50%, rgba(5, 11, 23, 0.95) 100%);
+  overflow: hidden;
+  padding: 5rem 0;
+}
+
+.tech-pillars-section::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(215, 181, 109, 0.08) 0%, rgba(66, 165, 245, 0.05) 50%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter: blur(40px);
+  z-index: 0;
+}
+
+/* ─── RIPPLE BACKGROUND EFFECT ────────────────────────────────── */
+.ripple-background {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ripple-ring {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  border: 1px dashed rgba(66, 165, 245, 0.25);
+  /* Dashed line, slightly more visible */
+  box-shadow: 0 0 15px rgba(66, 165, 245, 0.1), inset 0 0 15px rgba(66, 165, 245, 0.1);
+  animation: rippleExpandTech 9s linear infinite;
+  opacity: 0;
+  /* Rotates 45 degrees to construct an isometric diamond grid shape */
+  transform: rotate(45deg);
+}
+
+.ripple-ring.delay-1 {
+  animation-delay: 0s;
+}
+
+.ripple-ring.delay-2 {
+  animation-delay: 3s;
+}
+
+.ripple-ring.delay-3 {
+  animation-delay: 6s;
+}
+
+@keyframes rippleExpandTech {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+    /* Rapid ease-in entrance */
+  }
+
+  100% {
+    width: 850px;
+    height: 850px;
+    opacity: 0;
+    /* Fade-out exit after slide animation cycle */
+  }
+}
+
+/* 3D Stage (Perspective Container) */
+.cards-3d-stage {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  height: 680px;
+  perspective: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  transform-style: preserve-3d;
+  transition: transform 0.9s ease-out;
+}
+
+/* Central Symbol Hub — isolated from 3D parallax context */
+.center-hub {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateZ(0);
+  transform-style: flat;
+  z-index: 1;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-hub-glow {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(215, 181, 109, 0.2) 0%, rgba(66, 165, 245, 0.1) 40%, transparent 70%);
+  filter: blur(20px);
+  animation: hubGlowPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes hubGlowPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+.bg-lines {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  height: 420px;
+  stroke: rgba(215, 181, 109, 0.15);
+  stroke-width: 1px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Mosaic 4x4 Grid Container */
+.flower {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  width: 160px;
+  height: 160px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Individual Cell Unit */
+.cell {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  transition: background 0.8s ease;
+}
+
+.cell:hover {
+  background: rgba(215, 181, 109, 0.08);
+}
+
+.cell:hover .shape {
+  border-color: #42A5F5;
+  box-shadow: 0 0 15px rgba(66, 165, 245, 0.4);
+}
+
+/* Complete pulse animation cycle regardless of hover state */
+.shape.is-pulsing {
+  animation: completeShapePulse 1.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes completeShapePulse {
+  0% {
+    transform: translate(var(--tx, 0%), var(--ty, 0%)) scale(var(--scale, 1)) rotate(var(--rotate, 0deg));
+    border-color: rgba(215, 181, 109, 0.85);
+    box-shadow: none;
+  }
+
+  25% {
+    transform: translate(var(--tx, 0%), var(--ty, 0%)) scale(calc(var(--scale, 1) * 1.22)) rotate(var(--rotate, 0deg));
+    border-color: #42A5F5;
+    box-shadow: 0 0 22px rgba(66, 165, 245, 0.55);
+  }
+
+  100% {
+    transform: translate(var(--tx, 0%), var(--ty, 0%)) scale(var(--scale, 1)) rotate(var(--rotate, 0deg));
+    border-color: rgba(215, 181, 109, 0.85);
+    box-shadow: none;
+  }
+}
+
+.shape {
+  position: absolute;
+  box-sizing: border-box;
+  /* Transition properties optimized for GPU hardware acceleration */
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.2s ease, filter 1.2s ease, border-color 0.9s ease, box-shadow 0.9s ease;
+  transform: translate(var(--tx, 0%), var(--ty, 0%)) scale(var(--scale, 1)) rotate(var(--rotate, 0deg));
+  opacity: var(--opacity, 1);
+}
+
+/* Quarter Circle Arc Shape */
+.shape-quarter {
+  width: 200%;
+  height: 200%;
+  border-radius: 50%;
+  border: 20px solid rgba(215, 181, 109, 0.85);
+}
+
+/* 3D Slide Base */
+.slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: translate(-50%, -50%) rotateZ(var(--rotateZ, 0deg));
+  transition: transform 2.9s cubic-bezier(0.5, 0.05, 0.01, 0.99), z-index 2.9s;
+}
+
+.slide.is-active {
+  z-index: 10;
+}
+
+.slide.pos-left {
+  z-index: 3;
+}
+
+.slide.pos-right {
+  z-index: 2;
+}
+
+.slide.pos-left:hover,
+.slide.pos-right:hover {
+  z-index: 15;
+}
+
+/* Individual Card Styling */
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center bottom;
+  transform: translate(-50%, calc(-50% - 240px)) rotateX(28deg);
+  width: 420px;
+  height: 220px;
+  padding: 24px 26px;
+  background: rgba(6, 13, 26, 0.64);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(215, 181, 109, 0.2);
+  border-radius: 16px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3), 0 15px 35px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.6s ease, box-shadow 0.6s ease, opacity 0.6s ease, background 0.6s ease;
+  opacity: 0.55;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Inactive cards text dimming */
+.slide:not(.is-active) .card h3,
+.slide:not(.is-active) .card p {
+  opacity: 0.65;
+  transition: opacity 0.6s ease;
+}
+
+/* Active card at the top (Foco total) */
+.slide.is-active .card {
+  transform: translate(-50%, calc(-50% - 240px)) rotateX(0deg);
+  opacity: 1;
+  background: rgba(6, 13, 26, 0.92);
+  border-color: rgba(215, 181, 109, 0.65);
+  box-shadow: inset 0 0 25px rgba(215, 181, 109, 0.18), 0 30px 65px rgba(0, 0, 0, 0.75), 0 0 30px rgba(215, 181, 109, 0.3);
+}
+
+.slide.is-active .card h3,
+.slide.is-active .card p {
+  opacity: 1;
+}
+
+/* Hover state for inactive cards (Subtle reactive glow) */
+.slide:not(.is-active):hover .card {
+  transform: translate(-50%, calc(-50% - 240px)) rotateX(10deg);
+  opacity: 0.85;
+  background: rgba(6, 13, 26, 0.75);
+  border-color: rgba(66, 165, 245, 0.45);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 20px rgba(66, 165, 245, 0.2);
+}
+
+.slide:not(.is-active):hover .card h3,
+.slide:not(.is-active):hover .card p {
+  opacity: 0.95;
+}
+
+.card h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #E3F2FD;
+  margin-bottom: 0;
+  line-height: 1.25;
+}
+
+.card h3 .amp {
+  color: #42A5F5;
+  font-weight: 500;
+  display: inline-block;
+  margin: 0 0.15rem;
+}
+
+.card p {
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: #E3F2FD;
+  margin-bottom: 0;
+}
+
+/* Decorative card index watermark */
+.card-ordinal {
+  position: absolute;
+  bottom: 7rem;
+  right: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 6.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(215, 181, 109, 0.09);
+  letter-spacing: -0.02em;
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.6s ease;
+  z-index: 0;
+}
+
+.slide.is-active .card-ordinal {
+  color: rgba(215, 181, 109, 0.13);
+}
+
+.card h3,
+.card p {
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive 3D Stage Scaling */
+@media (max-width: 1024px) {
+  .cards-3d-stage {
+    height: 600px;
+    transform: scale(0.85);
+    margin-top: 4.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .tech-pillars-section {
+    min-height: 850px;
+    padding: 4rem 0;
+  }
+
+  /* Reduced active card elevation on mobile to prevent header overlap */
+  .slide.is-active .card {
+    transform: translate(-50%, calc(-50% - 130px)) rotateX(0deg);
+  }
+
+  .slide:not(.is-active):hover .card {
+    transform: translate(-50%, calc(-50% - 130px)) rotateX(10deg);
+  }
+
+  .cards-3d-stage {
+    height: 520px;
+    transform: scale(0.72);
+    margin-top: 2rem;
+  }
+
+  .card {
+    width: 300px;
+    padding: 22px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  /* Fine-tuned active card elevation for small mobile screens */
+  .slide.is-active .card {
+    transform: translate(-50%, calc(-50% - 225px)) rotateX(0deg);
+  }
+
+  .slide:not(.is-active):hover .card {
+    transform: translate(-50%, calc(-50% - 100px)) rotateX(10deg);
+  }
+
+  .cards-3d-stage {
+    height: 480px;
+    transform: scale(0.62);
+    margin-top: 8.5rem;
+  }
 }
