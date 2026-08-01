@@ -2333,6 +2333,7 @@ a.glass:hover {
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3), 0 15px 35px rgba(0, 0, 0, 0.4);
   cursor: pointer;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
   transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.6s ease, box-shadow 0.6s ease, opacity 0.6s ease, background 0.6s ease;
   opacity: 0.55;
   display: flex;
@@ -2361,18 +2362,20 @@ a.glass:hover {
   opacity: 1;
 }
 
-/* Hover state for inactive cards (Subtle reactive glow) */
-.slide:not(.is-active):hover .card {
-  transform: translate(-50%, calc(-50% - 240px)) rotateX(10deg);
-  opacity: 0.85;
-  background: rgba(6, 13, 26, 0.75);
-  border-color: rgba(66, 165, 245, 0.45);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 20px rgba(66, 165, 245, 0.2);
-}
+/* Hover state for inactive cards (Subtle reactive glow on desktop only) */
+@media (hover: hover) and (pointer: fine) {
+  .slide:not(.is-active):hover .card {
+    transform: translate(-50%, calc(-50% - 240px)) rotateX(10deg);
+    opacity: 0.85;
+    background: rgba(6, 13, 26, 0.75);
+    border-color: rgba(66, 165, 245, 0.45);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 20px rgba(66, 165, 245, 0.2);
+  }
 
-.slide:not(.is-active):hover .card h3,
-.slide:not(.is-active):hover .card p {
-  opacity: 0.95;
+  .slide:not(.is-active):hover .card h3,
+  .slide:not(.is-active):hover .card p {
+    opacity: 0.95;
+  }
 }
 
 .card h3 {
@@ -2436,6 +2439,11 @@ a.glass:hover {
 }
 
 @media (max-width: 768px) {
+  /* Disable background ripple effect on mobile to maximize performance & FPS */
+  .ripple-background {
+    display: none !important;
+  }
+
   .tech-pillars-section {
     min-height: 850px;
     padding: 4rem 0;
@@ -2444,10 +2452,6 @@ a.glass:hover {
   /* Reduced active card elevation on mobile to prevent header overlap */
   .slide.is-active .card {
     transform: translate(-50%, calc(-50% - 130px)) rotateX(0deg);
-  }
-
-  .slide:not(.is-active):hover .card {
-    transform: translate(-50%, calc(-50% - 130px)) rotateX(10deg);
   }
 
   .cards-3d-stage {
@@ -2467,10 +2471,6 @@ a.glass:hover {
   /* Fine-tuned active card elevation for small mobile screens */
   .slide.is-active .card {
     transform: translate(-50%, calc(-50% - 225px)) rotateX(0deg);
-  }
-
-  .slide:not(.is-active):hover .card {
-    transform: translate(-50%, calc(-50% - 100px)) rotateX(10deg);
   }
 
   .cards-3d-stage {
