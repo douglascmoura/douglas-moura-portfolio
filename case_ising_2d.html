@@ -18,14 +18,14 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
     rel="stylesheet" />
 
-  <!-- CSS -->
+  <!-- Stylesheet -->
   <link href="assets/css/style.min.css" rel="stylesheet" />
-  <!-- GSAP & Tailwind -->
+  <!-- External Animations and Scroll Interactions -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
 
-  <!-- MathJax para as equações matemáticas -->
+  <!-- MathJax Configuration for TeX Math Equations -->
   <script>
     window.MathJax = {
       tex: {
@@ -51,7 +51,7 @@
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
-    /* Institucional DOCHMO Overrides */
+    /* DOCHMO Design System & Typography Overrides */
     .article-header {
       padding: 180px 20px 100px;
       text-align: center;
@@ -150,7 +150,7 @@
       border-radius: 8px;
       display: block;
       background: #0E1117;
-      /* Cor base do dark theme do Streamlit */
+      /* Streamlit Dark Theme Base Background */
     }
 
     .glass-quote {
@@ -239,14 +239,14 @@
       transform: translateY(-3px);
     }
 
-    /* MathJax Overrides para o Dark Mode DOCHMO */
+    /* MathJax Color Theme Overrides */
     .MathJax {
       color: #D7B56D !important;
       font-size: 1.2rem !important;
       margin: 1.5rem 0 !important;
     }
 
-    /* Cursor Dourado Exclusivo para as Páginas de Case */
+    /* Custom Gold Cursor Styling */
     .cursor-ring {
       border-color: rgba(215, 181, 109, 0.85) !important;
       box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
@@ -257,20 +257,38 @@
         display: none !important;
         animation: none !important;
       }
-    }
-
-    @media (max-width: 768px) {
-      .article-img-wrap::before {
-        display: none !important;
-        animation: none !important;
-      }
 
       .ising-svg-card {
-        padding: 2rem 1.25rem 1.75rem 1.25rem !important;
+        padding: 1.75rem 1.25rem 1.5rem 1.25rem !important;
+      }
+
+      .svg-legend-g {
+        display: none !important;
+      }
+
+      /* Mobile Legend Component with Gradient Border & Neon Glow */
+      .mobile-legend {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+        margin: 1.25rem auto 0 auto;
+        padding: 10px 18px;
+        max-width: 310px;
+        background: rgba(10, 20, 40, 0.85);
+        border-radius: 8px;
+        position: relative;
+        border: 1.5px solid transparent;
+        background-image: linear-gradient(rgba(10, 20, 40, 0.85), rgba(10, 20, 40, 0.85)), linear-gradient(135deg, #D7B56D 0%, #3b82f6 100%);
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
+        box-shadow: 0 0 12px rgba(215, 181, 109, 0.2), 0 0 12px rgba(59, 130, 246, 0.2);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
       }
     }
 
-    /* CSS para animação e tremor de Spins (Modelo de Ising) */
+    /* Spin Thermal Dynamics Keyframe Shake Animations */
     .spin-g {
       transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
       transform: scale(var(--hover-scale, 1));
@@ -311,7 +329,7 @@
 
 <body style="background: #0A1428;">
 
-  <!-- Ambient background -->
+  <!-- Ambient Background Effect -->
   <div class="noise" aria-hidden="true"
     style="position: fixed; inset: 0; opacity: 0.04; background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E'); z-index:9000; pointer-events:none;">
   </div>
@@ -320,12 +338,12 @@
     style="position: absolute; top: 0; left: 0; width: 100%; height: 100vh; background: radial-gradient(circle at 50% 30%, rgba(215, 181, 109, 0.08) 0%, rgba(10, 20, 40, 0) 70%); pointer-events: none; z-index: 0;">
   </div>
 
-  <!-- Cursor -->
+  <!-- Custom Gold Cursor -->
   <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
   <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
 
   <!-- ==========================================
-     SECTION: MAIN NAVIGATION
+     NAVIGATION BAR
      ========================================== -->
   <nav class="nav" role="navigation" aria-label="Navegação principal"
     style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);">
@@ -361,7 +379,7 @@
     <div class="article-content">
 
       <!-- ==========================================
-     SECTION: 01. THEORETICAL FOUNDATION
+     SECTION 01: THEORETICAL FOUNDATION
      ========================================== -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Fundamentação Teórica</h2>
@@ -388,7 +406,7 @@
         </p>
 
         <!-- ==========================================
-        SECTION: SPINS GRID PERSPECTIVE (SVG)
+        SECTION 01.1: 2D ISING SPINS GRID VISUALIZATION (SVG)
         ========================================== -->
         <div class="article-img-wrap ising-svg-card"
           style="padding: 3rem 3rem 2.5rem 3rem; margin: 4rem 0; background: rgba(7, 16, 32, 0.55); border: 1px solid rgba(215, 181, 109, 0.18); border-radius: 12px; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(215, 181, 109, 0.05); display: block !important; position: relative; --mob-wrap-h: auto;">
@@ -523,7 +541,7 @@
               stroke-width="1.75" />
             <line x1="675.0" y1="70.0" x2="693.0" y2="42.0" stroke="rgba(248, 249, 250, 0.22)" stroke-opacity="0.4"
               stroke-width="0.75" />
-            <!-- Spin at x=1, y=5 -->
+            <!-- Grid Row 5 (Y = 70px) -->
             <g class="spin-g" data-cx="300.0" data-cy="70.0" opacity="0.48"
               style="--cx: 300.0px; --cy: 70.0px; transform-origin: 300.0px 70.0px;">
               <circle cx="300.0" cy="70.0" r="8.8" stroke="#D7B56D" stroke-width="0.99"
@@ -531,7 +549,6 @@
               <line x1="300.0" y1="75.5" x2="300.0" y2="64.5" stroke="#D7B56D" stroke-width="1.10"
                 marker-end="url(#arrow-gold)" transform="rotate(8, 300.0, 70.0)" />
             </g>
-            <!-- Spin at x=2, y=5 -->
             <g class="spin-g" data-cx="375.0" data-cy="70.0" opacity="0.48"
               style="--cx: 375.0px; --cy: 70.0px; transform-origin: 375.0px 70.0px;">
               <circle cx="375.0" cy="70.0" r="8.8" stroke="#D7B56D" stroke-width="0.99"
@@ -539,7 +556,6 @@
               <line x1="375.0" y1="75.5" x2="375.0" y2="64.5" stroke="#D7B56D" stroke-width="1.10"
                 marker-end="url(#arrow-gold)" transform="rotate(-12, 375.0, 70.0)" />
             </g>
-            <!-- Spin at x=3, y=5 -->
             <g class="spin-g" data-cx="450.0" data-cy="70.0" opacity="0.48"
               style="--cx: 450.0px; --cy: 70.0px; transform-origin: 450.0px 70.0px;">
               <circle cx="450.0" cy="70.0" r="8.8" stroke="#D7B56D" stroke-width="0.99"
@@ -547,7 +563,6 @@
               <line x1="450.0" y1="75.5" x2="450.0" y2="64.5" stroke="#D7B56D" stroke-width="1.10"
                 marker-end="url(#arrow-gold)" transform="rotate(15, 450.0, 70.0)" />
             </g>
-            <!-- Spin at x=4, y=5 -->
             <g class="spin-g" data-cx="525.0" data-cy="70.0" opacity="0.48"
               style="--cx: 525.0px; --cy: 70.0px; transform-origin: 525.0px 70.0px;">
               <circle cx="525.0" cy="70.0" r="8.8" stroke="#3b82f6" stroke-width="0.99"
@@ -555,7 +570,6 @@
               <line x1="525.0" y1="64.5" x2="525.0" y2="75.5" stroke="#3b82f6" stroke-width="1.10"
                 marker-end="url(#arrow-blue)" transform="rotate(-5, 525.0, 70.0)" />
             </g>
-            <!-- Spin at x=5, y=5 -->
             <g class="spin-g" data-cx="600.0" data-cy="70.0" opacity="0.48"
               style="--cx: 600.0px; --cy: 70.0px; transform-origin: 600.0px 70.0px;">
               <circle cx="600.0" cy="70.0" r="8.8" stroke="#3b82f6" stroke-width="0.99"
@@ -563,7 +577,6 @@
               <line x1="600.0" y1="64.5" x2="600.0" y2="75.5" stroke="#3b82f6" stroke-width="1.10"
                 marker-end="url(#arrow-blue)" transform="rotate(10, 600.0, 70.0)" />
             </g>
-            <!-- Spin at x=6, y=5 -->
             <g class="spin-g" data-cx="675.0" data-cy="70.0" opacity="0.48"
               style="--cx: 675.0px; --cy: 70.0px; transform-origin: 675.0px 70.0px;">
               <circle cx="675.0" cy="70.0" r="8.8" stroke="#3b82f6" stroke-width="0.99"
@@ -571,7 +584,8 @@
               <line x1="675.0" y1="64.5" x2="675.0" y2="75.5" stroke="#3b82f6" stroke-width="1.10"
                 marker-end="url(#arrow-blue)" transform="rotate(-15, 675.0, 70.0)" />
             </g>
-            <!-- Spin at x=1, y=4 -->
+
+            <!-- Grid Row 4 (Y = 140px) -->
             <g class="spin-g" data-cx="255.0" data-cy="140.0" opacity="0.62"
               style="--cx: 255.0px; --cy: 140.0px; transform-origin: 255.0px 140.0px;">
               <circle cx="255.0" cy="140.0" r="10.9" stroke="#D7B56D" stroke-width="1.22"
@@ -579,7 +593,6 @@
               <line x1="255.0" y1="146.8" x2="255.0" y2="133.2" stroke="#D7B56D" stroke-width="1.36"
                 marker-end="url(#arrow-gold)" transform="rotate(-5, 255.0, 140.0)" />
             </g>
-            <!-- Spin at x=2, y=4 -->
             <g class="spin-g" data-cx="330.0" data-cy="140.0" opacity="0.62"
               style="--cx: 330.0px; --cy: 140.0px; transform-origin: 330.0px 140.0px;">
               <circle cx="330.0" cy="140.0" r="10.9" stroke="#D7B56D" stroke-width="1.22"
@@ -587,7 +600,6 @@
               <line x1="330.0" y1="146.8" x2="330.0" y2="133.2" stroke="#D7B56D" stroke-width="1.36"
                 marker-end="url(#arrow-gold)" transform="rotate(18, 330.0, 140.0)" />
             </g>
-            <!-- Spin at x=3, y=4 -->
             <g class="spin-g" data-cx="405.0" data-cy="140.0" opacity="0.62"
               style="--cx: 405.0px; --cy: 140.0px; transform-origin: 405.0px 140.0px;">
               <circle cx="405.0" cy="140.0" r="10.9" stroke="#D7B56D" stroke-width="1.22"
@@ -595,7 +607,6 @@
               <line x1="405.0" y1="146.8" x2="405.0" y2="133.2" stroke="#D7B56D" stroke-width="1.36"
                 marker-end="url(#arrow-gold)" transform="rotate(-8, 405.0, 140.0)" />
             </g>
-            <!-- Spin at x=4, y=4 -->
             <g class="spin-g" data-cx="480.0" data-cy="140.0" opacity="0.62"
               style="--cx: 480.0px; --cy: 140.0px; transform-origin: 480.0px 140.0px;">
               <circle cx="480.0" cy="140.0" r="10.9" stroke="#3b82f6" stroke-width="1.22"
@@ -603,7 +614,6 @@
               <line x1="480.0" y1="133.2" x2="480.0" y2="146.8" stroke="#3b82f6" stroke-width="1.36"
                 marker-end="url(#arrow-blue)" transform="rotate(12, 480.0, 140.0)" />
             </g>
-            <!-- Spin at x=5, y=4 -->
             <g class="spin-g" data-cx="555.0" data-cy="140.0" opacity="0.62"
               style="--cx: 555.0px; --cy: 140.0px; transform-origin: 555.0px 140.0px;">
               <circle cx="555.0" cy="140.0" r="10.9" stroke="#3b82f6" stroke-width="1.22"
@@ -611,7 +621,6 @@
               <line x1="555.0" y1="133.2" x2="555.0" y2="146.8" stroke="#3b82f6" stroke-width="1.36"
                 marker-end="url(#arrow-blue)" transform="rotate(-8, 555.0, 140.0)" />
             </g>
-            <!-- Spin at x=6, y=4 -->
             <g class="spin-g" data-cx="630.0" data-cy="140.0" opacity="0.62"
               style="--cx: 630.0px; --cy: 140.0px; transform-origin: 630.0px 140.0px;">
               <circle cx="630.0" cy="140.0" r="10.9" stroke="#3b82f6" stroke-width="1.22"
@@ -619,7 +628,8 @@
               <line x1="630.0" y1="133.2" x2="630.0" y2="146.8" stroke="#3b82f6" stroke-width="1.36"
                 marker-end="url(#arrow-blue)" transform="rotate(5, 630.0, 140.0)" />
             </g>
-            <!-- Spin at x=1, y=3 -->
+
+            <!-- Grid Row 3 (Y = 210px) -->
             <g class="spin-g" data-cx="210.0" data-cy="210.0" opacity="0.75"
               style="--cx: 210.0px; --cy: 210.0px; transform-origin: 210.0px 210.0px;">
               <circle cx="210.0" cy="210.0" r="12.8" stroke="#D7B56D" stroke-width="1.44"
@@ -627,7 +637,6 @@
               <line x1="210.0" y1="218.0" x2="210.0" y2="202.0" stroke="#D7B56D" stroke-width="1.60"
                 marker-end="url(#arrow-gold)" transform="rotate(12, 210.0, 210.0)" />
             </g>
-            <!-- Spin at x=2, y=3 -->
             <g class="spin-g" data-cx="285.0" data-cy="210.0" opacity="0.75"
               style="--cx: 285.0px; --cy: 210.0px; transform-origin: 285.0px 210.0px;">
               <circle cx="285.0" cy="210.0" r="12.8" stroke="#D7B56D" stroke-width="1.44"
@@ -635,7 +644,6 @@
               <line x1="285.0" y1="218.0" x2="285.0" y2="202.0" stroke="#D7B56D" stroke-width="1.60"
                 marker-end="url(#arrow-gold)" transform="rotate(-10, 285.0, 210.0)" />
             </g>
-            <!-- Spin at x=3, y=3 -->
             <g class="spin-g" data-cx="360.0" data-cy="210.0" opacity="0.75"
               style="--cx: 360.0px; --cy: 210.0px; transform-origin: 360.0px 210.0px;">
               <circle cx="360.0" cy="210.0" r="12.8" stroke="#D7B56D" stroke-width="1.44"
@@ -643,7 +651,6 @@
               <line x1="360.0" y1="218.0" x2="360.0" y2="202.0" stroke="#D7B56D" stroke-width="1.60"
                 marker-end="url(#arrow-gold)" transform="rotate(5, 360.0, 210.0)" />
             </g>
-            <!-- Spin at x=4, y=3 -->
             <g class="spin-g" data-cx="435.0" data-cy="210.0" opacity="0.75"
               style="--cx: 435.0px; --cy: 210.0px; transform-origin: 435.0px 210.0px;">
               <circle cx="435.0" cy="210.0" r="12.8" stroke="#3b82f6" stroke-width="1.44"
@@ -651,7 +658,6 @@
               <line x1="435.0" y1="202.0" x2="435.0" y2="218.0" stroke="#3b82f6" stroke-width="1.60"
                 marker-end="url(#arrow-blue)" transform="rotate(-14, 435.0, 210.0)" />
             </g>
-            <!-- Spin at x=5, y=3 -->
             <g class="spin-g" data-cx="510.0" data-cy="210.0" opacity="0.75"
               style="--cx: 510.0px; --cy: 210.0px; transform-origin: 510.0px 210.0px;">
               <circle cx="510.0" cy="210.0" r="12.8" stroke="#3b82f6" stroke-width="1.44"
@@ -659,7 +665,6 @@
               <line x1="510.0" y1="202.0" x2="510.0" y2="218.0" stroke="#3b82f6" stroke-width="1.60"
                 marker-end="url(#arrow-blue)" transform="rotate(8, 510.0, 210.0)" />
             </g>
-            <!-- Spin at x=6, y=3 -->
             <g class="spin-g" data-cx="585.0" data-cy="210.0" opacity="0.75"
               style="--cx: 585.0px; --cy: 210.0px; transform-origin: 585.0px 210.0px;">
               <circle cx="585.0" cy="210.0" r="12.8" stroke="#3b82f6" stroke-width="1.44"
@@ -667,7 +672,8 @@
               <line x1="585.0" y1="202.0" x2="585.0" y2="218.0" stroke="#3b82f6" stroke-width="1.60"
                 marker-end="url(#arrow-blue)" transform="rotate(-12, 585.0, 210.0)" />
             </g>
-            <!-- Spin at x=1, y=2 -->
+
+            <!-- Grid Row 2 (Y = 280px) -->
             <g class="spin-g" data-cx="165.0" data-cy="280.0" opacity="0.88"
               style="--cx: 165.0px; --cy: 280.0px; transform-origin: 165.0px 280.0px;">
               <circle cx="165.0" cy="280.0" r="14.7" stroke="#D7B56D" stroke-width="1.66"
@@ -675,7 +681,6 @@
               <line x1="165.0" y1="289.2" x2="165.0" y2="270.8" stroke="#D7B56D" stroke-width="1.84"
                 marker-end="url(#arrow-gold)" transform="rotate(-15, 165.0, 280.0)" />
             </g>
-            <!-- Spin at x=2, y=2 -->
             <g class="spin-g" data-cx="240.0" data-cy="280.0" opacity="0.88"
               style="--cx: 240.0px; --cy: 280.0px; transform-origin: 240.0px 280.0px;">
               <circle cx="240.0" cy="280.0" r="14.7" stroke="#3b82f6" stroke-width="1.66"
@@ -683,7 +688,6 @@
               <line x1="240.0" y1="270.8" x2="240.0" y2="289.2" stroke="#3b82f6" stroke-width="1.84"
                 marker-end="url(#arrow-blue)" transform="rotate(10, 240.0, 280.0)" />
             </g>
-            <!-- Spin at x=3, y=2 -->
             <g class="spin-g" data-cx="315.0" data-cy="280.0" opacity="0.88"
               style="--cx: 315.0px; --cy: 280.0px; transform-origin: 315.0px 280.0px;">
               <circle cx="315.0" cy="280.0" r="14.7" stroke="#3b82f6" stroke-width="1.66"
@@ -691,7 +695,6 @@
               <line x1="315.0" y1="270.8" x2="315.0" y2="289.2" stroke="#3b82f6" stroke-width="1.84"
                 marker-end="url(#arrow-blue)" transform="rotate(-8, 315.0, 280.0)" />
             </g>
-            <!-- Spin at x=4, y=2 -->
             <g class="spin-g" data-cx="390.0" data-cy="280.0" opacity="0.88"
               style="--cx: 390.0px; --cy: 280.0px; transform-origin: 390.0px 280.0px;">
               <circle cx="390.0" cy="280.0" r="14.7" stroke="#3b82f6" stroke-width="1.66"
@@ -699,7 +702,6 @@
               <line x1="390.0" y1="270.8" x2="390.0" y2="289.2" stroke="#3b82f6" stroke-width="1.84"
                 marker-end="url(#arrow-blue)" transform="rotate(15, 390.0, 280.0)" />
             </g>
-            <!-- Spin at x=5, y=2 -->
             <g class="spin-g" data-cx="465.0" data-cy="280.0" opacity="0.88"
               style="--cx: 465.0px; --cy: 280.0px; transform-origin: 465.0px 280.0px;">
               <circle cx="465.0" cy="280.0" r="14.7" stroke="#3b82f6" stroke-width="1.66"
@@ -707,7 +709,6 @@
               <line x1="465.0" y1="270.8" x2="465.0" y2="289.2" stroke="#3b82f6" stroke-width="1.84"
                 marker-end="url(#arrow-blue)" transform="rotate(-5, 465.0, 280.0)" />
             </g>
-            <!-- Spin at x=6, y=2 -->
             <g class="spin-g" data-cx="540.0" data-cy="280.0" opacity="0.88"
               style="--cx: 540.0px; --cy: 280.0px; transform-origin: 540.0px 280.0px;">
               <circle cx="540.0" cy="280.0" r="14.7" stroke="#D7B56D" stroke-width="1.66"
@@ -715,7 +716,8 @@
               <line x1="540.0" y1="289.2" x2="540.0" y2="270.8" stroke="#D7B56D" stroke-width="1.84"
                 marker-end="url(#arrow-gold)" transform="rotate(18, 540.0, 280.0)" />
             </g>
-            <!-- Spin at x=1, y=1 -->
+
+            <!-- Grid Row 1 (Y = 350px, Bottom perspective row) -->
             <g class="spin-g" data-cx="120.0" data-cy="350.0" opacity="1.00"
               style="--cx: 120.0px; --cy: 350.0px; transform-origin: 120.0px 350.0px;">
               <circle cx="120.0" cy="350.0" r="16.8" stroke="#3b82f6" stroke-width="1.89"
@@ -723,7 +725,6 @@
               <line x1="120.0" y1="339.5" x2="120.0" y2="360.5" stroke="#3b82f6" stroke-width="2.10"
                 marker-end="url(#arrow-blue)" transform="rotate(12, 120.0, 350.0)" />
             </g>
-            <!-- Spin at x=2, y=1 -->
             <g class="spin-g" data-cx="195.0" data-cy="350.0" opacity="1.00"
               style="--cx: 195.0px; --cy: 350.0px; transform-origin: 195.0px 350.0px;">
               <circle cx="195.0" cy="350.0" r="16.8" stroke="#3b82f6" stroke-width="1.89"
@@ -731,7 +732,6 @@
               <line x1="195.0" y1="339.5" x2="195.0" y2="360.5" stroke="#3b82f6" stroke-width="2.10"
                 marker-end="url(#arrow-blue)" transform="rotate(-15, 195.0, 350.0)" />
             </g>
-            <!-- Spin at x=3, y=1 -->
             <g class="spin-g" data-cx="270.0" data-cy="350.0" opacity="1.00"
               style="--cx: 270.0px; --cy: 350.0px; transform-origin: 270.0px 350.0px;">
               <circle cx="270.0" cy="350.0" r="16.8" stroke="#3b82f6" stroke-width="1.89"
@@ -739,7 +739,6 @@
               <line x1="270.0" y1="339.5" x2="270.0" y2="360.5" stroke="#3b82f6" stroke-width="2.10"
                 marker-end="url(#arrow-blue)" transform="rotate(8, 270.0, 350.0)" />
             </g>
-            <!-- Spin at x=4, y=1 -->
             <g class="spin-g" data-cx="345.0" data-cy="350.0" opacity="1.00"
               style="--cx: 345.0px; --cy: 350.0px; transform-origin: 345.0px 350.0px;">
               <circle cx="345.0" cy="350.0" r="16.8" stroke="#3b82f6" stroke-width="1.89"
@@ -747,7 +746,6 @@
               <line x1="345.0" y1="339.5" x2="345.0" y2="360.5" stroke="#3b82f6" stroke-width="2.10"
                 marker-end="url(#arrow-blue)" transform="rotate(-10, 345.0, 350.0)" />
             </g>
-            <!-- Spin at x=5, y=1 -->
             <g class="spin-g" data-cx="420.0" data-cy="350.0" opacity="1.00"
               style="--cx: 420.0px; --cy: 350.0px; transform-origin: 420.0px 350.0px;">
               <circle cx="420.0" cy="350.0" r="16.8" stroke="#D7B56D" stroke-width="1.89"
@@ -755,7 +753,6 @@
               <line x1="420.0" y1="360.5" x2="420.0" y2="339.5" stroke="#D7B56D" stroke-width="2.10"
                 marker-end="url(#arrow-gold)" transform="rotate(14, 420.0, 350.0)" />
             </g>
-            <!-- Spin at x=6, y=1 -->
             <g class="spin-g" data-cx="495.0" data-cy="350.0" opacity="1.00"
               style="--cx: 495.0px; --cy: 350.0px; transform-origin: 495.0px 350.0px;">
               <circle cx="495.0" cy="350.0" r="16.8" stroke="#D7B56D" stroke-width="1.89"
@@ -763,8 +760,8 @@
               <line x1="495.0" y1="360.5" x2="495.0" y2="339.5" stroke="#D7B56D" stroke-width="2.10"
                 marker-end="url(#arrow-gold)" transform="rotate(-8, 495.0, 350.0)" />
             </g>
-            <!-- Legend -->
-            <g transform="translate(578, 330)">
+            <!-- SVG Legend Overlay (Desktop Viewport) -->
+            <g class="svg-legend-g" transform="translate(578, 330)">
               <rect width="170" height="70" rx="8" fill="rgba(10, 20, 40, 0.85)" opacity="0.9" />
               <rect width="170" height="70" rx="8" fill="none" stroke="url(#legend-border-grad)" stroke-width="1.8"
                 filter="url(#neon-glow-legend)" opacity="0.9" />
@@ -786,11 +783,26 @@
               </g>
             </g>
           </svg>
+
+          <!-- Mobile Legend Component (Active Viewport <= 768px) -->
+          <div class="mobile-legend"
+            style="display: none; justify-content: center; align-items: center; gap: 1.5rem; margin-top: 1.2rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; color: rgba(248, 249, 250, 0.85);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span
+                style="width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid #D7B56D; background: rgba(215, 181, 109, 0.2); display: inline-block;"></span>
+              <span>Spin Up (&#963;<sub>i</sub> = +1)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span
+                style="width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid #3b82f6; background: rgba(59, 130, 246, 0.2); display: inline-block;"></span>
+              <span>Spin Down (&#963;<sub>i</sub> = -1)</span>
+            </div>
+          </div>
         </div>
       </section>
 
       <!-- ==========================================
-     SECTION: 02. DYNAMICS & PERFORMANCE
+     SECTION 02: METROPOLIS DYNAMICS & JIT COMPILATION
      ========================================== -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Dinâmica de Metropolis e Performance JIT</h2>
@@ -827,7 +839,7 @@
       </section>
 
       <!-- ==========================================
-     SECTION: 03. ADVANCED THEORY & ANALYSIS
+     SECTION 03: ADVANCED STATISTICAL MECHANICS ANALYSIS
      ========================================== -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Análise Físico-Estatística Avançada</h2>
@@ -854,7 +866,7 @@
       </section>
 
       <!-- ==========================================
-     SECTION: 04. STREAMLIT APPLICATION
+     SECTION 04: STREAMLIT LIVE INTERACTIVE SIMULATION
      ========================================== -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Simulação Interativa (Live App)</h2>
@@ -864,9 +876,7 @@
           densos; em altas temperaturas prevalece o caos e a desordem térmica).
         </p>
 
-        <!-- ==========================================
-     SECTION: DEMONSTRATION IMAGE
-     ========================================== -->
+        <!-- SIMULATION PREVIEW -->
         <div class="article-img-wrap"
           style="text-align: center; margin: 3rem 0; --mob-wrap-h: auto; display: block !important;">
           <img src="assets/img/app_ising_demo.png" alt="Interface da Simulação do Modelo de Ising"
@@ -875,7 +885,7 @@
       </section>
 
       <!-- ==========================================
-     SECTION: CALL TO ACTION (CTA)
+     CALL TO ACTION & TECHNICAL RESOURCES
      ========================================== -->
       <div class="gsap-fade-up"
         style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
@@ -927,100 +937,172 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // ==========================================
-      // ANIMATION & INTERACTIVITY FOR ISING SPINS
-      // ==========================================
+    document.addEventListener('DOMContentLoaded', function () {
+      /* ==========================================================================
+         ISING 2D SPINS INTERACTIVITY & THERMAL DYNAMICS
+         ========================================================================== */
       const isingSvg = document.getElementById('ising-svg');
       if (isingSvg) {
-        const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
         const spins = isingSvg.querySelectorAll('.spin-g');
+        const svgPt = isingSvg.createSVGPoint();
 
-        if (!isMobile) {
-          // Desktop: Proximity and Hover interaction
-          const svgPt = isingSvg.createSVGPoint();
-
-          function getSVGCoords(e) {
-            svgPt.x = e.clientX;
-            svgPt.y = e.clientY;
-            return svgPt.matrixTransform(isingSvg.getScreenCTM().inverse());
+        // Dynamic ViewBox viewport adjustment for mobile devices
+        function updateIsingViewBox() {
+          if (window.innerWidth <= 768) {
+            isingSvg.setAttribute('viewBox', '65 25 650 365');
+          } else {
+            isingSvg.setAttribute('viewBox', '22 -8 751 436');
           }
+        }
+        updateIsingViewBox();
+        window.addEventListener('resize', updateIsingViewBox);
 
-          isingSvg.addEventListener('mousemove', function (e) {
-            const coords = getSVGCoords(e);
-            const radius = 110; // Influence radius in SVG coordinate pixels
+        // Transform pointer/touch client coordinates to SVG coordinate space
+        function getSVGCoords(e) {
+          const clientX = (e.touches && e.touches.length > 0) ? e.touches[0].clientX : e.clientX;
+          const clientY = (e.touches && e.touches.length > 0) ? e.touches[0].clientY : e.clientY;
+          svgPt.x = clientX;
+          svgPt.y = clientY;
+          const ctm = isingSvg.getScreenCTM();
+          if (!ctm) return { x: 0, y: 0 };
+          return svgPt.matrixTransform(ctm.inverse());
+        }
 
-            spins.forEach(spin => {
-              const cx = parseFloat(spin.getAttribute('data-cx'));
-              const cy = parseFloat(spin.getAttribute('data-cy'));
-
-              const dx = coords.x - cx;
-              const dy = coords.y - cy;
-              const dist = Math.sqrt(dx * dx + dy * dy);
-
-              if (dist < radius) {
-                const intensity = 1.0 - (dist / radius); // 0 to 1
-
-                // Set CSS variables for scale and shake intensity
-                spin.style.setProperty('--hover-scale', 1.0 + 0.18 * intensity);
-                spin.style.setProperty('--shake-intensity', intensity);
-
-                if (intensity > 0.05) {
-                  spin.classList.add('trembling');
-                } else {
-                  spin.classList.remove('trembling');
-                }
-              } else {
-                spin.style.removeProperty('--hover-scale');
-                spin.style.removeProperty('--shake-intensity');
-                spin.classList.remove('trembling');
-              }
-            });
+        // Initialize thermodynamic state map for individual spin lattice sites
+        const spinStates = new Map();
+        spins.forEach(spin => {
+          const cx = parseFloat(spin.getAttribute('data-cx'));
+          const cy = parseFloat(spin.getAttribute('data-cy'));
+          spinStates.set(spin, {
+            cx: cx,
+            cy: cy,
+            hoverIntensity: 0,
+            ambientIntensity: 0,
+            clickExcitedStart: 0,
+            clickExcitedPeak: 0
           });
+        });
 
-          // Reset all spins on mouseleave
-          isingSvg.addEventListener('mouseleave', function () {
-            spins.forEach(spin => {
+        // Trigger localized thermal perturbation for clicked spin and nearest neighbors
+        function exciteSpinsAtCoords(coords) {
+          if (!coords) return;
+          const radius = 130; // Neighborhood influence radius in SVG units
+          const now = Date.now();
+
+          spins.forEach(spin => {
+            const state = spinStates.get(spin);
+            if (!state) return;
+
+            const dx = coords.x - state.cx;
+            const dy = coords.y - state.cy;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < radius) {
+              const intensity = 1.0 - (dist / radius) * 0.45;
+              state.clickExcitedStart = now;
+              state.clickExcitedPeak = Math.max(state.clickExcitedPeak || 0, intensity);
+            }
+          });
+        }
+
+        function handleInputStart(e) {
+          const coords = getSVGCoords(e);
+          exciteSpinsAtCoords(coords);
+        }
+
+        isingSvg.addEventListener('click', handleInputStart);
+        isingSvg.addEventListener('touchstart', handleInputStart, { passive: true });
+
+        // Desktop cursor proximity tracking for hover displacement
+        isingSvg.addEventListener('mousemove', function (e) {
+          const coords = getSVGCoords(e);
+          const radius = 110;
+
+          spins.forEach(spin => {
+            const state = spinStates.get(spin);
+            if (!state) return;
+
+            const dx = coords.x - state.cx;
+            const dy = coords.y - state.cy;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < radius) {
+              state.hoverIntensity = 1.0 - (dist / radius);
+            } else {
+              state.hoverIntensity = 0;
+            }
+          });
+        });
+
+        isingSvg.addEventListener('mouseleave', function () {
+          spins.forEach(spin => {
+            const state = spinStates.get(spin);
+            if (state) state.hoverIntensity = 0;
+          });
+        });
+
+        // Stochastic ambient thermal noise simulation (Gibbs equilibrium fluctuations)
+        setInterval(() => {
+          const numToActivate = 2 + Math.floor(Math.random() * 2);
+          for (let i = 0; i < numToActivate; i++) {
+            const rIndex = Math.floor(Math.random() * spins.length);
+            const spin = spins[rIndex];
+            const state = spinStates.get(spin);
+            if (state) {
+              state.ambientIntensity = 0.25 + Math.random() * 0.35;
+              setTimeout(() => {
+                state.ambientIntensity = 0;
+              }, 1200 + Math.random() * 600);
+            }
+          }
+        }, 1400);
+
+        // Animation render loop with exponential decay damping (3000ms duration)
+        function updateSpinsAnimation() {
+          const now = Date.now();
+          const DECAY_DURATION = 3000;
+
+          spins.forEach(spin => {
+            const state = spinStates.get(spin);
+            if (!state) return;
+
+            let clickDecayIntensity = 0;
+            if (state.clickExcitedStart > 0) {
+              const elapsed = now - state.clickExcitedStart;
+              if (elapsed < DECAY_DURATION) {
+                const progress = elapsed / DECAY_DURATION;
+                const decay = Math.pow(1 - progress, 1.3);
+                clickDecayIntensity = state.clickExcitedPeak * decay;
+              } else {
+                state.clickExcitedStart = 0;
+                state.clickExcitedPeak = 0;
+              }
+            }
+
+            const totalIntensity = Math.min(1.0, Math.max(state.hoverIntensity, clickDecayIntensity, state.ambientIntensity));
+
+            if (totalIntensity > 0.05) {
+              spin.style.setProperty('--hover-scale', 1.0 + 0.18 * totalIntensity);
+              spin.style.setProperty('--shake-intensity', totalIntensity);
+              spin.classList.add('trembling');
+            } else {
               spin.style.removeProperty('--hover-scale');
               spin.style.removeProperty('--shake-intensity');
               spin.classList.remove('trembling');
-            });
+            }
           });
 
-        } else {
-          // Mobile Fallback: Ambient Thermal Fluctuations (Alive Effect)
-          // We randomly select 2-3 spins to tremble at different intervals to mimic thermal noise
-          setInterval(() => {
-            // First reset 1-2 random spins that were active
-            spins.forEach(spin => {
-              if (spin.classList.contains('trembling') && Math.random() > 0.4) {
-                spin.style.removeProperty('--hover-scale');
-                spin.style.removeProperty('--shake-intensity');
-                spin.classList.remove('trembling');
-              }
-            });
-
-            // Activate 2-3 new random spins
-            const numToActivate = 2 + Math.floor(Math.random() * 2);
-            for (let i = 0; i < numToActivate; i++) {
-              const rIndex = Math.floor(Math.random() * spins.length);
-              const spin = spins[rIndex];
-              if (spin) {
-                const intensity = 0.25 + Math.random() * 0.35; // Subtle shake (0.25 to 0.6)
-                spin.style.setProperty('--hover-scale', 1.0 + 0.08 * intensity);
-                spin.style.setProperty('--shake-intensity', intensity);
-                spin.classList.add('trembling');
-              }
-            }
-          }, 1400);
+          requestAnimationFrame(updateSpinsAnimation);
         }
+
+        requestAnimationFrame(updateSpinsAnimation);
       }
 
 
-      // GSAP Scroll Animations
+      // GSAP ScrollTrigger Reveal Animations
       gsap.registerPlugin(ScrollTrigger);
 
-      // Fade-up elements
+      // Fade-up element entrance triggers
       gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
         gsap.fromTo(elem,
           { y: 50, opacity: 0 },
@@ -1038,7 +1120,7 @@
         );
       });
 
-      // Custom Cursor tracking
+      // Custom Gold Cursor Position & Scale Tracking
       const ring = document.getElementById('cursor-ring');
       const dot = document.getElementById('cursor-dot');
 
