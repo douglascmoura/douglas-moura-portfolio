@@ -1868,6 +1868,130 @@
                 </svg></a>
             </div>
           </div>
+          <!-- Secondary Card 6 (FinScan IA) -->
+          <div class="proj-card flashlight sr sr-d6">
+            <div class="proj-card__img-wrap" style="height:220px;">
+              <div
+                style="width:100%;height:100%;background:linear-gradient(135deg,#071020,#0D1E3A);display:flex;align-items:center;justify-content:center;">
+                <svg fill="none" height="100%" viewBox="0 0 280 240" width="100%">
+                  <defs>
+                    <filter height="140%" id="shadow-fin" width="140%" x="-20%" y="-20%">
+                      <feDropShadow dx="1" dy="3" flood-color="#000000" flood-opacity="0.6" stdDeviation="2">
+                      </feDropShadow>
+                    </filter>
+                    <filter id="glow-fin">
+                      <feGaussianBlur result="coloredBlur" stdDeviation="2.5"></feGaussianBlur>
+                      <feMerge>
+                        <feMergeNode in="coloredBlur"></feMergeNode>
+                        <feMergeNode in="SourceGraphic"></feMergeNode>
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  <!-- Title -->
+                  <text fill="rgba(215,181,109,0.7)" font-family="'Courier New',monospace" font-size="13"
+                    text-anchor="start" x="25" y="25">FinScan — IA &amp; Finanças</text>
+
+                  <!-- Background Grid -->
+                  <g stroke="rgba(255,255,255,0.03)" stroke-width="1">
+                    <line x1="20" y1="50" x2="260" y2="50"></line>
+                    <line x1="20" y1="90" x2="260" y2="90"></line>
+                    <line x1="20" y1="130" x2="260" y2="130"></line>
+                    <line x1="20" y1="170" x2="260" y2="170"></line>
+                    <line x1="20" y1="210" x2="260" y2="210"></line>
+                  </g>
+
+                  <!-- Neural Connection Lines (AI Gemini) -->
+                  <g stroke="rgba(215,181,109,0.25)" stroke-width="1.2" stroke-dasharray="3,3">
+                    <line x1="70" y1="85" x2="140" y2="60"></line>
+                    <line x1="210" y1="85" x2="140" y2="60"></line>
+                    <line x1="70" y1="85" x2="140" y2="120"></line>
+                    <line x1="210" y1="85" x2="140" y2="120"></line>
+                    <line x1="140" y1="60" x2="140" y2="120"></line>
+                    <line x1="140" y1="120" x2="70" y2="165"></line>
+                    <line x1="140" y1="120" x2="140" y2="165"></line>
+                    <line x1="140" y1="120" x2="210" y2="165"></line>
+                  </g>
+
+                  <!-- Active Glow Lines -->
+                  <path d="M 70 85 L 140 120 L 210 85" fill="none" stroke="#D7B56D" stroke-width="1.8"
+                    filter="url(#glow-fin)"></path>
+                  <path d="M 140 60 L 140 120" fill="none" stroke="#42A5F5" stroke-width="1.8" filter="url(#glow-fin)">
+                  </path>
+
+                  <!-- Top AI Core Diamond Node -->
+                  <polygon points="140,46 154,60 140,74 126,60" fill="#D7B56D" filter="url(#shadow-fin)"></polygon>
+                  <circle cx="140" cy="60" r="3" fill="#0A1428"></circle>
+
+                  <!-- Secondary AI Neural Nodes -->
+                  <circle cx="70" cy="85" r="7" fill="#42A5F5" filter="url(#shadow-fin)"></circle>
+                  <circle cx="70" cy="85" r="3" fill="#FFFFFF"></circle>
+                  <circle cx="210" cy="85" r="7" fill="#42A5F5" filter="url(#shadow-fin)"></circle>
+                  <circle cx="210" cy="85" r="3" fill="#FFFFFF"></circle>
+
+                  <!-- Central Processing Node (Gemini 50-30-20 Hub) -->
+                  <rect x="120" y="105" width="40" height="30" rx="6" fill="#11233F" stroke="#D7B56D" stroke-width="1.5"
+                    filter="url(#shadow-fin)"></rect>
+                  <text x="140" y="124" fill="#D7B56D" font-family="'Courier New',monospace" font-size="10"
+                    font-weight="bold" text-anchor="middle">LLM</text>
+
+                  <!-- 50-30-20 Budget Pillars -->
+                  <!-- Pillar 1: 50% Essential -->
+                  <rect x="52" y="165" width="36" height="42" rx="4" fill="rgba(230,81,0,0.25)" stroke="#FF9800"
+                    stroke-width="1"></rect>
+                  <rect x="56" y="178" width="28" height="25" rx="2" fill="#FF9800" filter="url(#shadow-fin)"></rect>
+                  <text x="70" y="160" fill="#FF9800" font-family="'Inter',sans-serif" font-size="9" font-weight="bold"
+                    text-anchor="middle">50%</text>
+
+                  <!-- Pillar 2: 30% Lifestyle -->
+                  <rect x="122" y="165" width="36" height="42" rx="4" fill="rgba(25,118,210,0.25)" stroke="#42A5F5"
+                    stroke-width="1"></rect>
+                  <rect x="126" y="185" width="28" height="18" rx="2" fill="#42A5F5" filter="url(#shadow-fin)"></rect>
+                  <text x="140" y="160" fill="#42A5F5" font-family="'Inter',sans-serif" font-size="9" font-weight="bold"
+                    text-anchor="middle">30%</text>
+
+                  <!-- Pillar 3: 20% Investment / Savings -->
+                  <rect x="192" y="165" width="36" height="42" rx="4" fill="rgba(46,125,50,0.25)" stroke="#66BB6A"
+                    stroke-width="1"></rect>
+                  <rect x="196" y="191" width="28" height="12" rx="2" fill="#66BB6A" filter="url(#shadow-fin)"></rect>
+                  <text x="210" y="160" fill="#66BB6A" font-family="'Inter',sans-serif" font-size="9" font-weight="bold"
+                    text-anchor="middle">20%</text>
+
+                  <!-- Bottom Shield / CVM Compliance Badge -->
+                  <g transform="translate(133, 212)">
+                    <path d="M 7 0 L 14 3 L 14 8 C 14 12 7 15 7 15 C 7 15 0 12 0 8 L 0 3 Z" fill="#D7B56D"
+                      opacity="0.9"></path>
+                    <polyline points="4,7 6,9 10,5" fill="none" stroke="#0A1428" stroke-width="1.2"
+                      stroke-linecap="round"></polyline>
+                  </g>
+                </svg>
+              </div>
+              <div class="proj-card__img-overlay"></div>
+              <div class="proj-card__scan">
+                <div class="proj-card__scan-beam"></div>
+              </div>
+            </div>
+            <div class="proj-card__body">
+              <div class="proj-card__num">PROJETO 06</div>
+              <h3 class="proj-card__title">FinScan - Assistente IA &amp; Finanças<br />
+              </h3>
+              <p class="proj-card__desc"
+                style="display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">
+                Laboratório de IA com Google Gemini, diagnóstico da Regra 50-30-20, cálculo de reserva e Guardrails
+                CVM.</p>
+              <div class="proj-card__tags">
+                <span class="badge badge--tech">IA Generativa</span>
+                <span class="badge badge--tech">Python</span>
+                <span class="badge badge--tech">FastAPI</span>
+                <span class="badge badge--tech">Google Gemini</span>
+                <span class="badge badge--tech">Compliance CVM</span>
+              </div>
+              <a aria-label="Ver case do projeto: FinScan — Assistente IA &amp; Finanças" class="proj-card__link"
+                href="case_finscan_ia.html">Ver case <svg fill="none" height="12" stroke="currentColor"
+                  stroke-width="2.5" viewbox="0 0 24 24" width="12">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg></a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -2631,7 +2755,7 @@
       (function () {
         if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
           // Reveal footer text as main-wrapper scrolls away
-          gsap.fromTo('.footer-sticky-content > div:first-child', 
+          gsap.fromTo('.footer-sticky-content > div:first-child',
             { y: 60, opacity: 0, scale: 0.95 },
             {
               y: 0,
