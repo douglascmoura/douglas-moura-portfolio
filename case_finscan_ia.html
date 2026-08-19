@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <!-- Meta & Document Configuration -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Estudo de Caso - FinScan: Laboratório pessoal de IA com LLM, Regra 50-30-20 e estudo de Guardrails CVM em ambiente local." />
+  <title>FinScan - IA & Finanças | DOCHMO</title>
+
+  <!-- Favicon Icons -->
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/img/favicon.png" />
+
+  <!-- Typography & Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- Stylesheets & Animation Frameworks -->
+  <link href="assets/css/style.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+  <style>
+    /* =========================================================================
+       DOCHMO Brand Design System Overrides
+       ========================================================================= */
+    .article-header {
+      padding: 180px 20px 100px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px 100px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content p {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 1.8rem;
+      font-size: 1.15rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .article-content h2 {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      color: #D7B56D;
+      margin-top: 5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .article-content h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: #F8F9FA;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content ul {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      padding-left: 20px;
+      font-size: 1.1rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.8rem;
+      list-style-type: none;
+      position: relative;
+    }
+
+    .article-content li::before {
+      content: '✤';
+      position: absolute;
+      left: -25px;
+      color: #D7B56D;
+      font-size: 0.9rem;
+    }
+
+    /* =========================================================================
+       Ambient Media Wrappers & Scan Animation
+       ========================================================================= */
+    .article-img-wrap {
+      margin: 4rem 0;
+      position: relative;
+      padding: 10px;
+      background: rgba(215, 181, 109, 0.03);
+      border: 1px solid rgba(215, 181, 109, 0.15);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .article-img-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(215, 181, 109, 0.05), transparent);
+      transform: skewX(-20deg);
+      animation: scan 6s infinite;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    @keyframes scan {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 200%;
+      }
+    }
+
+    /* =========================================================================
+       Responsive Video Viewport
+       ========================================================================= */
+    .video-viewport-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 8.5;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #050A15;
+    }
+
+    .local-video-player {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1.03);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #050A15;
+      outline: none;
+    }
+
+    /* =========================================================================
+       Glass Quotes & Callout Containers
+       ========================================================================= */
+    .glass-quote {
+      padding: 2rem;
+      margin: 3rem 0;
+      border-left: 4px solid #D7B56D;
+      background: rgba(215, 181, 109, 0.05);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      font-size: 1.05rem;
+    }
+
+    /* =========================================================================
+       Interactive Terminal & Syntax Highlighting
+       ========================================================================= */
+    .terminal-window {
+      background: #050A15;
+      border: 1px solid rgba(215, 181, 109, 0.2);
+      border-radius: 8px;
+      margin: 2rem 0;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .terminal-header {
+      background: rgba(215, 181, 109, 0.08);
+      padding: 8px 15px;
+      font-size: 0.85rem;
+      color: #D7B56D;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(215, 181, 109, 0.2);
+    }
+
+    .terminal-body {
+      padding: 1.5rem;
+      margin: 0;
+      color: rgba(248, 249, 250, 0.8);
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    .terminal-body .output-highlight {
+      color: #D7B56D;
+      font-weight: bold;
+    }
+
+    .terminal-body .output-success {
+      color: #4CAF50;
+      font-weight: bold;
+    }
+
+    .terminal-body .output-warning {
+      color: #E74C3C;
+      font-weight: bold;
+    }
+
+    /* =========================================================================
+       Background Canvas & Interactive Gold Cursor
+       ========================================================================= */
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: radial-gradient(circle at 50% 30%, rgba(215, 181, 109, 0.08) 0%, rgba(10, 20, 40, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .cursor-ring {
+      border-color: rgba(215, 181, 109, 0.85) !important;
+      box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
+    }
+
+    /* =========================================================================
+       3D Showcase Banner & Interactive Glass Buttons
+       ========================================================================= */
+    .version-banner-3d {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      padding: 1.5rem 2rem;
+      margin: 3rem 0;
+      border-radius: 12px;
+      background: rgba(215, 181, 109, 0.03);
+      border: 1px solid rgba(215, 181, 109, 0.15);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .version-banner-3d:hover {
+      border-color: rgba(215, 181, 109, 0.35);
+      box-shadow: 0 20px 45px rgba(215, 181, 109, 0.1);
+    }
+
+    .version-card-content {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transform: translateZ(20px);
+    }
+
+    .version-card-icon {
+      font-size: 1.5rem;
+      color: #D7B56D;
+      filter: drop-shadow(0 0 5px rgba(215, 181, 109, 0.5));
+    }
+
+    .version-card-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .version-card-label {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: #D7B56D;
+      font-size: 1.05rem;
+    }
+
+    .version-card-desc {
+      font-family: 'Inter', sans-serif;
+      color: rgba(248, 249, 250, 0.85);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .btn-glass-shine {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #0A1428;
+      background: #D7B56D;
+      border: 1px solid #D7B56D;
+      box-shadow: 0 4px 15px rgba(215, 181, 109, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateZ(30px);
+    }
+
+    .btn-glass-shine.secondary-btn {
+      color: #F8F9FA;
+      background: rgba(248, 249, 250, 0.05);
+      border: 1px solid rgba(248, 249, 250, 0.2);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-glass-shine::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .btn-glass-shine:hover::before {
+      left: 100%;
+    }
+
+    .btn-glass-shine:hover {
+      transform: translateZ(35px) scale(1.03);
+      box-shadow: 0 6px 20px rgba(215, 181, 109, 0.4);
+    }
+
+    .btn-glass-shine.secondary-btn:hover {
+      border-color: #D7B56D;
+      color: #D7B56D;
+      background: rgba(215, 181, 109, 0.05);
+      box-shadow: 0 6px 20px rgba(215, 181, 109, 0.15);
+    }
+
+    /* =========================================================================
+       Responsive Media Queries
+       ========================================================================= */
+    @media (max-width: 768px) {
+      .article-img-wrap::before {
+        display: none !important;
+        animation: none !important;
+      }
+
+      .version-banner-3d {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.5rem;
+      }
+
+      .btn-glass-shine {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body style="background: #0A1428;">
+
+  <!-- Ambient Noise Texture -->
+  <div class="noise" aria-hidden="true"
+    style="position: fixed; inset: 0; opacity: 0.04; background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E'); z-index:9000; pointer-events:none;">
+  </div>
+
+  <div class="hero-bg"></div>
+
+  <!-- Custom Interactive Cursor Elements -->
+  <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
+  <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
+
+  <!-- Header & Navigation Bar -->
+  <nav class="nav" role="navigation" aria-label="Navegação principal"
+    style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);">
+    <a href="index.html" class="nav-logo"
+      style="font-family: var(--font-display); font-size: 1.5rem; color: #F8F9FA; text-decoration: none; font-weight: 700; letter-spacing: 2px;">DOCH<span
+        style="color:#D7B56D">MO</span></a>
+    <a href="index.html#projetos"
+      style="color: rgba(248,249,250,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease;">←
+      VOLTAR PARA PROJETOS</a>
+  </nav>
+
+  <main>
+    <!-- Case Study Hero Header -->
+    <article class="article-header">
+      <div class="gsap-fade-up">
+        <span class="badge"
+          style="background: rgba(215, 181, 109, 0.1); color: #D7B56D; border: 1px solid rgba(215, 181, 109, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 1.5rem; display: inline-block;">ESTUDO
+          DE CASO EM IA &amp; FINANÇAS</span>
+        <h1
+          style="font-family: var(--font-display); font-size: 4rem; color: #F8F9FA; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);">
+          FinScan - Assistente IA<br><span
+            style="font-size: 1em; color: #D7B56D; font-weight: 400; font-style: italic;">com LLM &amp; Guardrails
+            CVM</span></h1>
+        <p style="color:rgba(248,249,250,0.75); max-width:700px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
+          Diagnóstico orçamentário inteligente baseado na Regra 50-30-20, integração REST com Google Gemini e
+          arquitetura desacoplada Full-Stack.
+          <br><br><span style="font-size: 0.95rem; opacity: 0.6; font-style: italic;">Desenvolvido por: Douglas Chaves
+            Moura</span>
+        </p>
+      </div>
+    </article>
+
+    <div class="article-content">
+
+      <!-- Section 01: Context & Study Objectives -->
+      <section class="gsap-fade-up">
+        <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Contexto &amp; Motivação do Estudo</h2>
+        <p>Este projeto foi idealizado e construído como um <strong>laboratório prático de autoaprendizado</strong> para
+          aprofundar e consolidar habilidades em engenharia de software full-stack, manipulação analítica de dados e
+          integração segura com modelos de Inteligência Artificial Generativa em ambiente de desenvolvimento local.</p>
+
+        <p>Como domínio de estudo, foi escolhida a área de finanças pessoais com base na clássica regra orçamentária
+          <strong>50-30-20</strong> (<em>50% para Necessidades Essenciais</em>, <em>30% para Desejos e Estilo de
+            Vida</em> e <em>20% para Economias e Aportes</em>), um padrão objetivo e quantitativo ideal para exercícios
+          de modelagem lógica e fluxo de caixa.
+        </p>
+
+        <div class="glass-quote">
+          O <strong>FinScan</strong> representa um exercício técnico de ponta a ponta: transformar regras de negócio
+          financeiras em um motor algorítmico leve, conectando o processamento estatístico em <strong>Python /
+            Pandas</strong> à capacidade analítica do <strong>Google Gemini (Flash API)</strong>, sob estudo de
+          <strong>Guardrails Éticos e Regulatórios da CVM/ANBIMA</strong> em ambiente local.
+        </div>
+      </section>
+
+      <!-- Section 02: Full-Stack System Architecture -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Arquitetura do Sistema</h2>
+        <p>Para treinar conceitos de <strong>arquitetura desacoplada e modular</strong> sem complexidade desnecessária
+          de dependências, o ambiente local foi estruturado em três camadas bem definidas:</p>
+
+        <ul>
+          <li><strong>Frontend SPA (Client Tier):</strong> Interface construída em Pure Vanilla Web Standards (HTML5
+            semântico, CSS3 e JavaScript puro), testando a viabilidade de uma SPA moderna com zero frameworks e
+            carregamento instantâneo.</li>
+          <li><strong>Backend FastAPI (Core Engine):</strong> Servidor ASGI local em Python 3.10+ para exercitar
+            concorrência assíncrona, ingestão de dados tabulares em memória com Pandas e formatação numérica no padrão
+            brasileiro.</li>
+          <li><strong>Camada Cognitiva (AI Cloud):</strong> Integração experimental direta via REST com o Google Gemini
+            (2.0 / 1.5 Flash), explorando injeção contextual de métricas e blindagem contra alucinações.</li>
+        </ul>
+
+        <!-- Architecture Blueprint Vector Canvas (940x690) -->
+        <div class="article-img-wrap"
+          style="margin: 3rem 0; padding: 14px; background: rgba(10, 20, 42, 0.5); border: 1px solid rgba(215, 181, 109, 0.22); border-radius: 12px;">
+          <svg viewBox="0 0 940 690" fill="none" xmlns="http://www.w3.org/2000/svg"
+            style="width: 100%; height: auto; display: block;">
+            <defs>
+              <linearGradient id="svg-card-bg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0E1B38" stop-opacity="0.85" />
+                <stop offset="100%" stop-color="#070E1E" stop-opacity="0.95" />
+              </linearGradient>
+              <linearGradient id="svg-gold-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#F3E5AB" />
+                <stop offset="50%" stop-color="#D7B56D" />
+                <stop offset="100%" stop-color="#997A35" />
+              </linearGradient>
+              <filter id="card-glow" x="-10%" y="-10%" width="120%" height="120%">
+                <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="rgba(0,0,0,0.6)" />
+              </filter>
+            </defs>
+
+            <!-- Outer Canvas Frame & Window Header -->
+            <rect x="1" y="1" width="938" height="688" rx="10" fill="#060C1A" stroke="rgba(215, 181, 109, 0.25)"
+              stroke-width="1" />
+            <line x1="1" y1="46" x2="939" y2="46" stroke="rgba(215, 181, 109, 0.15)" stroke-width="1" />
+
+            <!-- Window Header Controls -->
+            <circle cx="24" cy="23" r="5" fill="#FF5F56" />
+            <circle cx="40" cy="23" r="5" fill="#FFBD2E" />
+            <circle cx="56" cy="23" r="5" fill="#27C93F" />
+
+            <!-- Canvas Title -->
+            <text x="78" y="27" fill="#D7B56D" font-family="'Courier New', monospace" font-size="11.5"
+              font-weight="bold" letter-spacing="1">ARQUITETURA DO SISTEMA</text>
+
+            <!-- Top Right Status Badge (Localhost Environment) -->
+            <rect x="687" y="11" width="228" height="24" rx="12" fill="rgba(34, 197, 94, 0.12)"
+              stroke="rgba(34, 197, 94, 0.4)" stroke-width="1" />
+            <circle cx="710" cy="23" r="3.5" fill="#22C55E" />
+            <text x="720" y="26.5" fill="#4ADE80" font-family="'Inter', sans-serif" font-size="9.5" font-weight="600"
+              letter-spacing="0.5">LABORATÓRIO LOCAL FULL-STACK</text>
+
+            <!-- Layer 01: Client-Side SPA Tier (Pure Web Standards) -->
+            <g transform="translate(25, 68)">
+              <rect width="250" height="552" rx="8" fill="url(#svg-card-bg)" stroke="rgba(56, 189, 248, 0.45)"
+                stroke-width="1.2" filter="url(#card-glow)" />
+
+              <!-- Card 01 Header -->
+              <rect x="16" y="16" width="38" height="38" rx="8" fill="rgba(56, 189, 248, 0.12)" stroke="#38BDF8"
+                stroke-width="1.2" />
+              <!-- Browser Window Vector Wireframe -->
+              <rect x="23" y="25" width="24" height="20" rx="3" fill="rgba(56, 189, 248, 0.08)" stroke="#38BDF8"
+                stroke-width="1.2" />
+              <line x1="23" y1="31" x2="47" y2="31" stroke="#38BDF8" stroke-width="1" />
+              <circle cx="26.5" cy="28" r="0.9" fill="#38BDF8" />
+              <circle cx="29.5" cy="28" r="0.9" fill="#38BDF8" />
+              <circle cx="32.5" cy="28" r="0.9" fill="#38BDF8" />
+              <rect x="26.5" y="34" width="7" height="7.5" rx="1" fill="rgba(56, 189, 248, 0.3)" />
+              <line x1="36.5" y1="36" x2="43.5" y2="36" stroke="#38BDF8" stroke-width="1" />
+              <line x1="36.5" y1="39" x2="41.5" y2="39" stroke="#38BDF8" stroke-width="1" />
+
+              <text x="64" y="28" fill="#38BDF8" font-family="'Courier New', monospace" font-size="9.5"
+                font-weight="bold" letter-spacing="1">CAMADA 01 • CLIENT TIER</text>
+              <text x="64" y="48" fill="#F8F9FA" font-family="'Playfair Display', serif" font-size="16.5"
+                font-weight="bold">Frontend SPA</text>
+              <text x="16" y="74" fill="rgba(248, 249, 250, 0.6)" font-family="'Inter', sans-serif"
+                font-size="11.5">Pure Vanilla Web Standards</text>
+              <line x1="16" y1="88" x2="234" y2="88" stroke="rgba(56, 189, 248, 0.2)" stroke-width="1" />
+
+              <!-- Feature Set (Aligned Grid) -->
+              <g font-family="'Inter', sans-serif">
+                <!-- Item 1 (Canvas Y=192) -->
+                <circle cx="24" cy="124" r="3.5" fill="#38BDF8" />
+                <text x="36" y="128" fill="#F8F9FA" font-size="12.5" font-weight="600">UI Dark Glassmorphism</text>
+                <text x="36" y="145" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Estética moderna sem
+                  frameworks</text>
+
+                <!-- Item 2 (Canvas Y=256) -->
+                <circle cx="24" cy="188" r="3.5" fill="#38BDF8" />
+                <text x="36" y="192" fill="#F8F9FA" font-size="12.5" font-weight="600">Dashboard Regra 50-30-20</text>
+                <text x="36" y="209" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Gráficos de barras e
+                  métricas</text>
+
+                <!-- Item 3 (Canvas Y=320) -->
+                <circle cx="24" cy="252" r="3.5" fill="#38BDF8" />
+                <text x="36" y="256" fill="#F8F9FA" font-size="12.5" font-weight="600">Parser Markdown Nativo</text>
+                <text x="36" y="273" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Formatação segura sem libs
+                  externas</text>
+
+                <!-- Item 4 (Canvas Y=384) -->
+                <circle cx="24" cy="316" r="3.5" fill="#38BDF8" />
+                <text x="36" y="320" fill="#F8F9FA" font-size="12.5" font-weight="600">Chave em LocalStorage</text>
+                <text x="36" y="337" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Total isolamento no
+                  navegador</text>
+
+                <!-- Item 5 (Canvas Y=448) -->
+                <circle cx="24" cy="380" r="3.5" fill="#38BDF8" />
+                <text x="36" y="384" fill="#F8F9FA" font-size="12.5" font-weight="600">Pipeline Fetch Assíncrono</text>
+                <text x="36" y="401" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Comunicação REST em JSON
+                  puro</text>
+
+                <!-- Item 6 (Canvas Y=512) -->
+                <circle cx="24" cy="444" r="3.5" fill="#38BDF8" />
+                <text x="36" y="448" fill="#F8F9FA" font-size="12.5" font-weight="600">Renderização em ~12ms</text>
+                <text x="36" y="465" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Alta performance e zero
+                  overhead</text>
+              </g>
+
+              <!-- Card 01 Port Badge -->
+              <rect x="16" y="506" width="218" height="30" rx="6" fill="rgba(56, 189, 248, 0.08)"
+                stroke="rgba(56, 189, 248, 0.3)" stroke-width="1" />
+              <text x="125" y="525" fill="#38BDF8" font-family="'Courier New', monospace" font-size="10"
+                font-weight="bold" text-anchor="middle">SPA PORT: 5500 / 8000</text>
+            </g>
+
+            <!-- Connectors: Client Tier ⇄ Core Engine -->
+            <g transform="translate(275, 0)">
+              <!-- Route 01: POST /chat -->
+              <rect x="3" y="206" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(215, 181, 109, 0.5)"
+                stroke-width="1" />
+              <text x="35" y="218.5" fill="#D7B56D" font-family="'Courier New', monospace" font-size="8.5"
+                font-weight="bold" text-anchor="middle">POST /chat</text>
+              <line x1="2" y1="230" x2="58" y2="230" stroke="#D7B56D" stroke-width="1.8" stroke-dasharray="3,2" />
+              <polygon points="56,225 68,230 56,235" fill="#D7B56D" />
+
+              <!-- Route 02: GET /metrics -->
+              <rect x="3" y="334" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(56, 189, 248, 0.5)"
+                stroke-width="1" />
+              <text x="35" y="346.5" fill="#38BDF8" font-family="'Courier New', monospace" font-size="8.5"
+                font-weight="bold" text-anchor="middle">GET /metrics</text>
+              <line x1="68" y1="358" x2="12" y2="358" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="3,2" />
+              <polygon points="14,353 2,358 14,363" fill="#38BDF8" />
+
+              <!-- Route 03: 200 OK JSON -->
+              <rect x="3" y="462" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(129, 199, 132, 0.5)"
+                stroke-width="1" />
+              <text x="35" y="474.5" fill="#81C784" font-family="'Courier New', monospace" font-size="8.5"
+                font-weight="bold" text-anchor="middle">200 OK JSON</text>
+              <line x1="68" y1="486" x2="12" y2="486" stroke="#81C784" stroke-width="1.8" stroke-dasharray="3,2" />
+              <polygon points="14,481 2,486 14,491" fill="#81C784" />
+            </g>
+
+            <!-- Layer 02: Core Engine Tier (FastAPI Backend) -->
+            <g transform="translate(345, 58)">
+              <rect width="250" height="562" rx="8" fill="url(#svg-card-bg)" stroke="url(#svg-gold-grad)"
+                stroke-width="2" filter="url(#card-glow)" />
+
+              <!-- Card 02 Header -->
+              <rect x="16" y="16" width="38" height="38" rx="8" fill="rgba(215, 181, 109, 0.15)" stroke="#D7B56D"
+                stroke-width="1.2" />
+              <!-- ASGI Server Rack Vector Illustration -->
+              <rect x="23" y="25" width="24" height="9" rx="2" fill="rgba(215, 181, 109, 0.08)" stroke="#D7B56D"
+                stroke-width="1.2" />
+              <circle cx="42" cy="29.5" r="1.3" fill="#D7B56D" />
+              <line x1="26" y1="29.5" x2="37" y2="29.5" stroke="#D7B56D" stroke-width="1" stroke-dasharray="2,1.5" />
+              <rect x="23" y="36" width="24" height="9" rx="2" fill="rgba(215, 181, 109, 0.08)" stroke="#D7B56D"
+                stroke-width="1.2" />
+              <circle cx="42" cy="40.5" r="1.3" fill="#D7B56D" />
+              <line x1="26" y1="40.5" x2="37" y2="40.5" stroke="#D7B56D" stroke-width="1" stroke-dasharray="2,1.5" />
+
+              <text x="64" y="28" fill="#D7B56D" font-family="'Courier New', monospace" font-size="9.5"
+                font-weight="bold" letter-spacing="1">CAMADA 02 • CORE ENGINE</text>
+              <text x="64" y="48" fill="#F8F9FA" font-family="'Playfair Display', serif" font-size="16.5"
+                font-weight="bold">FastAPI Backend</text>
+              <text x="16" y="74" fill="rgba(248, 249, 250, 0.6)" font-family="'Inter', sans-serif"
+                font-size="11.5">Python 3.10+ ASGI Uvicorn</text>
+              <line x1="16" y1="88" x2="234" y2="88" stroke="rgba(215, 181, 109, 0.25)" stroke-width="1" />
+
+              <!-- Feature Set (Aligned Grid) -->
+              <g font-family="'Inter', sans-serif">
+                <!-- Item 1 (Canvas Y=192) -->
+                <circle cx="24" cy="134" r="3.5" fill="#D7B56D" />
+                <text x="36" y="138" fill="#F8F9FA" font-size="12.5" font-weight="600">Concorrência AsyncIO</text>
+                <text x="36" y="155" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Processamento
+                  não-bloqueante</text>
+
+                <!-- Item 2 (Canvas Y=256) -->
+                <circle cx="24" cy="198" r="3.5" fill="#D7B56D" />
+                <text x="36" y="202" fill="#F8F9FA" font-size="12.5" font-weight="600">Ingestão com Pandas</text>
+                <text x="36" y="219" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Consolidação tabular em
+                  memória</text>
+
+                <!-- Item 3 (Canvas Y=320) -->
+                <circle cx="24" cy="262" r="3.5" fill="#D7B56D" />
+                <text x="36" y="266" fill="#F8F9FA" font-size="12.5" font-weight="600">Formatador Numérico PT-BR</text>
+                <text x="36" y="283" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Padrão R$ 4.150,00 e 83,0%</text>
+
+                <!-- Item 4 (Canvas Y=384) -->
+                <circle cx="24" cy="326" r="3.5" fill="#D7B56D" />
+                <text x="36" y="330" fill="#F8F9FA" font-size="12.5" font-weight="600">Descoberta Dinâmica REST</text>
+                <text x="36" y="347" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Prevenção ativa de erros
+                  404</text>
+
+                <!-- Item 5 (Canvas Y=448) -->
+                <circle cx="24" cy="390" r="3.5" fill="#D7B56D" />
+                <text x="36" y="394" fill="#F8F9FA" font-size="12.5" font-weight="600">Reserva de Emergência</text>
+                <text x="36" y="411" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Cálculo de meses de
+                  cobertura</text>
+
+                <!-- Item 6 (Canvas Y=512) -->
+                <circle cx="24" cy="454" r="3.5" fill="#D7B56D" />
+                <text x="36" y="458" fill="#F8F9FA" font-size="12.5" font-weight="600">Homologação Pytest (5/5)</text>
+                <text x="36" y="475" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Testes automatizados de
+                  precisão</text>
+              </g>
+
+              <!-- Card 02 Server Endpoint Badge -->
+              <rect x="16" y="516" width="218" height="30" rx="6" fill="rgba(215, 181, 109, 0.15)"
+                stroke="rgba(215, 181, 109, 0.4)" stroke-width="1" />
+              <text x="125" y="535" fill="#D7B56D" font-family="'Courier New', monospace" font-size="10"
+                font-weight="bold" text-anchor="middle">ASGI SERVER: 127.0.0.1:8000</text>
+            </g>
+
+            <!-- Connectors: Core Engine ⇄ AI Cloud Tier -->
+            <g transform="translate(595, 0)">
+              <!-- Route 01: generate -->
+              <rect x="3" y="206" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(192, 132, 252, 0.5)"
+                stroke-width="1" />
+              <text x="35" y="218.5" fill="#C084FC" font-family="'Courier New', monospace" font-size="8.5"
+                font-weight="bold" text-anchor="middle">generate</text>
+              <line x1="2" y1="230" x2="58" y2="230" stroke="#C084FC" stroke-width="1.8" stroke-dasharray="3,2" />
+              <polygon points="56,225 68,230 56,235" fill="#C084FC" />
+
+              <!-- Route 02: /models -->
+              <rect x="3" y="334" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(215, 181, 109, 0.5)"
+                stroke-width="1" />
+              <text x="35" y="346.5" fill="#D7B56D" font-family="'Courier New', monospace" font-size="8.5"
+                font-weight="bold" text-anchor="middle">/models</text>
+              <line x1="68" y1="358" x2="12" y2="358" stroke="#D7B56D" stroke-width="1.8" stroke-dasharray="3,2" />
+              <polygon points="14,353 2,358 14,363" fill="#D7B56D" />
+
+              <!-- Route 03: guardrails -->
+              <rect x="3" y="462" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(255, 183, 77, 0.5)"
+                stroke-width="1" />
+              <text x="35" y="474.5" fill="#FFB74D" font-family="'Courier New', monospace" font-size="8.5"
+                font-weight="bold" text-anchor="middle">guardrails</text>
+              <line x1="2" y1="486" x2="58" y2="486" stroke="#FFB74D" stroke-width="1.8" stroke-dasharray="3,2" />
+              <polygon points="56,481 68,486 56,491" fill="#FFB74D" />
+            </g>
+
+            <!-- Layer 03: AI Cloud Cognitive Tier (Google Gemini) -->
+            <g transform="translate(665, 68)">
+              <rect width="250" height="552" rx="8" fill="url(#svg-card-bg)" stroke="rgba(192, 132, 252, 0.45)"
+                stroke-width="1.2" filter="url(#card-glow)" />
+
+              <!-- Card 03 Header -->
+              <rect x="16" y="16" width="38" height="38" rx="8" fill="rgba(192, 132, 252, 0.12)" stroke="#C084FC"
+                stroke-width="1.2" />
+              <!-- Gemini Sparkle Vector Icon -->
+              <path
+                d="M 35 23.5 C 35 30 30 35 23.5 35 C 30 35 35 40 35 46.5 C 35 40 40 35 46.5 35 C 40 35 35 30 35 23.5 Z"
+                fill="#C084FC" />
+              <path d="M 44 22 C 44 24 42 26 40 26 C 42 26 44 28 44 30 C 44 28 46 26 48 26 C 46 26 44 24 44 22 Z"
+                fill="rgba(192, 132, 252, 0.6)" />
+
+              <text x="64" y="28" fill="#C084FC" font-family="'Courier New', monospace" font-size="9.5"
+                font-weight="bold" letter-spacing="1">CAMADA 03 • AI CLOUD</text>
+              <text x="64" y="48" fill="#F8F9FA" font-family="'Playfair Display', serif" font-size="16.5"
+                font-weight="bold">Google Gemini</text>
+              <text x="16" y="74" fill="rgba(248, 249, 250, 0.6)" font-family="'Inter', sans-serif"
+                font-size="11.5">Flash REST API de Baixa Latência</text>
+              <line x1="16" y1="88" x2="234" y2="88" stroke="rgba(192, 132, 252, 0.2)" stroke-width="1" />
+
+              <!-- Feature Set (Aligned Grid) -->
+              <g font-family="'Inter', sans-serif">
+                <!-- Item 1 (Canvas Y=192) -->
+                <circle cx="24" cy="124" r="3.5" fill="#C084FC" />
+                <text x="36" y="128" fill="#F8F9FA" font-size="12.5" font-weight="600">Injeção Contextual
+                  50-30-20</text>
+                <text x="36" y="145" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Métricas estruturadas no
+                  prompt</text>
+
+                <!-- Item 2 (Canvas Y=256) -->
+                <circle cx="24" cy="188" r="3.5" fill="#81C784" />
+                <text x="36" y="192" fill="#81C784" font-size="12.5" font-weight="600">Guardrails CVM &amp; ANBIMA
+                  🛡️</text>
+                <text x="36" y="209" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Bloqueio de recomendação de
+                  ativos</text>
+
+                <!-- Item 3 (Canvas Y=320) -->
+                <circle cx="24" cy="252" r="3.5" fill="#C084FC" />
+                <text x="36" y="256" fill="#F8F9FA" font-size="12.5" font-weight="600">Recusa Categórica Didática</text>
+                <text x="36" y="273" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Foco em organização
+                  orçamentária</text>
+
+                <!-- Item 4 (Canvas Y=384) -->
+                <circle cx="24" cy="316" r="3.5" fill="#FFB74D" />
+                <text x="36" y="320" fill="#FFB74D" font-size="12.5" font-weight="600">Safety Card &amp;
+                  Disclaimer</text>
+                <text x="36" y="337" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Aviso fiduciário
+                  regulatório</text>
+
+                <!-- Item 5 (Canvas Y=448) -->
+                <circle cx="24" cy="380" r="3.5" fill="#C084FC" />
+                <text x="36" y="384" fill="#F8F9FA" font-size="12.5" font-weight="600">Respostas Formatadas</text>
+                <text x="36" y="401" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Markdown limpo e legível</text>
+
+                <!-- Item 6 (Canvas Y=512) -->
+                <circle cx="24" cy="444" r="3.5" fill="#C084FC" />
+                <text x="36" y="448" fill="#F8F9FA" font-size="12.5" font-weight="600">Privacidade &amp;
+                  Stateless</text>
+                <text x="36" y="465" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Zero retenção de dados
+                  sensíveis</text>
+              </g>
+
+              <!-- Card 03 Model Badge -->
+              <rect x="16" y="506" width="218" height="30" rx="6" fill="rgba(192, 132, 252, 0.08)"
+                stroke="rgba(192, 132, 252, 0.3)" stroke-width="1" />
+              <text x="125" y="525" fill="#C084FC" font-family="'Courier New', monospace" font-size="10"
+                font-weight="bold" text-anchor="middle">API: GEMINI 2.0 FLASH</text>
+            </g>
+
+            <!-- Telemetry & Compliance Bottom Bar -->
+            <line x1="1" y1="642" x2="939" y2="642" stroke="rgba(215, 181, 109, 0.15)" stroke-width="1" />
+            <text x="35" y="668" fill="rgba(248, 249, 250, 0.85)" font-family="'Courier New', monospace"
+              font-size="10.5" letter-spacing="0.5">💻 AMBIENTE: LOCALHOST (ESTUDO)</text>
+            <text x="345" y="668" fill="rgba(248, 249, 250, 0.85)" font-family="'Courier New', monospace"
+              font-size="10.5" letter-spacing="0.5">🔒 CHAVE LOCAL: 100% CLIENT-SIDE</text>
+            <text x="685" y="668" fill="rgba(248, 249, 250, 0.85)" font-family="'Courier New', monospace"
+              font-size="10.5" letter-spacing="0.5">📚 ESCOPO: EDUCATIVO &amp; COMPLIANCE</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Section 03: 50-30-20 Calculation Engine & Data Processing -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Motor de Cálculo 50-30-20 &amp; Diagnóstico
+          Experimental</h2>
+        <p>Para exercitar a manipulação tabular de dados em Python, o módulo <code>data_processor.py</code> processa um
+          conjunto de dados simulado (<code>transacoes.csv</code> e <code>perfil_cliente.json</code>) usando a
+          biblioteca Pandas para computar somas orçamentárias e avaliar a cobertura da reserva de emergência:</p>
+
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <span>>_ Console // Diagnóstico Orçamentário Simulado (Luiz Moura)</span>
+            <span style="color:rgba(215,181,109,0.5)">[ Regra 50-30-20 ]</span>
+          </div>
+          <pre class="terminal-body">> process_metrics(cliente_id="CLI-89241")
+----------------------------------------------------------------------
+Renda Mensal Líquida  : <span class="output-highlight">R$ 5.000,00</span>
+Reserva de Emergência : <span class="output-highlight">R$ 12.500,00</span> (Cobertura: <span class="output-warning">3 meses</span> | Meta: 6)
+----------------------------------------------------------------------
+• Necessidades (50%)  : <span class="output-highlight">R$ 4.150,00</span> (<span class="output-warning">83,0%</span> da renda) -> <span class="output-warning">ACIMA DA META (+33,0%)</span>
+  - Moradia (Aluguel, Condomínio, Luz): R$ 1.800,00
+  - Alimentação (Supermercado, Feira) : R$ 1.150,00
+  - Saúde (Convênio, Farmácia)        : R$ 700,00
+  - Transporte (Combustível, App)     : R$ 500,00
+
+• Desejos (30%)       : <span class="output-highlight">R$ 750,00</span> (<span class="output-success">15,0%</span> da renda) -> <span class="output-success">DENTRO DA META</span>
+  - Lazer e Assinaturas               : R$ 750,00
+
+• Economias (20%)     : <span class="output-highlight">R$ 1.600,00</span> (<span class="output-success">32,0%</span> da renda) -> <span class="output-success">DENTRO DA META</span>
+  - Aportes Financeiros / Poupança    : R$ 1.600,00
+----------------------------------------------------------------------
+<span class="output-success">Status: Métricas consolidadas com sucesso via Pandas em 4.2ms.</span></pre>
+        </div>
+
+        <p>Neste cenário de estudo, o cálculo aponta que os gastos essenciais do perfil atingem 83,0% da renda
+          líquida, gerando a oportunidade de explorar como um assistente de IA pode orientar readequações de custos
+          mantendo a integridade do orçamento.</p>
+      </section>
+
+      <!-- Section 04: Generative AI Integration & CVM Compliance -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">04.</span> Integração com LLM &amp; Estudo de Compliance CVM
+        </h2>
+        <p>A etapa de Inteligência Artificial serviu para estudar na prática o consumo de APIs generativas via chamadas
+          REST puras, implementando uma rotina de <strong>descoberta dinâmica de modelos</strong> via
+          <code>GET /v1beta/models</code> para evitar inconsistências com versões legadas de endpoints. Todas as
+          métricas são injetadas estritamente em padrão numérico brasileiro.
+        </p>
+
+        <p>Além disso, o projeto serviu como estudo sobre a aplicação de <strong>diretrizes regulatórias e
+            fiduciárias</strong> (CVM e ANBIMA) através de prompt engineering:</p>
+
+        <ul>
+          <li><strong>Recusa Categórica de Ativos Específicos:</strong> Proibição explícita de indicar ações (PETR4,
+            VALE3), fundos imobiliários ou criptoativos.</li>
+          <li><strong>Foco Didático Orçamentário:</strong> Orientação centrada exclusivamente na partição orçamentária
+            50-30-20 e fortalecimento da reserva de emergência.</li>
+          <li><strong>Disclaimer Regulatório Automático:</strong> Inclusão de aviso de segurança em todas as análises
+            conclusivas.</li>
+        </ul>
+
+        <div class="glass-quote" style="border-left-color: #D7B56D; background: rgba(215, 181, 109, 0.05);">
+          <strong>🛡️ Diretiva Educacional de Compliance:</strong> "Minha função é ajudá-lo a diagnosticar sua divisão
+          orçamentária 50-30-20 e organizar suas finanças. Para recomendações específicas de ativos e investimentos
+          regulamentados, consulte um profissional credenciado pela CVM."
+        </div>
+      </section>
+
+      <!-- Section 05: Interface Demonstration Video -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">05.</span> Demonstração em Vídeo</h2>
+        <p>Abaixo, a gravação da interface do FinScan rodando em ambiente local em loop contínuo, ilustrando o
+          carregamento dos indicadores orçamentários calculados pelo backend e a interação fluida com o Google Gemini:
+        </p>
+
+        <div class="article-img-wrap"
+          style="padding: 12px; background: rgba(215, 181, 109, 0.04); border: 1px solid rgba(215, 181, 109, 0.25); border-radius: 12px; box-shadow: 0 25px 60px rgba(0,0,0,0.8);">
+          <div
+            style="display: flex; align-items: center; justify-content: space-between; padding: 4px 10px 10px; border-bottom: 1px solid rgba(215, 181, 109, 0.15); margin-bottom: 10px;">
+            <div style="display: flex; gap: 6px;">
+              <span
+                style="width: 10px; height: 10px; border-radius: 50%; background: #FF5F56; display: inline-block;"></span>
+              <span
+                style="width: 10px; height: 10px; border-radius: 50%; background: #FFBD2E; display: inline-block;"></span>
+              <span
+                style="width: 10px; height: 10px; border-radius: 50%; background: #27C93F; display: inline-block;"></span>
+            </div>
+            <span
+              style="font-family: 'Courier New', monospace; font-size: 0.75rem; color: #D7B56D; letter-spacing: 1px;">FINSCAN-IA
+              // EXECUÇÃO LOCAL • DEMONSTRAÇÃO</span>
+            <span
+              style="font-family: 'Inter', sans-serif; font-size: 0.7rem; color: rgba(248, 249, 250, 0.5);">LOCALHOST
+              • LOOP</span>
+          </div>
+          <div class="video-viewport-wrap">
+            <video class="local-video-player" autoplay loop muted playsinline preload="auto">
+              <source src="projetos_arquivos/finscan_ia/FinScan-IA.mp4" type="video/mp4">
+              Seu navegador não suporta a reprodução de vídeos HTML5.
+            </video>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 06: Test Suite & Homologation -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">06.</span> Homologação &amp; Suíte de Testes</h2>
+        <p>Para assegurar a consistência dos cálculos e a resposta correta da camada de IA diante de diferentes
+          cenários, foi implementada uma suíte formal de testes (<code>tests/eval_cases.json</code>):</p>
+
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <span>>_ Test Suite // tests/eval_cases.json — Validação de Homologação</span>
+            <span style="color:rgba(215,181,109,0.5)">[ 5/5 Aprovados ]</span>
+          </div>
+          <pre class="terminal-body">> pytest tests/ -v
+============================== test session starts ==============================
+tests/test_eval_suite.py::test_tc01_metrica_necessidades <span class="output-success">PASSED [ 20%]</span>
+tests/test_eval_suite.py::test_tc02_cobertura_reserva    <span class="output-success">PASSED [ 40%]</span>
+tests/test_eval_suite.py::test_tc03_estrategia_503020    <span class="output-success">PASSED [ 60%]</span>
+tests/test_eval_suite.py::test_tc04_guardrail_ativo_cvm  <span class="output-success">PASSED [ 80%]</span>
+tests/test_eval_suite.py::test_tc05_fora_de_escopo_geral <span class="output-success">PASSED [100%]</span>
+============================== <span class="output-success">5 passed in 1.42s</span> ==============================</pre>
+        </div>
+      </section>
+
+      <!-- Section 07: Call to Action & Source Code Repository -->
+      <div class="gsap-fade-up"
+        style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
+        <h3 style="font-family: var(--font-display); font-size: 2rem; color: #F8F9FA; margin-bottom: 1rem;">Explore o
+          Projeto no GitHub</h3>
+        <p style="color: rgba(248,249,250,0.6); max-width: 600px; margin: 0 auto 3rem; font-size: 1.1rem;">
+          Acesse o código-fonte completo, os cadernos de arquitetura e a suíte de testes do FinScan.
+        </p>
+
+        <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap: wrap;">
+          <a href="https://github.com/douglascmoura/finscan-ia" target="_blank" rel="noopener noreferrer"
+            style="display:inline-flex; align-items:center; gap:10px; background: rgba(215,181,109,0.1); border: 1px solid #D7B56D; color: #D7B56D; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(215,181,109,0.15);"
+            onmouseover="this.style.background='#D7B56D'; this.style.color='#0A1428';"
+            onmouseout="this.style.background='rgba(215,181,109,0.1)'; this.style.color='#D7B56D';">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+              </path>
+            </svg>
+            Repositório GitHub
+          </a>
+
+          <a href="index.html#projetos"
+            style="display:inline-flex; align-items:center; gap:10px; background: transparent; border: 1px solid rgba(248,249,250,0.3); color: #F8F9FA; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease;"
+            onmouseover="this.style.borderColor='#D7B56D'; this.style.color='#D7B56D';"
+            onmouseout="this.style.borderColor='rgba(248,249,250,0.3)'; this.style.color='#F8F9FA';">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Voltar aos Projetos
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid rgba(248,249,250,0.05); margin-top: 4rem; padding: 3rem 0; text-align: center;">
+    <a href="index.html"
+      style="font-family: var(--font-display); font-size: 1.2rem; color: rgba(248,249,250,0.4); text-decoration: none; letter-spacing: 2px;">DOCH<span
+        style="color: rgba(215,181,109,0.4)">MO</span></a>
+    <p style="color: rgba(248,249,250,0.3); font-size: 0.85rem; margin-top: 1rem;">&copy; 2026 DOCHMO. Todos os direitos
+      reservados.</p>
+  </footer>
+
+  <!-- Interactive Scripts (GSAP, Custom Cursor & 3D Tilt) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      // GSAP ScrollTrigger Entrance Animations
+      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Fade-up reveal for article sections
+        gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
+          gsap.fromTo(elem,
+            { y: 50, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 1.2,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: elem,
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+              }
+            }
+          );
+        });
+      }
+
+      // Custom Interactive Gold Cursor Tracking
+      const ring = document.getElementById('cursor-ring');
+      const dot = document.getElementById('cursor-dot');
+
+      if (ring && dot) {
+        document.addEventListener('mousemove', (e) => {
+          gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.3, ease: 'power2.out' });
+          gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
+        });
+
+        const links = document.querySelectorAll('a, .article-img-wrap');
+        links.forEach(link => {
+          link.addEventListener('mouseenter', () => {
+            gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
+          });
+          link.addEventListener('mouseleave', () => {
+            gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+          });
+        });
+      }
+
+      // 3D Tilt Interaction on Showcase Cards
+      const card = document.getElementById('version-card');
+      if (card) {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const xc = rect.width / 2;
+          const yc = rect.height / 2;
+          const dx = x - xc;
+          const dy = y - yc;
+
+          const maxRot = 8;
+          const rotX = -(dy / yc) * maxRot;
+          const rotY = (dx / xc) * maxRot;
+
+          gsap.to(card, {
+            rotationX: rotX,
+            rotationY: rotY,
+            ease: "power2.out",
+            duration: 0.4,
+            transformPerspective: 1000
+          });
+        });
+
+        card.addEventListener('mouseleave', () => {
+          gsap.to(card, {
+            rotationX: 0,
+            rotationY: 0,
+            ease: "power2.out",
+            duration: 0.6
+          });
+        });
+      }
+
+    });
+  </script>
+</body>
+
+</html>
