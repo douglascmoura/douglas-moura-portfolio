@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <!-- Meta & Document Configuration -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Estudo de Caso - VisionVoice: Assistente acessível de autodescrição de imagens e síntese vocal com Google Gemini, FastAPI e conformidade WCAG 2.1 AA." />
+  <title>VisionVoice - IA Multimodal &amp; Voz Acessível | DOCHMO</title>
+
+  <!-- Favicon Icons -->
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/img/favicon.png" />
+
+  <!-- Typography & Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- Stylesheets & Animation Frameworks -->
+  <link href="assets/css/style.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+  <style>
+    /* =========================================================================
+       DOCHMO Brand Design System Overrides
+       ========================================================================= */
+    .article-header {
+      padding: 180px 20px 100px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px 100px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .article-content p {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 1.8rem;
+      font-size: 1.15rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .article-content h2 {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      color: #D7B56D;
+      margin-top: 5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .article-content h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: #F8F9FA;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content ul {
+      color: rgba(248, 249, 250, 0.85);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      padding-left: 20px;
+      font-size: 1.1rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.8rem;
+      list-style-type: none;
+      position: relative;
+    }
+
+    .article-content li::before {
+      content: '✤';
+      position: absolute;
+      left: -25px;
+      color: #D7B56D;
+      font-size: 0.9rem;
+    }
+
+    /* =========================================================================
+       Ambient Media Wrappers & Scan Animation
+       ========================================================================= */
+    .article-img-wrap {
+      margin: 4rem 0;
+      position: relative;
+      padding: 10px;
+      background: rgba(215, 181, 109, 0.03);
+      border: 1px solid rgba(215, 181, 109, 0.15);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .article-img-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(215, 181, 109, 0.05), transparent);
+      transform: skewX(-20deg);
+      animation: scan 6s infinite;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    @keyframes scan {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 200%;
+      }
+    }
+
+    .screenshot-caption {
+      text-align: center;
+      color: rgba(248, 249, 250, 0.6);
+      font-size: 0.9rem;
+      margin-top: 10px;
+      font-style: italic;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* =========================================================================
+       Glass Quotes & Callout Containers
+       ========================================================================= */
+    .glass-quote {
+      padding: 2rem;
+      margin: 3rem 0;
+      border-left: 4px solid #D7B56D;
+      background: rgba(215, 181, 109, 0.05);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      font-size: 1.05rem;
+    }
+
+    /* =========================================================================
+       Interactive Terminal & Syntax Highlighting
+       ========================================================================= */
+    .terminal-window {
+      background: #050A15;
+      border: 1px solid rgba(215, 181, 109, 0.2);
+      border-radius: 8px;
+      margin: 2rem 0;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .terminal-header {
+      background: rgba(215, 181, 109, 0.08);
+      padding: 8px 15px;
+      font-size: 0.85rem;
+      color: #D7B56D;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(215, 181, 109, 0.2);
+    }
+
+    .terminal-body {
+      padding: 1.5rem;
+      margin: 0;
+      color: rgba(248, 249, 250, 0.8);
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    .terminal-body .output-highlight {
+      color: #D7B56D;
+      font-weight: bold;
+    }
+
+    .terminal-body .output-success {
+      color: #4CAF50;
+      font-weight: bold;
+    }
+
+    .terminal-body .output-warning {
+      color: #FFB74D;
+      font-weight: bold;
+    }
+
+    .terminal-body .output-cyan {
+      color: #38BDF8;
+      font-weight: bold;
+    }
+
+    /* =========================================================================
+       Accessibility Key Badges & Keyboard Table
+       ========================================================================= */
+    kbd {
+      display: inline-block;
+      padding: 3px 7px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #D7B56D;
+      background: rgba(215, 181, 109, 0.12);
+      border: 1px solid rgba(215, 181, 109, 0.35);
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .shortcut-table {
+      width: 100%;
+      margin: 2rem 0;
+      border-collapse: collapse;
+      background: rgba(10, 20, 42, 0.4);
+      border: 1px solid rgba(215, 181, 109, 0.2);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .shortcut-table th,
+    .shortcut-table td {
+      padding: 12px 18px;
+      text-align: left;
+      border-bottom: 1px solid rgba(215, 181, 109, 0.1);
+      font-size: 0.95rem;
+    }
+
+    .shortcut-table th {
+      background: rgba(215, 181, 109, 0.08);
+      color: #D7B56D;
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+    }
+
+    .shortcut-table td {
+      color: rgba(248, 249, 250, 0.85);
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* =========================================================================
+       Background Canvas & Interactive Gold Cursor
+       ========================================================================= */
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: radial-gradient(circle at 50% 30%, rgba(215, 181, 109, 0.08) 0%, rgba(10, 20, 40, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .cursor-ring {
+      border-color: rgba(215, 181, 109, 0.85) !important;
+      box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
+    }
+
+    /* =========================================================================
+       Responsive Media Queries
+       ========================================================================= */
+    @media (max-width: 768px) {
+      .article-img-wrap::before {
+        display: none !important;
+        animation: none !important;
+      }
+
+      .shortcut-table th,
+      .shortcut-table td {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+
+<body style="background: #0A1428;">
+
+  <!-- Ambient Noise Texture -->
+  <div class="noise" aria-hidden="true"
+    style="position: fixed; inset: 0; opacity: 0.04; background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E'); z-index:9000; pointer-events:none;">
+  </div>
+
+  <div class="hero-bg"></div>
+
+  <!-- Custom Interactive Cursor Elements -->
+  <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
+  <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
+
+  <!-- Header & Navigation Bar -->
+  <nav class="nav" role="navigation" aria-label="Navegação principal"
+    style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);">
+    <a href="index.html" class="nav-logo"
+      style="font-family: var(--font-display); font-size: 1.5rem; color: #F8F9FA; text-decoration: none; font-weight: 700; letter-spacing: 2px;">DOCH<span
+        style="color:#D7B56D">MO</span></a>
+    <a href="index.html#projetos"
+      style="color: rgba(248,249,250,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease;">←
+      VOLTAR PARA PROJETOS</a>
+  </nav>
+
+  <main>
+    <!-- Case Study Hero Header -->
+    <article class="article-header">
+      <div class="gsap-fade-up">
+        <span class="badge"
+          style="background: rgba(215, 181, 109, 0.1); color: #D7B56D; border: 1px solid rgba(215, 181, 109, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 1.5rem; display: inline-block;">ESTUDO
+          DE CASO EM IA &amp; ACESSIBILIDADE</span>
+        <h1
+          style="font-family: var(--font-display); font-size: 4rem; color: #F8F9FA; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);">
+          VisionVoice - Assistente IA<br><span
+            style="font-size: 1em; color: #D7B56D; font-weight: 400; font-style: italic;">Multimodal &amp; Voz
+            Acessível</span></h1>
+        <p style="color:rgba(248,249,250,0.75); max-width:700px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
+          Autodescrição inteligente de imagens via Google Gemini Flash, sintetização vocal em tempo real (gTTS) e
+          interface universal em conformidade com as diretrizes WCAG 2.1 AA/AAA.
+          <br><br><span style="font-size: 0.95rem; opacity: 0.6; font-style: italic;">Desenvolvido por: Douglas Chaves
+            Moura</span>
+        </p>
+      </div>
+    </article>
+
+    <div class="article-content">
+
+      <!-- Section 01: Context & Inclusivity Motivation -->
+      <section class="gsap-fade-up">
+        <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Contexto &amp; Motivação da Acessibilidade</h2>
+        <p>A web moderna é predominantemente visual. Para milhões de pessoas cegas ou com baixa visão, a ausência de
+          autodescrições adequadas em imagens representa uma barreira contínua de exclusão digital e perda de contexto
+          informacional.</p>
+
+        <p>O <strong>VisionVoice</strong> nasceu como um projeto de engenharia de software focado em resolver esse
+          desafio de ponta a ponta: transformar imagens arbitrárias em <strong>narrativas sonoras ricas, precisas e
+            acessíveis</strong>, combinando visão computacional de última geração ao processamento de áudio sintetizado
+          em tempo real.</p>
+
+        <div class="glass-quote">
+          O <strong>VisionVoice</strong> integra o modelo multimodal <strong>Google Gemini (2.0 / 1.5 Flash)</strong> a
+          um motor de síntese vocal <strong>gTTS em memória (`BytesIO`)</strong>, entregando uma interface construída
+          sob os mais estritos princípios do <strong>W3C / WCAG 2.1 (Níveis AA e AAA)</strong>: modo alto contraste
+          instantâneo, escalabilidade de fontes (12px a 24px), navegação 100% por teclado e anúncios dinâmicos para
+          leitores de tela (NVDA, JAWS e TalkBack).
+        </div>
+      </section>
+
+      <!-- Section 02: Full-Stack System Architecture -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Arquitetura do Sistema</h2>
+        <p>A arquitetura foi projetada para ser <strong>leve, assíncrona e desacoplada</strong>, dividida em três
+          camadas bem definidas com comunicação puramente via REST:</p>
+
+        <ul>
+          <li><strong>Frontend SPA Acessível (Client Tier):</strong> Desenvolvido em Pure Vanilla Web Standards (HTML5
+            semântico com ARIA Landmark Roles, CSS3 com variáveis de alto contraste e JavaScript ES6+), sem dependência
+            de frameworks pesados e com carregamento instantâneo.</li>
+          <li><strong>Backend FastAPI &amp; gTTS Engine (Core Engine):</strong> Servidor ASGI em Python para ingestão
+            assíncrona de uploads multipart, roteamento de prompts, higienização regex de textos gerados e geração de
+            áudio em memória sem escrita em disco.</li>
+          <li><strong>Camada Multimodal (AI Cloud):</strong> Integração direta com a API REST do Google Gemini,
+            executando análise visual estruturada e descoberta dinâmica de modelos em baixa latência (1 a 3 segundos).
+          </li>
+        </ul>
+
+        <!-- Architecture Blueprint Vector Canvas (940x690) -->
+        <div class="article-img-wrap"
+          style="margin: 3rem 0; padding: 14px; background: rgba(10, 20, 42, 0.5); border: 1px solid rgba(215, 181, 109, 0.22); border-radius: 12px;">
+          <svg viewBox="0 0 940 690" fill="none" xmlns="http://www.w3.org/2000/svg"
+            style="width: 100%; height: auto; display: block;">
+            <defs>
+              <linearGradient id="svg-card-bg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0E1B38" stop-opacity="0.85" />
+                <stop offset="100%" stop-color="#070E1E" stop-opacity="0.95" />
+              </linearGradient>
+              <linearGradient id="svg-gold-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#F3E5AB" />
+                <stop offset="50%" stop-color="#D7B56D" />
+                <stop offset="100%" stop-color="#997A35" />
+              </linearGradient>
+              <filter id="card-glow" x="-10%" y="-10%" width="120%" height="120%">
+                <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="rgba(0,0,0,0.6)" />
+              </filter>
+            </defs>
+
+            <!-- Outer Canvas Frame & Window Header -->
+            <rect x="1" y="1" width="938" height="688" rx="10" fill="#060C1A" stroke="rgba(215, 181, 109, 0.25)"
+              stroke-width="1" />
+            <line x1="1" y1="46" x2="939" y2="46" stroke="rgba(215, 181, 109, 0.15)" stroke-width="1" />
+
+            <!-- Window Header Controls -->
+            <circle cx="24" cy="23" r="5" fill="#FF5F56" />
+            <circle cx="40" cy="23" r="5" fill="#FFBD2E" />
+            <circle cx="56" cy="23" r="5" fill="#27C93F" />
+
+            <!-- Canvas Title -->
+            <text x="78" y="27" fill="#D7B56D" font-family="'Courier New', monospace" font-size="11.5"
+              font-weight="bold" letter-spacing="1">ARQUITETURA DO SISTEMA // VISIONVOICE</text>
+
+            <!-- Top Right Status Badge (Localhost Environment) -->
+            <rect x="687" y="11" width="228" height="24" rx="12" fill="rgba(34, 197, 94, 0.12)"
+              stroke="rgba(34, 197, 94, 0.4)" stroke-width="1" />
+            <circle cx="710" cy="23" r="3.5" fill="#22C55E" />
+            <text x="720" y="26.5" fill="#4ADE80" font-family="'Inter', sans-serif" font-size="9.5" font-weight="600"
+              letter-spacing="0.5">LABORATÓRIO LOCAL FULL-STACK</text>
+
+            <!-- Layer 01: Client-Side SPA Tier (Pure Web Standards) -->
+            <g transform="translate(25, 68)">
+              <rect width="250" height="552" rx="8" fill="url(#svg-card-bg)" stroke="rgba(56, 189, 248, 0.45)"
+                stroke-width="1.2" filter="url(#card-glow)" />
+
+              <!-- Card 01 Header -->
+              <rect x="16" y="16" width="38" height="38" rx="8" fill="rgba(56, 189, 248, 0.12)" stroke="#38BDF8"
+                stroke-width="1.2" />
+              <!-- Eye / Accessibility Vector Wireframe -->
+              <path d="M 23 35 C 27 28 43 28 47 35 C 43 42 27 42 23 35 Z" fill="none" stroke="#38BDF8"
+                stroke-width="1.3" />
+              <circle cx="35" cy="35" r="3.5" fill="#38BDF8" />
+
+              <text x="64" y="28" fill="#38BDF8" font-family="'Courier New', monospace" font-size="9.5"
+                font-weight="bold" letter-spacing="1">CAMADA 01 • CLIENT TIER</text>
+              <text x="64" y="48" fill="#F8F9FA" font-family="'Playfair Display', serif" font-size="16.5"
+                font-weight="bold">Frontend Acessível</text>
+              <text x="16" y="74" fill="rgba(248, 249, 250, 0.6)" font-family="'Inter', sans-serif"
+                font-size="11.5">WCAG 2.1 AA/AAA • Vanilla JS</text>
+              <line x1="16" y1="88" x2="234" y2="88" stroke="rgba(56, 189, 248, 0.2)" stroke-width="1" />
+
+              <!-- Feature Set (Aligned Grid) -->
+              <g font-family="'Inter', sans-serif">
+                <!-- Item 1 (Canvas Y=192) -->
+                <circle cx="24" cy="124" r="3.5" fill="#38BDF8" />
+                <text x="36" y="128" fill="#F8F9FA" font-size="12.5" font-weight="600">Modo Alto Contraste</text>
+                <text x="36" y="145" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Tema escuro e contornos
+                  dourados</text>
+
+                <!-- Item 2 (Canvas Y=256) -->
+                <circle cx="24" cy="188" r="3.5" fill="#38BDF8" />
+                <text x="36" y="192" fill="#F8F9FA" font-size="12.5" font-weight="600">Fontes Dinâmicas (12-24px)</text>
+                <text x="36" y="209" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Controles rápidos A+, A- e
+                  A</text>
+
+                <!-- Item 3 (Canvas Y=320) -->
+                <circle cx="24" cy="252" r="3.5" fill="#38BDF8" />
+                <text x="36" y="256" fill="#F8F9FA" font-size="12.5" font-weight="600">Atalhos Globais de
+                  Teclado</text>
+                <text x="36" y="273" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Alt+1, Alt+2, Alt+C, Alt+P</text>
+
+                <!-- Item 4 (Canvas Y=384) -->
+                <circle cx="24" cy="316" r="3.5" fill="#38BDF8" />
+                <text x="36" y="320" fill="#F8F9FA" font-size="12.5" font-weight="600">Leitor de Tela (ARIA-Live)</text>
+                <text x="36" y="337" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Anúncios dinâmicos para
+                  NVDA</text>
+
+                <!-- Item 5 (Canvas Y=448) -->
+                <circle cx="24" cy="380" r="3.5" fill="#38BDF8" />
+                <text x="36" y="384" fill="#F8F9FA" font-size="12.5" font-weight="600">Player de Áudio Nativo</text>
+                <text x="36" y="401" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Autoplay e download de MP3</text>
+
+                <!-- Item 6 (Canvas Y=512) -->
+                <circle cx="24" cy="444" r="3.5" fill="#38BDF8" />
+                <text x="36" y="448" fill="#F8F9FA" font-size="12.5" font-weight="600">Dois Modos de Operação</text>
+                <text x="36" y="465" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Manual (gTTS) &amp; Auto
+                  (IA)</text>
+              </g>
+
+              <!-- Card 01 Port Badge -->
+              <rect x="16" y="506" width="218" height="30" rx="6" fill="rgba(56, 189, 248, 0.08)"
+                stroke="rgba(56, 189, 248, 0.3)" stroke-width="1" />
+              <text x="125" y="525" fill="#38BDF8" font-family="'Courier New', monospace" font-size="10"
+                font-weight="bold" text-anchor="middle">SPA PORT: 5500 / 8000</text>
+            </g>
+
+            <!-- Connectors: Client Tier ⇄ Core Engine -->
+            <g transform="translate(275, 0)">
+              <!-- Route 01: POST /analyze-and-speak -->
+              <rect x="3" y="196" width="64" height="26" rx="4" fill="#070E1E" stroke="rgba(215, 181, 109, 0.5)"
+                stroke-width="1" />
+              <text x="35" y="208" fill="#D7B56D" font-family="'Courier New', monospace" font-size="7.5"
+                font-weight="bold" text-anchor="middle">POST</text>
+              <text x="35" y="217" fill="#D7B56D" font-family="'Courier New', monospace" font-size="7"
+                text-anchor="middle">/analyze</text>
+              <line x1="2" y1="230" x2="58" y2="230" stroke="#D7B56D" stroke-width="1.8" stroke-dasharray="3,2" />
+              <polygon points="56,225 68,230 56,235" fill="#D7B56D" />
+
+              <!-- Route 02: POST /generate-audio -->
+              <rect x="3" y="324" width="64" height="26" rx="4" fill="#070E1E" stroke="rgba(56, 189, 248, 0.5)"
+                stroke-width="1" />
+              <text x="35" y="336" fill="#38BDF8" font-family="'Courier New', monospace" font-size="7.5"
+                font-weight="bold" text-anchor="middle">POST</text>
+              <text x="35" y="345" fill="#38BDF8" font-family="'Courier New', monospace" font-size="7"
+                text-anchor="middle">/audio</text>
+              <line x1="2" y1="358" x2="58" y2="358" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="3,2" />
+              <polygon points="56,353 68,358 56,363" fill="#38BDF8" />
+
+              <!-- Route 03: 200 OK Audio MP3 -->
+              <rect x="3" y="462" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(129, 199, 132, 0.5)"
+                stroke-width="1" />
+              <text x="35" y="474.5" fill="#81C784" font-family="'Courier New', monospace" font-size="8"
+                font-weight="bold" text-anchor="middle">200 MP3</text>
+              <line x1="68" y1="486" x2="12" y2="486" stroke="#81C784" stroke-width="1.8" stroke-dasharray="3,2" />
+              <polygon points="14,481 2,486 14,491" fill="#81C784" />
+            </g>
+
+            <!-- Layer 02: Core Engine Tier (FastAPI Backend & gTTS) -->
+            <g transform="translate(345, 58)">
+              <rect width="250" height="562" rx="8" fill="url(#svg-card-bg)" stroke="url(#svg-gold-grad)"
+                stroke-width="2" filter="url(#card-glow)" />
+
+              <!-- Card 02 Header -->
+              <rect x="16" y="16" width="38" height="38" rx="8" fill="rgba(215, 181, 109, 0.15)" stroke="#D7B56D"
+                stroke-width="1.2" />
+              <!-- Audio Wave / Speaker Vector Illustration -->
+              <path d="M 24 35 L 28 35 L 34 41 L 34 29 L 28 35 Z" fill="#D7B56D" />
+              <path d="M 37 31 C 39 33 39 37 37 39" fill="none" stroke="#D7B56D" stroke-width="1.2"
+                stroke-linecap="round" />
+              <path d="M 40 28 C 44 32 44 38 40 42" fill="none" stroke="#D7B56D" stroke-width="1.2"
+                stroke-linecap="round" />
+
+              <text x="64" y="28" fill="#D7B56D" font-family="'Courier New', monospace" font-size="9.5"
+                font-weight="bold" letter-spacing="1">CAMADA 02 • CORE ENGINE</text>
+              <text x="64" y="48" fill="#F8F9FA" font-family="'Playfair Display', serif" font-size="16.5"
+                font-weight="bold">FastAPI &amp; gTTS</text>
+              <text x="16" y="74" fill="rgba(248, 249, 250, 0.6)" font-family="'Inter', sans-serif"
+                font-size="11.5">Python 3.9+ ASGI • Síntese Vocal</text>
+              <line x1="16" y1="88" x2="234" y2="88" stroke="rgba(215, 181, 109, 0.25)" stroke-width="1" />
+
+              <!-- Feature Set (Aligned Grid) -->
+              <g font-family="'Inter', sans-serif">
+                <!-- Item 1 (Canvas Y=192) -->
+                <circle cx="24" cy="134" r="3.5" fill="#D7B56D" />
+                <text x="36" y="138" fill="#F8F9FA" font-size="12.5" font-weight="600">Síntese em Memória</text>
+                <text x="36" y="155" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Stream via BytesIO sem
+                  disco</text>
+
+                <!-- Item 2 (Canvas Y=256) -->
+                <circle cx="24" cy="198" r="3.5" fill="#D7B56D" />
+                <text x="36" y="202" fill="#F8F9FA" font-size="12.5" font-weight="600">Higienização Regex</text>
+                <text x="36" y="219" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Limpeza de &lt;think&gt; e
+                  markdown</text>
+
+                <!-- Item 3 (Canvas Y=320) -->
+                <circle cx="24" cy="262" r="3.5" fill="#D7B56D" />
+                <text x="36" y="266" fill="#F8F9FA" font-size="12.5" font-weight="600">Cliente HTTP Assíncrono</text>
+                <text x="36" y="283" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Consumo via httpx de alta
+                  vazão</text>
+
+                <!-- Item 4 (Canvas Y=384) -->
+                <circle cx="24" cy="326" r="3.5" fill="#D7B56D" />
+                <text x="36" y="330" fill="#F8F9FA" font-size="12.5" font-weight="600">Descoberta Dinâmica REST</text>
+                <text x="36" y="347" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Auto-fallback de modelos
+                  Flash</text>
+
+                <!-- Item 5 (Canvas Y=448) -->
+                <circle cx="24" cy="390" r="3.5" fill="#D7B56D" />
+                <text x="36" y="394" fill="#F8F9FA" font-size="12.5" font-weight="600">Formatação Base64 / MP3</text>
+                <text x="36" y="411" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Áudio imediato para o
+                  player</text>
+
+                <!-- Item 6 (Canvas Y=512) -->
+                <circle cx="24" cy="454" r="3.5" fill="#D7B56D" />
+                <text x="36" y="458" fill="#F8F9FA" font-size="12.5" font-weight="600">Resolução Flexível de
+                  Chaves</text>
+                <text x="36" y="475" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Chave via UI ou arquivo
+                  .env</text>
+              </g>
+
+              <!-- Card 02 Server Endpoint Badge -->
+              <rect x="16" y="516" width="218" height="30" rx="6" fill="rgba(215, 181, 109, 0.15)"
+                stroke="rgba(215, 181, 109, 0.4)" stroke-width="1" />
+              <text x="125" y="535" fill="#D7B56D" font-family="'Courier New', monospace" font-size="10"
+                font-weight="bold" text-anchor="middle">ASGI SERVER: 127.0.0.1:8000</text>
+            </g>
+
+            <!-- Connectors: Core Engine ⇄ AI Cloud Tier -->
+            <g transform="translate(595, 0)">
+              <!-- Route 01: generateContent -->
+              <rect x="3" y="206" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(192, 132, 252, 0.5)"
+                stroke-width="1" />
+              <text x="35" y="218.5" fill="#C084FC" font-family="'Courier New', monospace" font-size="8"
+                font-weight="bold" text-anchor="middle">generate</text>
+              <line x1="2" y1="230" x2="58" y2="230" stroke="#C084FC" stroke-width="1.8" stroke-dasharray="3,2" />
+              <polygon points="56,225 68,230 56,235" fill="#C084FC" />
+
+              <!-- Route 02: /models -->
+              <rect x="3" y="334" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(215, 181, 109, 0.5)"
+                stroke-width="1" />
+              <text x="35" y="346.5" fill="#D7B56D" font-family="'Courier New', monospace" font-size="8.5"
+                font-weight="bold" text-anchor="middle">/models</text>
+              <line x1="68" y1="358" x2="12" y2="358" stroke="#D7B56D" stroke-width="1.8" stroke-dasharray="3,2" />
+              <polygon points="14,353 2,358 14,363" fill="#D7B56D" />
+
+              <!-- Route 03: inline_data Base64 -->
+              <rect x="3" y="462" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(56, 189, 248, 0.5)"
+                stroke-width="1" />
+              <text x="35" y="474.5" fill="#38BDF8" font-family="'Courier New', monospace" font-size="8"
+                font-weight="bold" text-anchor="middle">inline_data</text>
+              <line x1="2" y1="486" x2="58" y2="486" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="3,2" />
+              <polygon points="56,481 68,486 56,491" fill="#38BDF8" />
+            </g>
+
+            <!-- Layer 03: AI Cloud Cognitive Tier (Google Gemini Vision) -->
+            <g transform="translate(665, 68)">
+              <rect width="250" height="552" rx="8" fill="url(#svg-card-bg)" stroke="rgba(192, 132, 252, 0.45)"
+                stroke-width="1.2" filter="url(#card-glow)" />
+
+              <!-- Card 03 Header -->
+              <rect x="16" y="16" width="38" height="38" rx="8" fill="rgba(192, 132, 252, 0.12)" stroke="#C084FC"
+                stroke-width="1.2" />
+              <!-- Gemini Sparkle Vector Icon -->
+              <path
+                d="M 35 23.5 C 35 30 30 35 23.5 35 C 30 35 35 40 35 46.5 C 35 40 40 35 46.5 35 C 40 35 35 30 35 23.5 Z"
+                fill="#C084FC" />
+              <path d="M 44 22 C 44 24 42 26 40 26 C 42 26 44 28 44 30 C 44 28 46 26 48 26 C 46 26 44 24 44 22 Z"
+                fill="rgba(192, 132, 252, 0.6)" />
+
+              <text x="64" y="28" fill="#C084FC" font-family="'Courier New', monospace" font-size="9.5"
+                font-weight="bold" letter-spacing="1">CAMADA 03 • AI CLOUD</text>
+              <text x="64" y="48" fill="#F8F9FA" font-family="'Playfair Display', serif" font-size="16.5"
+                font-weight="bold">Google Gemini</text>
+              <text x="16" y="74" fill="rgba(248, 249, 250, 0.6)" font-family="'Inter', sans-serif"
+                font-size="11.5">Multimodal Vision Flash API</text>
+              <line x1="16" y1="88" x2="234" y2="88" stroke="rgba(192, 132, 252, 0.2)" stroke-width="1" />
+
+              <!-- Feature Set (Aligned Grid) -->
+              <g font-family="'Inter', sans-serif">
+                <!-- Item 1 (Canvas Y=192) -->
+                <circle cx="24" cy="124" r="3.5" fill="#C084FC" />
+                <text x="36" y="128" fill="#F8F9FA" font-size="12.5" font-weight="600">Prompt Estruturado (3
+                  Etapas)</text>
+                <text x="36" y="145" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Visão geral, espacial e
+                  textos</text>
+
+                <!-- Item 2 (Canvas Y=256) -->
+                <circle cx="24" cy="188" r="3.5" fill="#81C784" />
+                <text x="36" y="192" fill="#81C784" font-size="12.5" font-weight="600">Português Natural (pt-BR)</text>
+                <text x="36" y="209" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Fluidez total para narração
+                  vocal</text>
+
+                <!-- Item 3 (Canvas Y=320) -->
+                <circle cx="24" cy="252" r="3.5" fill="#C084FC" />
+                <text x="36" y="256" fill="#F8F9FA" font-size="12.5" font-weight="600">Transcrição OCR Integrada</text>
+                <text x="36" y="273" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Leitura de cartazes e
+                  rótulos</text>
+
+                <!-- Item 4 (Canvas Y=384) -->
+                <circle cx="24" cy="316" r="3.5" fill="#FFB74D" />
+                <text x="36" y="320" fill="#FFB74D" font-size="12.5" font-weight="600">Sem Raciocínio Interno</text>
+                <text x="36" y="337" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Bloqueio de tags
+                  &lt;think&gt;</text>
+
+                <!-- Item 5 (Canvas Y=448) -->
+                <circle cx="24" cy="380" r="3.5" fill="#C084FC" />
+                <text x="36" y="384" fill="#F8F9FA" font-size="12.5" font-weight="600">Baixa Latência (1 a 3s)</text>
+                <text x="36" y="401" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Geração rápida para UX
+                  fluida</text>
+
+                <!-- Item 6 (Canvas Y=512) -->
+                <circle cx="24" cy="444" r="3.5" fill="#C084FC" />
+                <text x="36" y="448" fill="#F8F9FA" font-size="12.5" font-weight="600">Zero Retenção de Imagens</text>
+                <text x="36" y="465" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Stateless e privacidade
+                  total</text>
+              </g>
+
+              <!-- Card 03 Model Badge -->
+              <rect x="16" y="506" width="218" height="30" rx="6" fill="rgba(192, 132, 252, 0.08)"
+                stroke="rgba(192, 132, 252, 0.3)" stroke-width="1" />
+              <text x="125" y="525" fill="#C084FC" font-family="'Courier New', monospace" font-size="10"
+                font-weight="bold" text-anchor="middle">API: GEMINI 2.0 FLASH</text>
+            </g>
+
+            <!-- Telemetry & Compliance Bottom Bar -->
+            <line x1="1" y1="642" x2="939" y2="642" stroke="rgba(215, 181, 109, 0.15)" stroke-width="1" />
+            <text x="35" y="668" fill="rgba(248, 249, 250, 0.85)" font-family="'Courier New', monospace"
+              font-size="10.5" letter-spacing="0.5">💻 AMBIENTE: LOCALHOST (ESTUDO)</text>
+            <text x="345" y="668" fill="rgba(248, 249, 250, 0.85)" font-family="'Courier New', monospace"
+              font-size="10.5" letter-spacing="0.5">🔒 PROCESSAMENTO: MEMÓRIA / BYTESIO</text>
+            <text x="685" y="668" fill="rgba(248, 249, 250, 0.85)" font-family="'Courier New', monospace"
+              font-size="10.5" letter-spacing="0.5">👁️ FOCO: ACESSIBILIDADE WCAG 2.1</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Section 03: Specialized Prompt Engineering & Regex Sanitization -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Engenharia de Prompt Acessível &amp; Higienização
+          Textual</h2>
+        <p>A qualidade de uma autodescrição para sintetizador de voz depende criticamente de como a IA é instruída e de
+          como a saída é tratada antes da conversão fonética. O VisionVoice implementa um <strong>prompt em 3
+            camadas</strong>, garantindo que o modelo nunca produza pensamentos intermediários
+          (<code>&lt;think&gt;</code>)
+          ou estruturas de lista técnica que prejudiquem a audição:</p>
+
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <span>>_ Console // Pipeline de Prompt &amp; Filtro Regex de Higienização</span>
+            <span style="color:rgba(215,181,109,0.5)">[ VisionVoice Core ]</span>
+          </div>
+          <pre class="terminal-body">> ACCESSIBILITY_VISION_PROMPT = """
+  1. Visão Geral (o que é a imagem e o tema central).
+  2. Detalhes Espaciais, Cores e Iluminação (elementos principais da cena).
+  3. Textos visíveis (se houver, transcritos entre aspas).
+  NÃO inclua &lt;think&gt;, NÃO use markdown (#, **, `) ou seções em inglês."""
+
+> clean_generated_text(raw_output)
+----------------------------------------------------------------------
+<span class="output-cyan">Entrada Raw IA :</span> "&lt;think&gt;Analyzing street scene...&lt;/think&gt; **Visão Geral:** Fotografia urbana de uma faixa de pedestres movimentada em dia ensolarado..."
+<span class="output-success">Saída Higienizada:</span> "Fotografia urbana de uma faixa de pedestres movimentada em dia ensolarado. No centro, pessoas caminham sob iluminação natural quente. Ao fundo, uma placa sinaliza 'Avenida Central'."
+----------------------------------------------------------------------
+<span class="output-success">Status: Texto corrido 100% natural pronto para sintetização vocal em 1.2ms.</span></pre>
+        </div>
+
+        <p>Esse pipeline elimina qualquer ruído de formatação e converte o resultado em parágrafos contínuos que soam
+          confortáveis e humanos quando lidos pelo sintetizador de voz.</p>
+      </section>
+
+      <!-- Section 04: In-Memory Vocal Synthesis (gTTS & BytesIO) -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">04.</span> Síntese Vocal In-Memory com gTTS &amp; Streaming</h2>
+        <p>Para evitar gargalos de I/O em disco e garantir que os dados do usuário permaneçam confidenciais e
+          efêmeros, a conversão fonética em MP3 é executada <strong>inteiramente na memória RAM</strong> utilizando
+          <code>io.BytesIO</code>:
+        </p>
+
+        <ul>
+          <li><strong>Zero Persistência em Disco:</strong> O arquivo de áudio nunca é gravado no sistema de arquivos
+            local, eliminando acúmulo de cache temporário.</li>
+          <li><strong>Streaming Assíncrono:</strong> No endpoint <code>POST /api/generate-audio</code>, a resposta é
+            enviada via <code>StreamingResponse(media_type="audio/mpeg")</code> para reprodução imediata.</li>
+          <li><strong>Entrega Base64 Data URI:</strong> No endpoint multimodal <code>POST /api/analyze-and-speak</code>,
+            o áudio é encodado em Base64, permitindo que a SPA reproduza o som instantaneamente e disponibilize botão de
+            download sem requisições adicionais.</li>
+        </ul>
+
+        <div class="glass-quote" style="border-left-color: #38BDF8; background: rgba(56, 189, 248, 0.05);">
+          <strong>🎙️ Arquitetura Stateless de Áudio:</strong> "Ao receber o texto higienizado, o sintetizador gera o
+          stream binário MP3 em ~400ms na memória e o entrega diretamente ao navegador, garantindo privacidade,
+          desempenho e conformidade com boas práticas de segurança."
+        </div>
+      </section>
+
+      <!-- Section 05: Visual Accessibility & Interface Demonstration -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">05.</span> Demonstração Visual &amp; Recursos de Acessibilidade
+        </h2>
+        <p>Abaixo, a comparação entre a interface no <strong>Modo Padrão (Claro)</strong> e no <strong>Modo Alto
+            Contraste (Escuro com contornos dourados)</strong>, demonstrando a versatilidade visual para diferentes
+          necessidades e perfis de visão:</p>
+
+        <!-- Screenshot 01: Standard Light Mode -->
+        <div class="article-img-wrap" style="padding: 12px; margin-bottom: 2rem;">
+          <img src="projetos_arquivos/visionvoice_ia/interface_visionvoice.png"
+            alt="Interface do VisionVoice no Modo Padrão exibindo o seletor de modos e campo de chave API"
+            style="width: 100%; height: auto; border-radius: 6px; display: block;" />
+          <div class="screenshot-caption">Figura 1: Interface principal no Modo Padrão - Seletor de Modo Manual /
+            Automático, campo de API Key e área de upload.</div>
+        </div>
+
+        <!-- Screenshot 02: High Contrast Mode -->
+        <div class="article-img-wrap" style="padding: 12px; margin-bottom: 3rem;">
+          <img src="projetos_arquivos/visionvoice_ia/interface_high_contrast.png"
+            alt="Interface do VisionVoice no Modo Alto Contraste com autodescrição gerada pela IA e player de áudio MP3"
+            style="width: 100%; height: auto; border-radius: 6px; display: block;" />
+          <div class="screenshot-caption">Figura 2: Tema de Alto Contraste (WCAG 2.1 AA/AAA) ativo - Autodescrição
+            gerada pela IA e player de áudio MP3 pronto para audição e download.</div>
+        </div>
+
+        <h3>Atalhos Globais de Teclado (Navegação Rápida)</h3>
+        <p>Para empoderar usuários que utilizam exclusivamente o teclado ou leitores de tela, o VisionVoice conta com
+          atalhos globais mapeados em toda a aplicação:</p>
+
+        <table class="shortcut-table">
+          <thead>
+            <tr>
+              <th>Atalho</th>
+              <th>Função / Ação</th>
+              <th>Público Beneficiado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><kbd>Alt</kbd> + <kbd>1</kbd></td>
+              <td>Alternar para o <strong>Modo Manual</strong> (Digitação de texto + gTTS)</td>
+              <td>Todos os usuários</td>
+            </tr>
+            <tr>
+              <td><kbd>Alt</kbd> + <kbd>2</kbd></td>
+              <td>Alternar para o <strong>Modo Automático</strong> (IA Multimodal Gemini)</td>
+              <td>Todos os usuários</td>
+            </tr>
+            <tr>
+              <td><kbd>Alt</kbd> + <kbd>C</kbd></td>
+              <td>Ativar / Desativar <strong>Modo Alto Contraste</strong></td>
+              <td>Baixa visão &amp; fotofobia</td>
+            </tr>
+            <tr>
+              <td><kbd>Alt</kbd> + <kbd>P</kbd></td>
+              <td><strong>Tocar / Pausar</strong> o áudio sintetizado gerado</td>
+              <td>Leitores de tela &amp; audição rápida</td>
+            </tr>
+            <tr>
+              <td><kbd>Alt</kbd> + <kbd>+</kbd> / <kbd>-</kbd> / <kbd>0</kbd></td>
+              <td><strong>Ajuste de Fonte</strong> (Aumentar, Diminuir ou Redefinir)</td>
+              <td>Baixa visão &amp; legibilidade</td>
+            </tr>
+            <tr>
+              <td><kbd>Alt</kbd> + <kbd>H</kbd></td>
+              <td>Abrir <strong>Guia de Acessibilidade e Ajuda</strong> na tela</td>
+              <td>Novos usuários &amp; navegação guiada</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Section 06: API Homologation & Performance Metrics -->
+      <section class="gsap-fade-up" style="margin-top: 4rem;">
+        <h2><span style="color: rgba(215,181,109,0.4);">06.</span> Homologação da API &amp; Métricas de Desempenho</h2>
+        <p>O back-end foi homologado para garantir tempo de resposta ultrarrápido, tratamento seguro de exceções e
+          validação estrita de entradas multipart e JSON:</p>
+
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <span>>_ Benchmark &amp; Health Suite // Endpoints FastAPI + Gemini Flash</span>
+            <span style="color:rgba(215,181,109,0.5)">[ 100% Operacional ]</span>
+          </div>
+          <pre class="terminal-body">> curl -I http://127.0.0.1:8000/api/health
+HTTP/1.1 <span class="output-success">200 OK</span> {"status": "online", "message": "VisionVoice API funcionando com sucesso."}
+
+> test_analyze_and_speak(image="test_sample.jpg", model="gemini-2.0-flash")
+----------------------------------------------------------------------
+1. Upload & Validação MIME (image/jpeg)       : <span class="output-success">VÁLIDO [ 12ms ]</span>
+2. Descoberta de Modelos (/v1beta/models)     : <span class="output-success">OK (gemini-2.0-flash)</span>
+3. Injeção de Prompt & Análise Multimodal     : <span class="output-success">OK (1.42s)</span>
+4. Filtro Regex de Higienização Textual       : <span class="output-success">OK (1.1ms)</span>
+5. Síntese Vocal gTTS na Memória (BytesIO)    : <span class="output-success">OK (380ms)</span>
+6. Retorno Base64 + Streaming MP3             : <span class="output-success">200 OK (Tamanho: 48.2 KB)</span>
+----------------------------------------------------------------------
+<span class="output-success">Resultado: Pipeline completo executado em ~1.81s com Zero I/O em disco.</span></pre>
+        </div>
+      </section>
+
+      <!-- Section 07: Call to Action & Source Code Repository -->
+      <div class="gsap-fade-up"
+        style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
+        <h3 style="font-family: var(--font-display); font-size: 2rem; color: #F8F9FA; margin-bottom: 1rem;">Explore o
+          Projeto no GitHub</h3>
+        <p style="color: rgba(248,249,250,0.6); max-width: 600px; margin: 0 auto 3rem; font-size: 1.1rem;">
+          Acesse o código-fonte completo, a documentação Swagger e o design system acessível do VisionVoice.
+        </p>
+
+        <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap: wrap;">
+          <a href="https://github.com/douglascmoura/DIO-projeto-desafio-IA" target="_blank" rel="noopener noreferrer"
+            style="display:inline-flex; align-items:center; gap:10px; background: rgba(215,181,109,0.1); border: 1px solid #D7B56D; color: #D7B56D; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(215,181,109,0.15);"
+            onmouseover="this.style.background='#D7B56D'; this.style.color='#0A1428';"
+            onmouseout="this.style.background='rgba(215,181,109,0.1)'; this.style.color='#D7B56D';">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+              </path>
+            </svg>
+            Repositório GitHub
+          </a>
+
+          <a href="index.html#projetos"
+            style="display:inline-flex; align-items:center; gap:10px; background: transparent; border: 1px solid rgba(248,249,250,0.3); color: #F8F9FA; padding: 15px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; text-decoration: none; transition: all 0.3s ease;"
+            onmouseover="this.style.borderColor='#D7B56D'; this.style.color='#D7B56D';"
+            onmouseout="this.style.borderColor='rgba(248,249,250,0.3)'; this.style.color='#F8F9FA';">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Voltar aos Projetos
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer style="border-top: 1px solid rgba(248,249,250,0.05); margin-top: 4rem; padding: 3rem 0; text-align: center;">
+    <a href="index.html"
+      style="font-family: var(--font-display); font-size: 1.2rem; color: rgba(248,249,250,0.4); text-decoration: none; letter-spacing: 2px;">DOCH<span
+        style="color: rgba(215,181,109,0.4)">MO</span></a>
+    <p style="color: rgba(248,249,250,0.3); font-size: 0.85rem; margin-top: 1rem;">&copy; 2026 DOCHMO. Todos os direitos
+      reservados.</p>
+  </footer>
+
+  <!-- Interactive Scripts (GSAP, Custom Cursor & 3D Tilt) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      // GSAP ScrollTrigger Entrance Animations
+      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Fade-up reveal for article sections
+        gsap.utils.toArray('.gsap-fade-up').forEach(function (elem) {
+          gsap.fromTo(elem,
+            { y: 50, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 1.2,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: elem,
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+              }
+            }
+          );
+        });
+      }
+
+      // Custom Interactive Gold Cursor Tracking
+      const ring = document.getElementById('cursor-ring');
+      const dot = document.getElementById('cursor-dot');
+
+      if (ring && dot) {
+        document.addEventListener('mousemove', (e) => {
+          gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.3, ease: 'power2.out' });
+          gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
+        });
+
+        const links = document.querySelectorAll('a, .article-img-wrap, kbd');
+        links.forEach(link => {
+          link.addEventListener('mouseenter', () => {
+            gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
+          });
+          link.addEventListener('mouseleave', () => {
+            gsap.to(ring, { scale: 1, borderColor: '#D7B56D', backgroundColor: 'transparent', duration: 0.3 });
+          });
+        });
+      }
+
+    });
+  </script>
+</body>
+
+</html>
