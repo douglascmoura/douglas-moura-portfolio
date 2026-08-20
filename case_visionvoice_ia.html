@@ -60,9 +60,16 @@
       color: #D7B56D;
       margin-top: 5rem;
       margin-bottom: 2rem;
+      line-height: 1.25;
       display: flex;
-      align-items: center;
+      align-items: baseline;
       gap: 15px;
+    }
+
+    .article-content h2 span {
+      color: rgba(215, 181, 109, 0.4);
+      font-weight: 400;
+      flex-shrink: 0;
     }
 
     .article-content h3 {
@@ -101,12 +108,15 @@
     .article-img-wrap {
       margin: 4rem 0;
       position: relative;
-      padding: 10px;
+      padding: 14px;
       background: rgba(215, 181, 109, 0.03);
       border: 1px solid rgba(215, 181, 109, 0.15);
       border-radius: 12px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
       overflow: hidden;
+      height: auto !important;
+      max-height: none !important;
+      display: block !important;
     }
 
     .article-img-wrap::before {
@@ -276,18 +286,219 @@
     }
 
     /* =========================================================================
+       Navigation Bar
+       ========================================================================= */
+    .nav-case {
+      background: rgba(10, 20, 40, 0.85);
+      border-bottom: 1px solid rgba(215, 181, 109, 0.15);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 9999;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      box-sizing: border-box;
+    }
+
+    .nav-case .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: #F8F9FA;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 2px;
+      flex-shrink: 0;
+    }
+
+    .nav-case .nav-back-link {
+      color: rgba(248, 249, 250, 0.7);
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      transition: color 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .nav-case .nav-back-link:hover {
+      color: #D7B56D;
+    }
+
+    /* =========================================================================
+       Architecture Diagram Interactive Canvas
+       ========================================================================= */
+    .svg-scroll-container {
+      width: 100%;
+      height: auto !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 8px;
+    }
+
+    .svg-scroll-container::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .svg-scroll-container::-webkit-scrollbar-track {
+      background: rgba(10, 20, 42, 0.6);
+      border-radius: 3px;
+    }
+
+    .svg-scroll-container::-webkit-scrollbar-thumb {
+      background: rgba(215, 181, 109, 0.35);
+      border-radius: 3px;
+    }
+
+    .svg-scroll-container::-webkit-scrollbar-corner {
+      background: transparent !important;
+      display: none !important;
+    }
+
+    .svg-architecture-canvas {
+      width: 100%;
+      height: auto !important;
+      display: block !important;
+    }
+
+    /* =========================================================================
        Responsive Media Queries
        ========================================================================= */
     @media (max-width: 768px) {
+      .nav-case {
+        padding: 14px 24px !important;
+      }
+
+      .nav-case .nav-logo {
+        font-size: 1.25rem !important;
+      }
+
+      .nav-case .nav-back-link {
+        font-size: 0.8rem !important;
+        letter-spacing: 0.5px !important;
+      }
+
+      .article-header {
+        padding: 120px 24px 45px !important;
+      }
+
+      .article-header h1 {
+        font-size: 2.15rem !important;
+        line-height: 1.15 !important;
+        margin-bottom: 1.2rem !important;
+      }
+
+      .article-header h1 span {
+        font-size: 0.88em !important;
+      }
+
+      .article-header p {
+        font-size: 1.05rem !important;
+        line-height: 1.6 !important;
+      }
+
+      .article-content {
+        padding: 0 24px 70px !important;
+      }
+
+      .article-content h2 {
+        font-size: 1.65rem !important;
+        line-height: 1.25 !important;
+        margin-top: 3.5rem !important;
+        margin-bottom: 1.3rem !important;
+        display: flex !important;
+        align-items: baseline !important;
+        gap: 12px !important;
+      }
+
+      .article-content h2 span {
+        font-size: 1.4rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      .article-content h3 {
+        font-size: 1.35rem !important;
+        margin-top: 2.2rem !important;
+        margin-bottom: 1rem !important;
+      }
+
+      .article-content p,
+      .article-content ul,
+      .article-content li {
+        font-size: 1.02rem !important;
+        line-height: 1.75 !important;
+      }
+
+      .article-img-wrap {
+        height: auto !important;
+        max-height: none !important;
+        display: block !important;
+        margin: 3rem 0 !important;
+        padding: 14px !important;
+      }
+
       .article-img-wrap::before {
         display: none !important;
         animation: none !important;
       }
 
+      .svg-scroll-container {
+        width: 100% !important;
+        height: auto !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        padding: 4px 0 8px;
+      }
+
+      .svg-scroll-container::-webkit-scrollbar-corner {
+        background: transparent !important;
+        display: none !important;
+      }
+
+      .svg-architecture-canvas {
+        min-width: 700px !important;
+        width: 100% !important;
+        height: auto !important;
+        display: block !important;
+      }
+
+      .glass-quote {
+        padding: 1.3rem 1.5rem !important;
+        font-size: 1rem !important;
+        margin: 2.2rem 0 !important;
+      }
+
+      .terminal-window {
+        margin: 1.8rem 0 !important;
+      }
+
+      .terminal-header {
+        padding: 8px 14px !important;
+        font-size: 0.8rem !important;
+      }
+
+      .terminal-body {
+        padding: 1.1rem !important;
+        font-size: 0.82rem !important;
+        line-height: 1.55 !important;
+      }
+
       .shortcut-table th,
       .shortcut-table td {
         padding: 8px 12px;
-        font-size: 0.85rem;
+        font-size: 0.82rem;
+      }
+
+      .btn-glass-shine {
+        width: 100%;
+        text-align: center;
       }
     }
   </style>
@@ -307,14 +518,9 @@
   <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
 
   <!-- Header & Navigation Bar -->
-  <nav class="nav" role="navigation" aria-label="Navegação principal"
-    style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);">
-    <a href="index.html" class="nav-logo"
-      style="font-family: var(--font-display); font-size: 1.5rem; color: #F8F9FA; text-decoration: none; font-weight: 700; letter-spacing: 2px;">DOCH<span
-        style="color:#D7B56D">MO</span></a>
-    <a href="index.html#projetos"
-      style="color: rgba(248,249,250,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease;">←
-      VOLTAR PARA PROJETOS</a>
+  <nav class="nav-case" role="navigation" aria-label="Navegação principal">
+    <a href="index.html" class="nav-logo">DOCH<span style="color:#D7B56D">MO</span></a>
+    <a href="index.html#projetos" class="nav-back-link">← VOLTAR PARA PROJETOS</a>
   </nav>
 
   <main>
@@ -382,8 +588,8 @@
         <!-- Architecture Blueprint Vector Canvas (940x690) -->
         <div class="article-img-wrap"
           style="margin: 3rem 0; padding: 14px; background: rgba(10, 20, 42, 0.5); border: 1px solid rgba(215, 181, 109, 0.22); border-radius: 12px;">
-          <svg viewBox="0 0 940 690" fill="none" xmlns="http://www.w3.org/2000/svg"
-            style="width: 100%; height: auto; display: block;">
+          <div class="svg-scroll-container">
+            <svg class="svg-architecture-canvas" viewBox="0 0 940 690" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="svg-card-bg" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stop-color="#0E1B38" stop-opacity="0.85" />
@@ -693,6 +899,7 @@
             <text x="685" y="668" fill="rgba(248, 249, 250, 0.85)" font-family="'Courier New', monospace"
               font-size="10.5" letter-spacing="0.5">👁️ FOCO: ACESSIBILIDADE WCAG 2.1</text>
           </svg>
+          </div>
         </div>
       </section>
 
