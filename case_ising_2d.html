@@ -51,7 +51,41 @@
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
-    /* DOCHMO Design System & Typography Overrides */
+    /* =========================================================================
+       MathJax LaTeX Rendering Overrides for Dark Mode
+       ========================================================================= */
+    .MathJax {
+      color: #D7B56D !important;
+      font-size: 1.2rem !important;
+      margin: 1.5rem 0 !important;
+    }
+
+    .math-scroll-wrapper {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+      text-align: center;
+      padding: 0.5rem 0;
+    }
+
+    .math-scroll-wrapper::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .math-scroll-wrapper::-webkit-scrollbar-track {
+      background: rgba(10, 20, 42, 0.6);
+      border-radius: 2px;
+    }
+
+    .math-scroll-wrapper::-webkit-scrollbar-thumb {
+      background: rgba(215, 181, 109, 0.3);
+      border-radius: 2px;
+    }
+
+    /* =========================================================================
+       DOCHMO Brand Design System & Typography Rules
+       ========================================================================= */
     .article-header {
       padding: 180px 20px 100px;
       text-align: center;
@@ -59,6 +93,22 @@
       margin: 0 auto;
       position: relative;
       z-index: 10;
+    }
+
+    .article-header h1 {
+      font-family: var(--font-display);
+      font-size: 4rem;
+      color: #F8F9FA;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);
+    }
+
+    .article-header h1 span {
+      font-size: 2.5rem;
+      color: #D7B56D;
+      font-weight: 400;
+      font-style: italic;
     }
 
     .article-content {
@@ -83,9 +133,16 @@
       color: #D7B56D;
       margin-top: 5rem;
       margin-bottom: 2rem;
+      line-height: 1.25;
       display: flex;
-      align-items: center;
+      align-items: baseline;
       gap: 15px;
+    }
+
+    .article-content h2 span {
+      color: rgba(215, 181, 109, 0.4);
+      font-weight: 400;
+      flex-shrink: 0;
     }
 
     .article-content h3 {
@@ -118,15 +175,21 @@
       font-size: 0.9rem;
     }
 
+    /* =========================================================================
+       Ambient Media Wrappers & Scan Animation
+       ========================================================================= */
     .article-img-wrap {
       margin: 4rem 0;
       position: relative;
-      padding: 10px;
+      padding: 14px;
       background: rgba(215, 181, 109, 0.03);
       border: 1px solid rgba(215, 181, 109, 0.15);
       border-radius: 12px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
       overflow: hidden;
+      height: auto !important;
+      max-height: none !important;
+      display: block !important;
     }
 
     .article-img-wrap::before {
@@ -143,6 +206,16 @@
       pointer-events: none;
     }
 
+    @keyframes scan {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 200%;
+      }
+    }
+
     .streamlit-iframe {
       width: 100%;
       height: 750px;
@@ -150,9 +223,11 @@
       border-radius: 8px;
       display: block;
       background: #0E1117;
-      /* Streamlit Dark Theme Base Background */
     }
 
+    /* =========================================================================
+       Glass Quotes & Callout Containers
+       ========================================================================= */
     .glass-quote {
       padding: 2rem;
       margin: 3rem 0;
@@ -160,35 +235,7 @@
       background: rgba(215, 181, 109, 0.05);
       border-radius: 0 12px 12px 0;
       font-style: italic;
-    }
-
-    .nav-floating {
-      position: fixed;
-      top: 30px;
-      left: 40px;
-      z-index: 100;
-    }
-
-    .btn-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      color: #D7B56D;
-      font-family: 'Inter', sans-serif;
-      font-weight: 500;
-      text-decoration: none;
-      padding: 10px 20px;
-      border: 1px solid rgba(215, 181, 109, 0.3);
-      border-radius: 30px;
-      background: rgba(7, 16, 32, 0.6);
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
-    }
-
-    .btn-back:hover {
-      background: rgba(215, 181, 109, 0.1);
-      border-color: #D7B56D;
+      font-size: 1.05rem;
     }
 
     .cta-container {
@@ -239,27 +286,170 @@
       transform: translateY(-3px);
     }
 
-    /* MathJax Color Theme Overrides */
-    .MathJax {
-      color: #D7B56D !important;
-      font-size: 1.2rem !important;
-      margin: 1.5rem 0 !important;
+    /* =========================================================================
+       Hero Background & Interactive Gold Cursor
+       ========================================================================= */
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: radial-gradient(circle at 50% 30%, rgba(215, 181, 109, 0.08) 0%, rgba(10, 20, 40, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
     }
 
-    /* Custom Gold Cursor Styling */
     .cursor-ring {
       border-color: rgba(215, 181, 109, 0.85) !important;
       box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
     }
 
+    /* =========================================================================
+       Navigation Bar
+       ========================================================================= */
+    .nav-case {
+      background: rgba(10, 20, 40, 0.85);
+      border-bottom: 1px solid rgba(215, 181, 109, 0.15);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 9999;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      box-sizing: border-box;
+    }
+
+    .nav-case .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: #F8F9FA;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 2px;
+      flex-shrink: 0;
+    }
+
+    .nav-case .nav-back-link {
+      color: rgba(248, 249, 250, 0.7);
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      transition: color 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .nav-case .nav-back-link:hover {
+      color: #D7B56D;
+    }
+
+    /* =========================================================================
+       Responsive Media Queries
+       ========================================================================= */
     @media (max-width: 768px) {
+      .nav-case {
+        padding: 14px 24px !important;
+      }
+
+      .nav-case .nav-logo {
+        font-size: 1.25rem !important;
+      }
+
+      .nav-case .nav-back-link {
+        font-size: 0.8rem !important;
+        letter-spacing: 0.5px !important;
+      }
+
+      .article-header {
+        padding: 120px 24px 45px !important;
+      }
+
+      .article-header h1 {
+        font-size: 2.15rem !important;
+        line-height: 1.15 !important;
+        margin-bottom: 1.2rem !important;
+      }
+
+      .article-header h1 span {
+        font-size: 0.88em !important;
+      }
+
+      .article-header p {
+        font-size: 1.05rem !important;
+        line-height: 1.6 !important;
+      }
+
+      .article-content {
+        padding: 0 24px 70px !important;
+      }
+
+      .article-content h2 {
+        font-size: 1.65rem !important;
+        line-height: 1.25 !important;
+        margin-top: 3.5rem !important;
+        margin-bottom: 1.3rem !important;
+        display: flex !important;
+        align-items: baseline !important;
+        gap: 12px !important;
+      }
+
+      .article-content h2 span {
+        font-size: 1.4rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      .article-content h3 {
+        font-size: 1.35rem !important;
+        margin-top: 2.2rem !important;
+        margin-bottom: 1rem !important;
+      }
+
+      .article-content p,
+      .article-content ul,
+      .article-content li {
+        font-size: 1.02rem !important;
+        line-height: 1.75 !important;
+      }
+
+      .article-img-wrap {
+        height: auto !important;
+        max-height: none !important;
+        display: block !important;
+        margin: 3rem 0 !important;
+        padding: 14px !important;
+      }
+
       .article-img-wrap::before {
         display: none !important;
         animation: none !important;
       }
 
       .ising-svg-card {
-        padding: 1.75rem 1.25rem 1.5rem 1.25rem !important;
+        padding: 1.5rem 1.1rem !important;
+        margin: 2.5rem 0 !important;
+      }
+
+      .ising-svg-card h3 {
+        font-size: 1.45rem !important;
+        line-height: 1.25 !important;
+      }
+
+      .glass-quote {
+        padding: 1.3rem 1.5rem !important;
+        font-size: 1rem !important;
+        margin: 2.2rem 0 !important;
+      }
+
+      .MathJax {
+        font-size: 1.05rem !important;
       }
 
       .svg-legend-g {
@@ -329,43 +519,33 @@
 
 <body style="background: #0A1428;">
 
-  <!-- Ambient Background Effect -->
+  <!-- Ambient Noise Texture -->
   <div class="noise" aria-hidden="true"
     style="position: fixed; inset: 0; opacity: 0.04; background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E'); z-index:9000; pointer-events:none;">
   </div>
 
-  <div class="hero-bg"
-    style="position: absolute; top: 0; left: 0; width: 100%; height: 100vh; background: radial-gradient(circle at 50% 30%, rgba(215, 181, 109, 0.08) 0%, rgba(10, 20, 40, 0) 70%); pointer-events: none; z-index: 0;">
-  </div>
+  <div class="hero-bg"></div>
 
-  <!-- Custom Gold Cursor -->
+  <!-- Custom Interactive Cursor Elements -->
   <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
   <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
 
-  <!-- ==========================================
-     NAVIGATION BAR
-     ========================================== -->
-  <nav class="nav" role="navigation" aria-label="Navegação principal"
-    style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);">
-    <a href="index.html" class="nav-logo"
-      style="font-family: var(--font-display); font-size: 1.5rem; color: #F8F9FA; text-decoration: none; font-weight: 700; letter-spacing: 2px;">DOCH<span
-        style="color:#D7B56D">MO</span></a>
-    <a href="index.html#projetos"
-      style="color: rgba(248,249,250,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease;">←
-      VOLTAR PARA PROJETOS</a>
+  <!-- =========================================================================
+     Header & Navigation Bar
+     ========================================================================= -->
+  <nav class="nav-case" role="navigation" aria-label="Navegação principal">
+    <a href="index.html" class="nav-logo">DOCH<span style="color:#D7B56D">MO</span></a>
+    <a href="index.html#projetos" class="nav-back-link">← VOLTAR PARA PROJETOS</a>
   </nav>
 
   <main>
+    <!-- Case Study Hero Header -->
     <article class="article-header">
       <div class="gsap-fade-up">
         <span class="badge"
           style="background: rgba(215, 181, 109, 0.1); color: #D7B56D; border: 1px solid rgba(215, 181, 109, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 1.5rem; display: inline-block;">ESTUDO
           DE CASO ANALÍTICO</span>
-        <h1
-          style="font-family: var(--font-display); font-size: 4rem; color: #F8F9FA; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);">
-          Modelo de Ising 2D<br><span
-            style="font-size: 2.5rem; color: #D7B56D; font-weight: 400; font-style: italic;">Simulação Estocástica e
-            Transições de Fase</span></h1>
+        <h1>Modelo de Ising 2D<br><span>Simulação Estocástica e Transições de Fase</span></h1>
         <p style="color:rgba(248,249,250,0.75); max-width:700px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
           Abordagem computacional do paradigma do ferromagnetismo utilizando algoritmos de Monte Carlo
           (Metropolis-Hastings), renderizado interativamente com Streamlit e hiper-otimizado via compilação Just-In-Time
@@ -378,9 +558,7 @@
 
     <div class="article-content">
 
-      <!-- ==========================================
-     SECTION 01: THEORETICAL FOUNDATION
-     ========================================== -->
+      <!-- Section 01: Theoretical Foundation & Microstate Lattice -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Fundamentação Teórica</h2>
         <p>
@@ -394,7 +572,7 @@
           função Hamiltoniana:
         </p>
 
-        <div class="text-center">
+        <div class="math-scroll-wrapper">
           $$H(\sigma) = -J \sum_{\langle i,j \rangle} \sigma_i \sigma_j - h \sum_i \sigma_i$$
         </div>
 
@@ -405,9 +583,7 @@
             fase</strong> de segunda ordem.
         </p>
 
-        <!-- ==========================================
-        SECTION 01.1: 2D ISING SPINS GRID VISUALIZATION (SVG)
-        ========================================== -->
+        <!-- 2D Ising Spins Grid Visualization (SVG Card) -->
         <div class="article-img-wrap ising-svg-card"
           style="padding: 3rem 3rem 2.5rem 3rem; margin: 4rem 0; background: rgba(7, 16, 32, 0.55); border: 1px solid rgba(215, 181, 109, 0.18); border-radius: 12px; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(215, 181, 109, 0.05); display: block !important; position: relative; --mob-wrap-h: auto;">
           <!-- Top-left Gold Badge -->
@@ -801,9 +977,7 @@
         </div>
       </section>
 
-      <!-- ==========================================
-     SECTION 02: METROPOLIS DYNAMICS & JIT COMPILATION
-     ========================================== -->
+      <!-- Section 02: Metropolis Dynamics & JIT Compilation -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Dinâmica de Metropolis e Performance JIT</h2>
         <p>
@@ -838,9 +1012,7 @@
         </ul>
       </section>
 
-      <!-- ==========================================
-     SECTION 03: ADVANCED STATISTICAL MECHANICS ANALYSIS
-     ========================================== -->
+      <!-- Section 03: Advanced Statistical Mechanics Analysis -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Análise Físico-Estatística Avançada</h2>
         <p>
@@ -865,18 +1037,16 @@
         </ul>
       </section>
 
-      <!-- ==========================================
-     SECTION 04: STREAMLIT LIVE INTERACTIVE SIMULATION
-     ========================================== -->
+      <!-- Section 04: Streamlit Live Interactive Simulation -->
       <section class="gsap-fade-up">
-        <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Simulação Interativa (Live App)</h2>
+        <h2><span style="color: rgba(215,181,109,0.4);">04.</span> Simulação Interativa (Live App)</h2>
         <p>
           Sinta a termodinâmica rodando na nuvem. Altere o parâmetro $\beta$ (inverso da Temperatura) e veja a rede de
           spins ferromagnéticos quebrar sua simetria visualmente (em baixas temperaturas formam-se domínios magnéticos
           densos; em altas temperaturas prevalece o caos e a desordem térmica).
         </p>
 
-        <!-- SIMULATION PREVIEW -->
+        <!-- Simulation Preview Banner -->
         <div class="article-img-wrap"
           style="text-align: center; margin: 3rem 0; --mob-wrap-h: auto; display: block !important;">
           <img src="assets/img/app_ising_demo.png" alt="Interface da Simulação do Modelo de Ising"
@@ -884,9 +1054,7 @@
         </div>
       </section>
 
-      <!-- ==========================================
-     CALL TO ACTION & TECHNICAL RESOURCES
-     ========================================== -->
+      <!-- Section 05: Call to Action & Source Documents -->
       <div class="gsap-fade-up"
         style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
         <h3 style="font-family: var(--font-display); font-size: 2rem; color: #F8F9FA; margin-bottom: 1rem;">Explore o
@@ -928,6 +1096,7 @@
 
   </main>
 
+  <!-- Global Footer -->
   <footer style="border-top: 1px solid rgba(248,249,250,0.05); margin-top: 4rem; padding: 3rem 0; text-align: center;">
     <a href="index.html"
       style="font-family: var(--font-display); font-size: 1.2rem; color: rgba(248,249,250,0.4); text-decoration: none; letter-spacing: 2px;">DOCH<span
@@ -936,6 +1105,7 @@
       reservados.</p>
   </footer>
 
+  <!-- Interactive Scripts (Ising 2D Thermodynamics, GSAP & Custom Cursor) -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       /* ==========================================================================
