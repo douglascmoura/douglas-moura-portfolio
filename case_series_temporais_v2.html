@@ -26,7 +26,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
   <style>
-    /* Institucional DOCHMO Overrides */
+    /* =========================================================================
+       DOCHMO Brand Design System & Typography Rules
+       ========================================================================= */
     .article-header {
       padding: 180px 20px 100px;
       text-align: center;
@@ -34,6 +36,22 @@
       margin: 0 auto;
       position: relative;
       z-index: 10;
+    }
+
+    .article-header h1 {
+      font-family: var(--font-display);
+      font-size: 4rem;
+      color: #F8F9FA;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);
+    }
+
+    .article-header h1 span {
+      font-size: 1em;
+      color: #D7B56D;
+      font-weight: 400;
+      font-style: italic;
     }
 
     .article-content {
@@ -58,9 +76,16 @@
       color: #D7B56D;
       margin-top: 5rem;
       margin-bottom: 2rem;
+      line-height: 1.25;
       display: flex;
-      align-items: center;
+      align-items: baseline;
       gap: 15px;
+    }
+
+    .article-content h2 span {
+      color: rgba(215, 181, 109, 0.4);
+      font-weight: 400;
+      flex-shrink: 0;
     }
 
     .article-content h3 {
@@ -93,6 +118,9 @@
       font-size: 0.9rem;
     }
 
+    /* =========================================================================
+       Ambient Media Wrappers & Scan Animation
+       ========================================================================= */
     .article-img-wrap {
       margin: 4rem 0;
       position: relative;
@@ -143,6 +171,9 @@
       background: transparent;
     }
 
+    /* =========================================================================
+       Glass Quotes & Callout Containers
+       ========================================================================= */
     .glass-quote {
       padding: 2rem;
       margin: 3rem 0;
@@ -153,6 +184,9 @@
       font-size: 1.05rem;
     }
 
+    /* =========================================================================
+       Terminal Window & Code Diagnostics
+       ========================================================================= */
     .terminal-window {
       background: #050A15;
       border: 1px solid rgba(215, 181, 109, 0.2);
@@ -191,13 +225,14 @@
       font-weight: bold;
     }
 
-    /* Verde para indicadores positivos */
     .terminal-body .output-warning {
       color: #E74C3C;
       font-weight: bold;
     }
 
-    /* Table Premium UX/UI Redesign */
+    /* =========================================================================
+       Table Premium UX/UI Redesign
+       ========================================================================= */
     .premium-table-card {
       margin: 3.5rem 0;
       background: linear-gradient(135deg, rgba(10, 22, 44, 0.7) 0%, rgba(5, 10, 25, 0.85) 100%);
@@ -303,12 +338,10 @@
       background: rgba(215, 181, 109, 0.03) !important;
     }
 
-    /* Alternating row colors */
     .premium-table tbody tr:nth-child(even) td {
       background: rgba(15, 30, 60, 0.4);
     }
 
-    /* Highlight winner row */
     .premium-table tr.row-winner td {
       background: rgba(76, 175, 80, 0.04) !important;
       border-bottom: 1px solid rgba(76, 175, 80, 0.15);
@@ -343,7 +376,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* Description legend block */
     .premium-table-legend {
       margin-top: 1.8rem;
       padding-top: 1.5rem;
@@ -369,7 +401,6 @@
       line-height: 1.5 !important;
     }
 
-    /* Tooltip styles */
     .premium-table th.has-tooltip {
       position: relative;
       cursor: help;
@@ -409,7 +440,6 @@
       transform: translateX(-50%) scale(1);
     }
 
-    /* Prevent tooltip overflows on edge columns */
     .premium-table th.has-tooltip.tooltip-left::after {
       left: 0;
       transform: translateX(0) scale(0.85);
@@ -429,7 +459,9 @@
       transform: translateX(0) scale(1);
     }
 
-    /* Parallax background for hero */
+    /* =========================================================================
+       Hero Background & Interactive Gold Cursor
+       ========================================================================= */
     .hero-bg {
       position: absolute;
       top: 0;
@@ -441,13 +473,14 @@
       z-index: 0;
     }
 
-    /* Cursor Dourado Exclusivo para as Páginas de Case */
     .cursor-ring {
       border-color: rgba(215, 181, 109, 0.85) !important;
       box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
     }
 
-    /* 3D Glassmorphism Banner */
+    /* =========================================================================
+       3D Glassmorphism Banner
+       ========================================================================= */
     .version-banner-3d {
       position: relative;
       display: flex;
@@ -563,7 +596,120 @@
       box-shadow: 0 6px 20px rgba(215, 181, 109, 0.15);
     }
 
+    /* =========================================================================
+       Navigation Bar
+       ========================================================================= */
+    .nav-case {
+      background: rgba(10, 20, 40, 0.85);
+      border-bottom: 1px solid rgba(215, 181, 109, 0.15);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 9999;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      box-sizing: border-box;
+    }
+
+    .nav-case .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: #F8F9FA;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 2px;
+      flex-shrink: 0;
+    }
+
+    .nav-case .nav-back-link {
+      color: rgba(248, 249, 250, 0.7);
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      transition: color 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .nav-case .nav-back-link:hover {
+      color: #D7B56D;
+    }
+
+    /* =========================================================================
+       Responsive Media Queries
+       ========================================================================= */
     @media (max-width: 768px) {
+      .nav-case {
+        padding: 14px 24px !important;
+      }
+
+      .nav-case .nav-logo {
+        font-size: 1.25rem !important;
+      }
+
+      .nav-case .nav-back-link {
+        font-size: 0.8rem !important;
+        letter-spacing: 0.5px !important;
+      }
+
+      .article-header {
+        padding: 120px 24px 45px !important;
+      }
+
+      .article-header h1 {
+        font-size: 2.15rem !important;
+        line-height: 1.15 !important;
+        margin-bottom: 1.2rem !important;
+      }
+
+      .article-header h1 span {
+        font-size: 0.88em !important;
+      }
+
+      .article-header p {
+        font-size: 1.05rem !important;
+        line-height: 1.6 !important;
+      }
+
+      .article-content {
+        padding: 0 24px 70px !important;
+      }
+
+      .article-content h2 {
+        font-size: 1.65rem !important;
+        line-height: 1.25 !important;
+        margin-top: 3.5rem !important;
+        margin-bottom: 1.3rem !important;
+        display: flex !important;
+        align-items: baseline !important;
+        gap: 12px !important;
+      }
+
+      .article-content h2 span {
+        font-size: 1.4rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      .article-content h3 {
+        font-size: 1.35rem !important;
+        margin-top: 2.2rem !important;
+        margin-bottom: 1rem !important;
+      }
+
+      .article-content p,
+      .article-content ul,
+      .article-content li {
+        font-size: 1.02rem !important;
+        line-height: 1.75 !important;
+      }
+
       .article-img-wrap::before {
         display: none !important;
         animation: none !important;
@@ -577,6 +723,12 @@
 
       .btn-glass-shine {
         width: 100%;
+      }
+
+      .glass-quote {
+        padding: 1.3rem 1.5rem !important;
+        font-size: 1rem !important;
+        margin: 2.2rem 0 !important;
       }
 
       /* Mobile horizontal scrolling for premium tables */
@@ -618,42 +770,33 @@
 
 <body style="background: #0A1428;">
 
-  <!-- Ambient background -->
+  <!-- Ambient Noise Texture -->
   <div class="noise" aria-hidden="true"
     style="position: fixed; inset: 0; opacity: 0.04; background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E'); z-index:9000; pointer-events:none;">
   </div>
 
   <div class="hero-bg"></div>
 
-  <!-- Cursor -->
+  <!-- Custom Interactive Cursor Elements -->
   <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
   <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
 
-  <!-- ==========================================
-     SECTION: MAIN NAVIGATION
-     ========================================== -->
-  <nav class="nav" role="navigation" aria-label="Navegação principal"
-    style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);">
-    <a href="index.html" class="nav-logo"
-      style="font-family: var(--font-display); font-size: 1.5rem; color: #F8F9FA; text-decoration: none; font-weight: 700; letter-spacing: 2px;">DOCH<span
-        style="color:#D7B56D">MO</span></a>
-    <a href="index.html#projetos"
-      style="color: rgba(248,249,250,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease;">←
-      VOLTAR PARA PROJETOS</a>
+  <!-- =========================================================================
+     Header & Navigation Bar
+     ========================================================================= -->
+  <nav class="nav-case" role="navigation" aria-label="Navegação principal">
+    <a href="index.html" class="nav-logo">DOCH<span style="color:#D7B56D">MO</span></a>
+    <a href="index.html#projetos" class="nav-back-link">← VOLTAR PARA PROJETOS</a>
   </nav>
 
   <main>
+    <!-- Case Study Hero Header -->
     <article class="article-header">
       <div class="gsap-fade-up">
         <span class="badge"
           style="background: rgba(215, 181, 109, 0.1); color: #D7B56D; border: 1px solid rgba(215, 181, 109, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 1.5rem; display: inline-block;">ESTUDO
           DE CASO ANALÍTICO</span>
-        <h1
-          style="font-family: var(--font-display); font-size: 4rem; color: #F8F9FA; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);">
-          Existe um Ciclo Anual na<br><span
-            style="font-size: 1em; color: #D7B56D; font-weight: 400; font-style: italic;">Produção de Petróleo no
-            Brasil?</span>
-        </h1>
+        <h1>Existe um Ciclo Anual na<br><span>Produção de Petróleo no Brasil?</span></h1>
         <p style="color:rgba(248,249,250,0.75); max-width:700px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
           Uma investigação estatística multimetodológica (1997–2025) independente e autoral sobre a dinâmica de produção
           nacional.
@@ -665,9 +808,7 @@
 
     <div class="article-content">
 
-      <!-- ==========================================
-      SECTION: INTRODUCTION
-      ========================================== -->
+      <!-- Section 01: Context & Introduction -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Introdução</h2>
         <p>O estudo de séries temporais constitui um dos pilares mais produtivos da estatística aplicada: em vez de
@@ -711,9 +852,7 @@
         </div>
       </section>
 
-      <!-- ==========================================
-      SECTION: METHODOLOGY
-      ========================================== -->
+      <!-- Section 02: Research Methodology -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Metodologia</h2>
         <p>A modelagem seguiu a abordagem clássica de Box-Jenkins para a família SARIMA, complementada por três frentes
@@ -733,9 +872,7 @@
         </ul>
       </section>
 
-      <!-- ==========================================
-      SECTION: EXPLORATORY ANALYSIS
-      ========================================== -->
+      <!-- Section 03: Exploratory Data Analysis & Seasonality -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">03.</span> Análise Exploratória</h2>
         <p>A pergunta que orienta todo o trabalho: <em>existe um ciclo anual estável na produção de petróleo do Brasil —
@@ -772,9 +909,7 @@
           discutida mais adiante.</p>
       </section>
 
-      <!-- ==========================================
-      SECTION: STRUCTURAL SHOCKS AND INTERVENTION
-      ========================================== -->
+      <!-- Section 04: Structural Shocks & Intervention Analysis -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">04.</span> Choques Estruturais e Intervenção</h2>
         <p>A produção de petróleo não é uma curva suave: ela é pontuada por eventos que deslocaram seu nível de forma
@@ -794,9 +929,7 @@
           documentados — uma convergência entre detecção estatística não supervisionada e conhecimento de domínio.</p>
       </section>
 
-      <!-- ==========================================
-      SECTION: THE CENTRAL FINDING
-      ========================================== -->
+      <!-- Section 05: The Core Finding: Model Discrepancy & Performance Benchmark -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">05.</span> O Achado Central: Quando os Modelos Discordam</h2>
         <p>Aqui está o coração do trabalho — e o motivo pelo qual comparar 18 modelos sob um único teste seria, na
@@ -962,9 +1095,7 @@
           declarar um vencedor.</p>
       </section>
 
-      <!-- ==========================================
-      SECTION: QUANTIFYING UNCERTAINTY
-      ========================================== -->
+      <!-- Section 06: Uncertainty Quantification & Prediction Intervals -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">06.</span> Nem Todo Modelo que Acerta Sabe que Pode Errar</h2>
         <p>Um segundo achado, menos óbvio, mas igualmente importante: acurácia pontual e qualidade da incerteza são
@@ -981,9 +1112,7 @@
         </div>
       </section>
 
-      <!-- ==========================================
-      SECTION: FORECAST 2026
-      ========================================== -->
+      <!-- Section 07: 2026 Consensus Projections -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">07.</span> Previsão para 2026</h2>
         <p>Depois de toda a validação, a pergunta prática: o que esperar para o próximo ano?</p>
@@ -1155,9 +1284,7 @@
         </ul>
       </section>
 
-      <!-- ==========================================
-      SECTION: RIGOR AND REPRODUCIBILITY
-      ========================================== -->
+      <!-- Section 08: Rigor and Computational Reproducibility -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">08.</span> Rigor e Reprodutibilidade</h2>
         <p>Um detalhe que normalmente fica de fora de um case, mas que diz bastante sobre como o trabalho foi conduzido:
@@ -1238,9 +1365,7 @@
         </div>
       </section>
 
-      <!-- ==========================================
-     SECTION: CALL TO ACTION (CTA)
-     ========================================== -->
+      <!-- Section 09: Call to Action & Source Documents -->
       <div class="gsap-fade-up"
         style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
         <h3 style="font-family: var(--font-display); font-size: 2rem; color: #F8F9FA; margin-bottom: 1rem;">Mergulhe na
@@ -1285,6 +1410,9 @@
     </div>
   </main>
 
+  <!-- =========================================================================
+     Global Footer
+     ========================================================================= -->
   <footer style="border-top: 1px solid rgba(248,249,250,0.05); margin-top: 4rem; padding: 3rem 0; text-align: center;">
     <a href="index.html"
       style="font-family: var(--font-display); font-size: 1.2rem; color: rgba(248,249,250,0.4); text-decoration: none; letter-spacing: 2px;">DOCH<span
@@ -1293,6 +1421,9 @@
       reservados.</p>
   </footer>
 
+  <!-- =========================================================================
+     Interactive Scripts: GSAP Animations, Custom Cursor & 3D Tilt
+     ========================================================================= -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -1376,7 +1507,9 @@
     });
   </script>
 
-  <!-- Floating Toast Container for Mobile/Desktop click tooltips -->
+  <!-- =========================================================================
+     Interactive Mobile Tooltip Toast Component
+     ========================================================================= -->
   <div id="toast-tooltip"
     style="position: fixed; bottom: -120px; left: 50%; transform: translateX(-50%); background: rgba(10, 22, 44, 0.98); border: 1px solid #D7B56D; border-radius: 12px; padding: 16px 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); z-index: 9999; width: 90%; max-width: 420px; opacity: 0; pointer-events: none; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: 'Inter', sans-serif;">
     <div style="display: flex; flex-direction: column; gap: 6px;">
@@ -1394,6 +1527,9 @@
     </div>
   </div>
 
+  <!-- =========================================================================
+     Toast Utility Handler Functions
+     ========================================================================= -->
   <script>
     let toastTimeout;
     function showMetricTooltip(el, name) {
