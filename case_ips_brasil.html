@@ -26,7 +26,9 @@
 
 
   <style>
-    /* Institucional DOCHMO Overrides */
+    /* =========================================================================
+       DOCHMO Brand Design System & Typography Rules
+       ========================================================================= */
     .article-header {
       padding: 180px 20px 100px;
       text-align: center;
@@ -34,6 +36,22 @@
       margin: 0 auto;
       position: relative;
       z-index: 10;
+    }
+
+    .article-header h1 {
+      font-family: var(--font-display);
+      font-size: 4rem;
+      color: #F8F9FA;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);
+    }
+
+    .article-header h1 span {
+      font-size: 1em;
+      color: #D7B56D;
+      font-weight: 400;
+      font-style: italic;
     }
 
     .article-content {
@@ -58,9 +76,16 @@
       color: #D7B56D;
       margin-top: 5rem;
       margin-bottom: 2rem;
+      line-height: 1.25;
       display: flex;
-      align-items: center;
+      align-items: baseline;
       gap: 15px;
+    }
+
+    .article-content h2 span {
+      color: rgba(215, 181, 109, 0.4);
+      font-weight: 400;
+      flex-shrink: 0;
     }
 
     .article-content h3 {
@@ -93,6 +118,9 @@
       font-size: 0.9rem;
     }
 
+    /* =========================================================================
+       Ambient Media Wrappers & Scan Animation
+       ========================================================================= */
     .article-img-wrap {
       margin: 4rem 0;
       position: relative;
@@ -143,6 +171,9 @@
       background: transparent;
     }
 
+    /* =========================================================================
+       Glass Quotes & Callout Containers
+       ========================================================================= */
     .glass-quote {
       padding: 2rem;
       margin: 3rem 0;
@@ -150,10 +181,13 @@
       background: rgba(215, 181, 109, 0.05);
       border-radius: 0 12px 12px 0;
       font-style: italic;
-      font-size: 1.25rem;
+      font-size: 1.05rem;
       color: rgba(248, 249, 250, 0.95);
     }
 
+    /* =========================================================================
+       Terminal Window & Code Diagnostics
+       ========================================================================= */
     .terminal-window {
       background: #050A15;
       border: 1px solid rgba(215, 181, 109, 0.2);
@@ -192,13 +226,14 @@
       font-weight: bold;
     }
 
-    /* Verde para indicadores positivos */
     .terminal-body .output-warning {
       color: #E74C3C;
       font-weight: bold;
     }
 
-    /* Parallax background for hero */
+    /* =========================================================================
+       Hero Background & Interactive Gold Cursor
+       ========================================================================= */
     .hero-bg {
       position: absolute;
       top: 0;
@@ -210,20 +245,14 @@
       z-index: 0;
     }
 
-    /* Cursor Dourado Exclusivo para as Páginas de Case */
     .cursor-ring {
       border-color: rgba(215, 181, 109, 0.85) !important;
       box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
     }
 
-    @media (max-width: 768px) {
-      .article-img-wrap::before {
-        display: none !important;
-        animation: none !important;
-      }
-    }
-
-    /* Premium Interactive Chart Placeholders */
+    /* =========================================================================
+       Interactive Boxmap Preview & Container
+       ========================================================================= */
     .interactive-chart-container {
       overflow: hidden;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -244,44 +273,164 @@
       border-color: #D7B56D !important;
       box-shadow: 0 15px 35px rgba(215, 181, 109, 0.15) !important;
     }
+
+    /* =========================================================================
+       Navigation Bar
+       ========================================================================= */
+    .nav-case {
+      background: rgba(10, 20, 40, 0.85);
+      border-bottom: 1px solid rgba(215, 181, 109, 0.15);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 9999;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      box-sizing: border-box;
+    }
+
+    .nav-case .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: #F8F9FA;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 2px;
+      flex-shrink: 0;
+    }
+
+    .nav-case .nav-back-link {
+      color: rgba(248, 249, 250, 0.7);
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      transition: color 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .nav-case .nav-back-link:hover {
+      color: #D7B56D;
+    }
+
+    /* =========================================================================
+       Responsive Media Queries
+       ========================================================================= */
+    @media (max-width: 768px) {
+      .nav-case {
+        padding: 14px 24px !important;
+      }
+
+      .nav-case .nav-logo {
+        font-size: 1.25rem !important;
+      }
+
+      .nav-case .nav-back-link {
+        font-size: 0.8rem !important;
+        letter-spacing: 0.5px !important;
+      }
+
+      .article-header {
+        padding: 120px 24px 45px !important;
+      }
+
+      .article-header h1 {
+        font-size: 2.15rem !important;
+        line-height: 1.15 !important;
+        margin-bottom: 1.2rem !important;
+      }
+
+      .article-header h1 span {
+        font-size: 0.88em !important;
+      }
+
+      .article-header p {
+        font-size: 1.05rem !important;
+        line-height: 1.6 !important;
+      }
+
+      .article-content {
+        padding: 0 24px 70px !important;
+      }
+
+      .article-content h2 {
+        font-size: 1.65rem !important;
+        line-height: 1.25 !important;
+        margin-top: 3.5rem !important;
+        margin-bottom: 1.3rem !important;
+        display: flex !important;
+        align-items: baseline !important;
+        gap: 12px !important;
+      }
+
+      .article-content h2 span {
+        font-size: 1.4rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      .article-content h3 {
+        font-size: 1.35rem !important;
+        margin-top: 2.2rem !important;
+        margin-bottom: 1rem !important;
+      }
+
+      .article-content p,
+      .article-content ul,
+      .article-content li {
+        font-size: 1.02rem !important;
+        line-height: 1.75 !important;
+      }
+
+      .glass-quote {
+        padding: 1.3rem 1.5rem !important;
+        font-size: 1rem !important;
+        margin: 2.2rem 0 !important;
+      }
+
+      .article-img-wrap::before {
+        display: none !important;
+        animation: none !important;
+      }
+    }
   </style>
 </head>
 
 <body style="background: #0A1428;">
 
-  <!-- Ambient background -->
+  <!-- Ambient Noise Texture -->
   <div class="noise" aria-hidden="true"
     style="position: fixed; inset: 0; opacity: 0.04; background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E'); z-index:9000; pointer-events:none;">
   </div>
 
   <div class="hero-bg"></div>
 
-  <!-- Cursor -->
+  <!-- Custom Interactive Cursor Elements -->
   <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
   <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
 
-  <!-- ==========================================
-     SECTION: MAIN NAVIGATION
-     ========================================== -->
-  <nav class="nav" role="navigation" aria-label="Navegação principal"
-    style="background: rgba(10,20,40,0.85); border-bottom: 1px solid rgba(215, 181, 109, 0.15); position: fixed; width: 100%; z-index: 9999; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);">
-    <a href="index.html" class="nav-logo"
-      style="font-family: var(--font-display); font-size: 1.5rem; color: #F8F9FA; text-decoration: none; font-weight: 700; letter-spacing: 2px;">DOCH<span
-        style="color:#D7B56D">MO</span></a>
-    <a href="index.html#projetos"
-      style="color: rgba(248,249,250,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease;">←
-      VOLTAR PARA PROJETOS</a>
+  <!-- =========================================================================
+     Header & Navigation Bar
+     ========================================================================= -->
+  <nav class="nav-case" role="navigation" aria-label="Navegação principal">
+    <a href="index.html" class="nav-logo">DOCH<span style="color:#D7B56D">MO</span></a>
+    <a href="index.html#projetos" class="nav-back-link">← VOLTAR PARA PROJETOS</a>
   </nav>
 
   <main>
+    <!-- Case Study Hero Header -->
     <article class="article-header">
       <div class="gsap-fade-up">
         <span class="badge"
           style="background: rgba(215, 181, 109, 0.1); color: #D7B56D; border: 1px solid rgba(215, 181, 109, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 1.5rem; display: inline-block;">ESTUDO
           DE CASO ANALÍTICO</span>
-        <h1
-          style="font-family: var(--font-display); font-size: 4rem; color: #F8F9FA; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(215, 181, 109, 0.2);">
-          Análise Espacial<br>IPS Brasil</h1>
+        <h1>Análise Espacial<br><span>IPS Brasil</span></h1>
         <p style="color:rgba(248,249,250,0.75); max-width:700px; margin: 0 auto; font-size: 1.25rem; line-height: 1.6;">
           Mapeamento socioterritorial e dinâmico do Índice de Progresso Social nos mais de 5.500 municípios do Brasil
           (2024-2025).
@@ -293,9 +442,7 @@
 
     <div class="article-content">
 
-      <!-- ==========================================
-     SECTION: INTRODUCTION
-     ========================================== -->
+      <!-- Section 01: Context & Introduction -->
       <section class="gsap-fade-up">
         <h2><span style="color: rgba(215,181,109,0.4);">01.</span> Introdução</h2>
         <p>O Índice de Progresso Social (IPS) é uma métrica fundamental que vai além dos tradicionais indicadores
@@ -307,9 +454,7 @@
         </div>
       </section>
 
-      <!-- ==========================================
-     SECTION: METHODOLOGY
-     ========================================== -->
+      <!-- Section 02: Research Methodology & Geo-Pipeline -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">02.</span> Pipeline e Visualização (Python)</h2>
         <p>Embora as origens deste estudo remetam à linguagem R e seus ecossistemas tradicionais de geoprocessamento
@@ -326,9 +471,7 @@
         </ul>
       </section>
 
-      <!-- ==========================================
-     SECTION: MUNICIPAL MAP
-     ========================================== -->
+      <!-- Section 03: Socioterritorial Boxmap Analysis -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">03.</span> O Boxmap Socioterritorial</h2>
         <p>Através da aplicação do método de limites (Boxmap) podemos mitigar distorções visuais de outliers ao
@@ -373,9 +516,7 @@
           brasileiro.</p>
       </section>
 
-      <!-- ==========================================
-     SECTION: SCATTER PLOT
-     ========================================== -->
+      <!-- Section 04: Temporal Transition & Scatter Dispersion -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">04.</span> Transição e Dispersão</h2>
         <p>Para medir o choque temporal interanual, organizamos os índices em eixos cartesianos. Os quadrantes Alto-Alto
@@ -396,9 +537,7 @@
         </p>
       </section>
 
-      <!-- ==========================================
-     SECTION: STATES
-     ========================================== -->
+      <!-- Section 05: Global Macro-State Performance Benchmark -->
       <section class="gsap-fade-up" style="margin-top: 4rem;">
         <h2><span style="color: rgba(215,181,109,0.4);">05.</span> Desempenho Global (Agregado Estadual)</h2>
         <p>Por fim, ao extrapolarmos a capilaridade municipal, apuramos o ranking macroestadual. Abaixo dispomos de dois
@@ -423,9 +562,7 @@
         </div>
       </section>
 
-      <!-- ==========================================
-     SECTION: CALL TO ACTION (CTA)
-     ========================================== -->
+      <!-- Section 06: Call to Action & Technical Report -->
       <div class="gsap-fade-up"
         style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(215,181,109,0.2); text-align: center;">
         <h3 style="font-family: var(--font-display); font-size: 2rem; color: #F8F9FA; margin-bottom: 1rem;">Aprofunde-se
@@ -456,6 +593,9 @@
     </div>
   </main>
 
+  <!-- =========================================================================
+     Global Footer
+     ========================================================================= -->
   <footer style="border-top: 1px solid rgba(248,249,250,0.05); margin-top: 4rem; padding: 3rem 0; text-align: center;">
     <a href="index.html"
       style="font-family: var(--font-display); font-size: 1.2rem; color: rgba(248,249,250,0.4); text-decoration: none; letter-spacing: 2px;">DOCH<span
@@ -464,6 +604,9 @@
       reservados.</p>
   </footer>
 
+  <!-- =========================================================================
+     Interactive Scripts: GSAP Animations, On-Demand Plotly Loader & Custom Cursor
+     ========================================================================= -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
 
