@@ -245,6 +245,45 @@
           transform: rotate(-10deg) scale(1.08);
         }
 
+        /* Personalized styles for Anthropic (#6A9BCC) */
+        .cert-glass-card.cert-card-anthropic {
+          border: 1px solid rgba(106, 155, 204, 0.18);
+        }
+
+        .cert-glass-card.cert-card-anthropic::before {
+          background: linear-gradient(135deg, rgba(106, 155, 204, 0.06) 0%, transparent 50%);
+        }
+
+        .cert-glass-card.cert-card-anthropic:hover {
+          border-color: rgba(106, 155, 204, 0.55);
+          box-shadow: 0 25px 50px rgba(106, 155, 204, 0.08), 0 0 25px rgba(106, 155, 204, 0.12);
+          background: rgba(255, 255, 255, 0.015);
+        }
+
+        .cert-card-org-anthropic {
+          color: #6A9BCC !important;
+          font-weight: 700;
+          letter-spacing: 0.15em;
+        }
+
+        .cert-anthropic-watermark {
+          position: absolute;
+          bottom: -10px;
+          right: 18px;
+          width: 185px;
+          height: 185px;
+          opacity: 0.045;
+          pointer-events: none;
+          transform: none;
+          z-index: 0;
+          transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .cert-glass-card:hover .cert-anthropic-watermark {
+          opacity: 0.08;
+          transform: scale(1.02);
+        }
+
         /* Personalized styles for Inner Academy / Inner AI */
         .cert-card-org-innerai {
           font-family: 'Outfit', 'Inter', sans-serif;
@@ -1327,8 +1366,68 @@
       </div>
 
 
-      <!-- SECTION: INNER ACADEMY -->
+      <!-- SECTION: ANTHROPIC -->
       <div class="cert-section-wrapper" style="padding-top: 2rem;">
+        <div class="cert-showcase gsap-fade-up">
+          <h2 class="cert-static-header" style="margin-bottom: 5.5rem;">Anthropic</h2>
+
+          <div class="cert-slider-wrapper manual-carousel" id="carousel-anthropic">
+            <!-- Slide 1 -->
+            <div class="cert-slide active">
+              <div class="cert-glass-card cert-card-anthropic">
+                <svg class="cert-anthropic-watermark" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path fill="#6A9BCC" d="m13.788825 3.932 6.43325 16.136075h3.5279L17.316725 3.932H13.788825Z"
+                    stroke-width="0.25"></path>
+                  <path fill="#6A9BCC"
+                    d="m6.325375 13.682775 2.20125 -5.67065 2.201275 5.67065H6.325375ZM6.68225 3.932 0.25 20.068075h3.596525l1.3155 -3.3886h6.729425l1.315275 3.3886h3.59655L10.371 3.932H6.68225Z"
+                    stroke-width="0.25"></path>
+                </svg>
+                <div class="cert-card-header" style="position: relative; z-index: 1;">
+                  <span class="cert-card-org cert-card-org-anthropic">Anthropic</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-date">SET 2026</span>
+                  <span class="cert-card-divider">•</span>
+                  <span class="cert-card-hours">16H</span>
+                </div>
+                <h4 class="cert-card-title" style="position: relative; z-index: 1;">Claude with the Anthropic API</h4>
+                <p class="cert-card-desc" style="position: relative; z-index: 1;">Integração avançada do Claude via
+                  Anthropic API, engenharia de prompts (XML tags), Tool Use, RAG contextual, Prompt Caching,
+                  servidores/clientes MCP (Model Context Protocol), Computer Use e arquiteturas de agentes inteligentes.
+                </p>
+                <div class="cert-card-footer" style="position: relative; z-index: 1;">
+                  <span class="cert-card-code" title="Conclusão Oficial Anthropic">Anthropic Education</span>
+                  <a href="assets/certificados/anthropic/claude-with-the-anthropic-api.pdf" class="cert-card-link"
+                    target="_blank" rel="noopener noreferrer">
+                    Visualizar PDF
+                    <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="cert-glass-controls" style="margin-top: 1.5rem;">
+            <button class="cert-glass-control-btn prev-btn" aria-label="Anterior">
+              <svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16">
+                <path d="M15 18l-6-6 6-6"></path>
+              </svg>
+            </button>
+            <div class="cert-glass-indicator">1 / 1</div>
+            <button class="cert-glass-control-btn next-btn" aria-label="Próximo">
+              <svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16">
+                <path d="M9 18l6-6-6-6"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- SECTION: INNER ACADEMY -->
+      <div class="cert-section-wrapper alt-bg" style="padding-top: 2rem;">
         <div class="cert-showcase gsap-fade-up">
           <h2 class="cert-static-header" style="margin-bottom: 5.5rem;">Inner Academy</h2>
 
@@ -1468,7 +1567,7 @@
       </div>
 
       <!-- SECTION: ASIMOV ACADEMY -->
-      <div class="cert-section-wrapper alt-bg" style="padding-top: 2rem;">
+      <div class="cert-section-wrapper" style="padding-top: 2rem;">
         <div class="cert-showcase gsap-fade-up">
           <h2 class="cert-static-header" style="margin-bottom: 5.5rem;">Asimov Academy</h2>
 
