@@ -49,6 +49,23 @@
       border-color: rgba(215, 181, 109, 0.85) !important;
       box-shadow: 0 0 0 2px rgba(215, 181, 109, 0.15), 0 0 28px rgba(215, 181, 109, 0.2) !important;
     }
+
+    /* Header Navigation & Back Link */
+    .nav-back-link {
+      color: rgba(248, 249, 250, 0.7);
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      transition: color 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .nav-back-link:hover {
+      color: #D7B56D;
+    }
   </style>
 </head>
 
@@ -73,9 +90,7 @@
     <a href="index.html" class="nav-logo"
       style="font-family: var(--font-display); font-size: 1.5rem; color: #F8F9FA; text-decoration: none; font-weight: 700; letter-spacing: 2px;">DOCH<span
         style="color:#D7B56D">MO</span></a>
-    <a href="index.html#projetos"
-      style="color: rgba(248,249,250,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease;">←
-      VOLTAR PARA PROJETOS</a>
+    <a href="index.html#projetos" class="nav-back-link">← VOLTAR PARA PROJETOS</a>
   </nav>
 
   <main>
@@ -750,6 +765,19 @@
         /* Mobile specific: Stack layout without JS overhead */
         @media (max-width: 768px) {
 
+          .nav {
+            padding: 14px 24px !important;
+          }
+
+          .nav-logo {
+            font-size: 1.25rem !important;
+          }
+
+          .nav-back-link {
+            font-size: 0.8rem !important;
+            letter-spacing: 0.5px !important;
+          }
+
           /* Fix manual stack carousels mobile horizontal scroll-snap layout */
           .cert-slider-wrapper.manual-carousel {
             flex-direction: row;
@@ -914,8 +942,6 @@
             height: 2px;
             background: linear-gradient(90deg, transparent, #D7B56D, transparent);
           }
-
-
 
           .cert-wrapper img {
             height: auto !important;
