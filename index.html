@@ -710,6 +710,42 @@
       height: 320px;
     }
 
+    /* Expandable projects container & fade overlay */
+    .proj-expandable-wrapper {
+      position: relative;
+      overflow: hidden;
+      transition: max-height 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .proj-expandable-wrapper.is-collapsed {
+      max-height: 270px;
+    }
+
+    .proj-fade-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 180px;
+      background: linear-gradient(to bottom, rgba(7, 16, 32, 0) 0%, rgba(7, 16, 32, 0.75) 50%, #071020 100%);
+      pointer-events: none;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+      z-index: 10;
+    }
+
+    .proj-expandable-wrapper:not(.is-collapsed) .proj-fade-overlay {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .proj-chevron-icon {
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #btn-toggle-projects[aria-expanded="true"] .proj-chevron-icon {
+      transform: rotate(180deg);
+    }
+
     /* Contact info item */
     .contact-info-item {
       display: flex;
@@ -1879,7 +1915,8 @@
         </div>
 
         <!-- AI & Multimodal Projects Row (FinScan & VisionVoice) -->
-        <div class="proj-grid proj-grid--2 sr sr-d5" style="margin-top:1.75rem;">
+        <div class="proj-expandable-wrapper is-collapsed" id="proj-expandable">
+          <div class="proj-grid proj-grid--2 sr sr-d5" style="margin-top:1.75rem;">
           <!-- Secondary Card 6 (FinScan IA) -->
           <div class="proj-card flashlight sr sr-d6">
             <div class="proj-card__img-wrap" style="height:220px;">
@@ -2133,6 +2170,19 @@
                 </svg></a>
             </div>
           </div>
+        </div>
+          <!-- Fade Gradient Overlay -->
+          <div class="proj-fade-overlay" id="proj-fade-overlay"></div>
+        </div>
+
+        <!-- Expand / Collapse Controls -->
+        <div class="proj-expand-controls" style="display:flex; justify-content:center; margin-top:2.5rem;">
+          <button aria-controls="proj-expandable" aria-expanded="false" class="btn btn-outline" id="btn-toggle-projects" type="button">
+            <span id="btn-toggle-projects-text">Mostrar todos os projetos</span>
+            <svg class="proj-chevron-icon" fill="none" height="16" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="16">
+              <path d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
         </div>
       </div>
     </section>
@@ -2922,6 +2972,58 @@
         }
       })();
 
+      /* Expand/collapse projects */
+      (function () {
+        const wrapper = document.getElementById('proj-expandable');
+        const btn = document.getElementById('btn-toggle-projects');
+        const btnText = document.getElementById('btn-toggle-projects-text');
+        if (!wrapper || !btn || !btnText) return;
+
+        const COLLAPSED_HEIGHT = 270;
+
+        btn.addEventListener('click', function () {
+          const isCollapsed = wrapper.classList.contains('is-collapsed');
+
+          if (isCollapsed) {
+            // Expand
+            const fullHeight = wrapper.scrollHeight;
+            wrapper.style.maxHeight = fullHeight + 'px';
+            wrapper.classList.remove('is-collapsed');
+            btn.setAttribute('aria-expanded', 'true');
+            btnText.textContent = 'Recolher projetos';
+
+            setTimeout(() => {
+              if (!wrapper.classList.contains('is-collapsed')) {
+                wrapper.style.maxHeight = 'none';
+              }
+              if (typeof ScrollTrigger !== 'undefined') {
+                ScrollTrigger.refresh();
+              }
+            }, 650);
+          } else {
+            // Collapse
+            wrapper.style.maxHeight = wrapper.scrollHeight + 'px';
+            void wrapper.offsetHeight;
+
+            wrapper.classList.add('is-collapsed');
+            wrapper.style.maxHeight = COLLAPSED_HEIGHT + 'px';
+            btn.setAttribute('aria-expanded', 'false');
+            btnText.textContent = 'Mostrar todos os projetos';
+
+            const rect = wrapper.getBoundingClientRect();
+            if (rect.top < 100) {
+              const targetY = window.pageYOffset + rect.top - 120;
+              window.scrollTo({ top: targetY, behavior: 'smooth' });
+            }
+
+            setTimeout(() => {
+              if (typeof ScrollTrigger !== 'undefined') {
+                ScrollTrigger.refresh();
+              }
+            }, 650);
+          }
+        });
+      })();
 
     });
   </script>
