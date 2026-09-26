@@ -746,6 +746,41 @@
       transform: rotate(180deg);
     }
 
+    /* Mobile-specific cutoff for Card 5 (Titanic) */
+    @media (max-width: 768px) {
+      #proj-card-5.is-mobile-collapsed {
+        position: relative;
+        overflow: hidden;
+        max-height: 270px;
+        transition: max-height 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      #proj-card-5.is-mobile-collapsed .proj-fade-overlay--mobile {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      #proj-card-5:not(.is-mobile-collapsed) .proj-fade-overlay--mobile {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      #proj-expandable.is-collapsed {
+        display: none;
+      }
+    }
+
+    @media (min-width: 769px) {
+      #proj-card-5 {
+        max-height: none !important;
+        overflow: visible !important;
+      }
+
+      .proj-fade-overlay--mobile {
+        display: none !important;
+      }
+    }
+
     /* Contact info item */
     .contact-info-item {
       display: flex;
@@ -1790,7 +1825,7 @@
             </div>
           </div>
           <!-- Secondary Card 5 -->
-          <div class="proj-card flashlight sr sr-d5">
+          <div class="proj-card flashlight sr sr-d5 is-mobile-collapsed" id="proj-card-5">
             <div class="proj-card__img-wrap" style="height:220px;">
               <div
                 style="width:100%;height:100%;background:linear-gradient(135deg,#071020,#0D1E3A);display:flex;align-items:center;justify-content:center;">
@@ -1911,6 +1946,8 @@
                   <path d="M5 12h14M12 5l7 7-7 7"></path>
                 </svg></a>
             </div>
+            <!-- Mobile Fade Gradient Overlay -->
+            <div class="proj-fade-overlay proj-fade-overlay--mobile"></div>
           </div>
         </div>
 
@@ -2975,20 +3012,28 @@
       /* Expand/collapse projects */
       (function () {
         const wrapper = document.getElementById('proj-expandable');
+        const card5 = document.getElementById('proj-card-5');
         const btn = document.getElementById('btn-toggle-projects');
         const btnText = document.getElementById('btn-toggle-projects-text');
         if (!wrapper || !btn || !btnText) return;
 
         const COLLAPSED_HEIGHT = 270;
+        const isMobile = () => window.innerWidth <= 768;
 
         btn.addEventListener('click', function () {
           const isCollapsed = wrapper.classList.contains('is-collapsed');
 
           if (isCollapsed) {
             // Expand
+            if (card5 && isMobile()) {
+              const card5Height = card5.scrollHeight;
+              card5.style.maxHeight = card5Height + 'px';
+              card5.classList.remove('is-mobile-collapsed');
+            }
+
+            wrapper.classList.remove('is-collapsed');
             const fullHeight = wrapper.scrollHeight;
             wrapper.style.maxHeight = fullHeight + 'px';
-            wrapper.classList.remove('is-collapsed');
             btn.setAttribute('aria-expanded', 'true');
             btnText.textContent = 'Recolher projetos';
 
@@ -2996,21 +3041,31 @@
               if (!wrapper.classList.contains('is-collapsed')) {
                 wrapper.style.maxHeight = 'none';
               }
+              if (card5 && !card5.classList.contains('is-mobile-collapsed')) {
+                card5.style.maxHeight = 'none';
+              }
               if (typeof ScrollTrigger !== 'undefined') {
                 ScrollTrigger.refresh();
               }
             }, 650);
           } else {
             // Collapse
+            if (card5 && isMobile()) {
+              card5.style.maxHeight = card5.scrollHeight + 'px';
+              void card5.offsetHeight;
+              card5.classList.add('is-mobile-collapsed');
+              card5.style.maxHeight = COLLAPSED_HEIGHT + 'px';
+            }
+
             wrapper.style.maxHeight = wrapper.scrollHeight + 'px';
             void wrapper.offsetHeight;
-
             wrapper.classList.add('is-collapsed');
             wrapper.style.maxHeight = COLLAPSED_HEIGHT + 'px';
             btn.setAttribute('aria-expanded', 'false');
             btnText.textContent = 'Mostrar todos os projetos';
 
-            const rect = wrapper.getBoundingClientRect();
+            const targetElement = isMobile() && card5 ? card5 : wrapper;
+            const rect = targetElement.getBoundingClientRect();
             if (rect.top < 100) {
               const targetY = window.pageYOffset + rect.top - 120;
               window.scrollTo({ top: targetY, behavior: 'smooth' });
