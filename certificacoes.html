@@ -948,6 +948,75 @@
             object-fit: contain !important;
           }
         }
+
+        /* Main showcase navigation buttons (desktop) */
+        .cert-main-nav-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 52px;
+          height: 52px;
+          border-radius: 50%;
+          background: rgba(10, 20, 40, 0.65);
+          border: 1px solid rgba(215, 181, 109, 0.35);
+          color: #D7B56D;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 25;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 0 15px rgba(215, 181, 109, 0.08);
+          outline: none;
+          padding: 0;
+        }
+
+        .cert-main-nav-btn svg {
+          width: 22px;
+          height: 22px;
+          stroke: #D7B56D;
+          transition: transform 0.3s ease, stroke 0.3s ease;
+        }
+
+        .cert-main-nav-btn:hover {
+          background: rgba(215, 181, 109, 0.18);
+          border-color: rgba(215, 181, 109, 0.85);
+          color: #F8F9FA;
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 25px rgba(215, 181, 109, 0.35);
+          transform: translateY(-50%) scale(1.08);
+        }
+
+        .cert-main-nav-btn:hover svg {
+          stroke: #F8F9FA;
+        }
+
+        .cert-main-nav-btn.cert-main-prev {
+          left: clamp(12px, 3.5vw, 45px);
+        }
+
+        .cert-main-nav-btn.cert-main-prev:hover svg {
+          transform: translateX(-2px);
+        }
+
+        .cert-main-nav-btn.cert-main-next {
+          right: clamp(12px, 3.5vw, 45px);
+        }
+
+        .cert-main-nav-btn.cert-main-next:hover svg {
+          transform: translateX(2px);
+        }
+
+        .cert-main-nav-btn:active {
+          transform: translateY(-50%) scale(0.96);
+        }
+
+        @media (max-width: 768px) {
+          .cert-main-nav-btn {
+            display: none !important;
+          }
+        }
       </style>
 
       <div class="cert-section-wrapper" style="padding-top: 2rem;">
@@ -1045,6 +1114,17 @@
 
 
           </div>
+          <!-- Desktop navigation buttons -->
+          <button class="cert-main-nav-btn cert-main-prev" id="cert-main-prev-btn" aria-label="Previous certificate">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+          <button class="cert-main-nav-btn cert-main-next" id="cert-main-next-btn" aria-label="Next certificate">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -2044,19 +2124,30 @@
           const slides = carousel.querySelectorAll('.cert-slide');
           if (slides.length === 0) return;
 
-          const titleEl = carousel.parentElement.querySelector('#cert-desktop-title');
-          let currentIndex = 0;
+          const container = carousel.closest('.cert-showcase');
+          const titleEl = container ? container.querySelector('#cert-desktop-title') : null;
+          const prevBtn = container ? container.querySelector('#cert-main-prev-btn') : null;
+          const nextBtn = container ? container.querySelector('#cert-main-next-btn') : null;
 
-          setInterval(() => {
-            // Fade out title slowly if it's dynamic
+          let currentIndex = 0;
+          let autoplayInterval = null;
+          let titleTimeout = null;
+
+          function updateSlides(direction) {
+            // Animate dynamic title
             if (titleEl && slides[currentIndex].hasAttribute('data-title')) {
               titleEl.style.opacity = 0;
+              if (titleTimeout) clearTimeout(titleTimeout);
+              titleTimeout = setTimeout(() => {
+                titleEl.textContent = slides[currentIndex].getAttribute('data-title');
+                titleEl.style.opacity = 1;
+              }, 450);
             }
-
-            currentIndex = (currentIndex + 1) % slides.length;
 
             slides.forEach((s, i) => {
               const wasPrev = s.classList.contains('prev');
+              const wasNext = s.classList.contains('next');
+
               let diff = (i - currentIndex + slides.length) % slides.length;
               let isNewActive = (diff === 0);
               let isNewNext = (diff === 1);
@@ -2064,8 +2155,13 @@
               let isNewHiddenRight = (diff > 1 && diff <= Math.floor(slides.length / 2));
               let isNewHiddenLeft = !isNewActive && !isNewNext && !isNewPrev && !isNewHiddenRight;
 
-              // Wrap-around detection for automatic carousels moving forward (next direction)
-              let isWrapping = wasPrev && !isNewPrev && !isNewActive;
+              // Handle bidirectional wrap-around to prevent visual glitches across screen
+              let isWrapping = false;
+              if (direction === 'next' && wasPrev && !isNewPrev && !isNewActive) {
+                isWrapping = true;
+              } else if (direction === 'prev' && wasNext && !isNewNext && !isNewActive) {
+                isWrapping = true;
+              }
 
               if (isWrapping) {
                 s.style.transition = 'none';
@@ -2090,15 +2186,54 @@
                 }, 50);
               }
             });
+          }
 
-            // Wait for title to fade out, swap text, fade back in
-            if (titleEl && slides[currentIndex].hasAttribute('data-title')) {
-              setTimeout(() => {
-                titleEl.textContent = slides[currentIndex].getAttribute('data-title');
-                titleEl.style.opacity = 1;
-              }, 800);
+          function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateSlides('next');
+          }
+
+          function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            updateSlides('prev');
+          }
+
+          function startAutoplay() {
+            stopAutoplay();
+            autoplayInterval = setInterval(nextSlide, 8000);
+          }
+
+          function stopAutoplay() {
+            if (autoplayInterval) {
+              clearInterval(autoplayInterval);
+              autoplayInterval = null;
             }
-          }, 8000);
+          }
+
+          startAutoplay();
+
+          // Manual navigation handlers
+          if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              prevSlide();
+              startAutoplay();
+            });
+          }
+
+          if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              nextSlide();
+              startAutoplay();
+            });
+          }
+
+          // Pause autoplay on hover and resume on leave
+          if (container) {
+            container.addEventListener('mouseenter', stopAutoplay);
+            container.addEventListener('mouseleave', startAutoplay);
+          }
         });
       }
 
