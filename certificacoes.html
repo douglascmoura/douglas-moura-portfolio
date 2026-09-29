@@ -1115,12 +1115,12 @@
 
           </div>
           <!-- Desktop navigation buttons -->
-          <button class="cert-main-nav-btn cert-main-prev" id="cert-main-prev-btn" aria-label="Previous certificate">
+          <button class="cert-main-nav-btn cert-main-prev cert-nav-btn" id="cert-main-prev-btn" aria-label="Previous certificate">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
           </button>
-          <button class="cert-main-nav-btn cert-main-next" id="cert-main-next-btn" aria-label="Next certificate">
+          <button class="cert-main-nav-btn cert-main-next cert-nav-btn" id="cert-main-next-btn" aria-label="Next certificate">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
@@ -1162,7 +1162,7 @@
             </div>
 
             <!-- EU 4 -->
-            <div class="cert-slide">
+            <div class="cert-slide hidden-right">
               <h2 class="cert-mobile-title">Encontros Universitários (2024)</h2>
               <div class="cert-wrapper">
                 <img src="assets/certificados/eu/certificado-encontros-universitarios-2024.webp" alt="EU 2024"
@@ -1171,7 +1171,7 @@
             </div>
 
             <!-- EU 5 -->
-            <div class="cert-slide">
+            <div class="cert-slide hidden-right">
               <h2 class="cert-mobile-title">Encontros Univ. - Coautor (2024)</h2>
               <div class="cert-wrapper">
                 <img src="assets/certificados/eu/certificado-encontros-universitarios-2024-coautor.webp"
@@ -1180,7 +1180,7 @@
             </div>
 
             <!-- EU 6 -->
-            <div class="cert-slide">
+            <div class="cert-slide hidden-right">
               <h2 class="cert-mobile-title">Encontros Universitários (2025)</h2>
               <div class="cert-wrapper">
                 <img src="assets/certificados/eu/certificado-encontros-universitarios-2025.webp" alt="EU 2025"
@@ -1189,7 +1189,7 @@
             </div>
 
             <!-- EU 7 -->
-            <div class="cert-slide">
+            <div class="cert-slide hidden-left">
               <h2 class="cert-mobile-title">Encontros Univ. - Coautor 1 (2025)</h2>
               <div class="cert-wrapper">
                 <img src="assets/certificados/eu/certificado-encontros-universitarios-2025-coautor-1.webp"
@@ -1198,7 +1198,7 @@
             </div>
 
             <!-- EU 8 -->
-            <div class="cert-slide">
+            <div class="cert-slide hidden-left">
               <h2 class="cert-mobile-title">Encontros Univ. - Coautor 2 (2025)</h2>
               <div class="cert-wrapper">
                 <img src="assets/certificados/eu/certificado-encontros-universitarios-2025-coautor-2.webp"
@@ -1206,6 +1206,17 @@
               </div>
             </div>
           </div>
+          <!-- Desktop navigation buttons -->
+          <button class="cert-main-nav-btn cert-main-prev cert-nav-btn" aria-label="Previous certificate">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+          <button class="cert-main-nav-btn cert-main-next cert-nav-btn" aria-label="Next certificate">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -2126,8 +2137,8 @@
 
           const container = carousel.closest('.cert-showcase');
           const titleEl = container ? container.querySelector('#cert-desktop-title') : null;
-          const prevBtn = container ? container.querySelector('#cert-main-prev-btn') : null;
-          const nextBtn = container ? container.querySelector('#cert-main-next-btn') : null;
+          const prevBtn = container ? container.querySelector('.cert-main-prev.cert-nav-btn') : null;
+          const nextBtn = container ? container.querySelector('.cert-main-next.cert-nav-btn') : null;
 
           let currentIndex = 0;
           let autoplayInterval = null;
