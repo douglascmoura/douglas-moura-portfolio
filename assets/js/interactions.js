@@ -133,6 +133,11 @@ function initScrollReveal() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('in-view');
+        if (entry.target.classList.contains('cards-3d-stage')) {
+          setTimeout(() => {
+            entry.target.classList.add('entrance-done');
+          }, 1800);
+        }
         io.unobserve(entry.target);
       }
     });
