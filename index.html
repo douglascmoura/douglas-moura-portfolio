@@ -488,6 +488,7 @@
     }
 
     @media (max-width: 768px) {
+
       .nav a.nav-logo,
       .nav .nav-logo {
         font-size: 1.25rem !important;
@@ -784,6 +785,61 @@
       .proj-fade-overlay--mobile {
         display: none !important;
       }
+    }
+
+    /* ── Tech Pillars Staggered Circular Entrance ── */
+    .cards-3d-stage .slide .card {
+      opacity: 0;
+      filter: blur(10px);
+      transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.6s ease,
+        box-shadow 0.6s ease,
+        background 0.6s ease;
+      will-change: transform, opacity, filter;
+    }
+
+    /* Initial state: cards start slightly scaled down and retracted towards center */
+    .cards-3d-stage:not(.in-view) #card-pilar-1 .card {
+      transform: translate(-50%, calc(-50% - 100px)) scale(0.65) rotateX(20deg);
+    }
+
+    .cards-3d-stage:not(.in-view) #card-pilar-2 .card,
+    .cards-3d-stage:not(.in-view) #card-pilar-3 .card {
+      transform: translate(-50%, calc(-50% - 100px)) scale(0.65) rotateX(28deg);
+    }
+
+    /* Entrance trigger: Clockwise circular sequence: Top (01) -> Right (03) -> Left (02) */
+    .cards-3d-stage.in-view:not(.entrance-done) #card-pilar-1 .card {
+      opacity: 1;
+      filter: blur(0);
+      transition-delay: 0.1s;
+    }
+
+    .cards-3d-stage.in-view:not(.entrance-done) #card-pilar-2 .card {
+      opacity: 0.55;
+      filter: blur(0);
+      transition-delay: 0.45s;
+    }
+
+    .cards-3d-stage.in-view:not(.entrance-done) #card-pilar-3 .card {
+      opacity: 0.55;
+      filter: blur(0);
+      transition-delay: 0.8s;
+    }
+
+    /* Once entrance is completed, remove delay so hover and 3D rotations react immediately */
+    .cards-3d-stage.entrance-done .slide .card {
+      opacity: 0.55;
+      filter: blur(0);
+      transition-delay: 0s !important;
+    }
+
+    /* Active card full opacity */
+    .cards-3d-stage.in-view .slide.is-active .card,
+    .cards-3d-stage.entrance-done .slide.is-active .card {
+      opacity: 1;
     }
 
     /* Contact info item */
