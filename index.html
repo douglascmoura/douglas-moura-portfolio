@@ -287,7 +287,12 @@
       opacity: 1;
     }
 
-    /* ── Hover effect on hero slices (matching case styles) ── */
+    /* ── Hover and touch-active effect on hero slices (matching case styles) ── */
+    .hero-slice {
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     @media (hover: hover) and (pointer: fine) {
       .hero-slice:hover {
         transform: translateY(-8px) scale(1.01) !important;
@@ -302,6 +307,20 @@
       .hero-slice:hover img {
         transform: scale(1.0007);
       }
+    }
+
+    .hero-slice.is-active {
+      transform: translateY(-8px) scale(1.01) !important;
+      border-color: rgba(30, 136, 229, 0.3);
+      box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.6),
+        0 0 50px rgba(30, 136, 229, 0.25),
+        inset 0 0 0 1px rgba(66, 165, 245, 0.4);
+      z-index: 10;
+    }
+
+    .hero-slice.is-active img {
+      transform: scale(1.0007);
     }
 
     .hero-slice img {
