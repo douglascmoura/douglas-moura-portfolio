@@ -521,6 +521,25 @@ function initHeroSlices() {
   }, { threshold: 0.1 });
 
   io.observe(panel);
+
+  /* Touch & click interactive toggle for slices */
+  slices.forEach(slice => {
+    slice.addEventListener('click', e => {
+      e.stopPropagation();
+      const wasActive = slice.classList.contains('is-active');
+      slices.forEach(s => s.classList.remove('is-active'));
+      if (!wasActive) {
+        slice.classList.add('is-active');
+      }
+    });
+  });
+
+  /* Dismiss active state when tapping outside */
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#hero-slices')) {
+      slices.forEach(s => s.classList.remove('is-active'));
+    }
+  });
 }
 
 /* ─── 16. HERO SCROLL PARALLAX ───────────────────────────────────── */
