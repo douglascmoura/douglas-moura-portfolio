@@ -12,6 +12,7 @@
 .btn:active,
 .cert-carousel-btn:active,
 .skill-card:active,
+.timeline-card:active,
 a.glass:active {
   transform: scale(0.96) !important;
   transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
@@ -689,6 +690,8 @@ a.glass:active {
   border-radius: 10px;
   padding: 1.5rem;
   width: 100%;
+  cursor: pointer;
+  user-select: none;
   transition: all 0.35s ease;
 }
 
