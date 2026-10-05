@@ -663,6 +663,7 @@ button {
 .btn:active,
 .cert-carousel-btn:active,
 .skill-card:active,
+.timeline-card:active,
 a.glass:active {
     transform: scale(0.96) !important;
     transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
