@@ -690,8 +690,6 @@ a.glass:active {
   border-radius: 10px;
   padding: 1.5rem;
   width: 100%;
-  cursor: pointer;
-  user-select: none;
   transition: all 0.35s ease;
 }
 
