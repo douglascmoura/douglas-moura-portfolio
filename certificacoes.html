@@ -1115,12 +1115,14 @@
 
           </div>
           <!-- Desktop navigation buttons -->
-          <button class="cert-main-nav-btn cert-main-prev cert-nav-btn" id="cert-main-prev-btn" aria-label="Previous certificate">
+          <button class="cert-main-nav-btn cert-main-prev cert-nav-btn" id="cert-main-prev-btn"
+            aria-label="Previous certificate">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
           </button>
-          <button class="cert-main-nav-btn cert-main-next cert-nav-btn" id="cert-main-next-btn" aria-label="Next certificate">
+          <button class="cert-main-nav-btn cert-main-next cert-nav-btn" id="cert-main-next-btn"
+            aria-label="Next certificate">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
@@ -1332,14 +1334,15 @@
                   <span class="cert-card-divider">•</span>
                   <span class="cert-card-hours">8H</span>
                 </div>
-                <h4 class="cert-card-title" style="position: relative; z-index: 1;">Excel – Do Intermediário ao Avançado</h4>
+                <h4 class="cert-card-title" style="position: relative; z-index: 1;">Excel – Do Intermediário ao Avançado
+                </h4>
                 <p class="cert-card-desc" style="position: relative; z-index: 1;">PROCX, SES, funções de matriz
                   dinâmica (ÚNICOS, FILTRO, CLASSIFICAR, ESCOLHERCOLS), SOMASES, CONT.SES, tratamento avançado de
                   texto/data, validação de dados e tabelas dinâmicas com campos/elementos calculados e segmentações.</p>
                 <div class="cert-card-footer" style="position: relative; z-index: 1;">
                   <span class="cert-card-code" title="Série: OA-2026-0921003221580">Série: OA-2026-0921...</span>
-                  <a href="assets/certificados/santander/santander-excel-avancado.pdf" class="cert-card-link" target="_blank"
-                    rel="noopener noreferrer">
+                  <a href="assets/certificados/santander/santander-excel-avancado.pdf" class="cert-card-link"
+                    target="_blank" rel="noopener noreferrer">
                     Visualizar PDF
                     <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
                       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
@@ -2154,6 +2157,8 @@
           let currentIndex = 0;
           let autoplayInterval = null;
           let titleTimeout = null;
+          let isTransitioning = false;
+          const TRANSITION_LOCK = 850;
 
           function updateSlides(direction) {
             // Animate dynamic title
@@ -2163,7 +2168,7 @@
               titleTimeout = setTimeout(() => {
                 titleEl.textContent = slides[currentIndex].getAttribute('data-title');
                 titleEl.style.opacity = 1;
-              }, 450);
+              }, 300);
             }
 
             slides.forEach((s, i) => {
@@ -2211,13 +2216,23 @@
           }
 
           function nextSlide() {
+            if (isTransitioning) return;
+            isTransitioning = true;
             currentIndex = (currentIndex + 1) % slides.length;
             updateSlides('next');
+            setTimeout(() => {
+              isTransitioning = false;
+            }, TRANSITION_LOCK);
           }
 
           function prevSlide() {
+            if (isTransitioning) return;
+            isTransitioning = true;
             currentIndex = (currentIndex - 1 + slides.length) % slides.length;
             updateSlides('prev');
+            setTimeout(() => {
+              isTransitioning = false;
+            }, TRANSITION_LOCK);
           }
 
           function startAutoplay() {
@@ -2238,6 +2253,7 @@
           if (prevBtn) {
             prevBtn.addEventListener('click', (e) => {
               e.stopPropagation();
+              if (isTransitioning) return;
               prevSlide();
               startAutoplay();
             });
@@ -2246,6 +2262,7 @@
           if (nextBtn) {
             nextBtn.addEventListener('click', (e) => {
               e.stopPropagation();
+              if (isTransitioning) return;
               nextSlide();
               startAutoplay();
             });
