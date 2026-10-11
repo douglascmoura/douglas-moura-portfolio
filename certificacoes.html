@@ -2050,6 +2050,8 @@
           if (slides.length === 0) return;
 
           let currentIndex = 0;
+          let isTransitioning = false;
+          const TRANSITION_LOCK = 850;
 
           function updateSlides(direction) {
             slides.forEach((s, i) => {
@@ -2104,15 +2106,25 @@
 
           if (prevBtn) {
             prevBtn.addEventListener('click', () => {
+              if (isTransitioning) return;
+              isTransitioning = true;
               currentIndex = (currentIndex - 1 + slides.length) % slides.length;
               updateSlides('prev');
+              setTimeout(() => {
+                isTransitioning = false;
+              }, TRANSITION_LOCK);
             });
           }
 
           if (nextBtn) {
             nextBtn.addEventListener('click', () => {
+              if (isTransitioning) return;
+              isTransitioning = true;
               currentIndex = (currentIndex + 1) % slides.length;
               updateSlides('next');
+              setTimeout(() => {
+                isTransitioning = false;
+              }, TRANSITION_LOCK);
             });
           }
 
