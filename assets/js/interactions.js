@@ -63,7 +63,7 @@ function initCursor() {
   animate();
 
   /* Interactive element hover scaling */
-  qsa('a, button, .btn, .proj-card, .skill-card, .timeline-card, [data-cursor]').forEach(el => {
+  qsa('a, button, .btn, .proj-card, .skill-card, .timeline-card, .tech-pillars-section .card, [data-cursor]').forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('hover-active'));
     el.addEventListener('mouseleave', () => ring.classList.remove('hover-active'));
   });
