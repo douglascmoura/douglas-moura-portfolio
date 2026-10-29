@@ -234,6 +234,22 @@
       border: 1px solid rgba(215, 181, 109, 0.35);
       border-radius: 4px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+      transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        color 0.3s ease,
+        transform 0.25s ease;
+      cursor: default;
+    }
+
+    kbd:hover {
+      background: rgba(215, 181, 109, 0.28);
+      border-color: #D7B56D;
+      color: #FFF2D1;
+      box-shadow: 0 0 12px rgba(215, 181, 109, 0.55),
+        0 0 2px rgba(215, 181, 109, 0.9),
+        0 4px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(-1px);
     }
 
     .shortcut-table {
@@ -680,315 +696,315 @@
           style="margin: 3rem 0; padding: 14px; background: rgba(10, 20, 42, 0.5); border: 1px solid rgba(215, 181, 109, 0.22); border-radius: 12px;">
           <div class="svg-scroll-container">
             <svg class="svg-architecture-canvas" viewBox="0 0 940 690" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="svg-card-bg" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#0E1B38" stop-opacity="0.85" />
-                <stop offset="100%" stop-color="#070E1E" stop-opacity="0.95" />
-              </linearGradient>
-              <linearGradient id="svg-gold-grad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#F3E5AB" />
-                <stop offset="50%" stop-color="#D7B56D" />
-                <stop offset="100%" stop-color="#997A35" />
-              </linearGradient>
-              <filter id="card-glow" x="-10%" y="-10%" width="120%" height="120%">
-                <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="rgba(0,0,0,0.6)" />
-              </filter>
-            </defs>
+              <defs>
+                <linearGradient id="svg-card-bg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#0E1B38" stop-opacity="0.85" />
+                  <stop offset="100%" stop-color="#070E1E" stop-opacity="0.95" />
+                </linearGradient>
+                <linearGradient id="svg-gold-grad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#F3E5AB" />
+                  <stop offset="50%" stop-color="#D7B56D" />
+                  <stop offset="100%" stop-color="#997A35" />
+                </linearGradient>
+                <filter id="card-glow" x="-10%" y="-10%" width="120%" height="120%">
+                  <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="rgba(0,0,0,0.6)" />
+                </filter>
+              </defs>
 
-            <!-- Outer Canvas Frame & Window Header -->
-            <rect x="1" y="1" width="938" height="688" rx="10" fill="#060C1A" stroke="rgba(215, 181, 109, 0.25)"
-              stroke-width="1" />
-            <line x1="1" y1="46" x2="939" y2="46" stroke="rgba(215, 181, 109, 0.15)" stroke-width="1" />
+              <!-- Outer Canvas Frame & Window Header -->
+              <rect x="1" y="1" width="938" height="688" rx="10" fill="#060C1A" stroke="rgba(215, 181, 109, 0.25)"
+                stroke-width="1" />
+              <line x1="1" y1="46" x2="939" y2="46" stroke="rgba(215, 181, 109, 0.15)" stroke-width="1" />
 
-            <!-- Window Header Controls -->
-            <circle cx="24" cy="23" r="5" fill="#FF5F56" />
-            <circle cx="40" cy="23" r="5" fill="#FFBD2E" />
-            <circle cx="56" cy="23" r="5" fill="#27C93F" />
+              <!-- Window Header Controls -->
+              <circle cx="24" cy="23" r="5" fill="#FF5F56" />
+              <circle cx="40" cy="23" r="5" fill="#FFBD2E" />
+              <circle cx="56" cy="23" r="5" fill="#27C93F" />
 
-            <!-- Canvas Title -->
-            <text x="78" y="27" fill="#D7B56D" font-family="'Courier New', monospace" font-size="11.5"
-              font-weight="bold" letter-spacing="1">ARQUITETURA DO SISTEMA // VISIONVOICE</text>
+              <!-- Canvas Title -->
+              <text x="78" y="27" fill="#D7B56D" font-family="'Courier New', monospace" font-size="11.5"
+                font-weight="bold" letter-spacing="1">ARQUITETURA DO SISTEMA // VISIONVOICE</text>
 
-            <!-- Top Right Status Badge (Localhost Environment) -->
-            <rect x="687" y="11" width="228" height="24" rx="12" fill="rgba(34, 197, 94, 0.12)"
-              stroke="rgba(34, 197, 94, 0.4)" stroke-width="1" />
-            <circle cx="710" cy="23" r="3.5" fill="#22C55E" />
-            <text x="720" y="26.5" fill="#4ADE80" font-family="'Inter', sans-serif" font-size="9.5" font-weight="600"
-              letter-spacing="0.5">LABORATÓRIO LOCAL FULL-STACK</text>
+              <!-- Top Right Status Badge (Localhost Environment) -->
+              <rect x="687" y="11" width="228" height="24" rx="12" fill="rgba(34, 197, 94, 0.12)"
+                stroke="rgba(34, 197, 94, 0.4)" stroke-width="1" />
+              <circle cx="710" cy="23" r="3.5" fill="#22C55E" />
+              <text x="720" y="26.5" fill="#4ADE80" font-family="'Inter', sans-serif" font-size="9.5" font-weight="600"
+                letter-spacing="0.5">LABORATÓRIO LOCAL FULL-STACK</text>
 
-            <!-- Layer 01: Client-Side SPA Tier (Pure Web Standards) -->
-            <g transform="translate(25, 68)">
-              <rect width="250" height="552" rx="8" fill="url(#svg-card-bg)" stroke="rgba(56, 189, 248, 0.45)"
-                stroke-width="1.2" filter="url(#card-glow)" />
+              <!-- Layer 01: Client-Side SPA Tier (Pure Web Standards) -->
+              <g transform="translate(25, 68)">
+                <rect width="250" height="552" rx="8" fill="url(#svg-card-bg)" stroke="rgba(56, 189, 248, 0.45)"
+                  stroke-width="1.2" filter="url(#card-glow)" />
 
-              <!-- Card 01 Header -->
-              <rect x="16" y="16" width="38" height="38" rx="8" fill="rgba(56, 189, 248, 0.12)" stroke="#38BDF8"
-                stroke-width="1.2" />
-              <!-- Eye / Accessibility Vector Wireframe -->
-              <path d="M 23 35 C 27 28 43 28 47 35 C 43 42 27 42 23 35 Z" fill="none" stroke="#38BDF8"
-                stroke-width="1.3" />
-              <circle cx="35" cy="35" r="3.5" fill="#38BDF8" />
+                <!-- Card 01 Header -->
+                <rect x="16" y="16" width="38" height="38" rx="8" fill="rgba(56, 189, 248, 0.12)" stroke="#38BDF8"
+                  stroke-width="1.2" />
+                <!-- Eye / Accessibility Vector Wireframe -->
+                <path d="M 23 35 C 27 28 43 28 47 35 C 43 42 27 42 23 35 Z" fill="none" stroke="#38BDF8"
+                  stroke-width="1.3" />
+                <circle cx="35" cy="35" r="3.5" fill="#38BDF8" />
 
-              <text x="64" y="28" fill="#38BDF8" font-family="'Courier New', monospace" font-size="9.5"
-                font-weight="bold" letter-spacing="1">CAMADA 01 • CLIENT TIER</text>
-              <text x="64" y="48" fill="#F8F9FA" font-family="'Playfair Display', serif" font-size="16.5"
-                font-weight="bold">Frontend Acessível</text>
-              <text x="16" y="74" fill="rgba(248, 249, 250, 0.6)" font-family="'Inter', sans-serif"
-                font-size="11.5">WCAG 2.1 AA/AAA • Vanilla JS</text>
-              <line x1="16" y1="88" x2="234" y2="88" stroke="rgba(56, 189, 248, 0.2)" stroke-width="1" />
+                <text x="64" y="28" fill="#38BDF8" font-family="'Courier New', monospace" font-size="9.5"
+                  font-weight="bold" letter-spacing="1">CAMADA 01 • CLIENT TIER</text>
+                <text x="64" y="48" fill="#F8F9FA" font-family="'Playfair Display', serif" font-size="16.5"
+                  font-weight="bold">Frontend Acessível</text>
+                <text x="16" y="74" fill="rgba(248, 249, 250, 0.6)" font-family="'Inter', sans-serif"
+                  font-size="11.5">WCAG 2.1 AA/AAA • Vanilla JS</text>
+                <line x1="16" y1="88" x2="234" y2="88" stroke="rgba(56, 189, 248, 0.2)" stroke-width="1" />
 
-              <!-- Feature Set (Aligned Grid) -->
-              <g font-family="'Inter', sans-serif">
-                <!-- Item 1 (Canvas Y=192) -->
-                <circle cx="24" cy="124" r="3.5" fill="#38BDF8" />
-                <text x="36" y="128" fill="#F8F9FA" font-size="12.5" font-weight="600">Modo Alto Contraste</text>
-                <text x="36" y="145" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Tema escuro e contornos
-                  dourados</text>
+                <!-- Feature Set (Aligned Grid) -->
+                <g font-family="'Inter', sans-serif">
+                  <!-- Item 1 (Canvas Y=192) -->
+                  <circle cx="24" cy="124" r="3.5" fill="#38BDF8" />
+                  <text x="36" y="128" fill="#F8F9FA" font-size="12.5" font-weight="600">Modo Alto Contraste</text>
+                  <text x="36" y="145" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Tema escuro e contornos
+                    dourados</text>
 
-                <!-- Item 2 (Canvas Y=256) -->
-                <circle cx="24" cy="188" r="3.5" fill="#38BDF8" />
-                <text x="36" y="192" fill="#F8F9FA" font-size="12.5" font-weight="600">Fontes Dinâmicas (12-24px)</text>
-                <text x="36" y="209" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Controles rápidos A+, A- e
-                  A</text>
+                  <!-- Item 2 (Canvas Y=256) -->
+                  <circle cx="24" cy="188" r="3.5" fill="#38BDF8" />
+                  <text x="36" y="192" fill="#F8F9FA" font-size="12.5" font-weight="600">Fontes Dinâmicas (12-24px)</text>
+                  <text x="36" y="209" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Controles rápidos A+, A- e
+                    A</text>
 
-                <!-- Item 3 (Canvas Y=320) -->
-                <circle cx="24" cy="252" r="3.5" fill="#38BDF8" />
-                <text x="36" y="256" fill="#F8F9FA" font-size="12.5" font-weight="600">Atalhos Globais de
-                  Teclado</text>
-                <text x="36" y="273" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Alt+1, Alt+2, Alt+C, Alt+P</text>
+                  <!-- Item 3 (Canvas Y=320) -->
+                  <circle cx="24" cy="252" r="3.5" fill="#38BDF8" />
+                  <text x="36" y="256" fill="#F8F9FA" font-size="12.5" font-weight="600">Atalhos Globais de
+                    Teclado</text>
+                  <text x="36" y="273" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Alt+1, Alt+2, Alt+C, Alt+P</text>
 
-                <!-- Item 4 (Canvas Y=384) -->
-                <circle cx="24" cy="316" r="3.5" fill="#38BDF8" />
-                <text x="36" y="320" fill="#F8F9FA" font-size="12.5" font-weight="600">Leitor de Tela (ARIA-Live)</text>
-                <text x="36" y="337" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Anúncios dinâmicos para
-                  NVDA</text>
+                  <!-- Item 4 (Canvas Y=384) -->
+                  <circle cx="24" cy="316" r="3.5" fill="#38BDF8" />
+                  <text x="36" y="320" fill="#F8F9FA" font-size="12.5" font-weight="600">Leitor de Tela (ARIA-Live)</text>
+                  <text x="36" y="337" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Anúncios dinâmicos para
+                    NVDA</text>
 
-                <!-- Item 5 (Canvas Y=448) -->
-                <circle cx="24" cy="380" r="3.5" fill="#38BDF8" />
-                <text x="36" y="384" fill="#F8F9FA" font-size="12.5" font-weight="600">Player de Áudio Nativo</text>
-                <text x="36" y="401" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Autoplay e download de MP3</text>
+                  <!-- Item 5 (Canvas Y=448) -->
+                  <circle cx="24" cy="380" r="3.5" fill="#38BDF8" />
+                  <text x="36" y="384" fill="#F8F9FA" font-size="12.5" font-weight="600">Player de Áudio Nativo</text>
+                  <text x="36" y="401" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Autoplay e download de MP3</text>
 
-                <!-- Item 6 (Canvas Y=512) -->
-                <circle cx="24" cy="444" r="3.5" fill="#38BDF8" />
-                <text x="36" y="448" fill="#F8F9FA" font-size="12.5" font-weight="600">Dois Modos de Operação</text>
-                <text x="36" y="465" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Manual (gTTS) &amp; Auto
-                  (IA)</text>
+                  <!-- Item 6 (Canvas Y=512) -->
+                  <circle cx="24" cy="444" r="3.5" fill="#38BDF8" />
+                  <text x="36" y="448" fill="#F8F9FA" font-size="12.5" font-weight="600">Dois Modos de Operação</text>
+                  <text x="36" y="465" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Manual (gTTS) &amp; Auto
+                    (IA)</text>
+                </g>
+
+                <!-- Card 01 Port Badge -->
+                <rect x="16" y="506" width="218" height="30" rx="6" fill="rgba(56, 189, 248, 0.08)"
+                  stroke="rgba(56, 189, 248, 0.3)" stroke-width="1" />
+                <text x="125" y="525" fill="#38BDF8" font-family="'Courier New', monospace" font-size="10"
+                  font-weight="bold" text-anchor="middle">SPA PORT: 5500 / 8000</text>
               </g>
 
-              <!-- Card 01 Port Badge -->
-              <rect x="16" y="506" width="218" height="30" rx="6" fill="rgba(56, 189, 248, 0.08)"
-                stroke="rgba(56, 189, 248, 0.3)" stroke-width="1" />
-              <text x="125" y="525" fill="#38BDF8" font-family="'Courier New', monospace" font-size="10"
-                font-weight="bold" text-anchor="middle">SPA PORT: 5500 / 8000</text>
-            </g>
+              <!-- Connectors: Client Tier ⇄ Core Engine -->
+              <g transform="translate(275, 0)">
+                <!-- Route 01: POST /analyze-and-speak -->
+                <rect x="3" y="196" width="64" height="26" rx="4" fill="#070E1E" stroke="rgba(215, 181, 109, 0.5)"
+                  stroke-width="1" />
+                <text x="35" y="208" fill="#D7B56D" font-family="'Courier New', monospace" font-size="7.5"
+                  font-weight="bold" text-anchor="middle">POST</text>
+                <text x="35" y="217" fill="#D7B56D" font-family="'Courier New', monospace" font-size="7"
+                  text-anchor="middle">/analyze</text>
+                <line x1="2" y1="230" x2="58" y2="230" stroke="#D7B56D" stroke-width="1.8" stroke-dasharray="3,2" />
+                <polygon points="56,225 68,230 56,235" fill="#D7B56D" />
 
-            <!-- Connectors: Client Tier ⇄ Core Engine -->
-            <g transform="translate(275, 0)">
-              <!-- Route 01: POST /analyze-and-speak -->
-              <rect x="3" y="196" width="64" height="26" rx="4" fill="#070E1E" stroke="rgba(215, 181, 109, 0.5)"
-                stroke-width="1" />
-              <text x="35" y="208" fill="#D7B56D" font-family="'Courier New', monospace" font-size="7.5"
-                font-weight="bold" text-anchor="middle">POST</text>
-              <text x="35" y="217" fill="#D7B56D" font-family="'Courier New', monospace" font-size="7"
-                text-anchor="middle">/analyze</text>
-              <line x1="2" y1="230" x2="58" y2="230" stroke="#D7B56D" stroke-width="1.8" stroke-dasharray="3,2" />
-              <polygon points="56,225 68,230 56,235" fill="#D7B56D" />
+                <!-- Route 02: POST /generate-audio -->
+                <rect x="3" y="324" width="64" height="26" rx="4" fill="#070E1E" stroke="rgba(56, 189, 248, 0.5)"
+                  stroke-width="1" />
+                <text x="35" y="336" fill="#38BDF8" font-family="'Courier New', monospace" font-size="7.5"
+                  font-weight="bold" text-anchor="middle">POST</text>
+                <text x="35" y="345" fill="#38BDF8" font-family="'Courier New', monospace" font-size="7"
+                  text-anchor="middle">/audio</text>
+                <line x1="2" y1="358" x2="58" y2="358" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="3,2" />
+                <polygon points="56,353 68,358 56,363" fill="#38BDF8" />
 
-              <!-- Route 02: POST /generate-audio -->
-              <rect x="3" y="324" width="64" height="26" rx="4" fill="#070E1E" stroke="rgba(56, 189, 248, 0.5)"
-                stroke-width="1" />
-              <text x="35" y="336" fill="#38BDF8" font-family="'Courier New', monospace" font-size="7.5"
-                font-weight="bold" text-anchor="middle">POST</text>
-              <text x="35" y="345" fill="#38BDF8" font-family="'Courier New', monospace" font-size="7"
-                text-anchor="middle">/audio</text>
-              <line x1="2" y1="358" x2="58" y2="358" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="3,2" />
-              <polygon points="56,353 68,358 56,363" fill="#38BDF8" />
-
-              <!-- Route 03: 200 OK Audio MP3 -->
-              <rect x="3" y="462" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(129, 199, 132, 0.5)"
-                stroke-width="1" />
-              <text x="35" y="474.5" fill="#81C784" font-family="'Courier New', monospace" font-size="8"
-                font-weight="bold" text-anchor="middle">200 MP3</text>
-              <line x1="68" y1="486" x2="12" y2="486" stroke="#81C784" stroke-width="1.8" stroke-dasharray="3,2" />
-              <polygon points="14,481 2,486 14,491" fill="#81C784" />
-            </g>
-
-            <!-- Layer 02: Core Engine Tier (FastAPI Backend & gTTS) -->
-            <g transform="translate(345, 58)">
-              <rect width="250" height="562" rx="8" fill="url(#svg-card-bg)" stroke="url(#svg-gold-grad)"
-                stroke-width="2" filter="url(#card-glow)" />
-
-              <!-- Card 02 Header -->
-              <rect x="16" y="16" width="38" height="38" rx="8" fill="rgba(215, 181, 109, 0.15)" stroke="#D7B56D"
-                stroke-width="1.2" />
-              <!-- Audio Wave / Speaker Vector Illustration -->
-              <path d="M 24 35 L 28 35 L 34 41 L 34 29 L 28 35 Z" fill="#D7B56D" />
-              <path d="M 37 31 C 39 33 39 37 37 39" fill="none" stroke="#D7B56D" stroke-width="1.2"
-                stroke-linecap="round" />
-              <path d="M 40 28 C 44 32 44 38 40 42" fill="none" stroke="#D7B56D" stroke-width="1.2"
-                stroke-linecap="round" />
-
-              <text x="64" y="28" fill="#D7B56D" font-family="'Courier New', monospace" font-size="9.5"
-                font-weight="bold" letter-spacing="1">CAMADA 02 • CORE ENGINE</text>
-              <text x="64" y="48" fill="#F8F9FA" font-family="'Playfair Display', serif" font-size="16.5"
-                font-weight="bold">FastAPI &amp; gTTS</text>
-              <text x="16" y="74" fill="rgba(248, 249, 250, 0.6)" font-family="'Inter', sans-serif"
-                font-size="11.5">Python 3.9+ ASGI • Síntese Vocal</text>
-              <line x1="16" y1="88" x2="234" y2="88" stroke="rgba(215, 181, 109, 0.25)" stroke-width="1" />
-
-              <!-- Feature Set (Aligned Grid) -->
-              <g font-family="'Inter', sans-serif">
-                <!-- Item 1 (Canvas Y=192) -->
-                <circle cx="24" cy="134" r="3.5" fill="#D7B56D" />
-                <text x="36" y="138" fill="#F8F9FA" font-size="12.5" font-weight="600">Síntese em Memória</text>
-                <text x="36" y="155" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Stream via BytesIO sem
-                  disco</text>
-
-                <!-- Item 2 (Canvas Y=256) -->
-                <circle cx="24" cy="198" r="3.5" fill="#D7B56D" />
-                <text x="36" y="202" fill="#F8F9FA" font-size="12.5" font-weight="600">Higienização Regex</text>
-                <text x="36" y="219" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Limpeza de &lt;think&gt; e
-                  markdown</text>
-
-                <!-- Item 3 (Canvas Y=320) -->
-                <circle cx="24" cy="262" r="3.5" fill="#D7B56D" />
-                <text x="36" y="266" fill="#F8F9FA" font-size="12.5" font-weight="600">Cliente HTTP Assíncrono</text>
-                <text x="36" y="283" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Consumo via httpx de alta
-                  vazão</text>
-
-                <!-- Item 4 (Canvas Y=384) -->
-                <circle cx="24" cy="326" r="3.5" fill="#D7B56D" />
-                <text x="36" y="330" fill="#F8F9FA" font-size="12.5" font-weight="600">Descoberta Dinâmica REST</text>
-                <text x="36" y="347" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Auto-fallback de modelos
-                  Flash</text>
-
-                <!-- Item 5 (Canvas Y=448) -->
-                <circle cx="24" cy="390" r="3.5" fill="#D7B56D" />
-                <text x="36" y="394" fill="#F8F9FA" font-size="12.5" font-weight="600">Formatação Base64 / MP3</text>
-                <text x="36" y="411" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Áudio imediato para o
-                  player</text>
-
-                <!-- Item 6 (Canvas Y=512) -->
-                <circle cx="24" cy="454" r="3.5" fill="#D7B56D" />
-                <text x="36" y="458" fill="#F8F9FA" font-size="12.5" font-weight="600">Resolução Flexível de
-                  Chaves</text>
-                <text x="36" y="475" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Chave via UI ou arquivo
-                  .env</text>
+                <!-- Route 03: 200 OK Audio MP3 -->
+                <rect x="3" y="462" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(129, 199, 132, 0.5)"
+                  stroke-width="1" />
+                <text x="35" y="474.5" fill="#81C784" font-family="'Courier New', monospace" font-size="8"
+                  font-weight="bold" text-anchor="middle">200 MP3</text>
+                <line x1="68" y1="486" x2="12" y2="486" stroke="#81C784" stroke-width="1.8" stroke-dasharray="3,2" />
+                <polygon points="14,481 2,486 14,491" fill="#81C784" />
               </g>
 
-              <!-- Card 02 Server Endpoint Badge -->
-              <rect x="16" y="516" width="218" height="30" rx="6" fill="rgba(215, 181, 109, 0.15)"
-                stroke="rgba(215, 181, 109, 0.4)" stroke-width="1" />
-              <text x="125" y="535" fill="#D7B56D" font-family="'Courier New', monospace" font-size="10"
-                font-weight="bold" text-anchor="middle">ASGI SERVER: 127.0.0.1:8000</text>
-            </g>
+              <!-- Layer 02: Core Engine Tier (FastAPI Backend & gTTS) -->
+              <g transform="translate(345, 58)">
+                <rect width="250" height="562" rx="8" fill="url(#svg-card-bg)" stroke="url(#svg-gold-grad)"
+                  stroke-width="2" filter="url(#card-glow)" />
 
-            <!-- Connectors: Core Engine ⇄ AI Cloud Tier -->
-            <g transform="translate(595, 0)">
-              <!-- Route 01: generateContent -->
-              <rect x="3" y="206" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(192, 132, 252, 0.5)"
-                stroke-width="1" />
-              <text x="35" y="218.5" fill="#C084FC" font-family="'Courier New', monospace" font-size="8"
-                font-weight="bold" text-anchor="middle">generate</text>
-              <line x1="2" y1="230" x2="58" y2="230" stroke="#C084FC" stroke-width="1.8" stroke-dasharray="3,2" />
-              <polygon points="56,225 68,230 56,235" fill="#C084FC" />
+                <!-- Card 02 Header -->
+                <rect x="16" y="16" width="38" height="38" rx="8" fill="rgba(215, 181, 109, 0.15)" stroke="#D7B56D"
+                  stroke-width="1.2" />
+                <!-- Audio Wave / Speaker Vector Illustration -->
+                <path d="M 24 35 L 28 35 L 34 41 L 34 29 L 28 35 Z" fill="#D7B56D" />
+                <path d="M 37 31 C 39 33 39 37 37 39" fill="none" stroke="#D7B56D" stroke-width="1.2"
+                  stroke-linecap="round" />
+                <path d="M 40 28 C 44 32 44 38 40 42" fill="none" stroke="#D7B56D" stroke-width="1.2"
+                  stroke-linecap="round" />
 
-              <!-- Route 02: /models -->
-              <rect x="3" y="334" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(215, 181, 109, 0.5)"
-                stroke-width="1" />
-              <text x="35" y="346.5" fill="#D7B56D" font-family="'Courier New', monospace" font-size="8.5"
-                font-weight="bold" text-anchor="middle">/models</text>
-              <line x1="68" y1="358" x2="12" y2="358" stroke="#D7B56D" stroke-width="1.8" stroke-dasharray="3,2" />
-              <polygon points="14,353 2,358 14,363" fill="#D7B56D" />
+                <text x="64" y="28" fill="#D7B56D" font-family="'Courier New', monospace" font-size="9.5"
+                  font-weight="bold" letter-spacing="1">CAMADA 02 • CORE ENGINE</text>
+                <text x="64" y="48" fill="#F8F9FA" font-family="'Playfair Display', serif" font-size="16.5"
+                  font-weight="bold">FastAPI &amp; gTTS</text>
+                <text x="16" y="74" fill="rgba(248, 249, 250, 0.6)" font-family="'Inter', sans-serif"
+                  font-size="11.5">Python 3.9+ ASGI • Síntese Vocal</text>
+                <line x1="16" y1="88" x2="234" y2="88" stroke="rgba(215, 181, 109, 0.25)" stroke-width="1" />
 
-              <!-- Route 03: inline_data Base64 -->
-              <rect x="3" y="462" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(56, 189, 248, 0.5)"
-                stroke-width="1" />
-              <text x="35" y="474.5" fill="#38BDF8" font-family="'Courier New', monospace" font-size="8"
-                font-weight="bold" text-anchor="middle">inline_data</text>
-              <line x1="2" y1="486" x2="58" y2="486" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="3,2" />
-              <polygon points="56,481 68,486 56,491" fill="#38BDF8" />
-            </g>
+                <!-- Feature Set (Aligned Grid) -->
+                <g font-family="'Inter', sans-serif">
+                  <!-- Item 1 (Canvas Y=192) -->
+                  <circle cx="24" cy="134" r="3.5" fill="#D7B56D" />
+                  <text x="36" y="138" fill="#F8F9FA" font-size="12.5" font-weight="600">Síntese em Memória</text>
+                  <text x="36" y="155" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Stream via BytesIO sem
+                    disco</text>
 
-            <!-- Layer 03: AI Cloud Cognitive Tier (Google Gemini Vision) -->
-            <g transform="translate(665, 68)">
-              <rect width="250" height="552" rx="8" fill="url(#svg-card-bg)" stroke="rgba(192, 132, 252, 0.45)"
-                stroke-width="1.2" filter="url(#card-glow)" />
+                  <!-- Item 2 (Canvas Y=256) -->
+                  <circle cx="24" cy="198" r="3.5" fill="#D7B56D" />
+                  <text x="36" y="202" fill="#F8F9FA" font-size="12.5" font-weight="600">Higienização Regex</text>
+                  <text x="36" y="219" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Limpeza de &lt;think&gt; e
+                    markdown</text>
 
-              <!-- Card 03 Header -->
-              <rect x="16" y="16" width="38" height="38" rx="8" fill="rgba(192, 132, 252, 0.12)" stroke="#C084FC"
-                stroke-width="1.2" />
-              <!-- Gemini Sparkle Vector Icon -->
-              <path
-                d="M 35 23.5 C 35 30 30 35 23.5 35 C 30 35 35 40 35 46.5 C 35 40 40 35 46.5 35 C 40 35 35 30 35 23.5 Z"
-                fill="#C084FC" />
-              <path d="M 44 22 C 44 24 42 26 40 26 C 42 26 44 28 44 30 C 44 28 46 26 48 26 C 46 26 44 24 44 22 Z"
-                fill="rgba(192, 132, 252, 0.6)" />
+                  <!-- Item 3 (Canvas Y=320) -->
+                  <circle cx="24" cy="262" r="3.5" fill="#D7B56D" />
+                  <text x="36" y="266" fill="#F8F9FA" font-size="12.5" font-weight="600">Cliente HTTP Assíncrono</text>
+                  <text x="36" y="283" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Consumo via httpx de alta
+                    vazão</text>
 
-              <text x="64" y="28" fill="#C084FC" font-family="'Courier New', monospace" font-size="9.5"
-                font-weight="bold" letter-spacing="1">CAMADA 03 • AI CLOUD</text>
-              <text x="64" y="48" fill="#F8F9FA" font-family="'Playfair Display', serif" font-size="16.5"
-                font-weight="bold">Google Gemini</text>
-              <text x="16" y="74" fill="rgba(248, 249, 250, 0.6)" font-family="'Inter', sans-serif"
-                font-size="11.5">Multimodal Vision Flash API</text>
-              <line x1="16" y1="88" x2="234" y2="88" stroke="rgba(192, 132, 252, 0.2)" stroke-width="1" />
+                  <!-- Item 4 (Canvas Y=384) -->
+                  <circle cx="24" cy="326" r="3.5" fill="#D7B56D" />
+                  <text x="36" y="330" fill="#F8F9FA" font-size="12.5" font-weight="600">Descoberta Dinâmica REST</text>
+                  <text x="36" y="347" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Auto-fallback de modelos
+                    Flash</text>
 
-              <!-- Feature Set (Aligned Grid) -->
-              <g font-family="'Inter', sans-serif">
-                <!-- Item 1 (Canvas Y=192) -->
-                <circle cx="24" cy="124" r="3.5" fill="#C084FC" />
-                <text x="36" y="128" fill="#F8F9FA" font-size="12.5" font-weight="600">Prompt Estruturado (3
-                  Etapas)</text>
-                <text x="36" y="145" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Visão geral, espacial e
-                  textos</text>
+                  <!-- Item 5 (Canvas Y=448) -->
+                  <circle cx="24" cy="390" r="3.5" fill="#D7B56D" />
+                  <text x="36" y="394" fill="#F8F9FA" font-size="12.5" font-weight="600">Formatação Base64 / MP3</text>
+                  <text x="36" y="411" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Áudio imediato para o
+                    player</text>
 
-                <!-- Item 2 (Canvas Y=256) -->
-                <circle cx="24" cy="188" r="3.5" fill="#81C784" />
-                <text x="36" y="192" fill="#81C784" font-size="12.5" font-weight="600">Português Natural (pt-BR)</text>
-                <text x="36" y="209" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Fluidez total para narração
-                  vocal</text>
+                  <!-- Item 6 (Canvas Y=512) -->
+                  <circle cx="24" cy="454" r="3.5" fill="#D7B56D" />
+                  <text x="36" y="458" fill="#F8F9FA" font-size="12.5" font-weight="600">Resolução Flexível de
+                    Chaves</text>
+                  <text x="36" y="475" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Chave via UI ou arquivo
+                    .env</text>
+                </g>
 
-                <!-- Item 3 (Canvas Y=320) -->
-                <circle cx="24" cy="252" r="3.5" fill="#C084FC" />
-                <text x="36" y="256" fill="#F8F9FA" font-size="12.5" font-weight="600">Transcrição OCR Integrada</text>
-                <text x="36" y="273" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Leitura de cartazes e
-                  rótulos</text>
-
-                <!-- Item 4 (Canvas Y=384) -->
-                <circle cx="24" cy="316" r="3.5" fill="#FFB74D" />
-                <text x="36" y="320" fill="#FFB74D" font-size="12.5" font-weight="600">Sem Raciocínio Interno</text>
-                <text x="36" y="337" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Bloqueio de tags
-                  &lt;think&gt;</text>
-
-                <!-- Item 5 (Canvas Y=448) -->
-                <circle cx="24" cy="380" r="3.5" fill="#C084FC" />
-                <text x="36" y="384" fill="#F8F9FA" font-size="12.5" font-weight="600">Baixa Latência (1 a 3s)</text>
-                <text x="36" y="401" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Geração rápida para UX
-                  fluida</text>
-
-                <!-- Item 6 (Canvas Y=512) -->
-                <circle cx="24" cy="444" r="3.5" fill="#C084FC" />
-                <text x="36" y="448" fill="#F8F9FA" font-size="12.5" font-weight="600">Zero Retenção de Imagens</text>
-                <text x="36" y="465" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Stateless e privacidade
-                  total</text>
+                <!-- Card 02 Server Endpoint Badge -->
+                <rect x="16" y="516" width="218" height="30" rx="6" fill="rgba(215, 181, 109, 0.15)"
+                  stroke="rgba(215, 181, 109, 0.4)" stroke-width="1" />
+                <text x="125" y="535" fill="#D7B56D" font-family="'Courier New', monospace" font-size="10"
+                  font-weight="bold" text-anchor="middle">ASGI SERVER: 127.0.0.1:8000</text>
               </g>
 
-              <!-- Card 03 Model Badge -->
-              <rect x="16" y="506" width="218" height="30" rx="6" fill="rgba(192, 132, 252, 0.08)"
-                stroke="rgba(192, 132, 252, 0.3)" stroke-width="1" />
-              <text x="125" y="525" fill="#C084FC" font-family="'Courier New', monospace" font-size="10"
-                font-weight="bold" text-anchor="middle">API: GEMINI 2.0 FLASH</text>
-            </g>
+              <!-- Connectors: Core Engine ⇄ AI Cloud Tier -->
+              <g transform="translate(595, 0)">
+                <!-- Route 01: generateContent -->
+                <rect x="3" y="206" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(192, 132, 252, 0.5)"
+                  stroke-width="1" />
+                <text x="35" y="218.5" fill="#C084FC" font-family="'Courier New', monospace" font-size="8"
+                  font-weight="bold" text-anchor="middle">generate</text>
+                <line x1="2" y1="230" x2="58" y2="230" stroke="#C084FC" stroke-width="1.8" stroke-dasharray="3,2" />
+                <polygon points="56,225 68,230 56,235" fill="#C084FC" />
 
-            <!-- Telemetry & Compliance Bottom Bar -->
-            <line x1="1" y1="642" x2="939" y2="642" stroke="rgba(215, 181, 109, 0.15)" stroke-width="1" />
-            <text x="35" y="668" fill="rgba(248, 249, 250, 0.85)" font-family="'Courier New', monospace"
-              font-size="10.5" letter-spacing="0.5">💻 AMBIENTE: LOCALHOST (ESTUDO)</text>
-            <text x="345" y="668" fill="rgba(248, 249, 250, 0.85)" font-family="'Courier New', monospace"
-              font-size="10.5" letter-spacing="0.5">🔒 PROCESSAMENTO: MEMÓRIA / BYTESIO</text>
-            <text x="685" y="668" fill="rgba(248, 249, 250, 0.85)" font-family="'Courier New', monospace"
-              font-size="10.5" letter-spacing="0.5">👁️ FOCO: ACESSIBILIDADE WCAG 2.1</text>
-          </svg>
+                <!-- Route 02: /models -->
+                <rect x="3" y="334" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(215, 181, 109, 0.5)"
+                  stroke-width="1" />
+                <text x="35" y="346.5" fill="#D7B56D" font-family="'Courier New', monospace" font-size="8.5"
+                  font-weight="bold" text-anchor="middle">/models</text>
+                <line x1="68" y1="358" x2="12" y2="358" stroke="#D7B56D" stroke-width="1.8" stroke-dasharray="3,2" />
+                <polygon points="14,353 2,358 14,363" fill="#D7B56D" />
+
+                <!-- Route 03: inline_data Base64 -->
+                <rect x="3" y="462" width="64" height="18" rx="4" fill="#070E1E" stroke="rgba(56, 189, 248, 0.5)"
+                  stroke-width="1" />
+                <text x="35" y="474.5" fill="#38BDF8" font-family="'Courier New', monospace" font-size="8"
+                  font-weight="bold" text-anchor="middle">inline_data</text>
+                <line x1="2" y1="486" x2="58" y2="486" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="3,2" />
+                <polygon points="56,481 68,486 56,491" fill="#38BDF8" />
+              </g>
+
+              <!-- Layer 03: AI Cloud Cognitive Tier (Google Gemini Vision) -->
+              <g transform="translate(665, 68)">
+                <rect width="250" height="552" rx="8" fill="url(#svg-card-bg)" stroke="rgba(192, 132, 252, 0.45)"
+                  stroke-width="1.2" filter="url(#card-glow)" />
+
+                <!-- Card 03 Header -->
+                <rect x="16" y="16" width="38" height="38" rx="8" fill="rgba(192, 132, 252, 0.12)" stroke="#C084FC"
+                  stroke-width="1.2" />
+                <!-- Gemini Sparkle Vector Icon -->
+                <path
+                  d="M 35 23.5 C 35 30 30 35 23.5 35 C 30 35 35 40 35 46.5 C 35 40 40 35 46.5 35 C 40 35 35 30 35 23.5 Z"
+                  fill="#C084FC" />
+                <path d="M 44 22 C 44 24 42 26 40 26 C 42 26 44 28 44 30 C 44 28 46 26 48 26 C 46 26 44 24 44 22 Z"
+                  fill="rgba(192, 132, 252, 0.6)" />
+
+                <text x="64" y="28" fill="#C084FC" font-family="'Courier New', monospace" font-size="9.5"
+                  font-weight="bold" letter-spacing="1">CAMADA 03 • AI CLOUD</text>
+                <text x="64" y="48" fill="#F8F9FA" font-family="'Playfair Display', serif" font-size="16.5"
+                  font-weight="bold">Google Gemini</text>
+                <text x="16" y="74" fill="rgba(248, 249, 250, 0.6)" font-family="'Inter', sans-serif"
+                  font-size="11.5">Multimodal Vision Flash API</text>
+                <line x1="16" y1="88" x2="234" y2="88" stroke="rgba(192, 132, 252, 0.2)" stroke-width="1" />
+
+                <!-- Feature Set (Aligned Grid) -->
+                <g font-family="'Inter', sans-serif">
+                  <!-- Item 1 (Canvas Y=192) -->
+                  <circle cx="24" cy="124" r="3.5" fill="#C084FC" />
+                  <text x="36" y="128" fill="#F8F9FA" font-size="12.5" font-weight="600">Prompt Estruturado (3
+                    Etapas)</text>
+                  <text x="36" y="145" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Visão geral, espacial e
+                    textos</text>
+
+                  <!-- Item 2 (Canvas Y=256) -->
+                  <circle cx="24" cy="188" r="3.5" fill="#81C784" />
+                  <text x="36" y="192" fill="#81C784" font-size="12.5" font-weight="600">Português Natural (pt-BR)</text>
+                  <text x="36" y="209" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Fluidez total para narração
+                    vocal</text>
+
+                  <!-- Item 3 (Canvas Y=320) -->
+                  <circle cx="24" cy="252" r="3.5" fill="#C084FC" />
+                  <text x="36" y="256" fill="#F8F9FA" font-size="12.5" font-weight="600">Transcrição OCR Integrada</text>
+                  <text x="36" y="273" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Leitura de cartazes e
+                    rótulos</text>
+
+                  <!-- Item 4 (Canvas Y=384) -->
+                  <circle cx="24" cy="316" r="3.5" fill="#FFB74D" />
+                  <text x="36" y="320" fill="#FFB74D" font-size="12.5" font-weight="600">Sem Raciocínio Interno</text>
+                  <text x="36" y="337" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Bloqueio de tags
+                    &lt;think&gt;</text>
+
+                  <!-- Item 5 (Canvas Y=448) -->
+                  <circle cx="24" cy="380" r="3.5" fill="#C084FC" />
+                  <text x="36" y="384" fill="#F8F9FA" font-size="12.5" font-weight="600">Baixa Latência (1 a 3s)</text>
+                  <text x="36" y="401" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Geração rápida para UX
+                    fluida</text>
+
+                  <!-- Item 6 (Canvas Y=512) -->
+                  <circle cx="24" cy="444" r="3.5" fill="#C084FC" />
+                  <text x="36" y="448" fill="#F8F9FA" font-size="12.5" font-weight="600">Zero Retenção de Imagens</text>
+                  <text x="36" y="465" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Stateless e privacidade
+                    total</text>
+                </g>
+
+                <!-- Card 03 Model Badge -->
+                <rect x="16" y="506" width="218" height="30" rx="6" fill="rgba(192, 132, 252, 0.08)"
+                  stroke="rgba(192, 132, 252, 0.3)" stroke-width="1" />
+                <text x="125" y="525" fill="#C084FC" font-family="'Courier New', monospace" font-size="10"
+                  font-weight="bold" text-anchor="middle">API: GEMINI 2.0 FLASH</text>
+              </g>
+
+              <!-- Telemetry & Compliance Bottom Bar -->
+              <line x1="1" y1="642" x2="939" y2="642" stroke="rgba(215, 181, 109, 0.15)" stroke-width="1" />
+              <text x="35" y="668" fill="rgba(248, 249, 250, 0.85)" font-family="'Courier New', monospace"
+                font-size="10.5" letter-spacing="0.5">💻 AMBIENTE: LOCALHOST (ESTUDO)</text>
+              <text x="345" y="668" fill="rgba(248, 249, 250, 0.85)" font-family="'Courier New', monospace"
+                font-size="10.5" letter-spacing="0.5">🔒 PROCESSAMENTO: MEMÓRIA / BYTESIO</text>
+              <text x="685" y="668" fill="rgba(248, 249, 250, 0.85)" font-family="'Courier New', monospace"
+                font-size="10.5" letter-spacing="0.5">👁️ FOCO: ACESSIBILIDADE WCAG 2.1</text>
+            </svg>
           </div>
         </div>
       </section>
@@ -1171,8 +1187,7 @@ HTTP/1.1 <span class="output-success">200 OK</span> {"status": "online", "messag
             Repositório GitHub
           </a>
 
-          <a href="index.html#projetos"
-            class="case-cta-btn case-cta-btn--secondary">
+          <a href="index.html#projetos" class="case-cta-btn case-cta-btn--secondary">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="19" y1="12" x2="5" y2="12"></line>
               <polyline points="12 19 5 12 12 5"></polyline>
