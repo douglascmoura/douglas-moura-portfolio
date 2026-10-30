@@ -239,7 +239,6 @@
         box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
         color 0.3s ease,
         transform 0.25s ease;
-      cursor: default;
     }
 
     kbd:hover {
@@ -620,7 +619,8 @@
     <a href="index.html" class="nav-logo">DOCH<span style="color:#D7B56D">MO</span></a>
     <a href="index.html#projetos" class="nav-back-link">
       <span class="nav-back-arrow" aria-hidden="true">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
           <line x1="19" y1="12" x2="5" y2="12"></line>
           <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
@@ -763,7 +763,8 @@
 
                   <!-- Item 2 (Canvas Y=256) -->
                   <circle cx="24" cy="188" r="3.5" fill="#38BDF8" />
-                  <text x="36" y="192" fill="#F8F9FA" font-size="12.5" font-weight="600">Fontes Dinâmicas (12-24px)</text>
+                  <text x="36" y="192" fill="#F8F9FA" font-size="12.5" font-weight="600">Fontes Dinâmicas
+                    (12-24px)</text>
                   <text x="36" y="209" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Controles rápidos A+, A- e
                     A</text>
 
@@ -771,18 +772,21 @@
                   <circle cx="24" cy="252" r="3.5" fill="#38BDF8" />
                   <text x="36" y="256" fill="#F8F9FA" font-size="12.5" font-weight="600">Atalhos Globais de
                     Teclado</text>
-                  <text x="36" y="273" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Alt+1, Alt+2, Alt+C, Alt+P</text>
+                  <text x="36" y="273" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Alt+1, Alt+2, Alt+C,
+                    Alt+P</text>
 
                   <!-- Item 4 (Canvas Y=384) -->
                   <circle cx="24" cy="316" r="3.5" fill="#38BDF8" />
-                  <text x="36" y="320" fill="#F8F9FA" font-size="12.5" font-weight="600">Leitor de Tela (ARIA-Live)</text>
+                  <text x="36" y="320" fill="#F8F9FA" font-size="12.5" font-weight="600">Leitor de Tela
+                    (ARIA-Live)</text>
                   <text x="36" y="337" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Anúncios dinâmicos para
                     NVDA</text>
 
                   <!-- Item 5 (Canvas Y=448) -->
                   <circle cx="24" cy="380" r="3.5" fill="#38BDF8" />
                   <text x="36" y="384" fill="#F8F9FA" font-size="12.5" font-weight="600">Player de Áudio Nativo</text>
-                  <text x="36" y="401" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Autoplay e download de MP3</text>
+                  <text x="36" y="401" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Autoplay e download de
+                    MP3</text>
 
                   <!-- Item 6 (Canvas Y=512) -->
                   <circle cx="24" cy="444" r="3.5" fill="#38BDF8" />
@@ -960,13 +964,15 @@
 
                   <!-- Item 2 (Canvas Y=256) -->
                   <circle cx="24" cy="188" r="3.5" fill="#81C784" />
-                  <text x="36" y="192" fill="#81C784" font-size="12.5" font-weight="600">Português Natural (pt-BR)</text>
+                  <text x="36" y="192" fill="#81C784" font-size="12.5" font-weight="600">Português Natural
+                    (pt-BR)</text>
                   <text x="36" y="209" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Fluidez total para narração
                     vocal</text>
 
                   <!-- Item 3 (Canvas Y=320) -->
                   <circle cx="24" cy="252" r="3.5" fill="#C084FC" />
-                  <text x="36" y="256" fill="#F8F9FA" font-size="12.5" font-weight="600">Transcrição OCR Integrada</text>
+                  <text x="36" y="256" fill="#F8F9FA" font-size="12.5" font-weight="600">Transcrição OCR
+                    Integrada</text>
                   <text x="36" y="273" fill="rgba(248, 249, 250, 0.65)" font-size="10.5">Leitura de cartazes e
                     rótulos</text>
 
@@ -1246,7 +1252,7 @@ HTTP/1.1 <span class="output-success">200 OK</span> {"status": "online", "messag
           gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
         });
 
-        const links = document.querySelectorAll('a, .article-img-wrap, kbd');
+        const links = document.querySelectorAll('a, .article-img-wrap');
         links.forEach(link => {
           link.addEventListener('mouseenter', () => {
             gsap.to(ring, { scale: 1.5, borderColor: '#D7B56D', backgroundColor: 'rgba(215, 181, 109, 0.1)', duration: 0.3 });
