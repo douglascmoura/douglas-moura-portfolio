@@ -803,6 +803,20 @@
       .proj-fade-overlay--mobile {
         display: none !important;
       }
+
+      /* Desktop: Show all projects fully without cutoff, fade or toggle button */
+      .proj-expandable-wrapper.is-collapsed {
+        max-height: none !important;
+        overflow: visible !important;
+      }
+
+      .proj-fade-overlay {
+        display: none !important;
+      }
+
+      .proj-expand-controls {
+        display: none !important;
+      }
     }
 
     /* ── Tech Pillars Staggered Circular Entrance ── */
