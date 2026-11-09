@@ -644,6 +644,65 @@
           text-align: center;
         }
 
+        /* Mobile Scroll Indicator Pill */
+        .cert-mobile-counter {
+          display: none;
+        }
+
+        @media (max-width: 768px) {
+          .cert-mobile-counter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-width: 90px;
+            padding: 8px 24px;
+            border-radius: 999px;
+            background: rgba(10, 20, 42, 0.75);
+            border: 1px solid rgba(215, 181, 109, 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45), 0 0 14px rgba(215, 181, 109, 0.12);
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: rgba(248, 249, 250, 0.7);
+            letter-spacing: 1.5px;
+            margin: 0.5rem auto 1.5rem auto;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box;
+          }
+
+          .cert-mobile-counter .current-num,
+          .cert-mobile-counter .total-num {
+            display: inline-block;
+            min-width: 20px;
+            font-variant-numeric: tabular-nums;
+          }
+
+          .cert-mobile-counter .current-num {
+            color: #D7B56D;
+            font-weight: 700;
+            text-align: right;
+          }
+
+          .cert-mobile-counter .total-num {
+            text-align: left;
+          }
+
+          .cert-mobile-counter .sep {
+            color: rgba(215, 181, 109, 0.45);
+            font-size: 0.75rem;
+            margin: 0 1px;
+          }
+
+          .cert-mobile-counter-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+          }
+        }
+
         @media (max-width: 900px) {
           .cert-two-cols-grid {
             grid-template-columns: 1fr;
@@ -1719,6 +1778,16 @@
             </div>
           </div>
 
+          <!-- Mobile Scroll Indicator (Santander) -->
+          <div class="cert-mobile-counter-wrapper">
+            <div class="cert-mobile-counter" id="mobile-counter-santander"
+              aria-label="Indicador de rolagem do carrossel">
+              <span class="current-num">1</span>
+              <span class="sep">/</span>
+              <span class="total-num">11</span>
+            </div>
+          </div>
+
           <!-- Controls -->
           <div class="cert-glass-controls" style="margin-top: 1.5rem;">
             <button class="cert-glass-control-btn prev-btn" aria-label="Anterior">
@@ -2281,6 +2350,59 @@
       }
 
       initStackCarousels();
+
+      // Mobile Scroll-Snap Tracking for Santander Carousel
+      (function initSantanderMobileTracking() {
+        const carousel = document.getElementById('carousel-santander');
+        const counter = document.getElementById('mobile-counter-santander');
+        if (!carousel || !counter) return;
+
+        const currentNumEl = counter.querySelector('.current-num');
+        const totalNumEl = counter.querySelector('.total-num');
+        const slides = carousel.querySelectorAll('.cert-slide');
+        if (!currentNumEl || slides.length === 0) return;
+
+        if (totalNumEl) {
+          totalNumEl.textContent = slides.length;
+        }
+
+        let ticking = false;
+
+        function updateMobileActiveSlide() {
+          const carouselRect = carousel.getBoundingClientRect();
+          const carouselCenter = carouselRect.left + carouselRect.width / 2;
+
+          let closestIndex = 0;
+          let minDistance = Infinity;
+
+          slides.forEach((slide, idx) => {
+            const slideRect = slide.getBoundingClientRect();
+            const slideCenter = slideRect.left + slideRect.width / 2;
+            const distance = Math.abs(carouselCenter - slideCenter);
+
+            if (distance < minDistance) {
+              minDistance = distance;
+              closestIndex = idx;
+            }
+          });
+
+          const targetNum = (closestIndex + 1).toString();
+          if (currentNumEl.textContent !== targetNum) {
+            currentNumEl.textContent = targetNum;
+          }
+          ticking = false;
+        }
+
+        carousel.addEventListener('scroll', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(updateMobileActiveSlide);
+            ticking = true;
+          }
+        }, { passive: true });
+
+        // Initial measurement
+        updateMobileActiveSlide();
+      })();
 
       // GSAP Scroll Animations
       gsap.registerPlugin(ScrollTrigger);
