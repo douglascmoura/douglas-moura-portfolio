@@ -927,6 +927,11 @@
             flex-direction: column;
           }
 
+          .cert-slider-wrapper.manual-carousel .cert-slide:only-child {
+            margin-left: auto !important;
+            margin-right: auto !important;
+          }
+
           .cert-slider-wrapper.manual-carousel .cert-glass-card {
             height: 100% !important;
             min-height: 280px !important;
@@ -1848,6 +1853,16 @@
             </div>
           </div>
 
+          <!-- Mobile Scroll Indicator (Anthropic) -->
+          <div class="cert-mobile-counter-wrapper">
+            <div class="cert-mobile-counter" id="mobile-counter-anthropic"
+              aria-label="Indicador de rolagem do carrossel">
+              <span class="current-num">1</span>
+              <span class="sep">/</span>
+              <span class="total-num">1</span>
+            </div>
+          </div>
+
           <!-- Controls -->
           <div class="cert-glass-controls" style="margin-top: 1.5rem;">
             <button class="cert-glass-control-btn prev-btn" aria-label="Anterior">
@@ -2371,7 +2386,7 @@
 
       initStackCarousels();
 
-      // Mobile Scroll-Snap Tracking for Carousels (Santander & Inner AI)
+      // Mobile Scroll-Snap Tracking for Carousels (Santander, Anthropic, Inner AI & Asimov)
       function initMobileCarouselTracking(carouselId, counterId) {
         const carousel = document.getElementById(carouselId);
         const counter = document.getElementById(counterId);
@@ -2425,6 +2440,7 @@
       }
 
       initMobileCarouselTracking('carousel-santander', 'mobile-counter-santander');
+      initMobileCarouselTracking('carousel-anthropic', 'mobile-counter-anthropic');
       initMobileCarouselTracking('carousel-innerai', 'mobile-counter-innerai');
       initMobileCarouselTracking('carousel-asimov', 'mobile-counter-asimov');
 
