@@ -820,6 +820,11 @@
     }
 
     /* ── Tech Pillars Staggered Circular Entrance ── */
+    .cards-3d-stage:not(.entrance-done) .slide,
+    .cards-3d-stage:not(.entrance-done) .slide .card {
+      pointer-events: none;
+    }
+
     .cards-3d-stage .slide .card {
       opacity: 0;
       filter: blur(10px);
@@ -866,6 +871,12 @@
       opacity: 0.55;
       filter: blur(0);
       transition-delay: 0s !important;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .cards-3d-stage.entrance-done .slide:not(.is-active):hover .card {
+        opacity: 0.85;
+      }
     }
 
     /* Active card full opacity */
