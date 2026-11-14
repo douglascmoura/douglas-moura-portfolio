@@ -1250,7 +1250,7 @@
         <div class="cert-showcase gsap-fade-up">
           <h2 class="cert-static-header">Encontros Universitários da UFC</h2>
 
-          <div class="cert-slider-wrapper eu-carousel">
+          <div class="cert-slider-wrapper eu-carousel" id="carousel-eu">
             <!-- EU 1 -->
             <div class="cert-slide active">
               <h2 class="cert-mobile-title">Encontros Universitários (2021)</h2>
@@ -1323,6 +1323,17 @@
               </div>
             </div>
           </div>
+
+          <!-- Mobile Scroll Indicator (Encontros Universitários) -->
+          <div class="cert-mobile-counter-wrapper">
+            <div class="cert-mobile-counter" id="mobile-counter-eu"
+              aria-label="Indicador de rolagem do carrossel">
+              <span class="current-num">1</span>
+              <span class="sep">/</span>
+              <span class="total-num">8</span>
+            </div>
+          </div>
+
           <!-- Desktop navigation buttons -->
           <button class="cert-main-nav-btn cert-main-prev cert-nav-btn" aria-label="Previous certificate">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
@@ -2439,6 +2450,7 @@
         updateMobileActiveSlide();
       }
 
+      initMobileCarouselTracking('carousel-eu', 'mobile-counter-eu');
       initMobileCarouselTracking('carousel-santander', 'mobile-counter-santander');
       initMobileCarouselTracking('carousel-anthropic', 'mobile-counter-anthropic');
       initMobileCarouselTracking('carousel-innerai', 'mobile-counter-innerai');
