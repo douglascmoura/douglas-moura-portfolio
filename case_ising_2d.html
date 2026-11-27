@@ -415,6 +415,80 @@
       box-shadow: 0 0 30px rgba(215, 181, 109, 0.4), 0 8px 24px rgba(0, 0, 0, 0.4);
     }
 
+    /* Premium Play Icon Animation (Idle Triangle Echo + Elastic Hover Glide) */
+    .case-cta-btn--primary .cta-play-icon {
+      overflow: visible;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
+      filter: drop-shadow(0 0 6px rgba(215, 181, 109, 0.42));
+      will-change: transform;
+    }
+
+    .case-cta-btn--primary .cta-play-core {
+      transform-origin: 10.33px 12px;
+      animation: ctaPlayCoreBreath 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .case-cta-btn--primary .cta-play-echo {
+      transform-origin: 10.33px 12px;
+      opacity: 0;
+      pointer-events: none;
+      animation: ctaPlayTriangleEcho 3.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+
+    .case-cta-btn--primary:hover .cta-play-icon {
+      transform: translateX(3.5px) scale(1.12);
+      filter: drop-shadow(0 2px 4px rgba(10, 20, 40, 0.22));
+    }
+
+    .case-cta-btn--primary:hover .cta-play-core {
+      animation-play-state: paused;
+    }
+
+    @keyframes ctaPlayCoreBreath {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      18% {
+        transform: scale(1.07);
+      }
+
+      45% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes ctaPlayTriangleEcho {
+      0% {
+        transform: scale(1);
+        opacity: 0;
+      }
+
+      12% {
+        opacity: 0.65;
+      }
+
+      62% {
+        transform: scale(1.62);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1.62);
+        opacity: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .case-cta-btn--primary .cta-play-core,
+      .case-cta-btn--primary .cta-play-echo {
+        animation: none !important;
+      }
+    }
+
     .case-cta-btn--secondary {
       background: transparent;
       border: 1px solid rgba(248, 249, 250, 0.3);
@@ -1157,10 +1231,13 @@
           style="display:flex; gap:1.5rem; justify-content:center; flex-wrap: wrap; font-family: 'Inter', sans-serif;">
           <a href="https://douglasmoura-ising-2d.streamlit.app/" target="_blank" rel="noopener noreferrer"
             class="case-cta-btn case-cta-btn--primary">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
-            </svg>
-            Acessar Live App
+              <svg class="cta-play-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+                <polygon class="cta-play-echo" points="6 4 19 12 6 20 6 4" fill="none" stroke="currentColor"
+                  stroke-width="1.35" stroke-linejoin="round"></polygon>
+                <polygon class="cta-play-core" points="6 4 19 12 6 20 6 4" fill="currentColor" stroke="currentColor"
+                  stroke-width="1.6" stroke-linejoin="round"></polygon>
+              </svg>
+              Acessar Live App
           </a>
 
           <a href="projetos_arquivos/modelo_ising_2d_metropolis/Relatorio_Modelo_Ising_2D.pdf" target="_blank"
